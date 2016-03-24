@@ -1,0 +1,23 @@
+{
+  "name": "dyt",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Alejandro <alejandro_abraham@me.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/quantumbla/dyt",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-material-design": "~0.3.0",
+    "font-awesome": "fontawesome#~4.4.0"
+  }
+}
