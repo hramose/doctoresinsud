@@ -3,6 +3,10 @@
 
 @section('content')
 
+    <div class="header">
+        <h2>Panel de Historias Clínicas</h2>
+    </div>
+
     <div class="container">
         <div class="row banner">
 

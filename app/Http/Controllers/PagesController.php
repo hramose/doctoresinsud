@@ -13,6 +13,9 @@ class PagesController extends Controller
 
     public function home()
     {
+
+        //test 
+        
     	return view('home');
     }
 

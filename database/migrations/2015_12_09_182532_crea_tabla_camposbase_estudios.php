@@ -14,7 +14,7 @@ class CreaTablaCamposbaseEstudios extends Migration
     {
         //
         Schema::create('camposbase_estudios', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->unsigned()->index();
             $table->integer('estudio_id')->unsigned()->index();
             $table->integer('campo_base_id')->unsigned()->index();
             $table->foreign('estudio_id')->references('id')->on('estudios');

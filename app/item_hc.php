@@ -7,20 +7,31 @@ use Illuminate\Database\Eloquent\Model;
 class item_hc extends Model
 {
 
+    protected $table = 'item_hcs';
 
 	protected $fillable = [
     			'id_sede',
-    			'id_medico',
-    			'id_telefono',
+    			'id_usuario',
+    			'id_paciente',
     			'titulo',
+                'fecha',
     			'descripcion',
-    			'etipo'
     		];
 
     		
-    public function Item_hc()
+    public function paciente()
     {
-        return $this->hasOne('App\Paciente');
+        return $this->belongsTo('App\Paciente', 'id_paciente', 'id');
+    }
+
+    public function medico()
+    {
+        return $this->belongsTo('App\User', 'id_usuario', 'id');
+    }
+
+    public function sede()
+    {
+        return $this->belongsTo('App\Sede', 'id_sede', 'id');
     }
 
 }

@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Diagnóstico y Tratamiento<img style="float: right; margin-top: -25px;" height="75" width="100" src="/img/heart_cardio_pulse.png"></a>
+            <a class="navbar-brand" href="#">Diagnóstico y Tratamiento de Chagas<img style="float: right; margin-top: -25px;" height="75" width="100" src="/img/heart_cardio_pulse.png"></a>
         </div>
 
         <!-- Navbar Right -->

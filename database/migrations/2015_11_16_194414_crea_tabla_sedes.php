@@ -14,7 +14,7 @@ class CreaTablaSedes extends Migration
     {
         Schema::create('sedes', function (Blueprint $table) {
             //Crea la tabla de sedes
-            $table->increments('id');
+            $table->increments('id')->unsigned()->index();
             $table->string('nombre', 255);
             $table->string('telefonos', 60);
             $table->timestamps();

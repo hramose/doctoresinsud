@@ -11,7 +11,15 @@
 |
 */
 
-Route::get('/', 'PagesController@home');
+//Route::get('/', 'PagesController@home');
+
+//-------Front End Historias Clinicas--------------
+
+Route::get('/', 'Panel\PanelHistoriasController@index');
+Route::get('/paciente/{id?}', 'Panel\PanelHistoriasController@verHistoria');
+
+//-------Fin Front End Historias Clinicas--------------
+
 Route::get('/home', 'PagesController@home');
 Route::get('/about', 'PagesController@about');
 Route::get('/contact', 'TicketsController@create');

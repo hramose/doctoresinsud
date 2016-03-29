@@ -12,6 +12,8 @@
     <link href="/css/ripples.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
 
+    @yield('estilos')
+    
     <style>
 
         /**

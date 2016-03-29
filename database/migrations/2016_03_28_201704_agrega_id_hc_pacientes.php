@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEstudiosTable extends Migration
+class AgregaIdHcPacientes extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,9 @@ class CreateEstudiosTable extends Migration
      */
     public function up()
     {
-        Schema::create('estudios', function (Blueprint $table) {
-            $table->increments('id')->unsigned()->index();
-            $table->string('nombre', 255);
-            $table->string('obs', 500);
-            $table->timestamps();
+        Schema::table('pacientes', function (Blueprint $table) {
+            //
+            $table->integer('id_hc')->unsigned()->index()->after('id');
         });
     }
 
@@ -27,6 +25,9 @@ class CreateEstudiosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('estudios');
+        Schema::table('pacientes', function (Blueprint $table) {
+            //
+            $table->dropColumn('id_hc');
+        });
     }
 }

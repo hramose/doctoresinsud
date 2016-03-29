@@ -146,6 +146,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class, //Agregado por Alejandro
         'Zizaco\Entrust\EntrustServiceProvider', //Agregado por Alejandro para manejar roles y permisos
+        Barryvdh\Debugbar\ServiceProvider::class, //Agregado por Alejandro para debug
 
 
     ],
