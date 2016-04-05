@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Tratamiento;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -19,15 +20,24 @@ class PanelHistoriasController extends Controller
 
     public function verHistoria($id)
     {
-
         $paciente = Paciente::find($id);
+//        $paciente = Paciente::find($id)->with('tratamientos' => function($query){
+//                $query->where('id_hc', '=', ),
+//    });
+        $tratamientos = $paciente->tratamientos('id_paciente')->orderBy('fecha_trat', 'desc')->take(10)->get();
 
-        return view('panel.show', compact('paciente'));
+
+        return view('panel.show', compact('paciente', 'tratamientos'));
     }
 
     /**
      * @return mixed
      */
+
+    public function verTratamiento($id)
+    {
+        //TODO: Desarrollar función para ver un tratamiento.
+    }
     public function index()
     {
         //

@@ -919,5 +919,100 @@
                         class="material-icons">keyboard_arrow_down</i></a>
         </div>
     </div>
-
+    {{--Sección Principal--}}
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Últimos tratamientos</h3>
+                        </div>
+                        <div class="panel-body" id="pbody-trat">
+                            @if ($tratamientos->isEmpty())
+                                <p>No hay tratamientos cargados para el paciente.</p>
+                            @else
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Droga</th>
+                                        <th>Dosis</th>
+                                        <th>Fecha</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($tratamientos as $tratamiento)
+                                        <tr>
+                                            <td>
+                                                <a href="{!! action('Panel\PanelHistoriasController@verTratamiento', $tratamiento->id) !!}">{!! $tratamiento->droga !!}</a>
+                                            </td>
+                                            <td>{!! $tratamiento->dosis !!}</td>
+                                            <td>{!! $tratamiento->fecha_trat->format('d/m/Y') !!}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-centered" style="margin-left: 30px;">
+                    <a href="javascript:void(0)" class="btn btn-raised btn-primary">Agregar nuevo tratamiento</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-centered" style="margin-left: 30px;">
+                    <a href="javascript:void(0)" class="btn btn-raised btn-success">Ver todos los tratamientos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Consultas</h3>
+ {{--                   <div class="row">
+                        <div class="col-lg-8">
+                            <h3 class="panel-title">Consultas</h3>
+                        </div>
+                        <div class="col-lg-4">
+                            <a href="javascript:void(0)" class="btn btn-sm btn-raised btn-primary">Nueva consulta</a>
+                        </div>
+                    </div>--}}
+                </div>
+                <div class="panel-body" id="pbody-consultas">
+                    @for($i = 0; $i < 10; $i++)
+                        <div class="well well-lg">
+                            Look, I'm in a large well!
+                        </div>
+                    @endfor
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Últimos estudios</h3>
+                        </div>
+                        <div class="panel-body" id="pbody-estudios">
+                            Panel content
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-centered" style="margin-left: 65px;">
+                        <a href="javascript:void(0)" class="btn btn-raised btn-primary">Agregar nuevo estudio</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-centered" style="margin-left: 65px;">
+                        <a href="javascript:void(0)" class="btn btn-raised btn-success">Ver todos los estudios</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

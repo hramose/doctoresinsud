@@ -17,6 +17,24 @@
 		bottom: -38px;
 	}
 
+	#pbody-consultas {
+		height: 300px;
+		overflow-y: auto;
+	}
+
+	.col-centered{
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		text-align: center;
+	}
+	.ui-autocomplete {
+		max-height: 100px;
+		overflow-y: auto;
+		/* prevent horizontal scrollbar */
+		overflow-x: hidden;
+	}
+
 </style>
 
 @endsection

@@ -17,6 +17,7 @@
 
 Route::get('/', 'Panel\PanelHistoriasController@index');
 Route::get('/paciente/{id?}', 'Panel\PanelHistoriasController@verHistoria');
+Route::get('/paciente/tratamiento/{id?}', 'Panel\PanelHistoriasController@verTratamiento');
 
 //-------Fin Front End Historias Clinicas--------------
 

@@ -15,9 +15,11 @@ class Tratamiento extends Model
 				'obs_trat',
     			];
 
+	protected $dates = ['fecha_trat',];
+
 public function paciente()
 {
-	return $this->hasOne('App\Paciente', 'id_hc');
+	return $this->hasOne('App\Paciente', 'id');
 }
    
 }

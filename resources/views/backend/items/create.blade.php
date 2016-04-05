@@ -1,5 +1,5 @@
 @extends('master')
-@section('title', 'Create un nuevo item');
+@section('title', 'Crea una nueva consulta');
 
 @section('content')
 <div class="container col-md-8 col-md-offset-2">
@@ -20,10 +20,10 @@
             <input type="hidden" name="_token" value="{!! csrf_token() !!}">
 
             <fieldset>
-                <legend>Crea un nuevo item</legend>
+                <legend>Crea una nueva consulta</legend>
                 
-                <div class="form-group">
-                    <label for="select" class="col-lg-2 control-label">Médico</label>
+                <div class="form-group" style="vertical-align: middle">
+{{--                    <label for="select" class="col-lg-2 control-label">Médico</label>
 
                     <div class="col-lg-10">
                         <select class="form-control" id="user" name="user">
@@ -35,7 +35,15 @@
                             </option>
                             @endforeach
                         </select>
-                    </div>
+                    </div>--}}
+                    <input type="hidden" name="id_usuario" value="{{ Auth::user()->id }}">
+                    <label for="medico" class="col-lg-2 control-label" style="padding-top:0;">Médico</label>
+                    <p id="medico" name="medico">
+                    @if(Auth::check())
+                        {{ Auth::user()->name }}
+                    @endif
+                    </p>
+
                 </div>
 
                 <div class="form-group">

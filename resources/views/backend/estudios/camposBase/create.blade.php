@@ -38,7 +38,13 @@
                     <div class="form-group">
                         <label for="tipo" class="col-lg-2 control-label">Tipo</label>
                         <div class="col-lg-10">
-                            <input type="tipo" class="form-control" id="tipo" name="tipo">
+                            {{--<input type="tipo" class="form-control" id="tipo" name="tipo">--}}
+                            <select class="form-control" name="tipo" id="tipo">
+                                <option value="texto">Texto</option>
+                                <option value="número entero">Número Entero</option>
+                                <option value="número con decimales">Número con Decimales</option>
+                                <option value="Verdadero/Falso">Verdadero/Falso</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">

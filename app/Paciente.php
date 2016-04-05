@@ -130,7 +130,7 @@ class Paciente extends Model
 
     public function tratamientos()
     {   
-        return $this->hasMany('App\Tratamiento', 'id_hc', 'id');
+        return $this->hasMany('App\Tratamiento', 'id_paciente', 'id');
     }
 
     public function estudioPacientes()
