@@ -32,9 +32,9 @@ class EstudiosController extends Controller
     public function create()
     {
         //
-        $camposbase = CampoBase::all();
-        $unidadesMedida = UnidadMedida::all();
-        return view('backend.estudios.create', compact('camposbase', 'unidadesMedida'));
+        $camposbase = CampoBase::all()->get('descripcion');
+        //$unidadesMedida = UnidadMedida::all();
+        return view('backend.estudios.create', compact('camposbase'/*, 'unidadesMedida'*/));
     }
 
     /**

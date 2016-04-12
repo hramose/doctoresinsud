@@ -16,7 +16,7 @@
                     <div class="row-content">
                         <div class="action-secondary"><i class="mdi-social-info"></i></div>
                         <h4 class="list-group-item-heading">Administración de usuarios</h4>
-                        <a href="/admin/users" class="btn btn-default btn-raised">Todos los usuarios</a>
+                        <a href="/admin/users" class="btn btn-default btn-raised">Mostrar todos</a>
                     </div>
                 </div>
                 <div class="list-group-separator"></div>
@@ -27,7 +27,7 @@
                     <div class="row-content">
                         <div class="action-secondary"><i class="mdi-material-info"></i></div>
                         <h4 class="list-group-item-heading">Administración de Roles</h4>
-                        <a href="/admin/roles" class="btn btn-default btn-raised">Todos los Roles</a>
+                        <a href="/admin/roles" class="btn btn-default btn-raised">Mostrar todos</a>
                         <a href="/admin/roles/create" class="btn btn-primary btn-raised">Crear un rol</a>
                     </div>
                 </div>
@@ -57,8 +57,9 @@
                     </div>
                 </div>
                 -->
+
                 <!-- sedes -->
-                <div class="list-group-separator"></div>
+{{--                <div class="list-group-separator"></div>
                 <div class="list-group-item">
                     <div class="row-action-primary">
                         <i class="mdi-maps-store-mall-directory"></i>
@@ -70,7 +71,7 @@
                         <a href="/admin/sedes/create" class="btn btn-primary btn-raised">Nueva Sede</a>
                     </div>
                 </div>
-                <!-- sedes -->
+                <!-- sedes -->--}}
                 
                 <!-- pacientes -->
                 <div class="list-group-separator"></div>
@@ -80,8 +81,8 @@
                     </div>
                     <div class="row-content">
                         <div class="action-secondary"><i class="mdi-social-info"></i></div>
-                        <h4 class="list-group-item-heading">Administrar pacientes</h4>
-                        <a href="/admin/pacientes" class="btn btn-default btn-raised">Todos los Pacientes</a>
+                        <h4 class="list-group-item-heading">Administrar Pacientes</h4>
+                        <a href="/admin/pacientes" class="btn btn-default btn-raised">Mostrar Todos</a>
                         <a href="/admin/pacientes/create" class="btn btn-primary btn-raised">Nuevo Paciente</a>
                     </div>
                 </div>
@@ -90,30 +91,32 @@
         </div>  <!-- Col-md -->
         <div class="col-lg-6">
             <div class="list-group">
-                <!-- items -->
+
+                <!-- items NO MOSTRAR-->
                 <!-- <div class="list-group-separator"></div> -->
-                <div class="list-group-item">
+                <div class="list-group-item" style="display: none;">
                     <div class="row-action-primary">
                         <i class="mdi-social-group"></i>
                     </div>
                     <div class="row-content">
                         <div class="action-secondary"><i class="mdi-social-info"></i></div>
-                        <h4 class="list-group-item-heading">Administrar items história clínica</h4>
-                        <a href="/admin/items" class="btn btn-default btn-raised">Todos los items</a>
+                        <h4 class="list-group-item-heading">Administrar items historia clínica</h4>
+                        <a href="/admin/items" class="btn btn-default btn-raised">Mostrar todos</a>
                         <a href="/admin/items/create" class="btn btn-primary btn-raised">Nuevo Item</a>
                     </div>
                 </div>
                 <!-- items -->
+
                 <!-- Campos Base -->
-                <div class="list-group-separator"></div>
+                {{--<div class="list-group-separator"></div>--}}
                 <div class="list-group-item">
                     <div class="row-action-primary">
                         <i class="mdi-av-my-library-books"></i>
                     </div>
                     <div class="row-content">
                         <div class="action-secondary"><i class="mdi-social-info"></i></div>
-                        <h4 class="list-group-item-heading">Administrar campos base</h4>
-                        <a href="/admin/estudios/camposbase" class="btn btn-default btn-raised">Todos Campos Base</a>
+                        <h4 class="list-group-item-heading">Administrar Campos Base</h4>
+                        <a href="/admin/estudios/camposbase" class="btn btn-default btn-raised">Mostrar todos</a>
                         <a href="/admin/estudios/camposbase/create" class="btn btn-primary btn-raised">Nuevo campo base</a>
                     </div>
                 </div>
@@ -127,7 +130,7 @@
                     <div class="row-content">
                         <div class="action-secondary"><i class="mdi-social-info"></i></div>
                         <h4 class="list-group-item-heading">Administrar Unidades de Medida</h4>
-                        <a href="/admin/estudios/unidadesmedida" class="btn btn-default btn-raised">Todas U. Medida</a>
+                        <a href="/admin/estudios/unidadesmedida" class="btn btn-default btn-raised">Mostrar todos</a>
                         <a href="/admin/estudios/unidadesmedida/create" class="btn btn-primary btn-raised">Nueva unidad de medida</a>
                     </div>
                 </div>
@@ -137,12 +140,13 @@
                 <div class="list-group-separator"></div>
                 <div class="list-group-item">
                     <div class="row-action-primary">
-                        <i class="mdi-editor-format-underline"></i>
+                        <i class="material-icons">favorite</i>
+                        {{--<i class="favorite"></i>--}}
                     </div>
                     <div class="row-content">
                         <div class="action-secondary"><i class="mdi-social-info"></i></div>
                         <h4 class="list-group-item-heading">Administrar Medicamentos</h4>
-                        <a href="/admin/medicamentos" class="btn btn-default btn-raised">Todos los Med</a>
+                        <a href="/admin/medicamentos" class="btn btn-default btn-raised">Mostrar todos</a>
                         <a href="/admin/medicamentos/create" class="btn btn-primary btn-raised">Nuevo Medicamento</a>
                     </div>
                 </div>
@@ -153,12 +157,13 @@
                 <div class="list-group-separator"></div>
                 <div class="list-group-item">
                     <div class="row-action-primary">
-                        <i class="material-icons">local_hospital</i>
+                        <i class="material-icons">accessibility</i>
+                        {{--<i class="material-icons">local_hospital</i>--}}
                     </div>
                     <div class="row-content">
                         <div class="action-secondary"><i class="mdi-social-info"></i></div>
                         <h4 class="list-group-item-heading">Administrar Estudios</h4>
-                        <a href="/admin/estudios" class="btn btn-default btn-raised">Todos los estudios</a>
+                        <a href="/admin/estudios" class="btn btn-default btn-raised">Mostrar todos</a>
                         <a href="/admin/estudios/create" class="btn btn-primary btn-raised">Nuevo estudio</a>
                     </div>
                 </div>
@@ -173,7 +178,7 @@
                     <div class="row-content">
                         <div class="action-secondary"><i class="mdi-social-info"></i></div>
                         <h4 class="list-group-item-heading">Administrar Tratamientos</h4>
-                        <a href="/admin/tratamientos" class="btn btn-default btn-raised">Todos los tratamientos</a>
+                        <a href="/admin/tratamientos" class="btn btn-default btn-raised">Mostrar Todos</a>
                         <a href="/admin/tratamientos/create" class="btn btn-primary btn-raised">Nuevo tratamiento</a>
                     </div>
                 </div>

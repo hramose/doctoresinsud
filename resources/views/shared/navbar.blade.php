@@ -14,11 +14,17 @@
         <!-- Navbar Right -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="/">Home</a></li>
+                <li {{(Request::is('/') ? 'class=active' : '')}}><a href="/">Home</a></li>
+                {{--<li class="active"><a href="/">Home</a></li>--}}
                <!-- <li><a href="/tickets">Tickets</a></li>
                 <li><a href="/blog">Blog</a></li>-->
-                <li><a href="/about">About</a></li>
-                <li><a href="/contact">Carga un ticket</a></li>
+                {{--<li><a href="/about">About</a></li>--}}
+                {{--<li><a href="/contact">Carga un ticket</a></li>--}}
+                @if(Auth::check())
+                    @if(Auth::user()->hasRole('Medico'))
+                        <li {{(Request::is('panel') ? 'class=active' : '')}}><a href="/panel">Panel Historias Clínicas</a></li>
+                    @endif
+                @endif
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                     @if(Auth::check())
@@ -30,12 +36,12 @@
                     <ul class="dropdown-menu" role="menu">
                         @if (Auth::check())
                             @if(Auth::user()->hasRole('Manager'))
-                                <li><a href="/admin">Admin</a></li>
+                                <li><a href="/admin">Administrar</a></li>
                             @endif
-                            <li><a href="/users/logout">Logout</a></li>
+                            <li><a href="/users/logout">Salir</a></li>
                         @else
-                            <li><a href="/users/register">Register</a></li>
-                            <li><a href="/users/login">Login</a></li>
+                            <li><a href="/users/register">Registrar</a></li>
+                            <li><a href="/users/login">Ingresar</a></li>
                         @endif
                     </ul>
                 </li>

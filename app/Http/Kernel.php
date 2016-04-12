@@ -30,5 +30,6 @@ class Kernel extends HttpKernel
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'manager' => \App\Http\Middleware\Manager::class, //agregado para asegurar que solo los administradores tengan acceso al area admin
+        'medico' => \App\Http\Middleware\Medico::class, //agregado para que solo los que tengan el rol de medico puedan ver y editar historias clinicas
     ];
 }

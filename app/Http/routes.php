@@ -13,13 +13,12 @@
 
 //Route::get('/', 'PagesController@home');
 
-//-------Front End Historias Clinicas--------------
 
-Route::get('/', 'Panel\PanelHistoriasController@index');
-Route::get('/paciente/{id?}', 'Panel\PanelHistoriasController@verHistoria');
-Route::get('/paciente/tratamiento/{id?}', 'Panel\PanelHistoriasController@verTratamiento');
+Route::get('/', 'PagesController@home');
 
-//-------Fin Front End Historias Clinicas--------------
+/*Route::get('/paciente/{id?}', 'Panel\PanelHistoriasController@verHistoria');
+Route::get('/paciente/tratamiento/{id?}', 'Panel\PanelHistoriasController@verTratamiento');*/
+
 
 Route::get('/home', 'PagesController@home');
 Route::get('/about', 'PagesController@about');
@@ -56,6 +55,20 @@ Route::get('users/login', 'Auth\AuthController@getLogin');
 Route::post('users/login', 'Auth\AuthController@postLogin');
 
 //-----------------------Fin Autenticación-----------------------------
+
+//-------Front End Historias Clinicas--------------
+
+Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medico'), function(){
+	/*Route::get('/', 'Panel\PanelHistoriasController@index');*/
+	Route::get('/', 'PanelHistoriasController@index');
+	//Route::get('paciente/{id?}', 'Panel\PanelHistoriasController@verHistoria');
+	Route::get('paciente/{id?}', 'PanelHistoriasController@verHistoria');
+	//Route::get('paciente/tratamiento/{id?}', 'Panel\PanelHistoriasController@verTratamiento');
+	Route::get('paciente/tratamiento/{id?}', 'PanelHistoriasController@verTratamiento');
+});
+
+//-------Fin Front End Historias Clinicas--------------
+
 
 Route::group(array('prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=> 'manager'), function(){
 	//Admin dashboard

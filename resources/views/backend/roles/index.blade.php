@@ -13,14 +13,14 @@
                 </div>
             @endif
             @if ($roles->isEmpty())
-                <p> There is no role.</p>
+                <p> No hay roles en el sistema.</p>
             @else
                 <table class="table" id="myTable">
                     <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Display Name</th>
-                        <th>Description</th>
+                        <th>Nombre</th>
+                        <th>Nombre para mostrar</th>
+                        <th>Descripción</th>
                     </tr>
                     </thead>
                     <tbody>

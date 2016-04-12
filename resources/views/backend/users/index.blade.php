@@ -5,7 +5,7 @@
     <div class="container col-md-8 col-md-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2> All users </h2>
+                <h2> Usuarios </h2>
             </div>
             @if (session('status'))
                 <div class="alert alert-success">
@@ -13,15 +13,15 @@
                 </div>
             @endif
             @if ($users->isEmpty())
-                <p> There is no user.</p>
+                <p> No hay usuarios en el sistema.</p>
             @else
                 <table class="table" id="myTable">
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Name</th>
+                        <th>Nombre</th>
                         <th>Email</th>
-                        <th>Joined at</th>
+                        <th>Fecha de Alta</th>
 
                     </tr>
                     </thead>

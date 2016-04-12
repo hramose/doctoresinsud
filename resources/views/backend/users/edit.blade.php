@@ -20,12 +20,12 @@
                 {!! csrf_field() !!}
 
                 <fieldset>
-                    <legend>Edit user</legend>
+                    <legend>Editar usuario</legend>
                     <div class="form-group">
-                        <label for="name" class="col-lg-2 control-label">Name</label>
+                        <label for="name" class="col-lg-2 control-label">Nombre</label>
 
                         <div class="col-lg-10">
-                            <input type="name" class="form-control" id="name" placeholder="Name" name="name"
+                            <input type="name" class="form-control" id="name" placeholder="Nombre" name="name"
                                    value="{{ $user->name }}">
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="col-lg-2 control-label">Password</label>
+                        <label for="password" class="col-lg-2 control-label">Contraseña</label>
 
                         <div class="col-lg-10">
                             <input type="password" class="form-control" name="password">
@@ -76,7 +76,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="col-lg-2 control-label">Confirm password</label>
+                        <label for="password" class="col-lg-2 control-label">Confirmar contraseña</label>
 
                         <div class="col-lg-10">
                             <input type="password" class="form-control" name="password_confirmation">
@@ -88,8 +88,8 @@
                         </div>
 
                         <div class="col-lg-5 col-lg-offset-5">
-                            <button type="reset" class="btn btn-default">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="reset" class="btn btn-default">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Grabar</button>
                         </div>
                     </div>
                 </fieldset>

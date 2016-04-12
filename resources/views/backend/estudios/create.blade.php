@@ -56,8 +56,8 @@
                 <fieldset>
                     <legend>Campos del Estudio</legend>
                     <div class="ui-widget">
-                        <label for="tags">Tags: </label>
-                        <input id="tags">
+                        <label for="campo_1">Campo: </label>
+                        <input id="campo_1">
                     </div>
                 </fieldset>
             </div>
@@ -66,14 +66,15 @@
 
 
 
-
-
 @endsection
 
 @section('scripts')
     <script>
+        var camposbase = JSON.parse("{{ json_encode($camposbase) }}");
         $(function() {
-            var availableTags = [
+            console.log(camposbase);
+            var availableCampos = camposbase;
+ /*                   [
                 "ActionScript",
                 "AppleScript",
                 "Asp",
@@ -96,9 +97,9 @@
                 "Ruby",
                 "Scala",
                 "Scheme"
-            ];
-            $( "#tags" ).autocomplete({
-                source: availableTags
+            ];*/
+            $( "#campo_1" ).autocomplete({
+                source: availableCampos
             });
         });
     </script>

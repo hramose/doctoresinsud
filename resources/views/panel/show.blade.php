@@ -984,7 +984,7 @@
                 <div class="panel-body" id="pbody-consultas">
                     @for($i = 0; $i < 10; $i++)
                         <div class="well well-lg">
-                            Look, I'm in a large well!
+                            Item de historia clinica {!! $i+1 !!} - (En desarrollo)
                         </div>
                     @endfor
                 </div>
@@ -998,7 +998,7 @@
                             <h3 class="panel-title">Últimos estudios</h3>
                         </div>
                         <div class="panel-body" id="pbody-estudios">
-                            Panel content
+                            Panel últimos estudios (En desarrollo)
                         </div>
                     </div>
                 </div>
