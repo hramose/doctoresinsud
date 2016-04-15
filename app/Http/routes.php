@@ -54,6 +54,7 @@ Route::get('users/logout', 'Auth\AuthController@getLogout');
 Route::get('users/login', 'Auth\AuthController@getLogin');
 Route::post('users/login', 'Auth\AuthController@postLogin');
 
+
 //-----------------------Fin Autenticación-----------------------------
 
 //-------Front End Historias Clinicas--------------
