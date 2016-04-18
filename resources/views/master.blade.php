@@ -4,8 +4,9 @@
     <title> @yield('title') </title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet"> 
      <!-- Material Design fonts -->
-    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    {{--<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">--}}
+    {{--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">--}}
+    <link href="/css/material_icons.css" rel="stylesheet">
     <!-- Include roboto.css to use the Roboto web font, material.css to include the theme and ripples.css to style the ripple effect -->
     <link href="/css/roboto.min.css" rel="stylesheet">
     <link href="/css/material.min.css" rel="stylesheet">
@@ -118,6 +119,7 @@
         "language": {
             "url": "../lang/datatables_es.json"
         }
+        @yield('script_datatables')
     });
 
     $('#tombo').on('click', function(){

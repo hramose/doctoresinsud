@@ -29,35 +29,52 @@
                     {{ session('status') }}
                 </div>
             @endif
-            @if ($pacientes->isEmpty())
+     {{--       @if ($pacientes->isEmpty())
                 <p> No hay pacientes cargados.</p>
-            @else
+            @else--}}
                 <table class="table" id="myTable">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>ID Historia Clinica</th>
-                            <th>Apellido, Nombre</th>
+                            <th>Apellido</th>
+                            <th>Nombre</th>
                             <th>Fecha de Ingreso</th>
                             <th>Fecha de Ultima Consulta</th>
-                            <th>Opciones</th>
+                            {{--<th>Opciones</th>--}}
                         </tr>
                     </thead>
-                    <tbody>
+{{--                    <tbody>
                     @foreach($pacientes as $paciente)
                         <tr>
                             <td><a href="{!! action('Panel\PanelHistoriasController@verHistoria', $paciente->id) !!}">{!! $paciente->id_hc !!}</a></td>
                             <td>
                                 <a href="{!! action('Panel\PanelHistoriasController@verHistoria', $paciente->id) !!}">{!! $paciente->apellido .', '.$paciente->nombre !!} </a>
                             </td>
-                            <td>{!! $paciente->fecha_alta->format('d/m/Y') !!}</td>
-                            <td>{!! $paciente->fecha_ult_consulta->format('d/m/Y') !!}</td>
+                            <td>{!! \Carbon\Carbon::parse($paciente->fecha_alta)->format('d/m/Y') !!}</td>
+                            <td>{!! \Carbon\Carbon::parse($paciente->fecha_ult_consulta)->format('d/m/Y') !!}</td>
                             <td><a class="btn btn-default btn-xs" href="#">Visualizar</a></td>
                         </tr>
                     @endforeach
-                    </tbody>
+                    </tbody>--}}
                 </table>
-            @endif
+            {{--@endif--}}
         </div>
     </div>
 
+@endsection
+
+@section('script_datatables')
+    ,"ajax": {
+        "url":"/panel/ajax/hhcc",
+        "dataSrc": ""
+    },
+    "columns": [
+        { "data": "id" },
+        { "data": "id_hc" },
+        { "data": "apellido" },
+        { "data": "nombre" },
+        { "data": "fecha_alta" },
+        { "data": "fecha_ult_consulta"}
+    ]
 @endsection

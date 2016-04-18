@@ -8,9 +8,18 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Paciente;
+use Illuminate\Support\Facades\DB;
 
 class PanelHistoriasController extends Controller
 {
+
+    public function getHCJson(){
+        $pacientes = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre', 'fecha_alta', 'fecha_ult_consulta')->get();
+
+        $pacientes = json_decode(json_encode($pacientes), true);
+        //var_dump($pacientes); die;
+        return $pacientes;
+    }
     /**
      * Funcion para ver historia clinica de un paciente.
      *
@@ -41,9 +50,12 @@ class PanelHistoriasController extends Controller
     public function index()
     {
         //
-        $pacientes = Paciente::all();
+        //$pacientes = Paciente::all();
+        //$pacientes = collect(DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre', 'fecha_alta', 'fecha_ult_consulta')->get());
 
-        return view('panel.index', compact('pacientes'));
+        //var_dump($pacientes); die;
+
+        return view('panel.index'/*, compact('pacientes')*/);
     }
 
     /**

@@ -66,6 +66,7 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 	Route::get('paciente/{id?}', 'PanelHistoriasController@verHistoria');
 	//Route::get('paciente/tratamiento/{id?}', 'Panel\PanelHistoriasController@verTratamiento');
 	Route::get('paciente/tratamiento/{id?}', 'PanelHistoriasController@verTratamiento');
+	Route::get('ajax/hhcc', 'PanelHistoriasController@getHCJson');
 });
 
 //-------Fin Front End Historias Clinicas--------------
