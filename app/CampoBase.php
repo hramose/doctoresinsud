@@ -20,7 +20,7 @@ class CampoBase extends Model
 
     public function UnidadMedida()
     {
-    	return $this->belongsTo('App\UnidadMedida');
+    	return $this->hasOne('App\UnidadMedida', 'id', 'id_unidad');
     }
 
     public function Estudios()

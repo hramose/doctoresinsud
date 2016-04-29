@@ -20,7 +20,9 @@
     </script>
 @endsection
 
-@section('title', 'Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}')
+@section('title')
+    Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
+@endsection
 
 @section('content')
     <div class="panel panel-primary" style="margin-top: -20px   ">
@@ -944,7 +946,7 @@
                                     @foreach($tratamientos as $tratamiento)
                                         <tr>
                                             <td>
-                                                <a href="{!! action('Panel\PanelHistoriasController@verTratamiento', $tratamiento->id) !!}">{!! $tratamiento->droga !!}</a>
+                                                <a href="{!! action('Panel\PanelHistoriasController@verTratamiento', ['id_p' => $paciente->id, 'id_t' => $tratamiento->id]) !!}">{!! $tratamiento->droga !!}</a>
                                             </td>
                                             <td>{!! $tratamiento->dosis !!}</td>
                                             <td>{!! $tratamiento->fecha_trat->format('d/m/Y') !!}</td>
@@ -1013,7 +1015,7 @@
                                     @foreach($estudios as $estudio)
                                         <tr>
                                             <td>
-                                                <a href="{!! action('Panel\PanelHistoriasController@verEstudio', $estudio->id) !!}">{!! $estudio->nombre !!}</a>
+                                                <a href="{!! action('Panel\PanelHistoriasController@verEstudio', ['id_p' => $paciente->id,'id_e' => $estudio->id]) !!}" target="_blank">{!! $estudio->nombre !!}</a>
                                             </td>
                                             <td>{!! \Carbon\Carbon::parse($estudio->fecha)->format('d/m/Y') !!}</td>
                                             <td>{!! substr($estudio->titulo, 0, 12) !!}</td>

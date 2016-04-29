@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\EstudioPaciente;
+use App\EstudioPacienteValor;
 use App\Tratamiento;
 use Illuminate\Http\Request;
 
@@ -50,18 +52,31 @@ class PanelHistoriasController extends Controller
      * @return mixed
      */
 
-    public function verEstudio($id)
+    public function verEstudio($id_p, $id_e)
     {
-        //TODO: Desarrollar función para ver un estudio.
+        //$estudioPaciente = EstudioPaciente::find($id_e)->with('valores')->get();
+        $estudioPaciente = EstudioPaciente::with('valores.campoBase.UnidadMedida', 'estudio')->find($id_e);
+        $paciente = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre')->where('id', $id_p)->get();
+        //dd($estudioPaciente);
+        //dd($estudioPaciente->valores);
+        //dd($paciente);
+
+        return view('panel.estudios.show', compact('paciente', 'estudioPaciente'));
     }
 
     /**
      * @return mixed
      */
 
-    public function verTratamiento($id)
+    public function verTratamiento($id_p, $id_t)
     {
         //TODO: Desarrollar función para ver un tratamiento.
+        $paciente = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre')->where('id', $id_p)->get();
+        $tratamiento = Tratamiento::find($id_t);
+
+        //dd($tratamiento);
+
+        return view('panel.tratamientos.show', compact('paciente', 'tratamiento'));
     }
 
     public function index()
