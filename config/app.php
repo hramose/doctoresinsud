@@ -147,6 +147,7 @@ return [
         Collective\Html\HtmlServiceProvider::class, //Agregado por Alejandro
         'Zizaco\Entrust\EntrustServiceProvider', //Agregado por Alejandro para manejar roles y permisos
         Barryvdh\Debugbar\ServiceProvider::class, //Agregado por Alejandro para debug
+        'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider', //Agregado por Alejandro para manipular variables de PHP en JS
 
 
     ],

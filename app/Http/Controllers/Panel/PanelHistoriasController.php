@@ -34,9 +34,25 @@ class PanelHistoriasController extends Controller
 //                $query->where('id_hc', '=', ),
 //    });
         $tratamientos = $paciente->tratamientos('id_paciente')->orderBy('fecha_trat', 'desc')->take(10)->get();
+       // $estudios = $paciente->estudioPacientes('id_hc')->orderBy('fecha', 'desc')->take(10)->get();
+        $estudios = DB::table('estudios_pacientes')
+                        ->join('estudios','estudios_pacientes.id_estudio', '=', 'estudios.id')
+                        ->where('estudios_pacientes.id_hc', '=', $id)
+                        ->select('estudios_pacientes.*', 'estudios.nombre')
+                        ->orderBy('estudios_pacientes.fecha', 'desc')
+                        ->take(10)
+                        ->get();
 
+        return view('panel.show', compact('paciente', 'tratamientos', 'estudios'));
+    }
 
-        return view('panel.show', compact('paciente', 'tratamientos'));
+    /**
+     * @return mixed
+     */
+
+    public function verEstudio($id)
+    {
+        //TODO: Desarrollar función para ver un estudio.
     }
 
     /**
@@ -47,6 +63,7 @@ class PanelHistoriasController extends Controller
     {
         //TODO: Desarrollar función para ver un tratamiento.
     }
+
     public function index()
     {
         //

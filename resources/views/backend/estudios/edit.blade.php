@@ -5,9 +5,9 @@
 
 
 
-    <div class="container col-md-8 col-md-offset-2" ng-app="CamposBaseApp" ng-controller="CamposBaseController">
-
-        <form class="form-horizontal" method="post" action="/admin/estudios/create">
+    {{--<div class="container col-md-8 col-md-offset-2" ng-app="CamposBaseApp" ng-controller="CamposBaseController">--}}
+    <div class="container col-md-8 col-md-offset-2">
+        <form class="form-horizontal" method="post">
             <div class="well well bs-component">
 
                 @foreach ($errors->all() as $error)
@@ -23,13 +23,13 @@
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}">
 
                 <fieldset>
-                    <legend>Crea un nuevo estudio</legend>
+                    <legend>Editar estudio</legend>
 
                     <!-- Nombre -->
                     <div class="form-group">
                         <label for="nombre" class="col-lg-2 control-label">Nombre</label>
                         <div class="col-lg-10">
-                            <input type="name" class="form-control" id="nombre" name="nombre">
+                            <input type="name" class="form-control" id="nombre" name="nombre" value="{!! $estudio->nombre !!}">
                         </div>
                     </div>
 
@@ -38,15 +38,15 @@
                     <div class="form-group">
                         <label for="observaciones" class="col-lg-2 control-label">Observaciones</label>
                         <div class="col-lg-10">
-                            <input type="textarea" class="form-control" id="observaciones" name="observaciones">
+                            <input type="textarea" class="form-control" id="observaciones" name="observaciones" value="{!! $estudio->obs !!}">
                         </div>
                     </div>
 
 
                     <div class="form-group">
                         <div class="col-lg-10 col-lg-offset-2">
-                            <button type="reset" class="btn btn-default">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Guardar Datos</button>
+                            <button type="reset" class="btn btn-default">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
                         </div>
                     </div>
                 </fieldset>
@@ -60,7 +60,8 @@
                         {{--<label for="campo_1">Campo 1: </label>--}}
                         <select class="chosen-select" multiple name="campos[]" id="campo_1">
                             @foreach($camposbase as $campo)
-                                <option value="{!! $campo->id !!}"> {!! $campo->descripcion !!}</option>
+                                <option value="{!! $campo->id !!}" @if(in_array($campo->id, $camposSeleccionados))
+                                selected="selected" @endif> {!! $campo->descripcion !!}</option>
                             @endforeach
                         </select>
                     </div>

@@ -13,7 +13,7 @@
     <link href="/css/ripples.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="/css/jquery-ui.min.css">
-
+    <link rel="stylesheet" href="/css/chosen.css">
     @yield('estilos')
     
     <style>
@@ -94,6 +94,8 @@
 <script src="/js/ripples.min.js"></script>
 <script src="/js/material.min.js"></script>
 <script src="/js/jquery-ui.min.js"></script>
+<script src="/js/moment.min.js"></script>
+<script src="/js/chosen.jquery.js"></script>
 
 
 

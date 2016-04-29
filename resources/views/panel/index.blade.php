@@ -71,10 +71,25 @@
     },
     "columns": [
         { "data": "id" },
-        { "data": "id_hc" },
+        { "data": "id_hc",
+           "render": function(data, type, row){
+                return '<a href="panel/paciente/' + row.id +'">' + row.id_hc + '</a>'
+            }
+        },
         { "data": "apellido" },
         { "data": "nombre" },
-        { "data": "fecha_alta" },
-        { "data": "fecha_ult_consulta"}
+        { "data": "fecha_alta",
+          "render": function(data, type, row){ return moment(row.fecha_alta).format('DD/MM/YYYY')}
+        },
+        { "data": "fecha_ult_consulta",
+          "render": function(data, type, row){ return moment(row.fecha_ult_consulta).format('DD/MM/YYYY')}
+        }
+    ],
+    "columnDefs": [
+        {
+            "targets": 0,
+            "visible": false,
+            "searchable": false
+        }
     ]
 @endsection

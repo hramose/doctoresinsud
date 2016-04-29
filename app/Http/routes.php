@@ -65,7 +65,8 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 	//Route::get('paciente/{id?}', 'Panel\PanelHistoriasController@verHistoria');
 	Route::get('paciente/{id?}', 'PanelHistoriasController@verHistoria');
 	//Route::get('paciente/tratamiento/{id?}', 'Panel\PanelHistoriasController@verTratamiento');
-	Route::get('paciente/tratamiento/{id?}', 'PanelHistoriasController@verTratamiento');
+	Route::get('paciente/{id_p?}/tratamiento/{id_t?}', 'PanelHistoriasController@verTratamiento');
+	Route::get('paciente/{id_p?}/estudio/{id_e?}', 'PanelHistoriasController@verEstudio');
 	Route::get('ajax/hhcc', 'PanelHistoriasController@getHCJson');
 });
 
@@ -152,7 +153,7 @@ Route::group(array('prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=> 'mana
 	Route::post('estudios/{id?}/edit','EstudiosController@update');
 	Route::post('estudios/{id?}/delete','EstudiosController@destroy');
 
-	//Estudios
+	//Tratamientos
 	Route::get('tratamientos', 'TratamientosController@index');
 	Route::get('tratamientos/create', 'TratamientosController@create');
 	Route::post('tratamientos/create', 'TratamientosController@store');

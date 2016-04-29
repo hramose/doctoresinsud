@@ -998,7 +998,30 @@
                             <h3 class="panel-title">Últimos estudios</h3>
                         </div>
                         <div class="panel-body" id="pbody-estudios">
-                            Panel últimos estudios (En desarrollo)
+                            @if (!($estudios))
+                                <p>No hay estudios cargados para el paciente.</p>
+                            @else
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Estudio</th>
+                                        <th>Fecha</th>
+                                        <th>Titulo</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($estudios as $estudio)
+                                        <tr>
+                                            <td>
+                                                <a href="{!! action('Panel\PanelHistoriasController@verEstudio', $estudio->id) !!}">{!! $estudio->nombre !!}</a>
+                                            </td>
+                                            <td>{!! \Carbon\Carbon::parse($estudio->fecha)->format('d/m/Y') !!}</td>
+                                            <td>{!! substr($estudio->titulo, 0, 12) !!}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            @endif
                         </div>
                     </div>
                 </div>
