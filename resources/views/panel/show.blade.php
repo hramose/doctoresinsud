@@ -946,7 +946,8 @@
                                     @foreach($tratamientos as $tratamiento)
                                         <tr>
                                             <td>
-                                                <a href="{!! action('Panel\PanelHistoriasController@verTratamiento', ['id_p' => $paciente->id, 'id_t' => $tratamiento->id]) !!}">{!! $tratamiento->droga !!}</a>
+                                                <a href="{!! action('Panel\PanelHistoriasController@verTratamiento', ['id_p' => $paciente->id, 'id_t' => $tratamiento->id]) !!}"
+                                                   target="_blank">{!! $tratamiento->droga !!}</a>
                                             </td>
                                             <td>{!! $tratamiento->dosis !!}</td>
                                             <td>{!! $tratamiento->fecha_trat->format('d/m/Y') !!}</td>
@@ -966,29 +967,28 @@
             </div>
             <div class="row">
                 <div class="col-lg-6 col-centered" style="margin-left: 30px;">
-                    <a href="javascript:void(0)" class="btn btn-raised btn-success">Ver todos los tratamientos</a>
+                    <a href="{!! action('Panel\PanelHistoriasController@verTodosTratamientos', $paciente->id) !!}"
+                       data-target="#modal-tratamientos" data-toggle="modal" class="btn btn-raised btn-success">Ver
+                        todos los tratamientos</a>
                 </div>
             </div>
         </div>
         <div class="col-lg-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Consultas</h3>
- {{--                   <div class="row">
-                        <div class="col-lg-8">
-                            <h3 class="panel-title">Consultas</h3>
-                        </div>
-                        <div class="col-lg-4">
-                            <a href="javascript:void(0)" class="btn btn-sm btn-raised btn-primary">Nueva consulta</a>
-                        </div>
-                    </div>--}}
+                    <h3 class="panel-title">Consultas <span class="pull-right"><a href="#"
+                                                                                  data-target="#modal-consulta-nueva"
+                                                                                  data-toggle="modal"
+                                                                                  class="btn-sm btn-raised btn-success"
+                                                                                  style="text-decoration: none;">Nueva
+                                consulta</a></span></h3>
                 </div>
                 <div class="panel-body" id="pbody-consultas">
-                    @for($i = 0; $i < 10; $i++)
-                        <div class="well well-lg">
-                            Item de historia clinica {!! $i+1 !!} - (En desarrollo)
-                        </div>
-                    @endfor
+                    {{--                    @for($i = 0; $i < 10; $i++)
+                                            <div class="well well-lg">
+                                                Item de historia clinica {!! $i+1 !!} - (En desarrollo)
+                                            </div>
+                                        @endfor--}}
                 </div>
             </div>
         </div>
@@ -1015,7 +1015,8 @@
                                     @foreach($estudios as $estudio)
                                         <tr>
                                             <td>
-                                                <a href="{!! action('Panel\PanelHistoriasController@verEstudio', ['id_p' => $paciente->id,'id_e' => $estudio->id]) !!}" target="_blank">{!! $estudio->nombre !!}</a>
+                                                <a href="{!! action('Panel\PanelHistoriasController@verEstudio', ['id_p' => $paciente->id,'id_e' => $estudio->id]) !!}"
+                                                   target="_blank">{!! $estudio->nombre !!}</a>
                                             </td>
                                             <td>{!! \Carbon\Carbon::parse($estudio->fecha)->format('d/m/Y') !!}</td>
                                             <td>{!! substr($estudio->titulo, 0, 12) !!}</td>
@@ -1034,10 +1035,137 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-6 col-centered" style="margin-left: 65px;">
-                        <a href="javascript:void(0)" class="btn btn-raised btn-success">Ver todos los estudios</a>
+                        <a href="{!! action('Panel\PanelHistoriasController@verTodosEstudios', $paciente->id) !!}"
+                           data-target="#modal-estudios" data-toggle="modal" class="btn btn-raised btn-success">Ver
+                            todos los estudios</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Modals -->
+    <!-- Modal todos los estudios -->
+    <div id="modal-estudios" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Todos los estudios</h3>
+                        </div>
+                        <div class="panel-body" id="pbody-estudios-modal">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal todos los tratamientos -->
+    <div id="modal-tratamientos" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Todos los tratamientos</h3>
+                        </div>
+                        <div class="panel-body" id="pbody-trat-modal">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal nueva consulta -->
+    <div id="modal-consulta-nueva" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="well well-lg">
+                        <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+                        <form class="form-horizontal">
+                            <fieldset>
+                                <legend>Nueva consulta</legend>
+
+                                <div class="form-group" style="vertical-align: middle">
+                                    <input type="hidden" name="id_usuario" value="{{ Auth::user()->id }}">
+                                    <label for="medico" class="col-lg-2 control-label"
+                                           style="padding-top:0;">Médico</label>
+                                    <p id="medico" name="medico">
+                                        @if(Auth::check())
+                                            {{ Auth::user()->name }}
+                                        @endif
+                                    </p>
+
+                                </div>
+
+                                <input type="hidden" id="id_paciente" name="id_paciente" value="{{ $paciente->id }}">
+
+                                <div class="form-group">
+                                    <label for="title" class="col-lg-2 control-label">Titulo</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="titulo" placeholder="Titulo"
+                                               name="titulo">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="content" class="col-lg-2 control-label">Descripcion</label>
+                                    <div class="col-lg-10">
+                                        <textarea class="form-control" rows="3" id="descripcion"
+                                                  name="descripcion"></textarea>
+                                    </div>
+                                </div>
+                                <input type="reset" id="reset-form" class="hidden"/>
+                                <input type="submit" id="submit-form" class="hidden">
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <label for="reset-form" class="btn btn-danger" data-dismiss="modal">Cancelar</label>
+                    <label for="submit-form" class="btn btn-success" data-dismiss="modal">Guardar</label>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section("scripts")
+    <script>
+    $('[data-dismiss=modal]').on('click', function (e) {
+    var $t = $(this),
+            target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
+
+    $(target)
+            .find("input[type=text],textarea,select")
+            .val('')
+            .end()
+            .find("input[type=checkbox], input[type=radio]")
+            .prop("checked", "")
+            .end();
+    });
+    </script>
 @endsection

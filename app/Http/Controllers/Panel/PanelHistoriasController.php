@@ -49,6 +49,39 @@ class PanelHistoriasController extends Controller
     }
 
     /**
+     * @param $id_p
+     * @return \Illuminate\Http\Response
+     */
+
+
+    public function verTodosTratamientos($id_p)
+    {
+        $paciente = Paciente::find($id_p);
+        $tratamientos = $paciente->tratamientos('id_paciente')->orderBy('fecha_trat', 'desc')->get();
+
+        return view('panel.tratamientos.showall', compact('tratamientos', 'paciente'));
+    }
+
+    /**
+     * @param $id_p
+     * @return \Illuminate\Http\Response
+     */
+
+
+    public function verTodosEstudios($id_p)
+    {
+        $estudios = DB::table('estudios_pacientes')
+            ->join('estudios','estudios_pacientes.id_estudio', '=', 'estudios.id')
+            ->where('estudios_pacientes.id_hc', '=', $id_p)
+            ->select('estudios_pacientes.*', 'estudios.nombre')
+            ->orderBy('estudios_pacientes.fecha', 'desc')
+            ->get();
+
+        return view('panel.estudios.showall', compact('estudios'));
+    }
+
+
+    /**
      * @return mixed
      */
 

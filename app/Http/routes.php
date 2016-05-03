@@ -66,7 +66,9 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 	Route::get('paciente/{id?}', 'PanelHistoriasController@verHistoria');
 	//Route::get('paciente/tratamiento/{id?}', 'Panel\PanelHistoriasController@verTratamiento');
 	Route::get('paciente/{id_p?}/tratamiento/{id_t?}', 'PanelHistoriasController@verTratamiento');
+	Route::get('paciente/{id_p?}/tratamientos', 'PanelHistoriasController@verTodosTratamientos');
 	Route::get('paciente/{id_p?}/estudio/{id_e?}', 'PanelHistoriasController@verEstudio');
+	Route::get('paciente/{id_p?}/estudios', 'PanelHistoriasController@verTodosEstudios');
 	Route::get('ajax/hhcc', 'PanelHistoriasController@getHCJson');
 });
 
