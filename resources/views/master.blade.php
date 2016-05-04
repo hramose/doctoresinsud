@@ -16,72 +16,8 @@
     <link rel="stylesheet" href="/css/chosen.css">
     @yield('estilos')
     
-    <style>
 
-        /**
- * For the correct positioning of the placeholder element, the dnd-list and
- * it's children must have position: relative
- */
-.simpleDemo ul[dnd-list],
-.simpleDemo ul[dnd-list] > li {
-    position: relative;
-}
 
-/**
- * The dnd-list should always have a min-height,
- * otherwise you can't drop to it once it's empty
- */
-.simpleDemo ul[dnd-list] {
-    min-height: 42px;
-    padding-left: 0px;
-}
-
-/**
- * The dndDraggingSource class will be applied to
- * the source element of a drag operation. It makes
- * sense to hide it to give the user the feeling
- * that he's actually moving it.
- */
-.simpleDemo ul[dnd-list] .dndDraggingSource {
-    display: none;
-}
-
-/**
- * An element with .dndPlaceholder class will be
- * added to the dnd-list while the user is dragging
- * over it.
- */
-.simpleDemo ul[dnd-list] .dndPlaceholder {
-    display: block;
-    background-color: #ddd;
-    min-height: 42px;
-}
-
-/**
- * The dnd-lists's child elements currently MUST have
- * position: relative. Otherwise we can not determine
- * whether the mouse pointer is in the upper or lower
- * half of the element we are dragging over. In other
- * browsers we can use event.offsetY for this.
- */
-.simpleDemo ul[dnd-list] li {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    display: block;
-    padding: 10px 15px;
-    margin-bottom: -1px;
-}
-
-/**
- * Show selected elements in green
- */
-.simpleDemo ul[dnd-list] li.selected {
-    background-color: #dff0d8;
-    color: #3c763d;
-}
-    </style>
 </head>
 <body>
 
@@ -96,9 +32,7 @@
 <script src="/js/jquery-ui.min.js"></script>
 <script src="/js/moment.min.js"></script>
 <script src="/js/chosen.jquery.js"></script>
-
-
-
+<script src="/js/form-validator/jquery.form-validator.min.js"></script>
 <script>
     $(document).ready(function() {
         // This command is used to initialize some elements and make them work properly
@@ -109,10 +43,11 @@
 <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 
 @yield('scripts')
+{{--comentado el 3/5/2016 - por Alejandro
 <script src="/js/angular.min.js"></script>
  <script src="/js/angular-route.min.js"></script>
  <script src="/js/angular-drag-and-drop-lists.min.js"></script>
- <script src="/js/app.js"></script>
+ <script src="/js/app.js"></script>--}}
 </body>
 
 <script>
@@ -124,12 +59,11 @@
         @yield('script_datatables')
     });
 
-    $('#tombo').on('click', function(){
+/*    $('#tombo').on('click', function(){
        
             $('#cont').append($('#campos').html());
         })
-    
-
+    */
 });
 </script>
 </html>

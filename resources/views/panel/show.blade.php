@@ -16,8 +16,28 @@
                     $content.is(":visible") ? $("#expand-boton").children('i').html("keyboard_arrow_up") : $("#expand-boton").children('i').html("keyboard_arrow_down");
                 });
             });
+            $('#modal-consulta-nueva').on('show.bs.modal', function(e){
+                $('#limpieza').find('form')[0].reset();
+                CKEDITOR.instances.editor_descripcion.setData('');
+                //$('#limpieza').find('iframe>html>body').remove();
+            });
         });
     </script>
+
+    <script src="../../../ckeditor/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace( 'editor_descripcion', {
+            customConfig: '../../../ckeditor/custom_config.js'
+        });
+    </script>
+
+    <script>
+        $.validate({
+            form : '#form-nueva-consulta',
+            lang : 'es'
+        });
+    </script>
+
 @endsection
 
 @section('title')
@@ -976,10 +996,11 @@
         <div class="col-lg-6">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Consultas <span class="pull-right"><a href="#"
+                    <h3 class="panel-title">Consultas
+                              <span class="pull-right"><a href="#"
                                                                                   data-target="#modal-consulta-nueva"
                                                                                   data-toggle="modal"
-                                                                                  class="btn-sm btn-raised btn-success"
+                                                                                  class="btn-sm btn-raised btn-success salocin"
                                                                                   style="text-decoration: none;">Nueva
                                 consulta</a></span></h3>
                 </div>
@@ -1103,10 +1124,10 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h4 class="modal-title"></h4>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="limpieza">
                     <div class="well well-lg">
                         <input type="hidden" name="_token" value="{!! csrf_token() !!}">
-                        <form class="form-horizontal">
+                        <form id="form-nueva-consulta" method="post" class="form-horizontal">
                             <fieldset>
                                 <legend>Nueva consulta</legend>
 
@@ -1128,44 +1149,37 @@
                                     <label for="title" class="col-lg-2 control-label">Titulo</label>
                                     <div class="col-lg-10">
                                         <input type="text" class="form-control" id="titulo" placeholder="Titulo"
-                                               name="titulo">
+                                               name="titulo" data-validation="length alphanumeric" data-validation-length="min4">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="content" class="col-lg-2 control-label">Descripcion</label>
                                     <div class="col-lg-10">
-                                        <textarea class="form-control" rows="3" id="descripcion"
+                                        <textarea class="form-control" rows="3" id="editor_descripcion"
                                                   name="descripcion"></textarea>
                                     </div>
                                 </div>
-                                <input type="reset" id="reset-form" class="hidden"/>
-                                <input type="submit" id="submit-form" class="hidden">
+                                <button type="submit" class="btn btn-success" data-dismiss="modal" style="float: right;">Guardar</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: right;">Cancelar</button>
                             </fieldset>
                         </form>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <label for="reset-form" class="btn btn-danger" data-dismiss="modal">Cancelar</label>
-                    <label for="submit-form" class="btn btn-success" data-dismiss="modal">Guardar</label>
-                </div>
+{{--                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                </div>--}}
             </div>
         </div>
     </div>
-@endsection
 
-@section("scripts")
-    <script>
-    $('[data-dismiss=modal]').on('click', function (e) {
-    var $t = $(this),
-            target = $t[0].href || $t.data("target") || $t.parents('.modal') || [];
-
-    $(target)
-            .find("input[type=text],textarea,select")
-            .val('')
-            .end()
-            .find("input[type=checkbox], input[type=radio]")
-            .prop("checked", "")
-            .end();
-    });
-    </script>
+{{--    <script>
+        $(document).on('ready',function () {
+            $('#modal-consulta-nueva').on('show.bs.modal', function(e){
+                console.log('pase por aca');
+                alert("hola");
+                $('#limpieza').find('form')[0].reset();
+            });
+        });
+    </script>--}}
 @endsection

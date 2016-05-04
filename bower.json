@@ -19,6 +19,8 @@
   "dependencies": {
     "bootstrap-material-design": "~0.3.0",
     "font-awesome": "fontawesome#~4.4.0",
-    "moment": "~2.13.0"
+    "moment": "~2.13.0",
+    "semantic-ui-modal": "~2.1.7",
+    "jquery-form-validator": "~2.3.14"
   }
 }

@@ -17,8 +17,8 @@
 		bottom: -38px;
 	}
 
-	#pbody-consultas {
-		height: 300px;
+	#pbody-consultas, #pbody-estudios, #pbody-trat {
+		height: 500px;
 		overflow-y: auto;
 	}
 
