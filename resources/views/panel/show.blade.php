@@ -21,6 +21,143 @@
                 CKEDITOR.instances.editor_descripcion.setData('');
                 //$('#limpieza').find('iframe>html>body').remove();
             });
+
+            //Función genérica para hacer Ajax post calls
+            var ajaxSubmit = function(formId, /*modal,*/ fnCallback) {
+                $.ajax({
+                    type: $(formId).attr('method'), //Se generalizó el method
+                    url: $(formId).attr('action'),
+                    data: $(formId).serialize(),
+                    success: function(data){
+                        //$(modal).modal('hide');
+                        return fnCallback(data);
+                    },
+                    error: function(){
+                        return alert("Ocurrió un problema. Contactar al desarrollador.");//fnCallback(data);
+                    }
+                });
+            }
+
+            //Handler para borrar una consulta
+            $('.btn-borra-consulta').on('click', function(e){
+                $('#id_consulta_borrar').val($(this).attr('data-id'));
+            });
+
+            $('#submitConsulta_borrar').on('click', function (e) {
+                ajaxSubmit(
+                        $('#form-borrar-consulta'),
+                        function(data){
+                            //TODO: Comportamiento luego de borrar la consulta REVISAR POR QUE NO CIERRA LA MODAL Y BORRA LA CONSULTA DEL PANEL
+                            data = JSON.parse(data);
+                            $('#consulta_' + data.id).remove();
+                            $('#modal-consulta-editar').modal('hide');
+                        }
+                );
+                e.preventDefault();
+            });
+
+            //Handler para traer datos de la consulta a editar
+            $('.btn-edita-consulta').on('click', function(e){
+                $.ajax({
+                    type: "GET",
+                    url: $(this).attr('data-href'),
+                    success: function(data){
+                        //$('#limpieza_edit').find('#form-editar-consulta')[0].reset();
+                        data = JSON.parse(data);
+                        //console.log(data);
+                        //console.log(data.consulta.titulo);
+                        //CKEDITOR.instances.editor_descripcion_edit.setData('');
+                        $('#titulo_edit').val(data.consulta.titulo);
+                        $('#id_consulta_edit').val(data.consulta.id);
+                        CKEDITOR.instances.editor_descripcion_edit.setData(data.consulta.descripcion);
+                        $("#modal-consulta-editar").modal('show');
+                        return false;
+                        //e.preventDefault();
+                    },
+                    error: function(){
+                        return alert("Ocurrió un problema. Contactar al desarrollador.");
+                    }
+                });
+            });
+
+            //Handler para validar formulario de edición de consulta y luego enviar al servidor
+            $("#submitConsulta_editar").on('click', function(e){
+                $("#hidden_descripcion_edit").val(CKEDITOR.instances.editor_descripcion_edit.getData());
+                //console.log($('#form-editar-consulta').serialize());
+                if(!$('#form-editar-consulta').isValid(false)){
+                    return alert("El formulario contiene campos inválidos");
+                } else {
+                    ajaxSubmit(
+                            $('#form-editar-consulta'),
+                            function(data){
+                                data = JSON.parse(data);
+                                $('#consulta_' + data.id + ' .titulo_consulta').html(data.titulo);
+                                $('#consulta_' + data.id + ' .desc_consulta').html(data.descripcion);
+                                $("#modal-consulta-editar").modal('hide');
+                            }
+                    );
+                    e.preventDefault();
+                }
+            });
+
+            //Handler para validar formulario de nueva consulta y luego enviar al servidor
+            $("#submitConsulta").on('click', function(e){
+                $("#hidden_descripcion").val(CKEDITOR.instances.editor_descripcion.getData());
+
+                if(!$('#form-nueva-consulta').isValid(false)){
+                    return alert("El formulario contiene campos inválidos");
+                } else {
+                    ajaxSubmit(
+                            $('#form-nueva-consulta'),
+                            function(data) {
+                                data = JSON.parse(data);
+
+                                var newConsulta = $('<div>');
+                                newConsulta.addClass('well well-lg');
+                                newConsulta.attr('id', 'consulta_' + data.id);
+                                newConsulta.html('<div class="row">\
+                                        <div class="col-lg-8">\
+                                        <p><strong>Medico: </strong>' + data.medico.name + '</p>\
+                                </div>\
+                                <div class="col-lg-4">\
+                                        <p><strong>Fecha: </strong>' + moment(data.fecha).format('DD/MM/YYYY') + '</p>\
+                                </div>\
+                                </div>\
+                                <div class="row">\
+                                        <div class="col-lg-12">\
+                                        <p><strong>Titulo: </strong>\
+                                <span class="titulo_consulta">' + data.titulo + '</span></p>\
+                                        </p>\
+                                        </div>\
+                                        </div>\
+                                        <div class="row">\
+                                        <div class="col-lg-12">\
+                                        <p>\
+                                        <strong>Descripción: </strong>\
+                                </p>\
+                                        <div class="desc_consulta">' + data.descripcion + '</div>\
+                                        </div>\
+                                        </div>\
+                                        <div class="row">\
+                                        <div class="col-lg-5 col-lg-offset-7">\
+                                        <a href="javascript:void(0)" class="btn btn-sm btn-raised btn-danger">Eliminar</a>\
+                                                        <button class="btn btn-sm btn-raised btn-primary btn-edita-consulta"\
+                                                        data-target="#modal-consulta-editar" data-toggle="modal"\
+                                                        data-href="/panel/paciente/' + data.id_paciente + '/consulta/'+ data.id +'">Editar</button>\
+                                        </div>\
+                                        </div>');
+
+
+                                $("#pbody-consultas").prepend(newConsulta);
+
+                                $("#modal-consulta-nueva").modal('hide');
+                                $("#pbody-consultas").scrollTop(0);
+                            }
+                    );
+                    e.preventDefault();
+                }
+            });
+
         });
     </script>
 
@@ -29,13 +166,32 @@
         CKEDITOR.replace( 'editor_descripcion', {
             customConfig: '../../../ckeditor/custom_config.js'
         });
+        CKEDITOR.replace( 'editor_descripcion_edit', {
+            customConfig: '../../../ckeditor/custom_config.js'
+        });
     </script>
 
     <script>
         $.validate({
             form : '#form-nueva-consulta',
-            lang : 'es'
+            lang : 'es',
+/*            onError : function($form) {
+                alert('Validation of form '+$form.attr('id')+' failed!');
+            },
+            onSuccess : function($form) {
+                alert('The form '+$form.attr('id')+' is valid!');
+                return false; // Will stop the submission of the form
+            },*/
         });
+    </script>
+
+    <script>
+/*        function submitForm() {
+            $("#form-nueva-consulta").submit(function (event) {
+                //event.preventDefault();
+                alert("estoy en el submit");
+            });
+        }*/
     </script>
 
 @endsection
@@ -47,8 +203,18 @@
 @section('content')
     <div class="panel panel-primary" style="margin-top: -20px   ">
         <div class="panel-heading">
-            <h2 class="text-left" style="border-radius: 0">Historia Clínica
-                de {!! $paciente->apellido . ", " . $paciente->nombre . " (H.C.:" . $paciente->id_hc . ")"!!}</h2>
+            <div class="row">
+                <div class="col-lg-8">
+                    <h2 class="text-left" style="border-radius: 0">Historia Clínica
+                        de {!! $paciente->apellido . ", " . $paciente->nombre . " (H.C.:" . $paciente->id_hc . ")"!!}</h2>
+                </div>
+                <div class="col-lg-2">
+                    <a href="#" class="btn btn-raised btn-success pull-right">Editar Historia</a>
+                </div>
+                <div class="col-lg-2">
+                    <a href="#" class="btn btn-raised btn-info pull-right">Versión imprimible</a>
+                </div>
+            </div>
         </div>
         <div class="panel-body">
             <form class="form-horizontal" method="post">
@@ -69,17 +235,21 @@
                     <div class="row">
                         {{--Columna Documento y Seguimiento--}}
                         {{--<div class="form-group">--}}
-                        <label for="tipo_doc" class="col-lg-2 text-left{{-- control-label --}} ">Tipo Documento</label>
-                        <div class="col-lg-1">
-                            <input type="text" class="form-control" id="tipo_doc" name="tipo_doc"
-                                   value="{!! $paciente->tipo_doc !!}" readonly>
-                        </div>
-                        {{--</div>--}}
-                        {{--<div class="form-group">--}}
-                        <label for="numero_doc" class="col-lg-2 text-left{{-- control-label --}}">Nro. Documento</label>
-                        <div class="col-lg-2">
-                            <input type="text" class="form-control" id="numero_doc" name="numero_doc"
-                                   value="{!! $paciente->numero_doc !!}" readonly>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <label for="tipo_doc" class="col-lg-2 text-left{{-- control-label --}} ">Tipo Documento</label>
+                                <div class="col-lg-1">
+                                    <input type="text" class="form-control" id="tipo_doc" name="tipo_doc"
+                                           value="{!! $paciente->tipo_doc !!}" readonly>
+                                </div>
+                                {{--</div>--}}
+                                {{--<div class="form-group">--}}
+                                <label for="numero_doc" class="col-lg-2 text-left{{-- control-label --}}">Nro. Documento</label>
+                                <div class="col-lg-2">
+                                    <input type="text" class="form-control" id="numero_doc" name="numero_doc"
+                                           value="{!! $paciente->numero_doc !!}" readonly>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -87,147 +257,165 @@
                             {{--</div>--}}
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <fieldset style="border: solid 1px black">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">Seguimiento</div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <label for="fecha_nac" class="col-lg-3 control-label">Fecha Nac.</label>
+                                                <div class="col-lg-3">
+                                                    <input type="date" class="form-control" id="fecha_nac" name="fecha_nac"
+                                                           value="{!! $paciente->fecha_nac->format('d/m/Y') !!}" readonly>
+                                                </div>
+                                                <label for="edad_ing" class="col-lg-3 control-label">Edad al ingreso</label>
+                                                <div class="col-lg-3">
+                                                    <input type="number" class="form-control" id="edad_ing" name="edad_ing"
+                                                           value="{!! $paciente->fecha_alta->diffInYears($paciente->fecha_nac) !!}"
+                                                           readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="fecha_alta" class="col-lg-3 control-label">Fecha Ing.</label>
+                                                <div class="col-lg-3">
+                                                    <input type="date" class="form-control" id="fecha_alta"
+                                                           name="fecha_alta"
+                                                           value="{!! $paciente->fecha_alta->format('d/m/Y') !!}" readonly>
+                                                </div>
+                                                <label for="anios_seg" class="col-lg-3 control-label">Años
+                                                    Seguimiento.</label>
+                                                <div class="col-lg-3">
+                                                    <input type="number" class="form-control" id="anios_seg"
+                                                           name="anios_seg"
+                                                           value="{!! \Carbon\Carbon::now()->diffInYears($paciente->fecha_alta) !!}"
+                                                           readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <label for="fecha_ult_consulta" class="col-lg-3 control-label">Fecha Ult.
+                                                    Consulta</label>
+                                                <div class="col-lg-3">
+                                                    <input type="date" class="form-control" id="fecha_ult_consulta"
+                                                           name="fecha_ult_consulta"
+                                                           value="{!! $paciente->fecha_ult_consulta->format('d/m/Y') !!}"
+                                                           readonly>
+                                                </div>
+                                                <label for="proxima_cita" class="col-lg-3 control-label">Próxima
+                                                    Cita</label>
+                                                <div class="col-lg-3">
+                                                    <input type="date" class="form-control" id="proxima_cita"
+                                                           name="proxima_cita"
+                                                           value="{!! $paciente->proxima_cita->format('d/m/Y') !!}"
+                                                           readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+ {{--                                   <fieldset style="border: solid 1px black">
                                         <legend>Seguimiento</legend>
-                                        <div class="row">
-                                            <label for="fecha_nac" class="col-lg-3 control-label">Fecha Nac.</label>
-                                            <div class="col-lg-3">
-                                                <input type="date" class="form-control" id="fecha_nac" name="fecha_nac"
-                                                       value="{!! $paciente->fecha_nac->format('d/m/Y') !!}" readonly>
-                                            </div>
-                                            <label for="edad_ing" class="col-lg-3 control-label">Edad al ingreso</label>
-                                            <div class="col-lg-3">
-                                                <input type="number" class="form-control" id="edad_ing" name="edad_ing"
-                                                       value="{!! $paciente->fecha_alta->diffInYears($paciente->fecha_nac) !!}"
-                                                       readonly>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="fecha_alta" class="col-lg-3 control-label">Fecha Ing.</label>
-                                            <div class="col-lg-3">
-                                                <input type="date" class="form-control" id="fecha_alta"
-                                                       name="fecha_alta"
-                                                       value="{!! $paciente->fecha_alta->format('d/m/Y') !!}" readonly>
-                                            </div>
-                                            <label for="anios_seg" class="col-lg-3 control-label">Años
-                                                Seguimiento.</label>
-                                            <div class="col-lg-3">
-                                                <input type="number" class="form-control" id="anios_seg"
-                                                       name="anios_seg"
-                                                       value="{!! \Carbon\Carbon::now()->diffInYears($paciente->fecha_alta) !!}"
-                                                       readonly>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="fecha_ult_consulta" class="col-lg-3 control-label">Fecha Ult.
-                                                Consulta</label>
-                                            <div class="col-lg-3">
-                                                <input type="date" class="form-control" id="fecha_ult_consulta"
-                                                       name="fecha_ult_consulta"
-                                                       value="{!! $paciente->fecha_ult_consulta->format('d/m/Y') !!}"
-                                                       readonly>
-                                            </div>
-                                            <label for="proxima_cita" class="col-lg-3 control-label">Próxima
-                                                Cita</label>
-                                            <div class="col-lg-3">
-                                                <input type="date" class="form-control" id="proxima_cita"
-                                                       name="proxima_cita"
-                                                       value="{!! $paciente->proxima_cita->format('d/m/Y') !!}"
-                                                       readonly>
-                                            </div>
-                                        </div>
-                                    </fieldset>
+
+                                    </fieldset>--}}
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             {{--//Columna Serología--}}
                             <div class="col-lg-12">
-                                <fieldset style="border: solid 1px black">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Serología</div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <label for="tres_negativas" class="col-lg-8 control-label">3 pruebas serológicas
+                                                negativas</label>
+                                            <div class="col-lg-4">
+                                                <input type="checkbox" class="form-control" id="tres_negativas"
+                                                       name="tres_negativas" @if($paciente->tres_negativas == 2) checked
+                                                       @endif disabled>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label for="serologia_ing" class="col-lg-8 control-label">Serología al
+                                                ingreso</label>
+                                            <div class="col-lg-4">
+                                                <input type="text" class="form-control" id="serologia_ing"
+                                                       name="serologia_ing" value="{!! $paciente->serologia_ing !!}"
+                                                       readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label for="titulos_sero_ing" class="col-lg-8 control-label">Titulos serológicos
+                                                al ingreso</label>
+                                            <div class="col-lg-4">
+                                                <input type="text" class="form-control" id="titulos_sero_ing"
+                                                       name="titulos_sero_ing" value="{!! $paciente->titulos_sero_ing !!}"
+                                                       readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label for="trat_etio" class="col-lg-8 control-label">Tratamiento
+                                                Etiológico</label>
+                                            <div class="col-lg-4">
+                                                <input type="text" class="form-control" id="trat_etio" name="trat_etio"
+                                                       value="@if($paciente->trat_etio=="S") Si @elseif($paciente->trat_etio=="N") No @endif"
+                                                       readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+{{--                                <fieldset style="border: solid 1px black">
                                     <legend>Serología</legend>
-                                    <div class="row">
-                                        <label for="tres_negativas" class="col-lg-8 control-label">3 pruebas serológicas
-                                            negativas</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="tres_negativas"
-                                                   name="tres_negativas" @if($paciente->tres_negativas == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="serologia_ing" class="col-lg-8 control-label">Serología al
-                                            ingreso</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="serologia_ing"
-                                                   name="serologia_ing" value="{!! $paciente->serologia_ing !!}"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="titulos_sero_ing" class="col-lg-8 control-label">Titulos serológicos
-                                            al ingreso</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="titulos_sero_ing"
-                                                   name="titulos_sero_ing" value="{!! $paciente->titulos_sero_ing !!}"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="trat_etio" class="col-lg-8 control-label">Tratamiento
-                                            Etiológico</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="trat_etio" name="trat_etio"
-                                                   value="@if($paciente->trat_etio=="S") Si @elseif($paciente->trat_etio=="N") No @endif"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                </fieldset>
+
+                                </fieldset>--}}
                             </div>
                         </div>
                         <div class="col-lg-3">
                             {{--//Columna Grupo Clínico--}}
                             <div class="col-lg-12">
-                                <fieldset style="border: solid 1px black;">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Grupo Clínico</div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <label for="grupo_clinico_ing" class="col-lg-8 control-label">Grupo Clínico al
+                                                Ingreso</label>
+                                            <div class="col-lg-4">
+                                                <input type="text" class="form-control" id="grupo_clinico_ing"
+                                                       name="grupo_clinico_ing" value="{!! $paciente->grupo_clinico_ing !!}"
+                                                       readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label for="cambio_grupo_cli" class="col-lg-8 control-label">Cambio en el Grupo
+                                                Clínico</label>
+                                            <div class="col-lg-4">
+                                                <input type="text" class="form-control" id="cambio_grupo_cli"
+                                                       name="cambio_grupo_cli"
+                                                       value="@if($paciente->cambio_grupo_cli=="S") Si @elseif($paciente->cambio_grupo_cli=="N") No @endif"
+                                                       readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label for="fecha_cambio_gcli" class="col-lg-8 control-label">Fecha Cambio Grupo
+                                                Clínico</label>
+                                            <div class="col-lg-4">
+                                                <input type="date" class="form-control" id="fecha_cambio_gcli"
+                                                       name="fecha_cambio_gcli"
+                                                       value=" {!! $paciente->fecha_cambio_gcli->format('d/m/Y') !!}"
+                                                       readonly>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label for="nuevo_grupo_cli" class="col-lg-8 control-label">Nuevo Grupo
+                                                Clínico</label>
+                                            <div class="col-lg-4">
+                                                <input type="text" class="form-control" id="nuevo_grupo_cli"
+                                                       name="nuevo_grupo_cli" value="{!! $paciente->nuevo_grupo_cli !!}"
+                                                       readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+{{--                                <fieldset style="border: solid 1px black;">
                                     <legend>Grupo Clínico</legend>
-                                    <div class="row">
-                                        <label for="grupo_clinico_ing" class="col-lg-8 control-label">Grupo Clínico al
-                                            Ingreso</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="grupo_clinico_ing"
-                                                   name="grupo_clinico_ing" value="{!! $paciente->grupo_clinico_ing !!}"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="cambio_grupo_cli" class="col-lg-8 control-label">Cambio en el Grupo
-                                            Clínico</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="cambio_grupo_cli"
-                                                   name="cambio_grupo_cli"
-                                                   value="@if($paciente->cambio_grupo_cli=="S") Si @elseif($paciente->cambio_grupo_cli=="N") No @endif"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="fecha_cambio_gcli" class="col-lg-8 control-label">Fecha Cambio Grupo
-                                            Clínico</label>
-                                        <div class="col-lg-4">
-                                            <input type="date" class="form-control" id="fecha_cambio_gcli"
-                                                   name="fecha_cambio_gcli"
-                                                   value=" {!! $paciente->fecha_cambio_gcli->format('d/m/Y') !!}"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="nuevo_grupo_cli" class="col-lg-8 control-label">Nuevo Grupo
-                                            Clínico</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="nuevo_grupo_cli"
-                                                   name="nuevo_grupo_cli" value="{!! $paciente->nuevo_grupo_cli !!}"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                </fieldset>
+
+                                </fieldset>--}}
                             </div>
                         </div>
                         <div class="col-lg-1">
@@ -982,13 +1170,13 @@
             </div>
             <div class="row">
                 <div class="col-lg-6 col-centered" style="margin-left: 30px;">
-                    <a href="javascript:void(0)" class="btn btn-raised btn-primary">Agregar nuevo tratamiento</a>
+                    <a href="javascript:void(0)" class="btn btn-raised btn-success">Agregar nuevo tratamiento</a>
                 </div>
             </div>
             <div class="row">
                 <div class="col-lg-6 col-centered" style="margin-left: 30px;">
                     <a href="{!! action('Panel\PanelHistoriasController@verTodosTratamientos', $paciente->id) !!}"
-                       data-target="#modal-tratamientos" data-toggle="modal" class="btn btn-raised btn-success">Ver
+                       data-target="#modal-tratamientos" data-toggle="modal" class="btn btn-raised btn-primary">Ver
                         todos los tratamientos</a>
                 </div>
             </div>
@@ -1010,6 +1198,49 @@
                                                 Item de historia clinica {!! $i+1 !!} - (En desarrollo)
                                             </div>
                                         @endfor--}}
+                    @foreach($consultas as $consulta)
+                        <div class="well well-lg" id={!! "consulta_" . $consulta->id  !!}>
+                            <div class="row">
+                                <div class="col-lg-8">
+                                  <p><strong>Medico: </strong> {!! $consulta->medico->name !!}</p>
+                                </div>
+                                <div class="col-lg-4">
+                                    <p><strong>Fecha: </strong>{!! \Carbon\Carbon::parse($consulta->fecha)->format('d/m/Y') !!}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <p><strong>Titulo: </strong>
+                                        <span class="titulo_consulta">{!! $consulta->titulo !!}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <p>
+                                        <strong>Descripción: </strong>
+                                    </p>
+                                    <div class="desc_consulta">{!! $consulta->descripcion !!}</div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-5 col-lg-offset-7">
+                                    @if(Auth::user()->hasRole('Manager'))
+                                        <a href="javascript:void(0)" class="btn btn-sm btn-raised btn-danger btn-borra-consulta" data-id="{!! $consulta->id !!}" data-target="#modal-consulta-borrar" data-toggle="modal">Eliminar</a>
+                                    @else
+                                        <a href="javascript:void(0)" class="btn btn-sm btn-danger" disabled="true">Eliminar</a>
+                                    @endif
+                                    @if(Auth::user()->name == $consulta->medico->name)
+                                        <button class="btn btn-sm btn-raised btn-primary btn-edita-consulta"
+                                           data-target="#modal-consulta-editar" data-toggle="modal"
+                                            data-href="{!! action('Panel\PanelHistoriasController@editarConsulta', ['id_p' => $paciente->id,'id_c' => $consulta->id]) !!}">Editar</button>
+                                    @else
+                                        <a href="javascript:void(0)" class="btn btn-sm btn-primary" disabled="true">Editar</a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -1051,13 +1282,13 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-6 col-centered" style="margin-left: 65px;">
-                        <a href="javascript:void(0)" class="btn btn-raised btn-primary">Agregar nuevo estudio</a>
+                        <a href="javascript:void(0)" class="btn btn-raised btn-success">Agregar nuevo estudio</a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-lg-6 col-centered" style="margin-left: 65px;">
                         <a href="{!! action('Panel\PanelHistoriasController@verTodosEstudios', $paciente->id) !!}"
-                           data-target="#modal-estudios" data-toggle="modal" class="btn btn-raised btn-success">Ver
+                           data-target="#modal-estudios" data-toggle="modal" class="btn btn-raised btn-primary">Ver
                             todos los estudios</a>
                     </div>
                 </div>
@@ -1126,8 +1357,8 @@
                 </div>
                 <div class="modal-body" id="limpieza">
                     <div class="well well-lg">
-                        <input type="hidden" name="_token" value="{!! csrf_token() !!}">
-                        <form id="form-nueva-consulta" method="post" class="form-horizontal">
+                        <form id="form-nueva-consulta" method="post" action="{{ URL::action('Panel\PanelHistoriasController@nuevaConsulta') }}" class="form-horizontal">
+                            <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                             <fieldset>
                                 <legend>Nueva consulta</legend>
 
@@ -1144,12 +1375,13 @@
                                 </div>
 
                                 <input type="hidden" id="id_paciente" name="id_paciente" value="{{ $paciente->id }}">
+                                <input type="hidden" id="hidden_descripcion" name="hidden_descripcion">
 
                                 <div class="form-group">
                                     <label for="title" class="col-lg-2 control-label">Titulo</label>
                                     <div class="col-lg-10">
                                         <input type="text" class="form-control" id="titulo" placeholder="Titulo"
-                                               name="titulo" data-validation="length alphanumeric" data-validation-length="min4">
+                                               name="titulo" data-validation="required" data-validation-length="min4">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -1159,7 +1391,7 @@
                                                   name="descripcion"></textarea>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-success" data-dismiss="modal" style="float: right;">Guardar</button>
+                                <button type="submit" class="btn btn-success" id="submitConsulta" style="float: right;">Guardar</button>
                                 <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: right;">Cancelar</button>
                             </fieldset>
                         </form>
@@ -1168,6 +1400,90 @@
 {{--                <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                </div>--}}
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal editar consulta -->
+    <div id="modal-consulta-editar" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body" id="limpieza_edit">
+                    <div class="well well-lg">
+                        <form id="form-editar-consulta" method="post" action="{{ URL::action('Panel\PanelHistoriasController@guardarConsulta') }}" class="form-horizontal">
+                            <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+                            <fieldset>
+                                <legend>Editar consulta</legend>
+
+                                <div class="form-group" style="vertical-align: middle">
+                                    <input type="hidden" name="id_usuario" value="{{ Auth::user()->id }}">
+                                    <label for="medico" class="col-lg-2 control-label"
+                                           style="padding-top:0;">Médico</label>
+                                    <p id="medico" name="medico">
+                                        @if(Auth::check())
+                                            {{ Auth::user()->name }}
+                                        @endif
+                                    </p>
+
+                                </div>
+
+                                <input type="hidden" id="id_paciente_edit" name="id_paciente_edit" value="{{ $paciente->id }}">
+                                <input type="hidden" id="hidden_descripcion_edit" name="hidden_descripcion_edit">
+                                <input type="hidden" id="id_consulta_edit" name="id_consulta">
+
+                                <div class="form-group">
+                                    <label for="titulo_edit" class="col-lg-2 control-label">Titulo</label>
+                                    <div class="col-lg-10">
+                                        <input type="text" class="form-control" id="titulo_edit" placeholder="Titulo"
+                                               name="titulo_edit" data-validation="required" data-validation-length="min4">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="editor_descripcion_edit" class="col-lg-2 control-label">Descripcion</label>
+                                    <div class="col-lg-10">
+                                        <textarea class="form-control" rows="3" id="editor_descripcion_edit"
+                                                  name="descripcion"></textarea>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-success" id="submitConsulta_editar" style="float: right;">Guardar</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: right;">Cancelar</button>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+                {{--                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-success" data-dismiss="modal">Guardar</button>
+                                </div>--}}
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal eliminar consulta -->
+    <div id="modal-consulta-borrar" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Eliminar consulta</h4>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro de eliminar la consulta?</p>
+                    <form id="form-borrar-consulta" method="DELETE" action="{{ URL::action('Panel\PanelHistoriasController@borrarConsulta') }}" class="form-horizontal">
+                        <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+                        <input type="hidden" id="id_consulta_borrar" name="id_consulta">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" id="submitConsulta_borrar" class="btn btn-danger">Aceptar</button>
+                    </form>
+                </div>
+{{--                <div class="modal-footer">
+                    <button type="submit" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-inverse btn-danger">Aceptar</button>
                 </div>--}}
             </div>
         </div>

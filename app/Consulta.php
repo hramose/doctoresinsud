@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class item_hc extends Model
+class Consulta extends Model
 {
 
     protected $table = 'item_hcs';
@@ -21,7 +21,7 @@ class item_hc extends Model
     		
     public function paciente()
     {
-        return $this->belongsTo('App\Paciente', 'id_paciente', 'id');
+        return $this->hasOne('App\Paciente', 'id', 'id_paciente');
     }
 
     public function medico()

@@ -123,9 +123,9 @@ class Paciente extends Model
 
    
 
-    public function Item_hc()
+    public function consultas()
     {
-        return $this->hasMany('App\Item_hc', 'id_paciente', 'id');
+        return $this->hasMany('App\Consulta', 'id_paciente', 'id');
     }
 
     public function tratamientos()

@@ -64,12 +64,18 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 	Route::get('/', 'PanelHistoriasController@index');
 	//Route::get('paciente/{id?}', 'Panel\PanelHistoriasController@verHistoria');
 	Route::get('paciente/{id?}', 'PanelHistoriasController@verHistoria');
+	Route::post('paciente/submitNuevaConsulta', 'PanelHistoriasController@nuevaConsulta');
+	Route::post('paciente/submitEditarConsulta', 'PanelHistoriasController@guardarConsulta');
+	Route::delete('paciente/submitBorrarConsulta', 'PanelHistoriasController@borrarConsulta');
+	Route::get('paciente/{id_p?}/consulta/{id_c?}', 'PanelHistoriasController@editarConsulta');
+	//Route::delete('paciente/{id_p?}/consulta/{id_c?}','PanelHistoriasController@borrarConsulta');
 	//Route::get('paciente/tratamiento/{id?}', 'Panel\PanelHistoriasController@verTratamiento');
 	Route::get('paciente/{id_p?}/tratamiento/{id_t?}', 'PanelHistoriasController@verTratamiento');
 	Route::get('paciente/{id_p?}/tratamientos', 'PanelHistoriasController@verTodosTratamientos');
 	Route::get('paciente/{id_p?}/estudio/{id_e?}', 'PanelHistoriasController@verEstudio');
 	Route::get('paciente/{id_p?}/estudios', 'PanelHistoriasController@verTodosEstudios');
 	Route::get('ajax/hhcc', 'PanelHistoriasController@getHCJson');
+
 });
 
 //-------Fin Front End Historias Clinicas--------------

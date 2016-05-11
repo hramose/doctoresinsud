@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Consulta;
 use App\EstudioPaciente;
 use App\EstudioPacienteValor;
 use App\Tratamiento;
@@ -22,6 +23,69 @@ class PanelHistoriasController extends Controller
         //var_dump($pacientes); die;
         return $pacientes;
     }
+
+    public function nuevaConsulta(Request $request)
+    {
+
+        $consulta = new Consulta(array(
+            'id_usuario' => $request->get('id_usuario'),
+            'id_paciente' => $request->get('id_paciente'),
+            'titulo' => $request->get('titulo'),
+            'descripcion' => $request->get('hidden_descripcion'),
+            'fecha' => date('Y-m-d H:i:s'),
+            'id_sede' => 1
+        ));
+
+        $consulta->save();
+
+        $consulta = Consulta::with('medico', 'sede')->find($consulta->id);
+
+        return json_encode($consulta);
+    }
+
+    /**
+     * Funcion llamada por Ajax para obtener los datos de la consulta que se desea editar.
+     *
+     * @param $id_p
+     * @param $id_c
+     * @return json
+     */
+
+    public function editarConsulta($id_p, $id_c)
+    {
+        $paciente = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre')->where('id', $id_p)->get();
+        $consulta = Consulta::find($id_c);
+
+        return json_encode(compact('paciente', 'consulta'));
+        //return view('panel.consulta.editar', compact('paciente', 'consulta'));
+    }
+
+    public function guardarConsulta(Request $request)
+    {
+        //dd($request);
+        $consulta = Consulta::find($request->get('id_consulta'));
+
+        $consulta->id_usuario = $request->get('id_usuario');
+        $consulta->id_paciente = $request->get('id_paciente_edit');
+        $consulta->titulo = $request->get('titulo_edit');
+        $consulta->descripcion = $request->get('hidden_descripcion_edit');
+
+        $consulta->save();
+
+        return json_encode($consulta);
+    }
+
+
+    public function borrarConsulta(Request $request)
+    {
+        $consulta = Consulta::find($request->get('id_consulta'));
+
+        $consulta->delete();
+
+        return json_encode($request->get('id_consulta'));
+
+    }
+
     /**
      * Funcion para ver historia clinica de un paciente.
      *
@@ -45,7 +109,9 @@ class PanelHistoriasController extends Controller
                         ->take(10)
                         ->get();
 
-        return view('panel.show', compact('paciente', 'tratamientos', 'estudios'));
+        $consultas = $paciente->consultas()->with('medico', 'sede')->orderBy('created_at', 'desc')->get();
+
+        return view('panel.show', compact('paciente', 'tratamientos', 'estudios', 'consultas'));
     }
 
     /**

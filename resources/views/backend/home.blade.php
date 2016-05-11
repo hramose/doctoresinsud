@@ -59,7 +59,7 @@
                 -->
 
                 <!-- sedes -->
-{{--                <div class="list-group-separator"></div>
+                <div class="list-group-separator"></div>
                 <div class="list-group-item">
                     <div class="row-action-primary">
                         <i class="mdi-maps-store-mall-directory"></i>
@@ -71,7 +71,7 @@
                         <a href="/admin/sedes/create" class="btn btn-primary btn-raised">Nueva Sede</a>
                     </div>
                 </div>
-                <!-- sedes -->--}}
+                <!-- sedes -->
                 
                 <!-- pacientes -->
                 <div class="list-group-separator"></div>
