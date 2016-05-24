@@ -15,13 +15,14 @@
             @if ($camposBase->isEmpty())
                 <p> No hay campos base creados.</p>
             @else
-                <table class="table" id="myTable">
+                <table class="table" id="myTableCamposBase">
                     <thead>
                     <tr>
                         <th>Nombre</th>
                         <th>Descripción</th>
                         <th>Tipo</th>
                         <th>Unidad</th>
+                        <th>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -31,6 +32,7 @@
                             <td>{!! $campoBase->descripcion !!}</td>
                             <td>{!! $campoBase->tipo !!}</td>
                             <td>{!! $campoBase->unidad !!}</td>
+                            <td><a href="{!! action('Admin\CamposBaseController@edit', $campoBase->id) !!}" class="btn btn-sm btn-primary">Editar</a></td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -44,4 +46,17 @@
             
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#myTableCamposBase').DataTable( {
+                "language": {
+                    "url": "../../lang/datatables_es.json"
+                }
+            });
+
+        });
+    </script>
 @endsection

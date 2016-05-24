@@ -74,7 +74,7 @@
                 <!-- sedes -->
                 
                 <!-- pacientes -->
-                <div class="list-group-separator"></div>
+{{--                <div class="list-group-separator"></div>
                 <div class="list-group-item">
                     <div class="row-action-primary">
                         <i class="mdi-social-group"></i>
@@ -85,7 +85,7 @@
                         <a href="/admin/pacientes" class="btn btn-default btn-raised">Mostrar Todos</a>
                         <a href="/admin/pacientes/create" class="btn btn-primary btn-raised">Nuevo Paciente</a>
                     </div>
-                </div>
+                </div>--}}
                 <!-- pacientes -->
             </div>
         </div>  <!-- Col-md -->
@@ -170,7 +170,7 @@
                 <!-- Estudios -->
 
                 <!-- Tratamientos -->
-                <div class="list-group-separator"></div>
+{{--                <div class="list-group-separator"></div>
                 <div class="list-group-item">
                     <div class="row-action-primary">
                         <i class="material-icons">local_hospital</i>
@@ -181,7 +181,7 @@
                         <a href="/admin/tratamientos" class="btn btn-default btn-raised">Mostrar Todos</a>
                         <a href="/admin/tratamientos/create" class="btn btn-primary btn-raised">Nuevo tratamiento</a>
                     </div>
-                </div>
+                </div>--}}
                 <!-- tratamientos -->
 
             </div>

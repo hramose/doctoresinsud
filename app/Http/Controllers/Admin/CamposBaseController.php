@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\TipoDato;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -80,7 +81,15 @@ class CamposBaseController extends Controller
      */
     public function edit($id)
     {
-        //
+        //Muestra pantalla para editar un campo base
+        
+        $campoBase = CampoBase::find($id);
+        $unidadesMedida = UnidadMedida::all();
+        $tiposDatos = TipoDato::all();
+        
+        return view('backend.estudios.camposBase.edit', compact('campoBase', 'unidadesMedida', 'tiposDatos'));
+        
+        
     }
 
     /**
@@ -92,7 +101,19 @@ class CamposBaseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //Actualiza un campo base
+        $campoBase = CampoBase::find($id);
+        $campoBase->nombre = $request->get('nombre');
+        $campoBase->descripcion = $request->get('descripcion'); 
+        $campoBase->tipo = $request->get('tipo');
+        $campoBase->id_unidad = $request->get('id_unidad'); 
+        $campoBase->ref_min = $request->get('ref_min');
+        $campoBase->ref_max = $request->get('ref_max');
+
+        $campoBase->save();
+
+        return redirect(action('Admin\CamposBaseController@index'))->with('status', 'El campo ha sido actualizado');
+
     }
 
     /**

@@ -3,9 +3,9 @@
 
 @section('content')
 
-    <div class="header">
+{{--    <div class="header">
         <h2>Panel de Historias Clínicas</h2>
-    </div>
+    </div>--}}
 
     <div class="container">
         <div class="row banner">
@@ -16,7 +16,7 @@
                     Ambiente de desarrollo
                 </h1>
 
-                <h3 class="text-center margin-top-100 editContent">{!! trans('main.subtitle') !!}</h3>
+               {{-- <h3 class="text-center margin-top-100 editContent">{!! trans('main.subtitle') !!}</h3>--}}
 
             </div>
 

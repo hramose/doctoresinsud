@@ -1,5 +1,5 @@
 @extends('master')
-@section('title', 'Crea un nuevo Estudio')
+@section('title', 'Editar Estudio')
 
 @section('content')
 
@@ -45,7 +45,9 @@
 
                     <div class="form-group">
                         <div class="col-lg-10 col-lg-offset-2">
-                            <button type="reset" class="btn btn-default">Cancelar</button>
+                            {{--<button type="reset">--}}
+                                <a class="btn btn-default" href="{{ URL::previous() }}">Cancelar</a>
+                            {{--</button>--}}
                             <button type="submit" class="btn btn-primary">Actualizar</button>
                         </div>
                     </div>

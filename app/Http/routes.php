@@ -64,6 +64,9 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 	Route::get('/', 'PanelHistoriasController@index');
 	//Route::get('paciente/{id?}', 'Panel\PanelHistoriasController@verHistoria');
 	Route::get('paciente/{id?}', 'PanelHistoriasController@verHistoria');
+	Route::get('paciente/{id?}/editar', 'PanelHistoriasController@edit');
+	Route::post('paciente/{id?}/editar', 'PanelHistoriasController@update');
+
 	Route::post('paciente/submitNuevaConsulta', 'PanelHistoriasController@nuevaConsulta');
 	Route::post('paciente/submitEditarConsulta', 'PanelHistoriasController@guardarConsulta');
 	Route::delete('paciente/submitBorrarConsulta', 'PanelHistoriasController@borrarConsulta');
@@ -114,12 +117,12 @@ Route::group(array('prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=> 'mana
 	Route::post('sedes/{id?}/edit', 'SedesController@update');
 
 	//pacientes
-	Route::get('pacientes', 'PacientesController@index');
+/*	Route::get('pacientes', 'PacientesController@index');
 	Route::get('pacientes/create', 'PacientesController@create');
 	Route::post('pacientes/create', 'PacientesController@store');
 	Route::get('pacientes/{id?}/edit', 'PacientesController@edit');
 	Route::post('pacientes/{id?}/edit', 'PacientesController@update');
-	Route::get('pacientes/{id?}/show', 'PacientesController@show');
+	Route::get('pacientes/{id?}/show', 'PacientesController@show');*/
 
 	//items historia clinica
 	Route::get('items', 'HistoriasClinicasController@index');

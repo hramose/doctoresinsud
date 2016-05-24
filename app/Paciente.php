@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Paciente extends Model
 {
+    protected $dateFormat = 'Y-m-d';
+
     protected $dates = ['fecha_nac',
                         'fecha_alta',
                         'proxima_cita',

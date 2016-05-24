@@ -12,6 +12,9 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Paciente;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use Carbon\Carbon;
+use App\Http\Requests\editHistoriaRequest;
 
 class PanelHistoriasController extends Controller
 {
@@ -169,7 +172,6 @@ class PanelHistoriasController extends Controller
 
     public function verTratamiento($id_p, $id_t)
     {
-        //TODO: Desarrollar función para ver un tratamiento.
         $paciente = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre')->where('id', $id_p)->get();
         $tratamiento = Tratamiento::find($id_t);
 
@@ -229,7 +231,9 @@ class PanelHistoriasController extends Controller
      */
     public function edit($id)
     {
-        //
+        //TODO: Desarrollar función para editar una historia clínica
+        $paciente = Paciente::find($id);
+        return view('panel.edit', compact('paciente'));
     }
 
     /**
@@ -239,9 +243,99 @@ class PanelHistoriasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(editHistoriaRequest $request, $id)
     {
-        //
+        //TODO: Desarrollar función para actualizar una historia clínica
+        //dd(Carbon::createFromFormat('d/m/Y',trim($request->get('fecha_alta')))->format('Y-m-d'));
+        dd($request);
+        $paciente = Paciente::find($id);
+
+        $paciente->tipo_doc = $request->get('tipo_doc');
+        $paciente->numero_doc = $request->get('numero_doc');
+        $paciente->fecha_nac = Carbon::createFromFormat('d/m/Y',trim($request->get('fecha_nac')))->format('Y-m-d');
+        $paciente->fecha_alta = Carbon::createFromFormat('d/m/Y',trim($request->get('fecha_alta')))->format('Y-m-d');
+        $paciente->fecha_ult_consulta = Carbon::createFromFormat('d/m/Y',trim($request->get('fecha_ult_consulta')))->format('Y-m-d');
+        $paciente->proxima_cita = Carbon::createFromFormat('d/m/Y',trim($request->get('proxima_cita')))->format('Y-m-d');
+        $paciente->ecg = $request->get('ecg');
+        $paciente->tipo_ecg = $request->get('tipo_ecg');
+        $paciente->nuevos_cambios_ecg = $request->get('nuevos_cambios_ecg');
+        $paciente->fecha_cambios_ecg = Carbon::createFromFormat('d/m/Y',trim($request->get('fecha_cambios_ecg')))->format('Y-m-d');
+        $paciente->tipo_cambio_ecg = $request->get('tipo_cambio_ecg');
+        $paciente->obs_ecg = $request->get('obs_ecg');
+        $paciente->grupo_clinico_ing = $request->get('grupo_clinico_ing');
+        $paciente->cambio_grupo_cli = $request->get('cambio_grupo_cli');
+        $paciente->fecha_cambio_gcli = Carbon::createFromFormat('d/m/Y',trim($request->get('fecha_cambio_gcli')))->format('Y-m-d');
+        $paciente->nuevo_grupo_cli = $request->get('nuevo_grupo_cli');
+        $paciente->causa_muerte = $request->get('causa_muerte');
+        $paciente->trat_bnz = $request->get('trat_bnz') == 'on' ? 2 : 1;
+        $paciente->efectos_adv_bnz = $request->get('efectos_adv_bnz') == 'on' ? 2 : 1;
+        $paciente->efec_rash_bnz = $request->get('efec_rash_bnz') == 'on' ? 2 : 1;
+        $paciente->efec_intgas_bnz = $request->get('efec_intgas_bnz') == 'on' ? 2 : 1;
+        $paciente->efec_afhep_bnz = $request->get('efec_afhep_bnz') == 'on' ? 2 : 1;
+        $paciente->efec_afneur_bnz = $request->get('efec_afneur_bnz') == 'on' ? 2 : 1;
+        $paciente->efec_afhem_bnz = $request->get('efec_afhem_bnz') == 'on' ? 2 : 1;
+        $paciente->susp_bnz = $request->get('susp_bnz') == 'on' ? 2 : 1;
+        $paciente->fecha_ini_trat_bnz = Carbon::createFromFormat('d/m/Y',trim($request->get('fecha_ini_trat_bnz')))->format('Y-m-d');
+        $paciente->efec_otros_bnz = $request->get('efec_otros_bnz');
+        $paciente->trat_nifur = $request->get('trat_nifur') == 'on' ? 2 : 1;
+        $paciente->efectos_adv_nifur = $request->get('efectos_adv_nifur') == 'on' ? 2 : 1;
+        $paciente->efec_rash_nifur = $request->get('efec_rash_nifur') == 'on' ? 2 : 1;
+        $paciente->efec_intgas_nifur = $request->get('efec_intgas_nifur') == 'on' ? 2 : 1;
+        $paciente->efec_afhep_nifur = $request->get('efec_afhep_nifur') == 'on' ? 2 : 1;
+        $paciente->efec_afneur_nifur = $request->get('efec_afneur_nifur') == 'on' ? 2 : 1;
+        $paciente->efec_afhem_nifur = $request->get('efec_afhem_nifur') == 'on' ? 2 : 1;
+        $paciente->susp_nifur = $request->get('susp_nifur') == 'on' ? 2 : 1;
+        $paciente->fecha_ini_trat_nifur = Carbon::createFromFormat('d/m/Y',trim($request->get('fecha_ini_trat_nifur')))->format('Y-m-d');
+        $paciente->efec_otros_nifur = $request->get('efec_otros_nifur');
+        $paciente->sin_patologia = $request->get('sin_patologia') == 'on' ? 2 : 1;
+        $paciente->tuberculosis = $request->get('tuberculosis') == 'on' ? 2 : 1;
+        $paciente->epoc = $request->get('epoc') == 'on' ? 2 : 1;
+        $paciente->dbt = $request->get('dbt') == 'on' ? 2 : 1;
+        $paciente->asintomatico = $request->get('asintomatico') == 'on' ? 2 : 1;
+        $paciente->palpitaciones = $request->get('palpitaciones') == 'on' ? 2 : 1;
+        $paciente->angor = $request->get('angor') == 'on' ? 2 : 1;
+        $paciente->colageno = $request->get('colageno') == 'on' ? 2 : 1;
+        $paciente->obesidad = $request->get('obesidad') == 'on' ? 2 : 1;
+        $paciente->alcoholismo = $request->get('alcoholismo') == 'on' ? 2 : 1;
+        $paciente->acv = $request->get('acv') == 'on' ? 2 : 1;
+        $paciente->disnea = $request->get('disnea') == 'on' ? 2 : 1;
+        $paciente->disnea1 = $request->get('disnea1') == 'on' ? 2 : 1;
+        $paciente->disnea2 = $request->get('disnea2') == 'on' ? 2 : 1;
+        $paciente->disnea3 = $request->get('disnea3') == 'on' ? 2 : 1;
+        $paciente->disnea4 = $request->get('disnea4') == 'on' ? 2 : 1;
+        $paciente->hipotiroidismo = $request->get('hipotiroidismo') == 'on' ? 2 : 1;
+        $paciente->hipertiroidismo = $request->get('hipertiroidismo') == 'on' ? 2 : 1;
+        $paciente->cardio_congenitas = $request->get('cardio_congenitas') == 'on' ? 2 : 1;
+        $paciente->valvulopatias = $request->get('valvulopatias') == 'on' ? 2 : 1;
+        $paciente->mareos = $request->get('mareos') == 'on' ? 2 : 1;
+        $paciente->cardio_isquemica = $request->get('cardio_isquemica') == 'on' ? 2 : 1;
+        $paciente->ht_arterial_leve = $request->get('ht_arterial_leve') == 'on' ? 2 : 1;
+        $paciente->ht_arterial_mode = $request->get('ht_arterial_mode') == 'on' ? 2 : 1;
+        $paciente->ht_arterial_severa = $request->get('ht_arterial_severa') == 'on' ? 2 : 1;
+        $paciente->perdida_conoc = $request->get('perdida_conoc') == 'on' ? 2 : 1;
+        $paciente->insuf_cardiaca = $request->get('insuf_cardiaca') == 'on' ? 2 : 1;
+        $paciente->tipo_insuf_card = $request->get('tipo_insuf_card');
+        $paciente->trat_etio_obs = $request->get('trat_etio_obs');
+        $paciente->otras_pat_asoc = $request->get('otras_pat_asoc');
+        $paciente->otros_sintomas_ing = $request->get('otros_sintomas_ing');
+        $paciente->nuevos_sintomas = $request->get('nuevos_sintomas') == 'S' ? 'S' : 'N';
+        $paciente->obs_sintomas = $request->get('obs_sintomas');
+        $paciente->tres_negativas = $request->get('tres_negativas') == 'on' ? 2 : 1;
+        $paciente->serologia_ing = $request->get('serologia_ing');
+        $paciente->titulos_sero_ing = $request->get('titulos_sero_ing');
+        $paciente->trat_etio = $request->get('trat_etio') == 'S' ? 'S' : 'N';
+        $paciente->fecha_rx_torax = Carbon::createFromFormat('d/m/Y',trim($request->get('fecha_rx_torax')))->format('Y-m-d');
+        $paciente->rx_torax = $request->get('rx_torax') == 'S' ? 'S' : 'N';
+        $paciente->indice_cardiotorax = $request->get('indice_cardiotorax');
+        $paciente->obs_rxt = $request->get('obs_rxt');
+        $paciente->cambios_rxt = $request->get('cambios_rxt') == 'S' ? 'S' : 'N';
+        $paciente->fecha_cambios_rxt = Carbon::createFromFormat('d/m/Y',trim($request->get('fecha_cambios_rxt')))->format('Y-m-d');
+        $paciente->nueva_rxt = $request->get('nueva_rxt');
+        $paciente->evolucion = $request->get('evolucion');
+
+        $paciente->save();
+        return redirect()->action('Panel\PanelHistoriasController@verHistoria', $paciente->id)->with('status', 'Historia clínica editada correctamente.');
+        //return view('panel.show', compact('paciente'))->with('status', 'Historia clínica editada correctamente.');
     }
 
     /**

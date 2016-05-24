@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="/css/jquery-ui.min.css">
     <link rel="stylesheet" href="/css/chosen.css">
+    <link href="/css/toastr.min.css" rel="stylesheet"/>
     @yield('estilos')
     
 
@@ -33,6 +34,8 @@
 <script src="/js/moment.min.js"></script>
 <script src="/js/chosen.jquery.js"></script>
 <script src="/js/form-validator/jquery.form-validator.min.js"></script>
+<script src="/js/toastr.min.js"></script>
+<script src="/js/jquery.ui.datepicker-es.js"></script>
 <script>
     $(document).ready(function() {
         // This command is used to initialize some elements and make them work properly

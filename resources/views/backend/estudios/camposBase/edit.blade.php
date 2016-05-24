@@ -1,5 +1,5 @@
 @extends('master')
-@section('title', 'Crea un nuevo campo base')
+@section('title', 'Editar campo base')
 
 @section('content')
     <div class="container col-md-8 col-md-offset-2">
@@ -20,18 +20,18 @@
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}">
 
                 <fieldset>
-                    <legend>Crea un nuevo campo base</legend>
+                    <legend>Editar campo base</legend>
                     <div class="form-group">
                         <label for="nombre" class="col-lg-2 control-label">Nombre</label>
                         <div class="col-lg-10">
-                            <input type="nombre" class="form-control" id="nombre" name="nombre">
+                            <input type="nombre" class="form-control" id="nombre" name="nombre" value="{!! $campoBase->nombre !!}">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="descripcion" class="col-lg-2 control-label">Descripción</label>
                         <div class="col-lg-10">
-                            <input type="descripcion" class="form-control" id="descripcion" name="descripcion">
+                            <input type="descripcion" class="form-control" id="descripcion" name="descripcion" value="{!! $campoBase->descripcion !!}">
                         </div>
                     </div>
 
@@ -40,10 +40,11 @@
                         <div class="col-lg-10">
                             {{--<input type="tipo" class="form-control" id="tipo" name="tipo">--}}
                             <select class="form-control" name="tipo" id="tipo">
-                                <option value="texto">Texto</option>
-                                <option value="número entero">Número Entero</option>
-                                <option value="número con decimales">Número con Decimales</option>
-                                <option value="Verdadero/Falso">Verdadero/Falso</option>
+                                @foreach($tiposDatos as $tipoDato)
+                                    <option value="{!! $tipoDato->tipo !!}" @if($tipoDato->tipo == $campoBase->tipo) selected @endif>
+                                        {!! $tipoDato->tipo !!}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -55,7 +56,7 @@
                                 <option value="" id="vacio"></option>
                                 
                                 @foreach($unidadesMedida as $unidadMedida)
-                                <option value="{!! $unidadMedida->id !!}">
+                                <option value="{!! $unidadMedida->id !!}" @if($unidadMedida->id == $campoBase->id_unidad) selected @endif>
                                     {!! $unidadMedida->unidad !!}
                                 </option>
                                 @endforeach
@@ -65,20 +66,20 @@
                     <div class="form-group">
                         <label for="ref_min" class="col-lg-2 control-label">Valor de Referencia Mínimo</label>
                         <div class="col-lg-10">
-                            <input type="ref_min" class="form-control" id="ref_min" name="ref_min">
+                            <input type="ref_min" class="form-control" id="ref_min" name="ref_min" value="{!! $campoBase->ref_min !!}">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="ref_max" class="col-lg-2 control-label">Valor de Referencia Máximo</label>
                         <div class="col-lg-10">
-                            <input type="ref_max" class="form-control" id="ref_max" name="ref_max">
+                            <input type="ref_max" class="form-control" id="ref_max" name="ref_max" value="{!! $campoBase->ref_max !!}">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-lg-10 col-lg-offset-2">
                             <button type="reset" class="btn btn-default">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
                         </div>
                     </div>
                 </fieldset>

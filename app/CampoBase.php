@@ -23,6 +23,11 @@ class CampoBase extends Model
     	return $this->hasOne('App\UnidadMedida', 'id', 'id_unidad');
     }
 
+/*    public function tipoDato()
+    {
+        return $this->hasOne('App\TipoDato', 'id', 'id_unidad');
+    }*/
+
     public function Estudios()
     {
         return $this->belongsToMany('App\Estudio', 'camposbase_estudios')->withPivot('campo_base_id','estudio_id');
