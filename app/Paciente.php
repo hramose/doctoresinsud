@@ -2,11 +2,15 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Mockery\CountValidator\Exception;
 
 class Paciente extends Model
 {
-    protected $dateFormat = 'Y-m-d';
+    //protected $dateFormat = 'Y-m-d';
+
+    protected $casts = ['id_hc' => 'integer'];
 
     protected $dates = ['fecha_nac',
                         'fecha_alta',
@@ -138,6 +142,166 @@ class Paciente extends Model
     public function estudioPacientes()
     {   
         return $this->hasMany('App\EstudioPaciente', 'id_hc', 'id');
+    }
+
+/*    public function setidHcAttribute($value)
+    {
+        if (is_numeric($value)) {
+            $this->attributes['id_hc'] = $value;
+        } else {
+            throw new Exception('El valor ' . $value . 'no es numerico. No se puede asignar a pacientes.id_hc');
+        }
+    }*/
+
+    public function setFechaNacAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['fecha_nac'] = Carbon::createFromFormat('d/m/Y', trim($value))->format('Y-m-d');
+        } else {
+            $this->attributes['fecha_nac'] = null;
+        }
+    }
+
+    public function setFechaAltaAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['fecha_alta'] = Carbon::createFromFormat('d/m/Y', trim($value))->format('Y-m-d');
+        } else {
+            $this->attributes['fecha_alta'] = null;
+        }
+    }
+
+    public function setFechaUltConsultaAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['fecha_ult_consulta'] = Carbon::createFromFormat('d/m/Y', trim($value))->format('Y-m-d');
+        } else {
+            $this->attributes['fecha_ult_consulta'] = null;
+        }
+    }
+
+    public function setFechaCambioGcliAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['fecha_cambio_gcli'] = Carbon::createFromFormat('d/m/Y', trim($value))->format('Y-m-d');
+        } else {
+            $this->attributes['fecha_cambio_gcli'] = null;
+        }
+    }
+
+    public function setProximaCitaAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['proxima_cita'] = Carbon::createFromFormat('d/m/Y', trim($value))->format('Y-m-d');
+        } else {
+            $this->attributes['proxima_cita'] = null;
+        }
+
+    }
+
+    public function setFechaCambiosEcgAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['fecha_cambios_ecg'] = Carbon::createFromFormat('d/m/Y',trim($value))->format('Y-m-d');
+        } else {
+            $this->attributes['fecha_cambios_ecg'] = null;
+        }
+    }
+
+    public function setFechaIniTratBnzAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['fecha_ini_trat_bnz'] = Carbon::createFromFormat('d/m/Y',trim($value))->format('Y-m-d');
+        } else {
+            $this->attributes['fecha_ini_trat_bnz'] = null;
+        }
+    }
+
+    public function setFechaIniTratNifurAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['fecha_ini_trat_nifur'] = Carbon::createFromFormat('d/m/Y',trim($value))->format('Y-m-d');
+        } else {
+            $this->attributes['fecha_ini_trat_nifur'] = null;
+        }
+    }
+
+    public function setFechaRxToraxAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['fecha_rx_torax'] = Carbon::createFromFormat('d/m/Y',trim($value))->format('Y-m-d');
+        } else {
+            $this->attributes['fecha_rx_torax'] = null;
+        }
+    }
+
+    public function setFechaCambiosRxtAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['fecha_cambios_rxt'] = Carbon::createFromFormat('d/m/Y',trim($value))->format('Y-m-d');
+        } else {
+            $this->attributes['fecha_cambios_rxt'] = null;
+        }
+    }
+
+    public function getNombreAttribute($value)
+    {
+        return ucwords(mb_strtolower($value));
+    }
+
+    public function getApellidoAttribute($value)
+    {
+        return ucwords(mb_strtolower($value));
+    }
+
+    public function getProximaCitaAttribute($value)
+    {
+        return  in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
+    }
+
+    public function getFechaIniTratNifurAttribute($value)
+    {
+        return  in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
+    }
+
+    public function getFechaCambiosRxtAttribute($value)
+    {
+        return in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
+    }
+
+    public function getFechaAltaAttribute($value)
+    {
+        return in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
+    }
+
+    public function getFechaIniTratBnzAttribute($value)
+    {
+        return in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
+    }
+
+    public function getFechaCambiosEcgAttribute($value)
+    {
+        return in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
+    }
+
+    public function getFechaRxToraxAttribute($value)
+    {
+        return in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
+    }
+
+    public function getFechaNacAttribute($value)
+    {
+        return in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
+    }
+
+    public function getFechaUltConsultaAttribute($value)
+    {
+        return in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
+    }
+
+    public function getFechaCambioGcliAttribute($value)
+    {
+        return in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
     }
 
     //  public function saveMedico($user)

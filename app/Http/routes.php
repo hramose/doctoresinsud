@@ -63,9 +63,17 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 	/*Route::get('/', 'Panel\PanelHistoriasController@index');*/
 	Route::get('/', 'PanelHistoriasController@index');
 	//Route::get('paciente/{id?}', 'Panel\PanelHistoriasController@verHistoria');
-	Route::get('paciente/{id?}', 'PanelHistoriasController@verHistoria');
+
+	//Crear nueva historia clinica
+	Route::get('paciente/crear', 'PanelHistoriasController@create');
+	Route::post('paciente/crear', 'PanelHistoriasController@store');
+
+	//Editar historia clinica
 	Route::get('paciente/{id?}/editar', 'PanelHistoriasController@edit');
 	Route::post('paciente/{id?}/editar', 'PanelHistoriasController@update');
+
+	//Ver historia clinica
+	Route::get('paciente/{id?}', 'PanelHistoriasController@verHistoria');
 
 	Route::post('paciente/submitNuevaConsulta', 'PanelHistoriasController@nuevaConsulta');
 	Route::post('paciente/submitEditarConsulta', 'PanelHistoriasController@guardarConsulta');

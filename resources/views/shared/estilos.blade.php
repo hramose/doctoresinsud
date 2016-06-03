@@ -39,6 +39,10 @@
 		/* prevent horizontal scrollbar */
 		overflow-x: hidden;
 	}
+	textarea {
+		/*max-width: 100%;*/
+		resize: none;
+	}
 
 </style>
 

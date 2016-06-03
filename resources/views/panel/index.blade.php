@@ -15,7 +15,7 @@
             <h2 class="text-center" style="border-radius: 0">Panel de Historias Clínicas</h2>
         </div>
         <div class="panel-body">
-            <a href="#" class="btn btn-info">Cargar nueva Historia Clínica</a>
+            <a href="{!! action('Panel\PanelHistoriasController@create') !!}" class="btn btn-info">Cargar nueva Historia Clínica</a>
         </div>
     </div>
 
