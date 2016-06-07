@@ -40,6 +40,13 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label for="dosis" class="col-lg-2 control-label">Dosis</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="dosis" name="dosis"
+                               value=" {!! $tratamiento->dosis !!}" readonly>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="fecha_trat" class="col-lg-2 control-label">Fecha</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control" id="fecha_trat" name="fecha_trat"

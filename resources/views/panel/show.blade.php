@@ -1303,7 +1303,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-6 col-centered" style="margin-left: 30px;">
-                    <a href="javascript:void(0)" class="btn btn-raised btn-success">Agregar nuevo tratamiento</a>
+                    <a href="{!! action('Panel\TratamientosController@create', $paciente->id) !!}" class="btn btn-raised btn-success">Agregar nuevo tratamiento</a>
                 </div>
             </div>
             <div class="row">

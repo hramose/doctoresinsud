@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Tratamiento extends Model
 {
@@ -17,9 +18,22 @@ class Tratamiento extends Model
 
 	protected $dates = ['fecha_trat',];
 
-public function paciente()
-{
-	return $this->hasOne('App\Paciente', 'id');
-}
-   
+	public function paciente()
+	{
+		return $this->hasOne('App\Paciente', 'id');
+	}
+
+	public function setFechaTratAttribute($value)
+	{
+		if ($value) {
+			$this->attributes['fecha_trat'] = Carbon::createFromFormat('d/m/Y', trim($value))->format('Y-m-d');
+		} else {
+			$this->attributes['fecha_trat'] = null;
+		}
+	}
+
+	public function getFechaTratAttribute($value)
+	{
+		return  in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
+	}
 }
