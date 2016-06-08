@@ -44,6 +44,14 @@
 		resize: none;
 	}
 
+/*	#pbody-trat {
+		width: 100%;
+	}
+
+	#modal-tratamientos {
+		width: 100%;
+	}*/
+
 </style>
 
 @endsection

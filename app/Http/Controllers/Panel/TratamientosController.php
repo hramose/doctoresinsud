@@ -29,7 +29,7 @@ class TratamientosController extends Controller
      */
     public function create($id_p)
     {
-        //TODO: Para crear un nuevo tratamiento, muestra la vista de creación
+        //Para crear un nuevo tratamiento, muestra la vista de creación
         $paciente = Paciente::find($id_p);
 
         return view('panel.tratamientos.create', compact('paciente'));
@@ -65,9 +65,13 @@ class TratamientosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function showForDelete($id_p, $id_t)
     {
-        //
+        //Mostrar vista para eliminar un tratamiento
+        $paciente = Paciente::find($id_p);
+        $tratamiento = Tratamiento::find($id_t);
+
+        return view('panel.tratamientos.delete', compact('paciente', 'tratamiento'));
     }
 
     /**
@@ -76,9 +80,14 @@ class TratamientosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id_p, $id_t)
     {
-        //
+        //Mostrar vista para editar un tratamiento
+        $paciente = Paciente::find($id_p);
+        $tratamiento = Tratamiento::find($id_t);
+
+        return view('panel.tratamientos.edit', compact('paciente', 'tratamiento'));
+
     }
 
     /**
@@ -88,9 +97,21 @@ class TratamientosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TratamientoFormRequest $request, $id_p, $id_t)
     {
-        //
+        //Actualizar un tratamiento
+        $tratamiento = Tratamiento::find($id_t);
+
+        $tratamiento->droga = $request->get('droga');
+        $tratamiento->dosis = $request->get('dosis');
+        $tratamiento->flia_droga = $request->get('flia_droga');
+        $tratamiento->fecha_trat = $request->get('fecha_trat');
+        $tratamiento->obs_trat = $request->get('obs_trat');
+        //$tratamiento->id_hc = $request->get('id_hc');
+
+        $tratamiento->save();
+
+        return redirect()->action('Panel\PanelHistoriasController@verHistoria', $id_p)->with('status', 'Tratamiento modificado correctamente');
     }
 
     /**
@@ -99,8 +120,13 @@ class TratamientosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_p, $id_t)
     {
-        //
+        //Eliminar un tratamiento
+        $tratamiento = Tratamiento::find($id_t);
+
+        $tratamiento->delete();
+
+        return redirect()->action('Panel\PanelHistoriasController@verHistoria', $id_p)->with('status', 'Tratamiento eliminado correctamente');
     }
 }

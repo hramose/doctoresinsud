@@ -83,13 +83,36 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 	//Route::get('paciente/tratamiento/{id?}', 'Panel\PanelHistoriasController@verTratamiento');
 
 	//Tratamientos
-	Route::get('paciente/{id_p?}/tratamientos/create', 'TratamientosController@create');
-	Route::post('paciente/{id_p?}/tratamientos/create', 'TratamientosController@store');
+		//Alta
+		Route::get('paciente/{id_p?}/tratamientos/create', 'TratamientosController@create');
+		Route::post('paciente/{id_p?}/tratamientos/create', 'TratamientosController@store');
+		//Modificación
+		Route::get('paciente/{id_p?}/tratamientos/{id_t?}/edit', 'TratamientosController@edit');
+		Route::post('paciente/{id_p?}/tratamientos/{id_t?}/edit', 'TratamientosController@update');
+		//Baja
+		Route::get('paciente/{id_p?}/tratamientos/{id_t?}/delete', 'TratamientosController@showForDelete');
+		Route::post('paciente/{id_p?}/tratamientos/{id_t?}/delete', 'TratamientosController@destroy');
+		//Consulta
+		Route::get('paciente/{id_p?}/tratamiento/{id_t?}', 'PanelHistoriasController@verTratamiento');
+		//Consulta todos
+		Route::get('paciente/{id_p?}/tratamientos', 'PanelHistoriasController@verTodosTratamientos');
+	//Fin Tratamientos
 
-	Route::get('paciente/{id_p?}/tratamiento/{id_t?}', 'PanelHistoriasController@verTratamiento');
-	Route::get('paciente/{id_p?}/tratamientos', 'PanelHistoriasController@verTodosTratamientos');
-	Route::get('paciente/{id_p?}/estudio/{id_e?}', 'PanelHistoriasController@verEstudio');
-	Route::get('paciente/{id_p?}/estudios', 'PanelHistoriasController@verTodosEstudios');
+	//Estudios
+		//Alta
+		Route::get('paciente/{id_p?}/estudios/create', 'EstudiosController@create'); //TODO: Falta hacer
+		Route::post('paciente/{id_p?}/estudios/create', 'EstudiosController@store'); //TODO: Falta hacer
+		//Modificación
+		Route::get('paciente/{id_p?}/estudios/{id_e?}/edit', 'EstudiosController@edit'); //TODO: Falta hacer
+		Route::post('paciente/{id_p?}/estudios/{id_e?}/edit', 'EstudiosController@update'); //TODO: Falta hacer
+		//Baja
+		Route::get('paciente/{id_p?}/estudios/{id_t?}/delete', 'EstudiosController@showForDelete'); //TODO: Falta hacer
+		Route::post('paciente/{id_p?}/estudios/{id_t?}/delete', 'EstudiosController@destroy'); //TODO: Falta hacer
+		//Consulta
+		Route::get('paciente/{id_p?}/estudio/{id_e?}', 'PanelHistoriasController@verEstudio');
+		//Consulta todos
+		Route::get('paciente/{id_p?}/estudios', 'PanelHistoriasController@verTodosEstudios');
+	//Fin Estudios
 	Route::get('ajax/hhcc', 'PanelHistoriasController@getHCJson');
 
 });
