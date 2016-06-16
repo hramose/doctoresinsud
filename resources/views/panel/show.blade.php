@@ -1422,7 +1422,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-6 col-centered" style="margin-left: 65px;">
-                        <a href="javascript:void(0)" class="btn btn-raised btn-success">Agregar nuevo estudio</a>
+                        <a href="{!! action('Panel\EstudiosController@create', $paciente->id) !!}" class="btn btn-raised btn-success">Agregar nuevo estudio</a>
                     </div>
                 </div>
                 <div class="row">

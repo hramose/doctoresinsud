@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Estudio;
+use App\EstudioPaciente;
+use App\EstudioPacienteValor;
+use App\Paciente;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -19,14 +23,30 @@ class EstudiosController extends Controller
         //
     }*/
 
+    public function getCamposByEstudio($id)
+    {
+        $estudio = Estudio::find($id);
+
+        $campos = $estudio->camposBase()->with('UnidadMedida')->get();
+
+        //dd(json_encode($campos));
+        return json_encode($campos);
+
+
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id_p)
     {
         //TODO: Muestra vista para dar de alta un nuevo estudio. Tiene en cuenta selección de estudio a realizar dinámicamente
+        $paciente = Paciente::find($id_p);
+        $estudios = Estudio::all();
+
+        return view('panel.estudios.create', compact('paciente','estudios'));
     }
 
     /**
@@ -35,9 +55,29 @@ class EstudiosController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($id_p, Request $request)
     {
         //TODO: Graba en la base de datos el estudio recién cargado
+        //dd($request);
+        $estudioPaciente = new EstudioPaciente();
+        $estudioPaciente->id_hc = $id_p;//$request->get('id_hc');
+        $estudioPaciente->fecha = $request->get('fecha');
+        $estudioPaciente->id_estudio = $request->get('id_estudio');
+        $estudioPaciente->titulo = $request->get('titulo');
+        $estudioPaciente->descripcion = $request->get('estudio_desc');
+
+        $estudioPaciente->save();
+
+        foreach($request->get('campos') as $campo){
+            $valor = new EstudioPacienteValor();
+            $valor->campos_base_id = $campo['id_campo_base'];
+            $valor->estudios_pacientes_id = $estudioPaciente->id;
+            $valor->valor = $campo['valor'];
+            $valor->obs = $campo['obs'];
+            $valor->save();
+        }
+
+        return redirect()->action('Panel\PanelHistoriasController@verHistoria', $id_p)->with('status', 'Estudio cargado correctamente');
     }
 
     /**

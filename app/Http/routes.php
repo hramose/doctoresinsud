@@ -54,6 +54,13 @@ Route::get('users/logout', 'Auth\AuthController@getLogout');
 Route::get('users/login', 'Auth\AuthController@getLogin');
 Route::post('users/login', 'Auth\AuthController@postLogin');
 
+//Prueba
+Route::get('/testvue', 'PagesController@vue');
+Route::get('/testvue_suscripcion', 'PagesController@vueSuscription');
+Route::get('/testvue_lists', 'PagesController@vueLists');
+//API
+Route::get('api/estudios/{id_e}', 'Panel\EstudiosController@getCamposByEstudio');
+//Fin prueba
 
 //-----------------------Fin Autenticación-----------------------------
 
@@ -100,7 +107,7 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 
 	//Estudios
 		//Alta
-		Route::get('paciente/{id_p?}/estudios/create', 'EstudiosController@create'); //TODO: Falta hacer
+		Route::get('paciente/{id_p?}/estudios/create', 'EstudiosController@create'); 
 		Route::post('paciente/{id_p?}/estudios/create', 'EstudiosController@store'); //TODO: Falta hacer
 		//Modificación
 		Route::get('paciente/{id_p?}/estudios/{id_e?}/edit', 'EstudiosController@edit'); //TODO: Falta hacer
@@ -112,7 +119,9 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 		Route::get('paciente/{id_p?}/estudio/{id_e?}', 'PanelHistoriasController@verEstudio');
 		//Consulta todos
 		Route::get('paciente/{id_p?}/estudios', 'PanelHistoriasController@verTodosEstudios');
+
 	//Fin Estudios
+	//Route::get('ajax/estudio/{id}', 'EstudiosController@getEstudioJson');
 	Route::get('ajax/hhcc', 'PanelHistoriasController@getHCJson');
 
 });
