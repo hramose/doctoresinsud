@@ -12,15 +12,33 @@
             $(".datepicker").datepicker();
         });
 
-        /*
-         $('#tipo').change(function (e) {
-         //TODO: 1- borrar datos de datatable
-         dataTable.clear();
-         //TODO: 2- hacer llamada ajax para recuperar campos del tipo de estudio seleccionado
-         $('#myTable').DataTable().ajax.url("panel/ajax/estudio/"+this.val()).load();
-         //TODO: 3- Popular el datatable en el callback de la llamada ajax
-         });
-         */
+
+        Vue.component('myinput',{
+            props: ['campo_id', 'index', 'tipo', 'campo'],
+            computed: {
+                tipoCalc: function () {
+                    console.log(this.tipo);
+                    switch(this.tipo){
+                        case "texto":
+                            return "text";
+                        case "número entero":
+                            return "number";
+                        case "número con decimales":
+                            return "number";
+                        case "Verdadero/Falso":
+                            return "checkbox";
+                    }
+                },
+                step: function () {
+                    if (this.tipo === "número con decimales"){
+                        return "any";
+                    }
+                    return "";
+                }
+            },
+            template: '#input-template'
+        });
+
 
         new Vue({
             el: 'body',
@@ -28,12 +46,6 @@
                 idEstudio: "",
                 listado: []
             },
-            //props: ['listado'],
-            /*computed: {
-              unidad: function () {
-                  if (listado.
-              }  
-            },*/
             methods: {
                 refrescarListado: function () {
                     var vm = this;
@@ -41,6 +53,7 @@
                         this.$http.get(window.location.origin + '/api/estudios/' + vm.idEstudio, function (listado) {
 
                             this.listado = listado;
+
                         });
                     } else {
                         this.listado = [];
@@ -58,8 +71,12 @@
 @endsection
 
 @section('content')
+    <template id="input-template">
+        <input type="@{{ tipoCalc }}" step="@{{ step }}" id="'valor_@{{ campo_id }}" name="campos[@{{index }}][valor]">
+    </template>
+
     <div class="container col-md-8 col-md-offset-2">
-            <form class="form-horizontal" method="post">
+            <form id="form-estudios" class="form-horizontal" method="post">
                 <div class="well well bs-component">
                 @foreach ($errors->all() as $error)
                     <p class="alert alert-danger">{{ $error }}</p>
@@ -81,7 +98,7 @@
                     <div class="form-group">
                         <label for="fecha" class="col-lg-2 control-label">Fecha</label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control datepicker" id="fecha" name="fecha" value="{!! old('fecha') !!}">
+                            <input type="text" class="form-control datepicker" id="fecha" name="fecha" value="{!! old('fecha') !!}" required>
                         </div>
                     </div>
 
@@ -89,21 +106,21 @@
                         <label for="titulo" class="col-lg-2 control-label">Titulo</label>
                         <div class="col-lg-10">
                             <input type="text" class="form-control" id="titulo" name="titulo"
-                                   value="{!! old('titulo') !!}">
+                                   value="{!! old('titulo') !!}" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="estudio_desc" class="col-lg-2 control-label">Descripción</label>
                         <div class="col-lg-10">
                             <input type="text" class="form-control" id="estudio_desc" name="estudio_desc"
-                                   value="{!! old('estudio_desc') !!}">
+                                   value="{!! old('estudio_desc') !!}" required>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="tipo" class="col-lg-2 control-label">Tipo de Estudio</label>
                         <div class="col-lg-10">
-                            <select name="tipo" id="tipo" class="form-control" @change="refrescarListado" v-model="idEstudio">
+                            <select name="tipo" id="tipo" class="form-control" @change="refrescarListado" v-model="idEstudio" required>
                                 <option value=""></option>
                                 @foreach($estudios as $estudio)
                                     <option value="{!! $estudio->id !!}">{!! $estudio->nombre !!}</option>
@@ -136,7 +153,7 @@
                             <th class="text-center">Ref. Max.</th>
                         </tr>
                         </thead>
-                        <tbody v-show="listado.length != 0">
+                        <tbody id="campos" v-show="listado.length != 0">
                         <tr v-for="campo in listado">
                             <td>
                                 <input type="hidden" id="@{{ 'tipo_' + campo.id }}" name="campos[@{{$index }}][tipo]" value="@{{campo.tipo}}">
@@ -144,7 +161,8 @@
                                 <p> @{{ campo.descripcion }}</p>
                             </td>
                             <td>
-                                <input type="text" id="@{{ 'valor_' + campo.id }}" name="campos[@{{$index }}][valor]">
+                                {{--<input type="text" id="@{{ 'valor_' + campo.id }}" name="campos[@{{$index }}][valor]">--}}
+                                <myinput :campo_id="campo.id", :index="$index", :tipo="campo.tipo", :campo="valor"></myinput>
                             </td>
                             <td>
                                 <input type="text" id="@{{ 'obs_' + campo.id }}" name="campos[@{{$index }}][obs]">

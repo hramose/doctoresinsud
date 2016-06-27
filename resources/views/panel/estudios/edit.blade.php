@@ -1,7 +1,17 @@
-@extends('infopage')
+@extends('master')
 
 @section('title')
-    Historia Clínica - {!! $paciente[0]->apellido . "," . $paciente[0]->nombre !!} -  {!! $estudioPaciente->estudio->nombre !!} - {!! \Carbon\Carbon::parse($estudioPaciente->fecha)->format('d/m/Y') !!}
+    Editar estudio - {!! $paciente[0]->apellido . "," . $paciente[0]->nombre !!} -  {!! $estudioPaciente->estudio->nombre !!} - {!! \Carbon\Carbon::parse($estudioPaciente->fecha)->format('d/m/Y') !!}
+@endsection
+
+@section('scripts')
+    <script>
+        $.datepicker.setDefaults($.datepicker.regional['es']);
+
+        $(function() {
+            $(".datepicker").datepicker();
+        });
+    </script>
 @endsection
 
 @section('content')
@@ -9,7 +19,7 @@
         <div class="well well-lg">
             <fieldset>
                 <legend>
-                    Detalle de Estudio
+                    Editar Estudio
                 </legend>
                 <div class="form-group">
                     <label for="hc" class="col-lg-2 control-label">Historia Clínica</label>
@@ -35,23 +45,30 @@
                 <div class="form-group">
                     <label for="fecha" class="col-lg-2 control-label">Fecha</label>
                     <div class="col-lg-10">
-                        <input type="text" class="form-control" id="fecha" name="fecha"
+                        <input type="text" class="form-control datepicker" id="fecha" name="fecha"
                                value=" {!! \Carbon\Carbon::parse($estudioPaciente->fecha)->format('d/m/Y') !!}"
-                               readonly>
+                               required
+                        >
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="titulo" class="col-lg-2 control-label">Titulo</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control" id="titulo" name="titulo"
-                               value=" {!! $estudioPaciente->titulo !!}" readonly>
+                               value=" {!! $estudioPaciente->titulo !!}" required>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="estudio_desc" class="col-lg-2 control-label">Descripción</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control" id="estudio_desc" name="estudio_desc"
-                               value=" {!! $estudioPaciente->descripcion !!}" readonly>
+                               value=" {!! $estudioPaciente->descripcion !!}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <a href="{{ URL::previous() }}" class="btn btn-default">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
                     </div>
                 </div>
             </fieldset>
@@ -71,17 +88,22 @@
                     </tr>
                     </thead>
                     <tbody>
+                    <?php $i = 0; ?>
                     @foreach($estudioPaciente->valores as $valor)
+
                         <tr>
                             <td>{!! $valor->campoBase->descripcion !!}</td>
-                            <td>@if($valor->campoBase->tipo=="número entero"){!! (int) $valor->valor !!}
-                                @elseif($valor->campoBase->tipo=="número con decimales") {!! (float) $valor->valor !!}
-                                @elseif($valor->campoBase->tipo=="Verdadero/Falso") @if($valor->valor=="T" or $valor->valor=="on") Si @else
-                                        No @endif
-                                @else {!! $valor->valor !!}
+                            <td>@if($valor->campoBase->tipo=="número entero")<input type="number" id="valor_{{ $i }}" name=campos[{{ $i }}][valor]" value="{!! (int) $valor->valor !!}">
+                                @elseif($valor->campoBase->tipo=="número con decimales") <input type="number" step="any" id="valor_{{ $i }}" name=campos[{{ $i }}][valor]" value="{!! (float) $valor->valor !!}">
+                                @elseif($valor->campoBase->tipo=="Verdadero/Falso") <input type="checkbox" id="valor_{{ $i }}" name=campos[{{ $i }}][valor]" @if($valor->valor=="T" or $valor->valor=="on") checked @endif>
+                                @else <input type="text" id="valor_{{ $i }}" name=campos[{{ $i }}][valor]" value="{!! $valor->valor !!}">
                                 @endif
                             </td>
-                            <td>{!! $valor->obs !!}</td>
+                            <td>
+                                <input type="text" id="obs_{{ $i }}" name=campos[{{ $i }}][obs]" value="{!! $valor->obs !!}">
+                                <input type="hidden" id="id_valor_{{ $i }}" name="campos[{{ $i }}][id_valor]" value="{!! $valor->id !!}">
+                                <input type="hidden" id="id_campo_base_{{ $i }}" name="campos[{{ $i }}][id_campo_base]" value="{!! $valor->campos_base_id !!}">
+                            </td>
                             <td class="text-center">@if($valor->campoBase->UnidadMedida)
                                     @if($valor->campoBase->tipo == "Verdadero/Falso" or $valor->campoBase->tipo == "texto")
                                         N/A
@@ -104,6 +126,7 @@
                                 @endif
                             </td>
                         </tr>
+                        <?php $i++; ?>
                     @endforeach
                     </tbody>
                 </table>

@@ -108,13 +108,13 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 	//Estudios
 		//Alta
 		Route::get('paciente/{id_p?}/estudios/create', 'EstudiosController@create'); 
-		Route::post('paciente/{id_p?}/estudios/create', 'EstudiosController@store'); //TODO: Falta hacer
+		Route::post('paciente/{id_p?}/estudios/create', 'EstudiosController@store');
 		//Modificación
 		Route::get('paciente/{id_p?}/estudios/{id_e?}/edit', 'EstudiosController@edit'); //TODO: Falta hacer
 		Route::post('paciente/{id_p?}/estudios/{id_e?}/edit', 'EstudiosController@update'); //TODO: Falta hacer
 		//Baja
-		Route::get('paciente/{id_p?}/estudios/{id_t?}/delete', 'EstudiosController@showForDelete'); //TODO: Falta hacer
-		Route::post('paciente/{id_p?}/estudios/{id_t?}/delete', 'EstudiosController@destroy'); //TODO: Falta hacer
+		Route::get('paciente/{id_p?}/estudios/{id_e?}/delete', 'EstudiosController@showForDelete'); //TODO: Falta hacer
+		Route::post('paciente/{id_p?}/estudios/{id_e?}/delete', 'EstudiosController@destroy'); //TODO: Falta hacer
 		//Consulta
 		Route::get('paciente/{id_p?}/estudio/{id_e?}', 'PanelHistoriasController@verEstudio');
 		//Consulta todos

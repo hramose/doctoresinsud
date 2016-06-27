@@ -7,6 +7,7 @@ use App\EstudioPaciente;
 use App\EstudioPacienteValor;
 use App\Paciente;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -29,6 +30,7 @@ class EstudiosController extends Controller
 
         $campos = $estudio->camposBase()->with('UnidadMedida')->get();
 
+        //dd($campos);
         //dd(json_encode($campos));
         return json_encode($campos);
 
@@ -46,7 +48,7 @@ class EstudiosController extends Controller
         $paciente = Paciente::find($id_p);
         $estudios = Estudio::all();
 
-        return view('panel.estudios.create', compact('paciente','estudios'));
+        return view('panel.estudios.create2', compact('paciente','estudios')); //modificado por create2 para pruebas
     }
 
     /**
@@ -72,7 +74,9 @@ class EstudiosController extends Controller
             $valor = new EstudioPacienteValor();
             $valor->campos_base_id = $campo['id_campo_base'];
             $valor->estudios_pacientes_id = $estudioPaciente->id;
-            $valor->valor = $campo['valor'];
+            if(array_key_exists('valor', $campo)){
+                $valor->valor = $campo['valor'];
+            }
             $valor->obs = $campo['obs'];
             $valor->save();
         }
@@ -86,7 +90,7 @@ class EstudiosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function showForDelete($id)
+    public function showForDelete($id_p, $id_e)
     {
         //TODO: Muestra una vista para confirmar la eliminación del estudio
     }
@@ -97,9 +101,13 @@ class EstudiosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id_p, $id_e)
     {
         //TODO: Muestra una vista para editar un estudio
+        $estudioPaciente = EstudioPaciente::with('valores.campoBase.UnidadMedida', 'estudio')->find($id_e);
+        $paciente = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre')->where('id', $id_p)->get();
+
+        return view('panel.estudios.edit', compact('paciente', 'estudioPaciente'));
     }
 
     /**

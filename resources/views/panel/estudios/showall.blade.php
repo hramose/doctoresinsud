@@ -28,6 +28,12 @@
                             </td>
                             <td>{!! \Carbon\Carbon::parse($estudio->fecha)->format('d/m/Y') !!}</td>
                             <td>{!! substr($estudio->titulo, 0, 40) !!}</td>
+                            <td>
+                                <a href="{!! action('Panel\EstudiosController@edit', ['id_p' => $estudio->id_hc, 'id_e' => $estudio->id]) !!}" class="btn btn-xs btn-primary">Editar</a>
+                            </td>
+                            <td>
+                                <a href="{!! action('Panel\EstudiosController@showForDelete', ['id_p' => $estudio->id_hc, 'id_e' => $estudio->id]) !!}" class="btn btn-xs btn-danger">Eliminar</a>
+                            </td>
                         </tr>
                     @endforeach
                     </tbody>
