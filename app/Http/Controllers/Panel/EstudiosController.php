@@ -15,23 +15,19 @@ use App\Http\Controllers\Controller;
 class EstudiosController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Retorna listado de objetos campos base asociado a un estudio
      *
-     * @return \Illuminate\Http\Response
+     * return json
      */
-/*    public function index()
-    {
-        //
-    }*/
 
     public function getCamposByEstudio($id)
     {
+        //Envía por ajax los campos base a completar por el estudio solicitado
+
         $estudio = Estudio::find($id);
 
         $campos = $estudio->camposBase()->with('UnidadMedida')->get();
 
-        //dd($campos);
-        //dd(json_encode($campos));
         return json_encode($campos);
 
 
@@ -44,7 +40,8 @@ class EstudiosController extends Controller
      */
     public function create($id_p)
     {
-        //TODO: Muestra vista para dar de alta un nuevo estudio. Tiene en cuenta selección de estudio a realizar dinámicamente
+        //Muestra vista para dar de alta un nuevo estudio. Tiene en cuenta selección de estudio a realizar dinámicamente
+
         $paciente = Paciente::find($id_p);
         $estudios = Estudio::all();
 
@@ -59,8 +56,8 @@ class EstudiosController extends Controller
      */
     public function store($id_p, Request $request)
     {
-        //TODO: Graba en la base de datos el estudio recién cargado
-        //dd($request);
+        //Graba en la base de datos el estudio recién cargado
+
         $estudioPaciente = new EstudioPaciente();
         $estudioPaciente->id_hc = $id_p;//$request->get('id_hc');
         $estudioPaciente->fecha = $request->get('fecha');
@@ -87,23 +84,29 @@ class EstudiosController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id_p, int $id_e
      * @return \Illuminate\Http\Response
      */
     public function showForDelete($id_p, $id_e)
     {
-        //TODO: Muestra una vista para confirmar la eliminación del estudio
+        //Muestra una vista para confirmar la eliminación del estudio
+
+        $estudioPaciente = EstudioPaciente::with('valores.campoBase.UnidadMedida', 'estudio')->find($id_e);
+        $paciente = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre')->where('id', $id_p)->get();
+
+        return view('panel.estudios.delete', compact('paciente', 'estudioPaciente'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $id_p, int $id_e
      * @return \Illuminate\Http\Response
      */
     public function edit($id_p, $id_e)
     {
-        //TODO: Muestra una vista para editar un estudio
+        //Muestra una vista para editar un estudio
+
         $estudioPaciente = EstudioPaciente::with('valores.campoBase.UnidadMedida', 'estudio')->find($id_e);
         $paciente = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre')->where('id', $id_p)->get();
 
@@ -114,22 +117,52 @@ class EstudiosController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Request $request, int $id_p, int $id_e
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_p, $id_e)
     {
-        //TODO: Actualiza un estudio en la base de datos
+        //Actualiza un estudio en la base de datos
+
+        $estudioPaciente = EstudioPaciente::find($id_e);
+        $estudioPaciente->fecha = $request->get('fecha');
+        $estudioPaciente->titulo = $request->get('titulo');
+        $estudioPaciente->descripcion = $request->get('estudio_desc');
+
+        $estudioPaciente->save();
+
+        foreach($request->get('campos') as $campo){
+            $valor = EstudioPacienteValor::find($campo['id_valor']);
+            if(array_key_exists('valor', $campo)){
+                $valor->valor = $campo['valor'];
+            }
+            $valor->obs = $campo['obs'];
+            $valor->save();
+        }
+
+        return redirect()->action('Panel\PanelHistoriasController@verHistoria', $id_p)->with('status', 'Estudio actualizado correctamente');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id_p, int $id_e
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id_p, $id_e)
     {
-        //TODO: Elimina un estudio de la base de datos
+        //Elimina un estudio de la base de datos
+
+        $estudioPaciente = EstudioPaciente::find($id_e);
+
+        $estudioPaciente->delete();
+
+        $valores = EstudioPacienteValor::where('estudios_pacientes_id', '=', $id_e)->get();
+
+        foreach($valores as $valor){
+            $valor->delete();
+        }
+
+        return redirect()->action('Panel\PanelHistoriasController@verHistoria', $id_p)->with('status', 'Estudio eliminado correctamente');
     }
 }

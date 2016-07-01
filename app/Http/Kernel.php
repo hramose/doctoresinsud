@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Zizaco\Entrust\Middleware;
 
 class Kernel extends HttpKernel
 {

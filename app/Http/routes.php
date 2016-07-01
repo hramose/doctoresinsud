@@ -89,6 +89,9 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 	//Route::delete('paciente/{id_p?}/consulta/{id_c?}','PanelHistoriasController@borrarConsulta');
 	//Route::get('paciente/tratamiento/{id?}', 'Panel\PanelHistoriasController@verTratamiento');
 
+	//Epidemiologías
+	Route::get('paciente/{id?}/epidemio/editar', 'EpidemiologiaController@edit');
+
 	//Tratamientos
 		//Alta
 		Route::get('paciente/{id_p?}/tratamientos/create', 'TratamientosController@create');
@@ -110,8 +113,8 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 		Route::get('paciente/{id_p?}/estudios/create', 'EstudiosController@create'); 
 		Route::post('paciente/{id_p?}/estudios/create', 'EstudiosController@store');
 		//Modificación
-		Route::get('paciente/{id_p?}/estudios/{id_e?}/edit', 'EstudiosController@edit'); //TODO: Falta hacer
-		Route::post('paciente/{id_p?}/estudios/{id_e?}/edit', 'EstudiosController@update'); //TODO: Falta hacer
+		Route::get('paciente/{id_p?}/estudios/{id_e?}/edit', 'EstudiosController@edit');
+		Route::post('paciente/{id_p?}/estudios/{id_e?}/edit', 'EstudiosController@update');
 		//Baja
 		Route::get('paciente/{id_p?}/estudios/{id_e?}/delete', 'EstudiosController@showForDelete'); //TODO: Falta hacer
 		Route::post('paciente/{id_p?}/estudios/{id_e?}/delete', 'EstudiosController@destroy'); //TODO: Falta hacer

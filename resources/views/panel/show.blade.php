@@ -240,7 +240,7 @@
                                 </div>--}}
                 <div class="col-lg-3">
                     <div class="btn-group btn-group-justified btn-group-raised">
-                        <a href="javascript:void(0)" class="btn btn-raised btn-default"
+                        <a href="{!! action('Panel\EpidemiologiaController@edit', $paciente->id) !!}" class="btn btn-raised btn-default"
                            style="background-color: #EEEEEE">Epidemiología</a>
                         <a href="{!! action('Panel\PanelHistoriasController@edit', $paciente->id) !!}"
                            class="btn btn-raised btn-success">Editar Historia</a>
@@ -272,19 +272,29 @@
                         {{--<div class="form-group">--}}
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <label for="tipo_doc" class="col-lg-2 text-left{{-- control-label --}} ">Tipo
-                                    Documento</label>
-                                <div class="col-lg-1">
-                                    <input type="text" class="form-control" id="tipo_doc" name="tipo_doc"
-                                           value="{!! $paciente->tipo_doc !!}" readonly>
-                                </div>
-                                {{--</div>--}}
-                                {{--<div class="form-group">--}}
-                                <label for="numero_doc" class="col-lg-2 text-left{{-- control-label --}}">Nro.
-                                    Documento</label>
-                                <div class="col-lg-2">
-                                    <input type="text" class="form-control" id="numero_doc" name="numero_doc"
-                                           value="{!! $paciente->numero_doc !!}" readonly>
+                                <div class="row">
+                                    <label for="tipo_doc" class="col-lg-2 text-left{{-- control-label --}} ">Tipo
+                                        Documento</label>
+                                    <div class="col-lg-1">
+                                        <input type="text" class="form-control" id="tipo_doc" name="tipo_doc"
+                                               value="{!! $paciente->tipo_doc !!}" readonly>
+                                    </div>
+                                    {{--</div>--}}
+                                    {{--<div class="form-group">--}}
+                                    <label for="numero_doc" class="col-lg-2 text-left{{-- control-label --}}">Nro.
+                                        Documento</label>
+                                    <div class="col-lg-2">
+                                        <input type="text" class="form-control" id="numero_doc" name="numero_doc"
+                                               value="{!! $paciente->numero_doc !!}" readonly>
+                                    </div>
+                                    <div class="col-lg-1 col-lg-offset-1">
+                                        <a href="javascript:void(0)" class="btn btn-raised btn-default"
+                                           style="background-color: #EEEEEE">Teléfonos</a>
+                                    </div>
+                                    <div class="col-lg-1 col-lg-offset-1">
+                                        <a href="javascript:void(0)" class="btn btn-raised btn-default"
+                                           style="background-color: #EEEEEE">Direcciones</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

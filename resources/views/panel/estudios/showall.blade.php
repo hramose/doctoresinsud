@@ -18,6 +18,8 @@
                         <th>Estudio</th>
                         <th>Fecha</th>
                         <th>Titulo</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>

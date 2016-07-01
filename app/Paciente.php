@@ -144,14 +144,20 @@ class Paciente extends Model
         return $this->hasMany('App\EstudioPaciente', 'id_hc', 'id');
     }
 
-/*    public function setidHcAttribute($value)
+    public function epidemiologia()
     {
-        if (is_numeric($value)) {
-            $this->attributes['id_hc'] = $value;
-        } else {
-            throw new Exception('El valor ' . $value . 'no es numerico. No se puede asignar a pacientes.id_hc');
-        }
-    }*/
+        return $this->hasOne('App\Epidemiologia', 'id_paciente', 'id');
+    }
+
+
+    /*    public function setidHcAttribute($value)
+        {
+            if (is_numeric($value)) {
+                $this->attributes['id_hc'] = $value;
+            } else {
+                throw new Exception('El valor ' . $value . 'no es numerico. No se puede asignar a pacientes.id_hc');
+            }
+        }*/
 
     public function setFechaNacAttribute($value)
     {
