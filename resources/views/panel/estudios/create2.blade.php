@@ -17,7 +17,7 @@
             props: ['campo_id', 'index', 'tipo', 'campo'],
             computed: {
                 tipoCalc: function () {
-                    console.log(this.tipo);
+                    //console.log(this.tipo);
                     switch(this.tipo){
                         case "texto":
                             return "text";

@@ -91,6 +91,7 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 
 	//Epidemiologías
 	Route::get('paciente/{id?}/epidemio/editar', 'EpidemiologiaController@edit');
+	Route::post('paciente/{id?}/epidemio/editar', 'EpidemiologiaController@update');
 
 	//Tratamientos
 		//Alta

@@ -18,13 +18,35 @@
 @endsection
 
 @section('scripts')
-<script>
-    $.datepicker.setDefaults($.datepicker.regional['es']);
+    <script src="{{url('/')."/js/vue.js"}}"></script>
+    <script>
+        $.datepicker.setDefaults($.datepicker.regional['es']);
 
-    $(function() {
-        $(".datepicker").datepicker();
-    });
-</script>
+        $(function() {
+            $(".datepicker").datepicker();
+        });
+
+        var valCantHabitCasa = $('#cant_habit_casa').val();
+        var valCantPersCasa = $('#cant_pers_casa').val();
+        var valCantConvivTrabajan = $('#cant_conviv_trabajan').val();
+
+        new Vue({
+            el: 'body',
+            data: {
+                cantHabitCasa: valCantHabitCasa,
+                cantPersCasa: valCantPersCasa,
+                cantConvivTrabajan: valCantConvivTrabajan,
+            },
+            computed: {
+                indiceHacinamiento: function () {
+                    return this.cantPersCasa/this.cantHabitCasa;
+                },
+                indiceTrabConv: function () {
+                    return this.cantConvivTrabajan/this.cantPersCasa;
+                }
+            }
+        });
+    </script>
 @endsection
 
 @section('content')
@@ -58,6 +80,7 @@
                 @endif
 
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+                <input type="hidden" name="epidemiologia_id" value="{!! $paciente->epidemiologia->id !!}">
 
                 {{--Primera sección--}}
                 <div class="row">
@@ -631,21 +654,21 @@
                                     <label for="cant_pers_casa"
                                            class="col-lg-8 text-left">Cantidad de personas en vivienda</label>
                                     <div class="col-lg-4">
-                                        <input type="number" class="form-control" id="cant_pers_casa" name="cant_pers_casa" value="{!! old('cant_pers_casa', $paciente->epidemiologia->cant_pers_casa) !!}">
+                                        <input type="number" class="form-control" id="cant_pers_casa" v-model="cantPersCasa" name="cant_pers_casa" value="{!! old('cant_pers_casa', $paciente->epidemiologia->cant_pers_casa) !!}">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <label for="cant_habit_casa"
                                            class="col-lg-8 text-left">Nro. de habitaciones (dormitorios y comedor)</label>
                                     <div class="col-lg-4">
-                                        <input type="number" class="form-control" id="cant_habit_casa" name="cant_habit_casa" value="{!! old('cant_habit_casa', $paciente->epidemiologia->cant_habit_casa) !!}">
+                                        <input type="number" class="form-control" id="cant_habit_casa" v-model="cantHabitCasa" name="cant_habit_casa" value="{!! old('cant_habit_casa', $paciente->epidemiologia->cant_habit_casa) !!}">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <label for="indice_hacinamiento" style="vertical-align: bottom;"
                                            class="col-lg-8 text-left">Indice de hacinamiento</label>
                                     <div class="col-lg-4">
-                                        <input type="text" class="form-control" id="indice_hacinamiento" value="CALCULAR" readonly>
+                                        <input type="text" class="form-control" id="indice_hacinamiento" value="@{{ indiceHacinamiento }}" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -746,7 +769,71 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">Situación Laboral</div>
                             <div class="panel-body">
-
+                                <div class="row">
+                                    <label for="trabajo"
+                                           class="col-lg-8 text-left">¿Trabaja?</label>
+                                    <div class="col-lg-4">
+                                        <select class="form-control" id="trabajo" name="trabajo">
+                                            <option value=""></option>
+                                            <option value="S" @if($paciente->epidemiologia->trabajo=="S") selected @endif>Si</option>
+                                            <option value="N" @if($paciente->epidemiologia->trabajo=="N") selected @endif>No</option>
+                                            <option value="NOAC" @if($paciente->epidemiologia->trabajo=="NOAC") selected @endif>No, ama de casa</option>
+                                            <option value="NOJU" @if($paciente->epidemiologia->trabajo=="NOJU") selected @endif>No, jubilado</option>
+                                            <option value="NOES" @if($paciente->epidemiologia->trabajo=="NOES") selected @endif>No, estudiante</option>
+                                            <option value="NODE" @if($paciente->epidemiologia->trabajo=="NODE") selected @endif>No, desocupado</option>
+                                            <option value="?" @if($paciente->epidemiologia->trabajo=="?") selected @endif>No se sabe</option>
+                                            @if(! in_array($paciente->epidemiologia->trabajo, array("S", "N", "NOAC", "NOJU", "NOES", "NODE", "?", "")))<option value="{!! $paciente->epidemiologia->trabajo!!}" selected>{!! $paciente->epidemiologia->trabajo !!}</option>@endif
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label for="tipo_trabajo"
+                                           class="col-lg-4 text-left">Tipo de trabajo</label>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" id="tipo_trabajo" name="tipo_trabajo" value="{!! old('tipo_trabajo', $paciente->epidemiologia->tipo_trabajo) !!}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label for="rechazado_empleo_chagas"
+                                           class="col-lg-8 text-left">¿Fue rechazado de algún empleo por Chagas?</label>
+                                    <div class="col-lg-4">
+                                        <select class="form-control" id="rechazado_empleo_chagas" name="rechazado_empleo_chagas">
+                                            <option value=""></option>
+                                            <option value="S" @if($paciente->epidemiologia->rechazado_empleo_chagas=="S") selected @endif>Si</option>
+                                            <option value="N" @if($paciente->epidemiologia->rechazado_empleo_chagas=="N") selected @endif>No</option>
+                                            <option value="?" @if($paciente->epidemiologia->rechazado_empleo_chagas=="?") selected @endif>No se sabe</option>
+                                            @if(! in_array($paciente->epidemiologia->rechazado_empleo_chagas, array("S", "N", "?", "")))<option value="{!! $paciente->epidemiologia->rechazado_empleo_chagas!!}" selected>{!! $paciente->epidemiologia->rechazado_empleo_chagas !!}</option>@endif
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label for="nombre_empresa_rech"
+                                           class="col-lg-6 text-left">¿Qué empresa lo rechazó?</label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="nombre_empresa_rech" name="nombre_empresa_rech" value="{!! old('nombre_empresa_rech', $paciente->epidemiologia->nombre_empresa_rech) !!}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label for="obra_social"
+                                           class="col-lg-6 text-left">Nombre Obra Social</label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="obra_social" name="obra_social" value="{!! old('obra_social', $paciente->epidemiologia->obra_social) !!}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label for="cant_conviv_trabajan"
+                                           class="col-lg-8 text-left">Cant. Familiares convivientes que trabajan</label>
+                                    <div class="col-lg-4">
+                                        <input type="number" class="form-control" id="cant_conviv_trabajan" v-model="cantConvivTrabajan" name="cant_conviv_trabajan" value="{!! old('cant_conviv_trabajan', $paciente->epidemiologia->cant_conviv_trabajan) !!}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label for="indice_trab_conv"
+                                           class="col-lg-8 text-left">Indice trabajadores/convivientes</label>
+                                    <div class="col-lg-4">
+                                        <input type="number" step="any" class="form-control" id="indice_trab_conv" name="indice_trab_conv" value="@{{ indiceTrabConv }}" readonly>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
