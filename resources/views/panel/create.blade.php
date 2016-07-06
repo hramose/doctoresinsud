@@ -57,7 +57,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="btn-group btn-group-justified btn-group-raised">
-                        <a href="{{ URL::previous() }}" class="btn btn-raised btn-default" style="background-color: #EEEEEE">Cancelar</a>
+                        <a href="/panel" class="btn btn-raised btn-default" style="background-color: #EEEEEE">Cancelar</a>
                         {{--<a href="javascript:void(0)" class="btn btn-raised btn-success">Guardar Historia</a>--}}
                         <label for="submit-guardar" class="btn btn-raised btn-success">Guardar Historia</label>
                     </div>

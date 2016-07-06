@@ -60,7 +60,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="btn-group btn-group-justified btn-group-raised">
-                        <a href="{{ URL::previous() }}" class="btn btn-raised btn-default" style="background-color: #EEEEEE">Cancelar</a>
+                        <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}" class="btn btn-raised btn-default" style="background-color: #EEEEEE">Cancelar</a>
                         <label for="submit-guardar" class="btn btn-raised btn-success">Guardar Datos</label>
                     </div>
                 </div>
@@ -97,8 +97,8 @@
                                             <div class="col-lg-4">
                                                 <select class="form-control" id="sexo" name="sexo">
                                                     <option value=""></option>
-                                                    <option value="M" @if($paciente->epidemiologia->sexo=="M") selected @endif>Masculino</option>
-                                                    <option value="F" @if($paciente->epidemiologia->sexo=="F") selected @endif>Femenino</option>
+                                                    <option value="M" @if(old('sexo',$paciente->epidemiologia->sexo)=="M") selected @endif>Masculino</option>
+                                                    <option value="F" @if(old('sexo',$paciente->epidemiologia->sexo)=="F") selected @endif>Femenino</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -484,59 +484,59 @@
                                             <div class="panel-heading">Afección Cardíaca</div>
                                             <div class="panel-body">
                                                 <div class="row">
-                                                    <label for="antefam_afcardi_sub_no"
+                                                    <label for="antefam_afcardi_no"
                                                            class="col-lg-8 text-left">No</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_sub_no', old('antefam_afcardi_sub_no'), in_array(old('antefam_afcardi_sub_no', $paciente->epidemiologia->antefam_afcardi_sub_no), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_sub_no']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_no', old('antefam_afcardi_no'), in_array(old('antefam_afcardi_no', $paciente->epidemiologia->antefam_afcardi_no), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_no']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label for="antefam_afcardi_sub_ns"
+                                                    <label for="antefam_afcardi_ns"
                                                            class="col-lg-8 text-left">No sabe</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_sub_ns', old('antefam_afcardi_sub_ns'), in_array(old('antefam_afcardi_sub_ns', $paciente->epidemiologia->antefam_afcardi_sub_ns), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_sub_ns']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_ns', old('antefam_afcardi_ns'), in_array(old('antefam_afcardi_ns', $paciente->epidemiologia->antefam_afcardi_ns), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_ns']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label for="antefam_afcardi_sub_padre"
+                                                    <label for="antefam_afcardi_padre"
                                                            class="col-lg-8 text-left">Padre</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_sub_padre', old('antefam_afcardi_sub_padre'), in_array(old('antefam_afcardi_sub_padre', $paciente->epidemiologia->antefam_afcardi_sub_padre), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_sub_padre']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_padre', old('antefam_afcardi_padre'), in_array(old('antefam_afcardi_padre', $paciente->epidemiologia->antefam_afcardi_padre), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_padre']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label for="antefam_afcardi_sub_madre"
+                                                    <label for="antefam_afcardi_madre"
                                                            class="col-lg-8 text-left">Madre</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_sub_madre', old('antefam_afcardi_sub_madre'), in_array(old('antefam_afcardi_sub_madre', $paciente->epidemiologia->antefam_afcardi_sub_madre), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_sub_madre']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_madre', old('antefam_afcardi_madre'), in_array(old('antefam_afcardi_madre', $paciente->epidemiologia->antefam_afcardi_madre), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_madre']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label for="antefam_afcardi_sub_hermano"
+                                                    <label for="antefam_afcardi_hermano"
                                                            class="col-lg-8 text-left">Hermano</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_sub_hermano', old('antefam_afcardi_sub_hermano'), in_array(old('antefam_afcardi_sub_hermano', $paciente->epidemiologia->antefam_afcardi_sub_hermano), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_sub_hermano']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_hermano', old('antefam_afcardi_hermano'), in_array(old('antefam_afcardi_hermano', $paciente->epidemiologia->antefam_afcardi_hermano), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_hermano']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label for="antefam_afcardi_sub_hijo"
+                                                    <label for="antefam_afcardi_hijo"
                                                            class="col-lg-8 text-left">Hijo</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_sub_hijo', old('antefam_afcardi_sub_hijo'), in_array(old('antefam_afcardi_sub_hijo', $paciente->epidemiologia->antefam_afcardi_sub_hijo), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_sub_hijo']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_hijo', old('antefam_afcardi_hijo'), in_array(old('antefam_afcardi_hijo', $paciente->epidemiologia->antefam_afcardi_hijo), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_hijo']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label for="antefam_afcardi_sub_otros"
+                                                    <label for="antefam_afcardi_otros"
                                                            class="col-lg-8 text-left">Otro familiar</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_sub_otros', old('antefam_afcardi_sub_otros'), in_array(old('antefam_afcardi_sub_otros', $paciente->epidemiologia->antefam_afcardi_sub_otros), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_sub_otros']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_otros', old('antefam_afcardi_otros'), in_array(old('antefam_afcardi_otros', $paciente->epidemiologia->antefam_afcardi_otros), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_otros']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label for="antefam_afcardi_sub_desc"
+                                                    <label for="antefam_afcardi_desc"
                                                            class="col-lg-8 text-left">Desconocido</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_sub_desc', old('antefam_afcardi_sub_desc'), in_array(old('antefam_afcardi_sub_desc', $paciente->epidemiologia->antefam_afcardi_sub_desc), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_sub_desc']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_desc', old('antefam_afcardi_desc'), in_array(old('antefam_afcardi_desc', $paciente->epidemiologia->antefam_afcardi_desc), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_desc']) !!}
                                                     </div>
                                                 </div>
                                             </div>
@@ -548,59 +548,59 @@
                                             <div class="panel-heading">Chagas</div>
                                             <div class="panel-body">
                                                 <div class="row">
-                                                    <label for="antefam_chagas_sub_no"
+                                                    <label for="antefam_chagas_no"
                                                            class="col-lg-8 text-left">No</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_sub_no', old('antefam_chagas_sub_no'), in_array(old('antefam_chagas_sub_no', $paciente->epidemiologia->antefam_chagas_sub_no), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_sub_no']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_no', old('antefam_chagas_no'), in_array(old('antefam_chagas_no', $paciente->epidemiologia->antefam_chagas_no), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_no']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label for="antefam_chagas_sub_ns"
+                                                    <label for="antefam_chagas_ns"
                                                            class="col-lg-8 text-left">No sabe</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_sub_ns', old('antefam_chagas_sub_ns'), in_array(old('antefam_chagas_sub_ns', $paciente->epidemiologia->antefam_chagas_sub_ns), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_sub_ns']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_ns', old('antefam_chagas_ns'), in_array(old('antefam_chagas_ns', $paciente->epidemiologia->antefam_chagas_ns), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_ns']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label for="antefam_chagas_sub_padre"
+                                                    <label for="antefam_chagas_padre"
                                                            class="col-lg-8 text-left">Padre</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_sub_padre', old('antefam_chagas_sub_padre'), in_array(old('antefam_chagas_sub_padre', $paciente->epidemiologia->antefam_chagas_sub_padre), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_sub_padre']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_padre', old('antefam_chagas_padre'), in_array(old('antefam_chagas_padre', $paciente->epidemiologia->antefam_chagas_padre), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_padre']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label for="antefam_chagas_sub_madre"
+                                                    <label for="antefam_chagas_madre"
                                                            class="col-lg-8 text-left">Madre</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_sub_madre', old('antefam_chagas_sub_madre'), in_array(old('antefam_chagas_sub_madre', $paciente->epidemiologia->antefam_chagas_sub_madre), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_sub_madre']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_madre', old('antefam_chagas_madre'), in_array(old('antefam_chagas_madre', $paciente->epidemiologia->antefam_chagas_madre), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_madre']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label for="antefam_chagas_sub_hermano"
+                                                    <label for="antefam_chagas_hermano"
                                                            class="col-lg-8 text-left">Hermano</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_sub_hermano', old('antefam_chagas_sub_hermano'), in_array(old('antefam_chagas_sub_hermano', $paciente->epidemiologia->antefam_chagas_sub_hermano), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_sub_hermano']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_hermano', old('antefam_chagas_hermano'), in_array(old('antefam_chagas_hermano', $paciente->epidemiologia->antefam_chagas_hermano), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_hermano']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label for="antefam_chagas_sub_hijo"
+                                                    <label for="antefam_chagas_hijo"
                                                            class="col-lg-8 text-left">Hijo</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_sub_hijo', old('antefam_chagas_sub_hijo'), in_array(old('antefam_chagas_sub_hijo', $paciente->epidemiologia->antefam_chagas_sub_hijo), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_sub_hijo']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_hijo', old('antefam_chagas_hijo'), in_array(old('antefam_chagas_hijo', $paciente->epidemiologia->antefam_chagas_hijo), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_hijo']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label for="antefam_chagas_sub_otros"
+                                                    <label for="antefam_chagas_otros"
                                                            class="col-lg-8 text-left">Otro familiar</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_sub_otros', old('antefam_chagas_sub_otros'), in_array(old('antefam_chagas_sub_otros', $paciente->epidemiologia->antefam_chagas_sub_otros), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_sub_otros']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_otros', old('antefam_chagas_otros'), in_array(old('antefam_chagas_otros', $paciente->epidemiologia->antefam_chagas_otros), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_otros']) !!}
                                                     </div>
                                                 </div>
                                                 <div class="row">
-                                                    <label for="antefam_chagas_sub_desc"
+                                                    <label for="antefam_chagas_desc"
                                                            class="col-lg-8 text-left">Desconocido</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_sub_desc', old('antefam_chagas_sub_desc'), in_array(old('antefam_chagas_sub_desc', $paciente->epidemiologia->antefam_chagas_sub_desc), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_sub_desc']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_desc', old('antefam_chagas_desc'), in_array(old('antefam_chagas_desc', $paciente->epidemiologia->antefam_chagas_desc), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_desc']) !!}
                                                     </div>
                                                 </div>
                                             </div>
@@ -668,7 +668,7 @@
                                     <label for="indice_hacinamiento" style="vertical-align: bottom;"
                                            class="col-lg-8 text-left">Indice de hacinamiento</label>
                                     <div class="col-lg-4">
-                                        <input type="text" class="form-control" id="indice_hacinamiento" value="@{{ indiceHacinamiento }}" readonly>
+                                        <input type="number" step="any" class="form-control" id="indice_hacinamiento" value="@{{ indiceHacinamiento }}" readonly>
                                     </div>
                                 </div>
                             </div>

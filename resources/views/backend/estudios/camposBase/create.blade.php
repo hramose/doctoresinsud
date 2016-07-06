@@ -53,11 +53,11 @@
                         <div class="col-lg-10">
                             <select class="form-control" id="id_unidad" name="id_unidad">
                                 <option value="" id="vacio"></option>
-                                
+
                                 @foreach($unidadesMedida as $unidadMedida)
-                                <option value="{!! $unidadMedida->id !!}">
-                                    {!! $unidadMedida->unidad !!}
-                                </option>
+                                    <option value="{!! $unidadMedida->id !!}">
+                                        {!! $unidadMedida->unidad !!}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>

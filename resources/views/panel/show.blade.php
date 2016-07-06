@@ -202,7 +202,7 @@
                     "debug": false,
                     "newestOnTop": false,
                     "progressBar": false,
-                    "positionClass": "toast-bottom-left",
+                    "positionClass": "toast-bottom-right",
                     "preventDuplicates": false,
                     "onclick": null,
                     "showDuration": "1000",
@@ -292,7 +292,7 @@
                                            style="background-color: #EEEEEE">Teléfonos</a>
                                     </div>
                                     <div class="col-lg-1 col-lg-offset-1">
-                                        <a href="javascript:void(0)" class="btn btn-raised btn-default"
+                                        <a href="{!! action('Panel\DireccionesController@index', $paciente->id) !!}" class="btn btn-raised btn-default"
                                            style="background-color: #EEEEEE">Direcciones</a>
                                     </div>
                                 </div>

@@ -11,28 +11,28 @@
                 <legend>
                     Detalle de Estudio
                 </legend>
-                <div class="form-group">
+                <div class="row">
                     <label for="hc" class="col-lg-2 control-label">Historia Clínica</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control" id="hc" name="hc" value=" {!! $paciente[0]->id_hc !!}"
                                readonly>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="row">
                     <label for="nombre" class="col-lg-2 control-label">Apellido, Nombre</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control" id="nombre" name="nombre"
                                value=" {!! $paciente[0]->apellido.", ".$paciente[0]->nombre !!}" readonly>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="row">
                     <label for="tipo" class="col-lg-2 control-label">Tipo de Estudio</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control" id="tipo" name="tipo"
                                value=" {!! $estudioPaciente->estudio->nombre !!}" readonly>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="row">
                     <label for="fecha" class="col-lg-2 control-label">Fecha</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control" id="fecha" name="fecha"
@@ -40,14 +40,14 @@
                                readonly>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="row">
                     <label for="titulo" class="col-lg-2 control-label">Titulo</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control" id="titulo" name="titulo"
                                value=" {!! $estudioPaciente->titulo !!}" readonly>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="row">
                     <label for="estudio_desc" class="col-lg-2 control-label">Descripción</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control" id="estudio_desc" name="estudio_desc"

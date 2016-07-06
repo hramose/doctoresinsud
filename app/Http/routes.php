@@ -89,6 +89,14 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 	//Route::delete('paciente/{id_p?}/consulta/{id_c?}','PanelHistoriasController@borrarConsulta');
 	//Route::get('paciente/tratamiento/{id?}', 'Panel\PanelHistoriasController@verTratamiento');
 
+	//Direcciones de paciente
+	Route::get('paciente/{id_p?}/direcciones', 'DireccionesController@index');
+	Route::post('paciente/{id_p?}/direcciones', 'DireccionesController@store');
+	Route::get('paciente/{id_p?}/direcciones/{id_d?}/edit', 'DireccionesController@edit');
+	Route::post('paciente/{id_p?}/direcciones/{id_d?}/edit', 'DireccionesController@update');
+	Route::get('paciente/{id_p?}/direcciones/{id_d?}/delete', 'DireccionesController@showForDelete');
+	Route::post('paciente/{id_p?}/direcciones/{id_d?}/delete', 'DireccionesController@destroy');
+
 	//Epidemiologías
 	Route::get('paciente/{id?}/epidemio/editar', 'EpidemiologiaController@edit');
 	Route::post('paciente/{id?}/epidemio/editar', 'EpidemiologiaController@update');

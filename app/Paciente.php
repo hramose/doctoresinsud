@@ -149,6 +149,11 @@ class Paciente extends Model
         return $this->hasOne('App\Epidemiologia', 'id_paciente', 'id');
     }
 
+    public function direcciones()
+    {
+        return $this->hasMany('App\Direccion', 'id_paciente', 'id');
+    }
+
 
     /*    public function setidHcAttribute($value)
         {

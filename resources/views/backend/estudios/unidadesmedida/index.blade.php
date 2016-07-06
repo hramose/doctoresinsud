@@ -15,7 +15,7 @@
             @if ($unidadesMedida->isEmpty())
                 <p> No hay unidades de medida creadas.</p>
             @else
-                <table class="table" id="myTable">
+                <table class="table" id="myTableUnidadesMedida">
                     <thead>
                     <tr>
                         <th>Unidad</th>
@@ -34,8 +34,21 @@
     </div>
 <div class="form-group">
         <div class="col-lg-10 col-lg-offset-2">
-            <a href="{!! action('Admin\PagesController@home') !!}" class="btn btn-primary"> <- Volver al hub de admin</a>
+            <a href="{!! action('Admin\PagesController@home') !!}" class="btn btn-primary"> <- Volver a panel de administración</a>
             
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function(){
+            $('#myTableUnidadesMedida').DataTable( {
+                "language": {
+                    "url": "../../lang/datatables_es.json"
+                }
+            });
+
+        });
+    </script>
 @endsection

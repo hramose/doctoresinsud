@@ -75,9 +75,9 @@ class EpidemiologiaController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response    
      */
-    public function update(Request $request, $id)
+    public function update(Requests\EpidemiologiaFormRequest $request, $id)
     {
         //Actualiza o crea un nuevo registro de epidemiologia
         $epidemiologia = Epidemiologia::find($request->get('epidemiologia_id'));
@@ -85,8 +85,7 @@ class EpidemiologiaController extends Controller
         if(is_null($epidemiologia)){
             $epidemiologia = new Epidemiologia();
         }
-
-        //dd($request);
+        
         $epidemiologia->id_paciente = $id;
         $epidemiologia->sexo = $request->get('sexo');
         $epidemiologia->estado_civil = $request->get('estado_civil');
@@ -139,7 +138,6 @@ class EpidemiologiaController extends Controller
         $epidemiologia->antefam_muerte_sub_hijo = $request->get('antefam_muerte_sub_hijo') == 'on' ? 2 : 1;
         $epidemiologia->antefam_muerte_sub_otros = $request->get('antefam_muerte_sub_otros') == 'on' ? 2 : 1;
         $epidemiologia->antefam_muerte_sub_desc = $request->get('antefam_muerte_sub_desc') == 'on' ? 2 : 1;
-        /*Revisar por qué no está grabando estos datos*/
         $epidemiologia->antefam_afcardi_no = $request->get('antefam_afcardi_no') == 'on' ? 2 : 1;
         $epidemiologia->antefam_afcardi_ns = $request->get('antefam_afcardi_ns') == 'on' ? 2 : 1;
         $epidemiologia->antefam_afcardi_padre = $request->get('antefam_afcardi_padre') == 'on' ? 2 : 1;
@@ -156,7 +154,6 @@ class EpidemiologiaController extends Controller
         $epidemiologia->antefam_chagas_hijo = $request->get('antefam_chagas_hijo') == 'on' ? 2 : 1;
         $epidemiologia->antefam_chagas_otros = $request->get('antefam_chagas_otros') == 'on' ? 2 : 1;
         $epidemiologia->antefam_chagas_desc = $request->get('antefam_chagas_desc') == 'on' ? 2 : 1;
-        /*Fin Revisar por qué no está grabando estos datos*/
         $epidemiologia->embarazo = $request->get('embarazo') == 'on' ? 2 : 1;
 
         $epidemiologia->save();
