@@ -71,7 +71,7 @@
 
                     <div class="form-group">
                         <div class="col-lg-10 col-lg-offset-2">
-                            <a href="{{ URL::previous() }}" class="btn btn-default">Cancelar</a>
+                            <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}" class="btn btn-default">Cancelar</a>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                     </div>

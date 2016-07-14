@@ -154,6 +154,11 @@ class Paciente extends Model
         return $this->hasMany('App\Direccion', 'id_paciente', 'id');
     }
 
+    public function telefonos()
+    {
+        return $this->hasMany('App\Telefono', 'id_paciente', 'id');
+    }
+
 
     /*    public function setidHcAttribute($value)
         {

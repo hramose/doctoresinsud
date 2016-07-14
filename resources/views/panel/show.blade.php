@@ -288,7 +288,7 @@
                                                value="{!! $paciente->numero_doc !!}" readonly>
                                     </div>
                                     <div class="col-lg-1 col-lg-offset-1">
-                                        <a href="javascript:void(0)" class="btn btn-raised btn-default"
+                                        <a href="{!! action('Panel\TelefonosController@index', $paciente->id) !!}" class="btn btn-raised btn-default"
                                            style="background-color: #EEEEEE">Teléfonos</a>
                                     </div>
                                     <div class="col-lg-1 col-lg-offset-1">

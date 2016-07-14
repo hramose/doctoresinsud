@@ -51,6 +51,7 @@
                     @endif
 
                     <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+                    <input type="hidden" name="id_paciente" value="{!! $paciente->id !!}">
 
                     <fieldset>
                         <legend>Editar dirección</legend>
@@ -107,7 +108,7 @@
                         <div class="row">
                             <label for="activo" class="col-lg-2 control-label">Activo</label>
                             <div class="col-lg-2">
-                                {!! Form::checkbox('activo', old('activo'), in_array(old('activo', $direccion->activo), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'activo']) !!}
+                                {!! Form::checkbox('activo', old('activo',2), in_array(old('activo', $direccion->activo), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'activo']) !!}
                             </div>
                         </div>
                         <div class="form-group">

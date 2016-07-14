@@ -30,12 +30,12 @@ Route::get('/tickets/{slug?}/edit', 'TicketsController@edit');
 Route::post('/tickets/{slug?}/edit', 'TicketsController@update');
 Route::post('/tickets/{slug?}/delete', 'TicketsController@destroy');
 // Route::get('sendmail', function (){
-// 	$data = array('name' => "Learning Laravel",);
+// 	$data = array('name' => "Test mail",);
 
 // 	Mail::send('emails.welcome', $data, function($message){
 
-// 		$message->from('alejandro_abraham@tickets.com', 'Learning Laravel');
-// 		$message->to('alejandro_abraham@me.com')->subject('Learning Laravel test email');
+// 		$message->from('alejandro_abraham@tickets.com', 'Test mail');
+// 		$message->to('alejandro_abraham@me.com')->subject('Test email');
 // 	});
 // 	return "Your email has been sent succesfully";
 // });
@@ -97,6 +97,14 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 	Route::get('paciente/{id_p?}/direcciones/{id_d?}/delete', 'DireccionesController@showForDelete');
 	Route::post('paciente/{id_p?}/direcciones/{id_d?}/delete', 'DireccionesController@destroy');
 
+	//Teléfonos de paciente
+	Route::get('paciente/{id_p?}/telefonos', 'TelefonosController@index');
+	Route::post('paciente/{id_p?}/telefonos', 'TelefonosController@store');
+	Route::get('paciente/{id_p?}/telefonos/{id_t?}/edit', 'TelefonosController@edit');
+	Route::post('paciente/{id_p?}/telefonos/{id_t?}/edit', 'TelefonosController@update');
+	Route::get('paciente/{id_p?}/telefonos/{id_t?}/delete', 'TelefonosController@showForDelete');
+	Route::post('paciente/{id_p?}/telefonos/{id_t?}/delete', 'TelefonosController@destroy');
+
 	//Epidemiologías
 	Route::get('paciente/{id?}/epidemio/editar', 'EpidemiologiaController@edit');
 	Route::post('paciente/{id?}/epidemio/editar', 'EpidemiologiaController@update');
@@ -125,8 +133,8 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 		Route::get('paciente/{id_p?}/estudios/{id_e?}/edit', 'EstudiosController@edit');
 		Route::post('paciente/{id_p?}/estudios/{id_e?}/edit', 'EstudiosController@update');
 		//Baja
-		Route::get('paciente/{id_p?}/estudios/{id_e?}/delete', 'EstudiosController@showForDelete'); //TODO: Falta hacer
-		Route::post('paciente/{id_p?}/estudios/{id_e?}/delete', 'EstudiosController@destroy'); //TODO: Falta hacer
+		Route::get('paciente/{id_p?}/estudios/{id_e?}/delete', 'EstudiosController@showForDelete');
+		Route::post('paciente/{id_p?}/estudios/{id_e?}/delete', 'EstudiosController@destroy');
 		//Consulta
 		Route::get('paciente/{id_p?}/estudio/{id_e?}', 'PanelHistoriasController@verEstudio');
 		//Consulta todos

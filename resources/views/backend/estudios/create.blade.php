@@ -73,48 +73,6 @@
 
 @endsection
 
-{{--
-@section('scripts')
-    <script>
-        //TODO: hacer campo base autocompletable
-        var cont_id;
-        cont_id = 1;
-        $(document).on("click", ".borrar", function () {
-            var count = 1;
-            $(this).parent().remove();
-            $("fieldset#campos").children("div").each(function () {
-                $(this).attr("id", "ui_campo_" + count);
-                $(this).children("select").attr("id", "campo_" + count).attr("name", "campos[" + count + "]");
-                $(this).children("label").attr("for", "campo_" + count).text("Campo " + count + ":");
-                count++;
-            });
-            cont_id--;
-        });
-
-        $(document).ready(function () {
-            $("button#agrega").click(function () {
-                    cont_id++;
-                    var nuevoCampo = $("#ui_campo_1").clone();
-                    nuevoCampo.attr("id", "ui_campo_"+cont_id);
-                    nuevoCampo.children("#campo_1").attr("id", "campo_"+ cont_id).attr("name", "campos["+ cont_id + "]");
-                    nuevoCampo.children("label").attr("for","campo_"+ cont_id).text("Campo " + cont_id + ":");
-                    nuevoCampo.append('<button type="button" class="borrar">Borrar</button>');
-                   // Agregado para probar plugin Chosen
-                    //nuevoCampo.children(".chosen-select").chosen();
-                    // Fin Agregado para probar plugin Chosen
-                    $("fieldset#campos").append(nuevoCampo);
-                    $(nuevoCampo).find('select').chosen();
-
-
-            });
-            // Agregado para probar plugin Chosen
-            $(".chosen-select").chosen();
-            // Fin Agregado para probar plugin Chosen
-        });
-
-    </script>
-@endsection--}}
-
 @section('scripts')
 <script>
     $(document).ready(function () {

@@ -41,7 +41,7 @@ class DireccionesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id_p)
+    public function store(Requests\DireccionesFormRequest $request, $id_p)
     {
         //Guarda una nueva dirección
         $direccion = new Direccion();
@@ -103,7 +103,7 @@ class DireccionesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_p, $id_d)
+    public function update(Requests\DireccionesFormRequest $request, $id_p, $id_d)
     {
         //Actualiza una dirección
         //$paciente = Paciente::find($id_p);
