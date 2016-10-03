@@ -169,6 +169,22 @@
                 </div>
                 <!-- Estudios -->
 
+
+                <!-- Sintomas -->
+                <div class="list-group-separator"></div>
+                <div class="list-group-item">
+                    <div class="row-action-primary">
+                        <i class="material-icons"><img src="/img/sintomas_icon_solid.png" style="position: relative; top: 30%; left: 30%; width: 24px; height: 24px;" alt=""></i>
+                    </div>
+                    <div class="row-content">
+                        <div class="action-secondary"><i class="mdi-social-info"></i></div>
+                        <h4 class="list-group-item-heading">Administrar Sintomas</h4>
+                        <a href="/admin/sintomas" class="btn btn-default btn-raised">Mostrar todos</a>
+                        <a href="/admin/sintomas/create" class="btn btn-primary btn-raised">Nuevo Síntoma</a>
+                    </div>
+                </div>
+                <!-- Sintomas -->
+
                 <!-- Tratamientos -->
 {{--                <div class="list-group-separator"></div>
                 <div class="list-group-item">

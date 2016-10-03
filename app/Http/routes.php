@@ -181,6 +181,16 @@ Route::group(array('prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=> 'mana
 	Route::get('sedes/{id?}/delete', 'SedesController@destroy');
 	Route::post('sedes/{id?}/edit', 'SedesController@update');
 
+	//Administrar sintomas
+	Route::get('sintomas', 'SintomasController@index');
+	Route::get('sintomas/create', 'SintomasController@create');
+	Route::post('sintomas/create', 'SintomasController@store');
+	Route::get('sintomas/{id?}/edit', 'SintomasController@edit');
+	Route::post('sintomas/{id?}/edit', 'SintomasController@update');
+	Route::get('sintomas/{id?}/delete', 'SintomasController@show');
+	Route::post('sintomas/{id?}/delete', 'SintomasController@destroy');
+
+
 	//pacientes
 /*	Route::get('pacientes', 'PacientesController@index');
 	Route::get('pacientes/create', 'PacientesController@create');
@@ -239,12 +249,12 @@ Route::group(array('prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=> 'mana
 	Route::post('tratamientos/{id?}/delete','TratamientosController@destroy');
 
 
-	Route::get('/estudios/camposbase1', 'CamposBaseAppController@index');
-	Route::post('/estudios/camposbase1', 'CamposBaseAppController@store');
+	//Route::get('/estudios/camposbase1', 'CamposBaseAppController@index');
+	//Route::post('/estudios/camposbase1', 'CamposBaseAppController@store');
 	
 });
 
-Route::resource('api/camposbase', 'Admin\CamposBaseAjaxController');
+//Route::resource('api/camposbase', 'Admin\CamposBaseAjaxController');
 
 //Route::resource('api/camposbase1', 'Admin\CamposBaseAppController');
 
