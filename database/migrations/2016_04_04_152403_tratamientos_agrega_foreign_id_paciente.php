@@ -14,7 +14,7 @@ class TratamientosAgregaForeignIdPaciente extends Migration
     {
         Schema::table('tratamientos', function (Blueprint $table) {
             //
-            $table->foreign('id_paciente')->references('id')->on('pacientes');
+            //$table->foreign('id_paciente')->references('id')->on('pacientes');
         });
     }
 
@@ -27,7 +27,7 @@ class TratamientosAgregaForeignIdPaciente extends Migration
     {
         Schema::table('tratamientos', function (Blueprint $table) {
             //
-            $table->dropForeign('tratamientos_id_paciente_foreign');
+            //$table->dropForeign('tratamientos_id_paciente_foreign');
         });
     }
 }

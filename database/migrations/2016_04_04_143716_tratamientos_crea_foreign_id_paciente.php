@@ -14,9 +14,9 @@ class TratamientosCreaForeignIdPaciente extends Migration
     {
         Schema::table('tratamientos', function (Blueprint $table) {
             //
-            //$table->integer('id_paciente')->unsigned()->index();
+            $table->integer('id_paciente')->unsigned()->index();
 
-            //table->foreign('id_paciente')->references('id')->on('pacientes');
+            $table->foreign('id_paciente')->references('id')->on('pacientes');
         });
     }
 

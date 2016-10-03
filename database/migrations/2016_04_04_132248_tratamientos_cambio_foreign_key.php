@@ -14,7 +14,7 @@ class TratamientosCambioForeignKey extends Migration
     {
         Schema::table('tratamientos', function (Blueprint $table) {
             //
-            //$table->dropForeign('tratamientos_id_hc_foreign');
+            $table->dropForeign('tratamientos_id_hc_foreign');
             $table->foreign('id_hc')->references('id_hc')->on('pacientes')->onDelete('cascade');
         });
     }
