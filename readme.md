@@ -1,4 +1,4 @@
-## Laravel PHP Framework
+# Sistema de Diagnóstico y Tratamiento de Chagas
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
 [![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
@@ -6,22 +6,15 @@
 [![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+### - Funcionalidades pendientes de desarrollar: ###
+* Versión imprimible de la Historia Clínica. Acordamos que Rodolfo y Carlos van a preparar un modelo de la información que se debe mostrar en la versión imprimible y cómo se debe mostrar.
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
-
-## Official Documentation
-
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-### License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+### - Nuevas funcionalidades solicitadas: ###
+* Funcionalidad de alta, baja y modificación de Tratamientos Etiológicos
+* Funcionalidad de alta, baja y modificación de Síntomas
+* Funcionalidad de alta, baja y modificación de Patologías
+* Agregar los siguientes paneles a la pantalla principal del sistema: últimos pacientes atendidos, próximas citas
+* Medicamentos: Droga y familia. Se buscará una base de datos que provea un listado completo para incorporar al sistema. Se verá con Ana la posibilidad de obtener estos datos del ANMAT.
+* Índice de Comorbilidad de Charlson: se habló si se puede incluir el cálculo automático de este índice en el sistema. Se dejaría esta funcionalidad para la próxima versión del sistema.
+* Se desea utilizar el campo “Fecha de próxima cita” para que el sistema envíe por e-mail y/o por SMS un aviso al paciente unos días antes de la consulta programada. Esta funcionalidad solo será posible si servidor donde se encuentre el sistema tendrá acceso a Internet. 
+* Se habló de dar la posibilidad de extraer los datos del sistema en forma masiva para exportar a Excel y luego a un programa de estadísticas. Esto se desarrollará luego de poner en funcionamiento la primer versión del sistema.
