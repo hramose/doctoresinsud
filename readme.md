@@ -15,7 +15,7 @@
 * **Funcionalidad de alta, baja y modificación de Patologías**
 * Agregar los siguientes paneles a la pantalla principal del sistema: últimos pacientes atendidos, próximas citas
 * Medicamentos: Droga y familia. Se buscará una base de datos que provea un listado completo para incorporar al sistema. Se verá con Ana la posibilidad de obtener estos datos del ANMAT.
-* Índice de Comorbilidad de Charlson: se habló si se puede incluir el cálculo automático de este índice en el sistema. Se dejaría esta funcionalidad para la próxima versión del sistema.
+* ~~Índice de Comorbilidad de Charlson: se habló si se puede incluir el cálculo automático de este índice en el sistema. Se dejaría esta funcionalidad para la próxima versión del sistema.~~
 * Se desea utilizar el campo “Fecha de próxima cita” para que el sistema envíe por e-mail y/o por SMS un aviso al paciente unos días antes de la consulta programada. Esta funcionalidad solo será posible si servidor donde se encuentre el sistema tendrá acceso a Internet. 
 * Se habló de dar la posibilidad de extraer los datos del sistema en forma masiva para exportar a Excel y luego a un programa de estadísticas. Esto se desarrollará luego de poner en funcionamiento la primer versión del sistema.
 
