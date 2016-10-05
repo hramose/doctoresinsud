@@ -1328,10 +1328,8 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">Consultas
-                              <span class="pull-right"><a href="#"
-                                                          data-target="#modal-consulta-nueva"
-                                                          data-toggle="modal"
-                                                          class="btn-sm btn-raised btn-success salocin"
+                              <span class="pull-right"><a href="{!! action('Panel\PanelHistoriasController@showConsulta', $paciente->id) !!}"
+                                                          class="btn-sm btn-raised btn-success"
                                                           style="text-decoration: none;">Nueva
                                 consulta</a></span></h3>
                 </div>

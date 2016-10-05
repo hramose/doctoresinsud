@@ -83,6 +83,7 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 	Route::get('paciente/{id?}', 'PanelHistoriasController@verHistoria');
 
 	Route::post('paciente/submitNuevaConsulta', 'PanelHistoriasController@nuevaConsulta');
+	Route::get('paciente/{id_p}/nuevaConsulta', 'PanelHistoriasController@showConsulta');
 	Route::post('paciente/submitEditarConsulta', 'PanelHistoriasController@guardarConsulta');
 	Route::delete('paciente/submitBorrarConsulta', 'PanelHistoriasController@borrarConsulta');
 	Route::get('paciente/{id_p?}/consulta/{id_c?}', 'PanelHistoriasController@editarConsulta');

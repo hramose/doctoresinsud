@@ -28,6 +28,13 @@ class PanelHistoriasController extends Controller
         return $pacientes;
     }
 
+    public function showConsulta($id_p)
+    {
+        $paciente = Paciente::find($id_p);
+
+        return view('panel.consulta.nueva', compact('paciente'));
+    }
+
     public function nuevaConsulta(Request $request)
     {
 
