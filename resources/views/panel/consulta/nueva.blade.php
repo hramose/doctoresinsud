@@ -100,6 +100,19 @@
 @endsection
 
 @section('content')
+    <div class="panel panel-primary" style="margin-top: -20px">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-lg-7">
+                    <h2 class="text-left" style="border-radius: 0">Historia Clínica
+                        de {!! $paciente->apellido . ", " . $paciente->nombre . " (H.C.:" . $paciente->id_hc . ")"!!}</h2>
+                </div>
+                {{--                <div class="col-lg-2">
+                                    <a href="#" class="btn btn-raised btn-success pull-right">Editar Historia</a>
+                                </div>--}}
+            </div>
+        </div>
+    </div>
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -147,9 +160,9 @@
                             <button type="submit" class="btn btn-success" id="submitConsulta" style="float: right;">
                                 Guardar
                             </button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: right;">
+                            <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}" class="btn btn-danger" style="float: right;">
                                 Cancelar
-                            </button>
+                            </a>
                         </fieldset>
                     </form>
                 </div>

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
 use App\Http\Requests\editHistoriaRequest;
 use App\Http\Requests\crearHistoriaFormRequest;
+use Illuminate\Support\Facades\URL;
 
 class PanelHistoriasController extends Controller
 {
@@ -56,7 +57,8 @@ class PanelHistoriasController extends Controller
         $paciente->fecha_ult_consulta =  date('d/m/Y');
         $paciente->save();
         //fin agregado
-        return json_encode($consulta);
+        return redirect()->action('Panel\PanelHistoriasController@verHistoria', $paciente->id)->with('status', 'Consulta agragada correctamente.');
+        //return json_encode($consulta);
     }
 
     /**
