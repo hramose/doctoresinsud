@@ -1,19 +1,19 @@
 @extends('master')
-@section('title', 'Sintomas')
+@section('title', 'Patologias')
 @section('content')
 
     <div class="container col-md-8 col-md-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2> Síntomas </h2>
+                <h2> Patologias </h2>
             </div>
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
                 </div>
             @endif
-            @if ($sintomas->isEmpty())
-                <p> No hay síntomas cargados.</p>
+            @if ($patologias->isEmpty())
+                <p> No hay patologías cargadas.</p>
             @else
                 <table class="table" id="myTable">
                     <thead>
@@ -23,10 +23,10 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($sintomas as $sintoma)
+                    @foreach($patologias as $patologia)
                         <tr>
-                            <td>{!! $sintoma->nombre !!}</td>
-                            <td>{!! $sintoma->descripcion !!}</td>
+                            <td>{!! $patologia->nombre !!}</td>
+                            <td>{!! $patologia->descripcion !!}</td>
                         </tr>
                     @endforeach
                     </tbody>

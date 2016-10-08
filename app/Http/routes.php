@@ -171,6 +171,15 @@ Route::group(array('prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=> 'mana
     Route::get('sintomas/{id?}/delete', 'SintomasController@show');
     Route::post('sintomas/{id?}/delete', 'SintomasController@destroy');
 
+	//Administrar patologias
+	Route::get('patologias', 'PatologiasController@index');
+	Route::get('patologias/create', 'PatologiasController@create');
+	Route::post('patologias/create', 'PatologiasController@store');
+	Route::get('patologias/{id?}/edit', 'PatologiasController@edit');
+	Route::post('patologias/{id?}/edit', 'PatologiasController@update');
+	Route::get('patologias/{id?}/delete', 'PatologiasController@show');
+	Route::post('patologias/{id?}/delete', 'PatologiasController@destroy');
+
     //items historia clinica
     Route::get('items', 'HistoriasClinicasController@index');
     Route::get('items/create', 'HistoriasClinicasController@create');
