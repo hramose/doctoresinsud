@@ -11,28 +11,28 @@
         });
 
         //Handler para traer datos de la consulta a editar
-        $(document).on('click', '.btn-edita-consulta', function (e) {
-            $.ajax({
-                type: "GET",
-                url: $(this).attr('data-href'),
-                success: function (data) {
-                    //$('#limpieza_edit').find('#form-editar-consulta')[0].reset();
-                    data = JSON.parse(data);
-                    //console.log(data);
-                    //console.log(data.consulta.titulo);
-                    //CKEDITOR.instances.editor_descripcion_edit.setData('');
-                    $('#titulo_edit').val(data.consulta.titulo);
-                    $('#id_consulta_edit').val(data.consulta.id);
-                    CKEDITOR.instances.editor_descripcion_edit.setData(data.consulta.descripcion);
-                    $("#modal-consulta-editar").modal('show');
-                    return false;
-                    //e.preventDefault();
-                },
-                error: function () {
-                    return alert("Ocurrió un problema. Contactar al desarrollador.");
-                }
-            });
-        });
+//        $(document).on('click', '.btn-edita-consulta', function (e) {
+//            $.ajax({
+//                type: "GET",
+//                url: $(this).attr('data-href'),
+//                success: function (data) {
+//                    //$('#limpieza_edit').find('#form-editar-consulta')[0].reset();
+//                    data = JSON.parse(data);
+//                    //console.log(data);
+//                    //console.log(data.consulta.titulo);
+//                    //CKEDITOR.instances.editor_descripcion_edit.setData('');
+//                    $('#titulo_edit').val(data.consulta.titulo);
+//                    $('#id_consulta_edit').val(data.consulta.id);
+//                    CKEDITOR.instances.editor_descripcion_edit.setData(data.consulta.descripcion);
+//                    $("#modal-consulta-editar").modal('show');
+//                    return false;
+//                    //e.preventDefault();
+//                },
+//                error: function () {
+//                    return alert("Ocurrió un problema. Contactar al desarrollador.");
+//                }
+//            });
+//        });
 
         $(document).on('ready', function () {
             $("#expand-boton").on('click', function () {
@@ -66,7 +66,7 @@
                         return alert("Ocurrió un problema. Contactar al desarrollador.");//fnCallback(data);
                     }
                 });
-            }
+            };
 
             //Handler confirmación de borrar consulta
             $('#submitConsulta_borrar').on('click', function (e) {
@@ -85,24 +85,24 @@
 
 
             //Handler para validar formulario de edición de consulta y luego enviar al servidor
-            $("#submitConsulta_editar").on('click', function (e) {
-                $("#hidden_descripcion_edit").val(CKEDITOR.instances.editor_descripcion_edit.getData());
-                //console.log($('#form-editar-consulta').serialize());
-                if (!$('#form-editar-consulta').isValid(false)) {
-                    return alert("El formulario contiene campos inválidos");
-                } else {
-                    ajaxSubmit(
-                            $('#form-editar-consulta'),
-                            function (data) {
-                                data = JSON.parse(data);
-                                $('#consulta_' + data.id + ' .titulo_consulta').html(data.titulo);
-                                $('#consulta_' + data.id + ' .desc_consulta').html(data.descripcion);
-                                $("#modal-consulta-editar").modal('hide');
-                            }
-                    );
-                    e.preventDefault();
-                }
-            });
+//            $("#submitConsulta_editar").on('click', function (e) {
+//                $("#hidden_descripcion_edit").val(CKEDITOR.instances.editor_descripcion_edit.getData());
+//                //console.log($('#form-editar-consulta').serialize());
+//                if (!$('#form-editar-consulta').isValid(false)) {
+//                    return alert("El formulario contiene campos inválidos");
+//                } else {
+//                    ajaxSubmit(
+//                            $('#form-editar-consulta'),
+//                            function (data) {
+//                                data = JSON.parse(data);
+//                                $('#consulta_' + data.id + ' .titulo_consulta').html(data.titulo);
+//                                $('#consulta_' + data.id + ' .desc_consulta').html(data.descripcion);
+//                                $("#modal-consulta-editar").modal('hide');
+//                            }
+//                    );
+//                    e.preventDefault();
+//                }
+//            });
 
             //Handler para validar formulario de nueva consulta y luego enviar al servidor
             $("#submitConsulta").on('click', function (e) {
@@ -1377,11 +1377,10 @@
                                         <a href="javascript:void(0)" class="btn btn-sm btn-danger" disabled="true">Eliminar</a>
                                     @endif
                                     @if(Auth::user()->name == $consulta->medico->name)
-                                        <button class="btn btn-sm btn-raised btn-primary btn-edita-consulta"
-                                                data-target="#modal-consulta-editar" data-toggle="modal"
-                                                data-href="{!! action('Panel\PanelHistoriasController@editarConsulta', ['id_p' => $paciente->id,'id_c' => $consulta->id]) !!}">
+                                        <a class="btn btn-sm btn-raised btn-primary btn-edita-consulta"
+                                                href="{!! action('Panel\PanelHistoriasController@editarConsulta', ['id_p' => $paciente->id,'id_c' => $consulta->id]) !!}">
                                             Editar
-                                        </button>
+                                        </a>
                                     @else
                                         <a href="javascript:void(0)" class="btn btn-sm btn-primary" disabled="true">Editar</a>
                                     @endif

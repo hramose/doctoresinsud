@@ -74,8 +74,8 @@ class PanelHistoriasController extends Controller
         $paciente = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre')->where('id', $id_p)->get();
         $consulta = Consulta::find($id_c);
 
-        return json_encode(compact('paciente', 'consulta'));
-        //return view('panel.consulta.editar', compact('paciente', 'consulta'));
+        //return json_encode(compact('paciente', 'consulta'));
+        return view('panel.consulta.editar', compact('paciente', 'consulta'));
     }
 
     public function guardarConsulta(Request $request)
