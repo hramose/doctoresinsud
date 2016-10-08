@@ -7,93 +7,27 @@
 @endsection
 
 @section('scripts')
-    <script>
-        $(document).on('ready', function () {
-            //Handler para validar formulario de nueva consulta y luego enviar al servidor
-            $("#submitConsulta").on('click', function (e) {
-                $("#hidden_descripcion").val(CKEDITOR.instances.editor_descripcion.getData());
 
-                if (!$('#form-nueva-consulta').isValid(false)) {
-                    return alert("El formulario contiene campos inválidos");
-                } else {
-                    ajaxSubmit(
-                            $('#form-nueva-consulta'),
-                            function (data) {
-                                data = JSON.parse(data);
-
-                                var newConsulta = $('<div>');
-                                newConsulta.addClass('well well-lg');
-                                newConsulta.attr('id', 'consulta_' + data.id);
-                                newConsulta.html('<div class="row">\
-                                    <div class="col-lg-8">\
-                                        <p><strong>Medico: </strong>' + data.medico.name + '</p>\
-                                    </div>\
-                                    <div class="col-lg-4">\
-                                        <p><strong>Fecha: </strong>' + moment(data.fecha).format('DD/MM/YYYY') + '</p>\
-                                    </div>\
-                                </div>\
-                                <div class="row">\
-                                    <div class="col-lg-12">\
-                                        <p><strong>Titulo: </strong>\
-                                            <span class="titulo_consulta">' + data.titulo + '</span></p>\
-                                        </p>\
-                                    </div>\
-                                </div>\
-                                <div class="row">\
-                                    <div class="col-lg-12">\
-                                        <p>\
-                                            <strong>Descripción: </strong>\
-                                        </p>\
-                                        <div class="desc_consulta">' + data.descripcion + '</div>\
-                                    </div>\
-                                </div>\
-                                <div class="row">\
-                                    <div class="col-lg-5 col-lg-offset-7">\
-                                        <a href="javascript:void(0)" class="btn btn-sm btn-raised btn-danger btn-borra-consulta" data-id="' + data.id + '" data-target="#modal-consulta-borrar" data-toggle="modal">Eliminar</a>\
-                                        <button class="btn btn-sm btn-raised btn-primary btn-edita-consulta"\
-                                                data-target="#modal-consulta-editar" data-toggle="modal"\
-                                                data-href="/panel/paciente/' + data.id_paciente + '/consulta/' + data.id + '">Editar</button>\
-                                    </div>\
-                                </div>');
-
-
-                                $("#pbody-consultas").prepend(newConsulta);
-
-                                //agregado
-                                $("#fecha_ult_consulta").val(moment(data.fecha).format('DD/MM/YYYY'));
-                                //fin agregado
-                                $("#modal-consulta-nueva").modal('hide');
-                                $("#pbody-consultas").scrollTop(0);
-                            }
-                    );
-                    e.preventDefault();
-                }
-            });
-
-        });
-    </script>
-
-    <script src="../../../ckeditor/ckeditor.js"></script>
+    <script src="{{ asset('/ckeditor/ckeditor.js') }}"></script>
     <script>
         CKEDITOR.replace('editor_descripcion', {
-            customConfig: '../../../ckeditor/custom_config.js'
+            customConfig: '{{ asset('/ckeditor/custom_config.js') }}'
         });
         CKEDITOR.replace('editor_descripcion_edit', {
-            customConfig: '../../../ckeditor/custom_config.js'
+            customConfig: '{{ asset('/ckeditor/custom_config.js') }}'
         });
-    </script>
 
-    <script>
         $.validate({
             form: '#form-nueva-consulta',
             lang: 'es',
-            /*            onError : function($form) {
+            {{--            onError : function($form) {
              alert('Validation of form '+$form.attr('id')+' failed!');
              },
              onSuccess : function($form) {
              alert('The form '+$form.attr('id')+' is valid!');
              return false; // Will stop the submission of the form
-             },*/
+             },--}}
+
         });
     </script>
 
@@ -113,13 +47,9 @@
             </div>
         </div>
     </div>
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"></h4>
-            </div>
-            <div class="modal-body" id="limpieza">
+
+
+            <div class="container">
                 <div class="well well-lg">
                     <form id="form-nueva-consulta" method="post"
                           action="{{ URL::action('Panel\PanelHistoriasController@nuevaConsulta') }}"
@@ -167,11 +97,6 @@
                     </form>
                 </div>
             </div>
-            {{--                <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-success" data-dismiss="modal">Guardar</button>
-                            </div>--}}
-        </div>
-    </div>
+
 
 @endsection

@@ -1325,7 +1325,7 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" id="consultas">
                 <div class="panel-heading">
                     <h3 class="panel-title">Consultas
                               <span class="pull-right"><a href="{!! action('Panel\PanelHistoriasController@showConsulta', $paciente->id) !!}"

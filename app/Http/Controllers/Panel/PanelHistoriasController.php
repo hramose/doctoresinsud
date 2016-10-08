@@ -8,6 +8,7 @@ use App\EstudioPacienteValor;
 use App\Tratamiento;
 use Illuminate\Http\Request;
 
+use Exception;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Paciente;
@@ -21,7 +22,8 @@ use Illuminate\Support\Facades\URL;
 class PanelHistoriasController extends Controller
 {
 
-    public function getHCJson(){
+    public function getHCJson()
+    {
         $pacientes = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre', 'fecha_alta', 'fecha_ult_consulta')->get();
 
         $pacientes = json_decode(json_encode($pacientes), true);
@@ -79,17 +81,22 @@ class PanelHistoriasController extends Controller
 
     public function guardarConsulta(Request $request)
     {
-        //dd($request);
-        $consulta = Consulta::find($request->get('id_consulta'));
+        try {
+            $consulta = Consulta::findOrFail($request->get('id_consulta'));
 
-        $consulta->id_usuario = $request->get('id_usuario');
-        $consulta->id_paciente = $request->get('id_paciente_edit');
-        $consulta->titulo = $request->get('titulo_edit');
-        $consulta->descripcion = $request->get('hidden_descripcion_edit');
+            $consulta->id_usuario = $request->get('id_usuario');
+            $consulta->id_paciente = $request->get('id_paciente');
+            $consulta->titulo = $request->get('titulo');
+            $consulta->descripcion = $request->get('descripcion');
 
-        $consulta->save();
+            $consulta->save();
+        } catch (Exception $e) {
+            dd($e);
+        }
 
-        return json_encode($consulta);
+        return redirect()->action('Panel\PanelHistoriasController@verHistoria', [$consulta->id_paciente, '#consultas'])
+            ->with('status', 'Consulta editada correctamente')
+            ->with('consulta', $consulta);
     }
 
 
@@ -100,7 +107,6 @@ class PanelHistoriasController extends Controller
         $consulta->delete();
 
         return json_encode($request->get('id_consulta'));
-
     }
 
     /**
@@ -119,7 +125,7 @@ class PanelHistoriasController extends Controller
         $tratamientos = $paciente->tratamientos('id_paciente')->orderBy('fecha_trat', 'desc')->take(10)->get();
        // $estudios = $paciente->estudioPacientes('id_hc')->orderBy('fecha', 'desc')->take(10)->get();
         $estudios = DB::table('estudios_pacientes')
-                        ->join('estudios','estudios_pacientes.id_estudio', '=', 'estudios.id')
+                        ->join('estudios', 'estudios_pacientes.id_estudio', '=', 'estudios.id')
                         ->where('estudios_pacientes.id_hc', '=', $id)
                         ->select('estudios_pacientes.*', 'estudios.nombre')
                         ->orderBy('estudios_pacientes.fecha', 'desc')
@@ -154,7 +160,7 @@ class PanelHistoriasController extends Controller
     public function verTodosEstudios($id_p)
     {
         $estudios = DB::table('estudios_pacientes')
-            ->join('estudios','estudios_pacientes.id_estudio', '=', 'estudios.id')
+            ->join('estudios', 'estudios_pacientes.id_estudio', '=', 'estudios.id')
             ->where('estudios_pacientes.id_hc', '=', $id_p)
             ->select('estudios_pacientes.*', 'estudios.nombre')
             ->orderBy('estudios_pacientes.fecha', 'desc')
