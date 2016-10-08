@@ -11,4 +11,10 @@ class Patologia extends Model
         'nombre',
         'descripcion',
     ];
+
+    public function consultas()
+    {
+        return $this->belongsToMany('App\Consulta', 'consultas_patologias')->withPivot('patologia_id', 'consulta_id');
+
+    }
 }

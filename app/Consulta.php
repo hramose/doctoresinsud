@@ -32,4 +32,17 @@ class Consulta extends Model
     {
         return $this->belongsTo('App\Sede', 'id_sede', 'id');
     }
+
+    public function sintomas()
+    {
+        return $this->belongsToMany('App\Sintomas', 'consultas_sintomas')->withPivot('consulta_id', 'sintoma_id');
+
+    }
+
+    public function patologias()
+    {
+        return $this->belongsToMany('App\Patologia', 'consultas_patologias')->withPivot('consulta_id', 'patologia_id');
+
+    }
+
 }

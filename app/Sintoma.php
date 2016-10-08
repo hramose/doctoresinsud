@@ -11,4 +11,11 @@ class Sintoma extends Model
             'nombre',
             'descripcion',
         ];
+
+    public function consultas()
+    {
+        return $this->belongsToMany('App\Consulta', 'consultas_sintomas')->withPivot('sintoma_id', 'consulta_id');
+
+    }
+
 }
