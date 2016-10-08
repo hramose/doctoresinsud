@@ -9,16 +9,15 @@ class Consulta extends Model
 
     protected $table = 'item_hcs';
 
-	protected $fillable = [
-    			'id_sede',
-    			'id_usuario',
-    			'id_paciente',
-    			'titulo',
+    protected $fillable = [
+                'id_sede',
+                'id_usuario',
+                'id_paciente',
+                'titulo',
                 'fecha',
-    			'descripcion',
-    		];
+                'descripcion',
+            ];
 
-    		
     public function paciente()
     {
         return $this->hasOne('App\Paciente', 'id', 'id_paciente');
@@ -33,5 +32,4 @@ class Consulta extends Model
     {
         return $this->belongsTo('App\Sede', 'id_sede', 'id');
     }
-
 }
