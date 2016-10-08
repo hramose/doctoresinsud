@@ -10,7 +10,7 @@
     <div class="panel panel-primary" style="margin-top: -20px">
         <div class="panel-heading">
             <div class="row">
-                <div class="col-lg-7">
+                <div class="col-lg-12">
                     <h2 class="text-left" style="border-radius: 0">Historia Clínica
                         de {!! $paciente[0]->apellido . ", " . $paciente[0]->nombre . " (H.C.:" . $paciente[0]->id_hc . ")"!!}</h2>
                 </div>
@@ -62,8 +62,8 @@
                     <button type="submit" class="btn btn-success" id="submitConsulta_editar" style="float: right;">
                         Guardar
                     </button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: right;">Cancelar
-                    </button>
+                    <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente[0]->id) }}" class="btn btn-danger" style="float: right;">Cancelar
+                    </a>
                 </fieldset>
             </form>
         </div>

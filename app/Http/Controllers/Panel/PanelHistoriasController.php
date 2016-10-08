@@ -58,7 +58,6 @@ class PanelHistoriasController extends Controller
         $paciente->save();
         //fin agregado
         return redirect()->action('Panel\PanelHistoriasController@verHistoria', $paciente->id)->with('status', 'Consulta agragada correctamente.');
-        //return json_encode($consulta);
     }
 
     /**
