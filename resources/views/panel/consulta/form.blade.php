@@ -39,7 +39,7 @@
                     <li><a href="#sintomas" data-toggle="tab">S&iacute;ntomas</a></li>
                     <li><a href="#patologia" data-toggle="tab">Patolog&iacute;a</a></li>
                     <li><a href="#eventos" data-toggle="tab">Eventos</a></li>
-                    <li><a href="#estudios" data-toggle="tab">Estudios</a></li>
+                    <li><a href="#estudios" data-toggle="tab">Estudios Solicitados</a></li>
                     <li><a href="#tratamientos" data-toggle="tab">Tratamientos</a></li>
                     <li><a href="#grupo-clinico" data-toggle="tab">Grupo Cl&iacute;nico</a></li>
                 </ul>
@@ -91,7 +91,7 @@
                     <h3>Eventos</h3>
                 </div>
                 <div class="tab-pane" id="estudios">
-                    <h3>Estudios</h3>
+                    <h3>Estudios Solicitados</h3>
                 </div>
                 <div class="tab-pane" id="tratamientos">
                     <h3>Tratamientos</h3>
@@ -125,6 +125,13 @@
 @endsection
 
 @section('scripts')
+<style>
+    .nav-tabs > li.active > a {
+        border-radius: 0;
+        height: 39px;
+        background-color: #03af9f !important
+    }
+</style>
 <script>
     $(document).on('ready', function() {
         var hash = window.location.hash;
