@@ -31,32 +31,6 @@
                         <a href="/admin/roles/create" class="btn btn-primary btn-raised">Crear un rol</a>
                     </div>
                 </div>
-                <!--
-                <div class="list-group-separator"></div>
-                <div class="list-group-item">
-                    <div class="row-action-primary">
-                        <i class="mdi-editor-border-color"></i>
-                    </div>
-                    <div class="row-content">
-                        <div class="action-secondary"><i class="mdi-material-info"></i></div>
-                        <h4 class="list-group-item-heading">Administración de Posts</h4>
-                        <a href="/admin/posts" class="btn btn-default btn-raised">Todos los Posts</a>
-                        <a href="/admin/posts/create" class="btn btn-primary btn-raised">Crear un Post</a>
-                    </div>
-                </div>
-                <div class="list-group-separator"></div>
-                <div class="list-group-item">
-                    <div class="row-action-primary">
-                        <i class="mdi-file-folder"></i>
-                    </div>
-                    <div class="row-content">
-                        <div class="action-secondary"><i class="mdi-material-info"></i></div>
-                        <h4 class="list-group-item-heading">Administración de Categorías</h4>
-                        <a href="/admin/categories" class="btn btn-default btn-raised">Todas las categorías</a>
-                        <a href="/admin/categories/create" class="btn btn-primary btn-raised">Nueva Categoría</a>
-                    </div>
-                </div>
-                -->
 
                 <!-- sedes -->
                 <div class="list-group-separator"></div>
@@ -72,43 +46,13 @@
                     </div>
                 </div>
                 <!-- sedes -->
-                
-                <!-- pacientes -->
-{{--                <div class="list-group-separator"></div>
-                <div class="list-group-item">
-                    <div class="row-action-primary">
-                        <i class="mdi-social-group"></i>
-                    </div>
-                    <div class="row-content">
-                        <div class="action-secondary"><i class="mdi-social-info"></i></div>
-                        <h4 class="list-group-item-heading">Administrar Pacientes</h4>
-                        <a href="/admin/pacientes" class="btn btn-default btn-raised">Mostrar Todos</a>
-                        <a href="/admin/pacientes/create" class="btn btn-primary btn-raised">Nuevo Paciente</a>
-                    </div>
-                </div>--}}
-                <!-- pacientes -->
+
             </div>
         </div>  <!-- Col-md -->
         <div class="col-lg-6">
             <div class="list-group">
 
-                <!-- items NO MOSTRAR-->
-                <!-- <div class="list-group-separator"></div> -->
-                <div class="list-group-item" style="display: none;">
-                    <div class="row-action-primary">
-                        <i class="mdi-social-group"></i>
-                    </div>
-                    <div class="row-content">
-                        <div class="action-secondary"><i class="mdi-social-info"></i></div>
-                        <h4 class="list-group-item-heading">Administrar items historia clínica</h4>
-                        <a href="/admin/items" class="btn btn-default btn-raised">Mostrar todos</a>
-                        <a href="/admin/items/create" class="btn btn-primary btn-raised">Nuevo Item</a>
-                    </div>
-                </div>
-                <!-- items -->
-
                 <!-- Campos Base -->
-                {{--<div class="list-group-separator"></div>--}}
                 <div class="list-group-item">
                     <div class="row-action-primary">
                         <i class="mdi-av-my-library-books"></i>
@@ -200,22 +144,6 @@
                     </div>
                 </div>
                 <!-- Patologias -->
-
-                <!-- Tratamientos -->
-{{--                <div class="list-group-separator"></div>
-                <div class="list-group-item">
-                    <div class="row-action-primary">
-                        <i class="material-icons">local_hospital</i>
-                    </div>
-                    <div class="row-content">
-                        <div class="action-secondary"><i class="mdi-social-info"></i></div>
-                        <h4 class="list-group-item-heading">Administrar Tratamientos</h4>
-                        <a href="/admin/tratamientos" class="btn btn-default btn-raised">Mostrar Todos</a>
-                        <a href="/admin/tratamientos/create" class="btn btn-primary btn-raised">Nuevo tratamiento</a>
-                    </div>
-                </div>--}}
-                <!-- tratamientos -->
-
             </div>
         </div>
 
