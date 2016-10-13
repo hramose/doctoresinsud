@@ -52,6 +52,11 @@
 		width: 100%;
 	}*/
 
+	.vcenter {
+		vertical-align: middle;
+		position: relative; top: 5px;
+	}
+
 </style>
 
 @endsection

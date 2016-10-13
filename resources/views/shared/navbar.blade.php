@@ -14,26 +14,21 @@
         <!-- Navbar Right -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li {{(Request::is('/') ? 'class=active' : '')}}><a href="{{ URL::to('/') }}/">Home</a></li>
-                {{--<li class="active"><a href="/">Home</a></li>--}}
-               <!-- <li><a href="/tickets">Tickets</a></li>
-                <li><a href="/blog">Blog</a></li>-->
-                {{--<li><a href="/about">About</a></li>--}}
-                {{--<li><a href="/contact">Carga un ticket</a></li>--}}
+                <li class="{{(Request::is('/') ? 'active' : '')}}"><a href="{{ URL::to('/') }}/">Home <i class="material-icons" style="position: relative; top: 5px;">home</i></a></li>
                 @if(Auth::check())
                     @if(Auth::user()->hasRole('Medico'))
-                        <li {{(Request::is('panel') ? 'class=active' : '')}}><a href="{{ action('Panel\PanelHistoriasController@index') }}">Panel Historias Clínicas</a></li>
+                        <li class="{{(Request::is('panel') ? 'active' : '')}}"><a href="{{ action('Panel\PanelHistoriasController@index') }}">Panel Historias Clínicas <i class="material-icons" style="position: relative; top: 5px;">content_paste</i></a></li>
                     @endif
                 @endif
 
                 @if (Auth::check())
                     @if(Auth::user()->hasRole('Manager'))
-                        <li><a href="{{ action('Admin\PagesController@home') }}">Administrar</a></li>
+                        <li class="{{(Request::is('admin') ? 'active' : '')}}"><a href="{{ action('Admin\PagesController@home') }}">Administrar <i class="material-icons" style="position: relative; top: 5px;">settings</i></a></li>
                     @endif
-                    <li><a href="{{ action('Auth\AuthController@getLogout') }}">Salir</a></li>
+                    <li><a href="{{ action('Auth\AuthController@getLogout') }}">Salir <i class="material-icons" style="position: relative; top: 5px;">forward</i></a></li>
                 @else
-                    <li><a href="{{ action('Auth\AuthController@getRegister') }}">Registrar</a></li>
-                    <li><a href="{{ action('Auth\AuthController@getLogin') }}">Ingresar</a></li>
+                    <li class="{{(Request::is('users/register') ? 'active' : '')}}"><a href="{{ action('Auth\AuthController@getRegister') }}">Registrar</a></li>
+                    <li class="{{(Request::is('users/login') ? 'active' : '')}}"><a href="{{ action('Auth\AuthController@getLogin') }}">Ingresar</a></li>
                 @endif
             </ul>
         </div>
