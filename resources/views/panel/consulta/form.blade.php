@@ -83,6 +83,25 @@
                 </div>
                 <div class="tab-pane" id="sintomas">
                     <h3>S&iacute;ntomas</h3>
+                    <div class="well well bs-component">
+                        <fieldset id="sintomas-fieldset">
+                            <legend>Sintomas detectados</legend>
+                            <div id="ui_campo_1">
+                                <select class="chosen-select-sintomas" multiple name="sintomas[]" id="select-sintomas">
+                                    @if(isset($sintomasSeleccionados))
+                                        @foreach($sintomas as $sintoma)
+                                            <option value="{!! $sintoma->id !!}" @if(in_array($sintoma->id, $sintomasSeleccionados))
+                                            selected="selected" @endif> {!! $sintoma->nombre !!}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach($sintomas as $sintoma)
+                                            <option value="{!! $sintoma->id !!}"> {!! $sintoma->nombre !!}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </fieldset>
+                    </div>
                 </div>
                 <div class="tab-pane" id="patologia">
                     <h3>Patolog&iacute;a</h3>
@@ -103,9 +122,9 @@
 
             </div>
 
+                <button type="submit" class="btn btn-success pull-right" id="submitConsulta_editar">Guardar</button>
+                <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}" class="btn btn-danger pull-right">Cancelar</a>
             </form>
-            <button type="submit" class="btn btn-success pull-right" id="submitConsulta_editar">Guardar</button>
-            <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}" class="btn btn-danger pull-right">Cancelar</a>
             <div class="clearfix"></div>
         </div>
     </div>
@@ -143,6 +162,22 @@
           window.location.hash = this.hash;
           $('html,body').scrollTop(scrollmem);
         });
+
+        $(".chosen-select-sintomas").chosen({
+            no_results_text: "No se encontraron resultados para las palabras ingresadas",
+            width: "95%",
+            placeholder_text_multiple: "Seleccione del listado los campos o escriba para reducir los resultados "
+        });
     })
 </script>
+
+{{--<script>
+    $(document).ready(function () {
+        $(".chosen-select").chosen({
+            no_results_text: "No se encontraron resultados para las palabras ingresadas",
+            width: "95%",
+            placeholder_text_multiple: "Seleccione del listado los campos o escriba para reducir los resultados "
+        });
+    });
+</script>--}}
 @endsection

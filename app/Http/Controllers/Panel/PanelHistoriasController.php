@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Panel;
 use App\Consulta;
 use App\EstudioPaciente;
 use App\EstudioPacienteValor;
+use App\Sintoma;
 use App\Tratamiento;
 use Illuminate\Http\Request;
 
@@ -40,7 +41,9 @@ class PanelHistoriasController extends Controller
     public function showConsulta($id_p)
     {
         $paciente = Paciente::find($id_p);
-        return view('panel.consulta.form', compact('paciente'));
+        $sintomas = Sintoma::all();
+
+        return view('panel.consulta.form', compact('paciente', 'sintomas'));
     }
 
     public function nuevaConsulta(Request $request)
@@ -54,6 +57,8 @@ class PanelHistoriasController extends Controller
             'fecha'         => date('Y-m-d H:i:s'),
             'id_sede'       => 1
         ]);
+
+        $consulta->saveSintomas($request->get('sintomas'));
 
         $paciente = Paciente::find($request->get('id_paciente'));
         $paciente->fecha_ult_consulta =  date('d/m/Y');
@@ -74,7 +79,9 @@ class PanelHistoriasController extends Controller
     {
         $paciente = Paciente::find($id_p);
         $consulta = Consulta::find($id_c);
-        return view('panel.consulta.form', compact('paciente', 'consulta'));
+        $sintomas = Sintoma::all();
+        $sintomasSeleccionados = $consulta->sintomas->lists('id')->toArray();
+        return view('panel.consulta.form', compact('paciente', 'consulta', 'sintomas', 'sintomasSeleccionados'));
     }
 
     public function guardarConsulta(Request $request)

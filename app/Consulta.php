@@ -35,7 +35,7 @@ class Consulta extends Model
 
     public function sintomas()
     {
-        return $this->belongsToMany('App\Sintomas', 'consultas_sintomas')->withPivot('consulta_id', 'sintoma_id');
+        return $this->belongsToMany('App\Sintoma', 'consultas_sintomas')->withPivot('consulta_id', 'sintoma_id');
 
     }
 
@@ -43,6 +43,16 @@ class Consulta extends Model
     {
         return $this->belongsToMany('App\Patologia', 'consultas_patologias')->withPivot('consulta_id', 'patologia_id');
 
+    }
+
+    public function saveSintomas($sintomas)
+    {
+        if(!empty($sintomas))
+        {
+            $this->sintomas()->sync($sintomas);
+        } else {
+            $this->sintomas()->detach();
+        }
     }
 
 }
