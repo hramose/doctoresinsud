@@ -94,6 +94,7 @@ class PanelHistoriasController extends Controller
             $consulta->titulo      = $request->get('titulo');
             $consulta->descripcion = $request->get('descripcion');
             $consulta->save();
+            $consulta->saveSintomas($request->get('sintomas'));
         } catch (Exception $e) {
             Log::error($e);
         }
