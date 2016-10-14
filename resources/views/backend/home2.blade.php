@@ -150,7 +150,7 @@
                                 <div class="list-group-item">
                                     <div class="row-action-primary">
                                         <i class="material-icons">
-                                            <img src="/img/sintomas_icon_solid.png" style="position: relative; top: 30%; left: 30%; width: 24px; height: 24px;" alt="">
+                                            <img src="/img/sintomas_icon.png" style="position: relative; top: 30%; left: 30%; padding: 0; width: 24px; height: 24px;" alt="">
                                         </i>
                                     </div>
                                     <div class="row-content">
@@ -168,7 +168,7 @@
                             <div class="list-group">
                                 <div class="list-group-item">
                                     <div class="row-action-primary">
-                                        <i class="material-icons"><img src="/img/sintomas_icon_solid.png" style="position: relative; top: 30%; left: 30%; width: 24px; height: 24px;" alt=""></i>
+                                        <i class="material-icons"><img src="/img/patologias_icon.png" style="position: relative; top: 30%; left: 30%; padding: 0; width: 24px; height: 24px;" alt=""></i>
                                     </div>
                                     <div class="row-content">
                                         <div class="action-secondary"><i class="mdi-social-info"></i></div>

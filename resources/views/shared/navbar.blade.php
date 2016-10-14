@@ -27,8 +27,8 @@
                     @endif
                     <li><a href="{{ action('Auth\AuthController@getLogout') }}">Salir <i class="material-icons" style="position: relative; top: 5px;">forward</i></a></li>
                 @else
-                    <li class="{{(Request::is('users/register') ? 'active' : '')}}"><a href="{{ action('Auth\AuthController@getRegister') }}">Registrar</a></li>
-                    <li class="{{(Request::is('users/login') ? 'active' : '')}}"><a href="{{ action('Auth\AuthController@getLogin') }}">Ingresar</a></li>
+                    <li class="{{(Request::is('users/register') ? 'active' : '')}}"><a href="{{ action('Auth\AuthController@getRegister') }}">Registrar <i class="material-icons"><img src="/img/registrar_icon.png" style="width: 20px; height: 20px;" alt=""></i></a></li>
+                    <li class="{{(Request::is('users/login') ? 'active' : '')}}"><a href="{{ action('Auth\AuthController@getLogin') }}">Ingresar <i class="material-icons"><img src="/img/ingresar_icon.png" style="width: 20px; height: 20px;" alt=""></i></a></li>
                 @endif
             </ul>
         </div>
