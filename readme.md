@@ -24,7 +24,7 @@
 * **Creador de Estudios: incorporar funcionalidad para inhabilitar campos para que no se sigan solicitando al dar de alta un nuevo estudio de un paciente, pero se conserven los datos históricos en aquellos que estudios que ya fueron utilizados.**
 * Se analizará la posibilidad de incluir en esta versión un nuevo tipo de campo para los estudios que permita subir archivos (imágenes, videos, etc) al sistema. Hay que evaluar que esto requerirá más espacio en los discos del servidor, así como también en la solución de backup que se implemente.
 * Impedir carga de valor cero en los campos numéricos de los estudios y limpiar los campos que tengan cero hoy en día en la base de datos, para hacer cálculos al realizar estadísticas.
-* **A la funcionalidad de “consulta” se agregará la opción de seleccionar los ~~síntomas~~, patologías y eventos registrados en la visita del paciente**. 
+* **A la funcionalidad de “consulta” se agregará la opción de seleccionar los ~~ síntomas ~~, patologías y eventos registrados en la visita del paciente**. 
 * **Se agregarán los campos para indicar la frecuencia cardíaca y presión del paciente en la consulta.** Se le solicitó a Carlos y Rodolfo indicar los nombres de los campos que en FOXPRO hacen referencia a la presión y la frecuencia cardíaca, para importar los datos históricos al nuevo sistema
 * **Tratamientos: permitir en la consulta modificar o confirmar si sigue con los mismos tratamientos o si se suspende. Se asociarán los tratamientos con la consulta.**
 *** En la consulta, se podrá indicar los estudios solicitados.**
