@@ -33,6 +33,12 @@
 
             <h1 style="margin: 0 0 20px 0">{{ isset($consulta) ? 'Editar':'Nueva'}} consulta</h1>
 
+            <ul class="list-group alert alert-danger">
+            @foreach ($errors->all() as $error)
+                <li class="list-group-item">{{ $error }}</li>
+            @endforeach
+            </ul>
+
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#consulta-tab" data-toggle="tab">Motivo de consulta</a></li>

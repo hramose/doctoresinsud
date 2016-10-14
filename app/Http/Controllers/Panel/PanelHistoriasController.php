@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
 use App\Http\Requests\editHistoriaRequest;
 use App\Http\Requests\crearHistoriaFormRequest;
+use App\Http\Requests\ConsultaFormRequest;
 use Illuminate\Support\Facades\URL;
 
 class PanelHistoriasController extends Controller
@@ -46,7 +47,7 @@ class PanelHistoriasController extends Controller
         return view('panel.consulta.form', compact('paciente', 'sintomas'));
     }
 
-    public function nuevaConsulta(Request $request)
+    public function nuevaConsulta(ConsultaFormRequest $request)
     {
 
         $consulta = Consulta::create([
@@ -84,7 +85,7 @@ class PanelHistoriasController extends Controller
         return view('panel.consulta.form', compact('paciente', 'consulta', 'sintomas', 'sintomasSeleccionados'));
     }
 
-    public function guardarConsulta(Request $request)
+    public function guardarConsulta(ConsultaFormRequest $request)
     {
 
         try {
