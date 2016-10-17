@@ -49,12 +49,15 @@ class PanelHistoriasController extends Controller
 
     public function nuevaConsulta(ConsultaFormRequest $request)
     {
-
         $consulta = Consulta::create([
             'id_usuario'    => $request->get('id_usuario'),
             'id_paciente'   => $request->get('id_paciente'),
             'titulo'        => $request->get('titulo'),
             'descripcion'   => $request->get('descripcion'),
+            'proxima_cita'  => $request->get('proxima_cita'),
+            'frecuencia_cardiaca' => $request->get('frecuencia_cardiaca'),
+            'presion_sistolica' => $request->get('presion_sistolica'),
+            'presion_diastolica' => $request->get('presion_diastolica'),
             'fecha'         => date('Y-m-d H:i:s'),
             'id_sede'       => 1
         ]);
@@ -87,15 +90,23 @@ class PanelHistoriasController extends Controller
 
     public function guardarConsulta(ConsultaFormRequest $request)
     {
-
         try {
             $consulta = Consulta::findOrFail($request->get('id_consulta'));
             $consulta->id_usuario  = $request->get('id_usuario');
             $consulta->id_paciente = $request->get('id_paciente');
             $consulta->titulo      = $request->get('titulo');
             $consulta->descripcion = $request->get('descripcion');
+            $consulta->proxima_cita = $request->get('proxima_cita');
+            $consulta->frecuencia_cardiaca = $request->get('frecuencia_cardiaca');
+            $consulta->presion_sistolica = $request->get('presion_sistolica');
+            $consulta->presion_diastolica = $request->get('presion_diastolica');
             $consulta->save();
             $consulta->saveSintomas($request->get('sintomas'));
+            
+
+//            $paciente = Paciente::find($request->get('id_paciente'));
+//            $paciente->proxima_cita = $request->get('proxima_cita');
+//            $paciente->save();
         } catch (Exception $e) {
             Log::error($e);
         }
@@ -107,14 +118,24 @@ class PanelHistoriasController extends Controller
 
     public function borrarConsulta(Request $request)
     {
-        try {
+    //        try {
+    //            $consulta = Consulta::find($request->get('id_consulta'));
+    //            $consulta->delete();
+    //            return response(['status' => 201], 201);
+    //        } catch (Exception $e) {
+    //            Log::error($e);
+    //        }
+    //        return response(['error' => 500], 500);
+
+
             $consulta = Consulta::find($request->get('id_consulta'));
+
+            $consulta->saveSintomas();
+
             $consulta->delete();
-            return response(['status' => 201], 201);
-        } catch (Exception $e) {
-            Log::error($e);
-        }
-        return response(['error' => 500], 500);
+
+            return json_encode($request->get('id_consulta'));
+
     }
 
     /**
@@ -145,6 +166,8 @@ class PanelHistoriasController extends Controller
                         ->orderBy('fecha', 'desc')
                         ->orderBy('created_at', 'desc')
                         ->get();
+
+        //$proximaConsulta = Consulta::where('id_paciente', $paciente->id)->max('proxima_cita');
 
         return view('panel.show', compact('paciente', 'tratamientos', 'estudios', 'consultas'));
     }

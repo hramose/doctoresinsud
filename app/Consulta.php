@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Consulta extends Model
 {
@@ -16,6 +17,10 @@ class Consulta extends Model
                 'titulo',
                 'fecha',
                 'descripcion',
+                'proxima_cita',
+                'frecuencia_cardiaca',
+                'presion_sistolica',
+                'presion_diastolica',
             ];
 
     public function paciente()
@@ -45,7 +50,7 @@ class Consulta extends Model
 
     }
 
-    public function saveSintomas($sintomas)
+    public function saveSintomas($sintomas = [])
     {
         if(!empty($sintomas))
         {
@@ -53,6 +58,20 @@ class Consulta extends Model
         } else {
             $this->sintomas()->detach();
         }
+    }
+
+    public function setProximaCitaAttribute($value)
+    {
+        if ($value) {
+            $this->attributes['proxima_cita'] = Carbon::createFromFormat('d/m/Y', trim($value))->format('Y-m-d');
+        } else {
+            $this->attributes['proxima_cita'] = null;
+        }
+    }
+
+    public function getProximaCitaAttribute($value)
+    {
+        return in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
     }
 
 }

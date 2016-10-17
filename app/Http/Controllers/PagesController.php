@@ -18,12 +18,14 @@ class PagesController extends Controller
 
         $hoy = Carbon::now(-3);
 
-        $proximasCitas = DB::table('pacientes')
-            ->where('proxima_cita', '>=', $hoy )
-            ->whereNotNull('proxima_cita')
-            ->where('proxima_cita', '<>', '0000-00-00' )
-            ->select('id', 'id_hc', 'apellido', 'nombre', 'proxima_cita', 'fecha_ult_consulta')
-            ->orderBy('proxima_cita', 'asc')
+        $proximasCitas = DB::table('item_hcs')
+            ->join('pacientes', 'pacientes.id', '=', 'item_hcs.id_paciente')
+            ->where('item_hcs.proxima_cita', '>=', $hoy )
+            ->whereNotNull('item_hcs.proxima_cita')
+            ->where('item_hcs.proxima_cita', '<>', '0000-00-00' )
+            ->selectRaw('pacientes.id, pacientes.id_hc, pacientes.apellido, pacientes.nombre, pacientes.fecha_ult_consulta, min(item_hcs.proxima_cita) as min_proxima_cita')
+            ->groupBy('pacientes.id', 'pacientes.id_hc', 'pacientes.apellido', 'pacientes.nombre', 'pacientes.fecha_ult_consulta')
+            ->orderBy('min_proxima_cita', 'asc')
             ->take(20)
             ->get();
 

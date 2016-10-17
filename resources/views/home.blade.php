@@ -75,7 +75,7 @@
                                                 <a href="{!! action('Panel\PanelHistoriasController@verHistoria', $citas->id) !!}">{!! $citas->apellido .', '.$citas->nombre !!} </a>
                                             </td>
                                             <td>{!! \Carbon\Carbon::parse($citas->fecha_ult_consulta)->format('d/m/Y') !!}</td>
-                                            <td>{!! \Carbon\Carbon::parse($citas->proxima_cita)->format('d/m/Y') !!}</td>
+                                            <td>{!! \Carbon\Carbon::parse($citas->min_proxima_cita)->format('d/m/Y') !!}</td>
                                         </tr>
                                     @endforeach
                                     </tbody>

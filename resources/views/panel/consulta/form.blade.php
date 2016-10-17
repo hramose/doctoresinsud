@@ -33,11 +33,13 @@
 
             <h1 style="margin: 0 0 20px 0">{{ isset($consulta) ? 'Editar':'Nueva'}} consulta</h1>
 
-            <ul class="list-group alert alert-danger">
-            @foreach ($errors->all() as $error)
-                <li class="list-group-item">{{ $error }}</li>
-            @endforeach
-            </ul>
+                @if($errors->has())
+                    <ul class="list-group alert alert-danger">
+                        @foreach ($errors->all() as $error)
+                            <li class="list-group-item">{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                @endif
 
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
@@ -84,7 +86,30 @@
                                           name="descripcion">{!! $consulta->descripcion ?? '' !!}</textarea>
                             </div>
                         </div>
-
+                        <div class="form-group">
+                            <label for="content" class="col-lg-2 control-label">Pr&oacute;xima Cita</label>
+                            <div class="col-lg-2">
+                                <input type="text" class="form-control datepicker" id="proxima_cita" name="proxima_cita" value="{!! isset($consulta->proxima_cita) ? \Carbon\Carbon::parse($consulta->proxima_cita)->format('d/m/Y') : '' !!}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="content" class="col-lg-2 control-label">Frecuencia Cardíaca</label>
+                            <div class="col-lg-2">
+                                <input type="number" class="form-control" id="frecuencia_cardiaca" name="frecuencia_cardiaca" value="{!! $consulta->frecuencia_cardiaca ?? '' !!}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="content" class="col-lg-2 control-label">Presión Sistólica</label>
+                            <div class="col-lg-2">
+                                <input type="number" class="form-control" id="presion_sistolica" name="presion_sistolica" value="{!! $consulta->presion_sistolica ?? '' !!}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="content" class="col-lg-2 control-label">Presión Diastólica</label>
+                            <div class="col-lg-2">
+                                <input type="number" class="form-control" id="presion_diastolica" name="presion_diastolica" value="{!! $consulta->presion_diastolica ?? '' !!}">
+                            </div>
+                        </div>
                     </fieldset>
                 </div>
                 <div class="tab-pane" id="sintomas">
@@ -174,7 +199,13 @@
             width: "95%",
             placeholder_text_multiple: "Seleccione del listado los campos o escriba para reducir los resultados "
         });
-    })
+    });
+
+    $.datepicker.setDefaults($.datepicker.regional['es']);
+
+    $(function() {
+        $(".datepicker").datepicker();
+    });
 </script>
 
 {{--<script>

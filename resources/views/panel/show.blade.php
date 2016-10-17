@@ -358,7 +358,7 @@
                                                 <div class="col-lg-3">
                                                     <input type="date" class="form-control" id="proxima_cita"
                                                            name="proxima_cita"
-                                                           value="@if($paciente->proxima_cita){!! $paciente->proxima_cita->format('d/m/Y') !!}@endif"
+                                                           value="@if(!$consultas->isEmpty()){!! \Carbon\Carbon::parse($consultas->max('proxima_cita'))->format('d/m/Y') !!}@elseif($paciente->proxima_cita){!! $paciente->proxima_cita->format('d/m/Y') !!}@endif"
                                                            readonly>
                                                 </div>
                                             </div>

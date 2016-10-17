@@ -12,6 +12,9 @@
 */
 
 Route::get('/', 'PagesController@home');
+//Route::get('/', function () {
+//    return redirect()->action('Auth\AuthController@render');
+//});
 
 Route::get('/home', 'PagesController@home');
 Route::get('/about', 'PagesController@about');
