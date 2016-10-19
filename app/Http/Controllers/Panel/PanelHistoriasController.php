@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Panel;
 use App\Consulta;
 use App\EstudioPaciente;
 use App\EstudioPacienteValor;
+use App\Patologia;
 use App\Sintoma;
 use App\Tratamiento;
 use Illuminate\Http\Request;
@@ -43,8 +44,9 @@ class PanelHistoriasController extends Controller
     {
         $paciente = Paciente::find($id_p);
         $sintomas = Sintoma::all();
+        $patologias = Patologia::all();
 
-        return view('panel.consulta.form', compact('paciente', 'sintomas'));
+        return view('panel.consulta.form', compact('paciente', 'sintomas', 'patologias'));
     }
 
     public function nuevaConsulta(ConsultaFormRequest $request)
@@ -63,6 +65,7 @@ class PanelHistoriasController extends Controller
         ]);
 
         $consulta->saveSintomas($request->get('sintomas'));
+        $consulta->savePatologias($request->get('patologias'));
 
         $paciente = Paciente::find($request->get('id_paciente'));
         $paciente->fecha_ult_consulta =  date('d/m/Y');
@@ -84,8 +87,10 @@ class PanelHistoriasController extends Controller
         $paciente = Paciente::find($id_p);
         $consulta = Consulta::find($id_c);
         $sintomas = Sintoma::all();
+        $patologias = Patologia::all();
         $sintomasSeleccionados = $consulta->sintomas->lists('id')->toArray();
-        return view('panel.consulta.form', compact('paciente', 'consulta', 'sintomas', 'sintomasSeleccionados'));
+        $patologiasSeleccionadas = $consulta->patologias->lists('id')->toArray();
+        return view('panel.consulta.form', compact('paciente', 'consulta', 'sintomas', 'patologias', 'sintomasSeleccionados', 'patologiasSeleccionadas'));
     }
 
     public function guardarConsulta(ConsultaFormRequest $request)
@@ -102,7 +107,8 @@ class PanelHistoriasController extends Controller
             $consulta->presion_diastolica = $request->get('presion_diastolica');
             $consulta->save();
             $consulta->saveSintomas($request->get('sintomas'));
-            
+            $consulta->savePatologias($request->get('patologias'));
+
 
 //            $paciente = Paciente::find($request->get('id_paciente'));
 //            $paciente->proxima_cita = $request->get('proxima_cita');
@@ -162,7 +168,7 @@ class PanelHistoriasController extends Controller
                         ->take(10)
                         ->get();
 
-        $consultas = $paciente->consultas()->with('medico', 'sede')
+        $consultas = $paciente->consultas()->with('medico', 'sede', 'sintomas', 'patologias')
                         ->orderBy('fecha', 'desc')
                         ->orderBy('created_at', 'desc')
                         ->get();

@@ -60,6 +60,16 @@ class Consulta extends Model
         }
     }
 
+    public function savePatologias($patologias = [])
+    {
+        if(!empty($patologias))
+        {
+            $this->patologias()->sync($patologias);
+        } else {
+            $this->patologias()->detach();
+        }
+    }
+
     public function setProximaCitaAttribute($value)
     {
         if ($value) {

@@ -1367,6 +1367,28 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-lg-6">
+                                    <p>
+                                        <strong>Sintomas detectados: </strong>
+                                    </p>
+                                    <ul>
+                                        @foreach($consulta->sintomas as $sintoma)
+                                            <li>{!! $sintoma->nombre !!}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6">
+                                    <p>
+                                        <strong>Patologías detectadas: </strong>
+                                    </p>
+                                    <ul>
+                                        @foreach($consulta->patologias as $patologia)
+                                            <li>{!! $patologia->nombre !!}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-5 col-lg-offset-7">
                                     @if(Auth::user()->hasRole('Manager'))
                                         <a href="javascript:void(0)"
