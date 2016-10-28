@@ -17,7 +17,7 @@ Route::get('/', 'PagesController@home');
 //});
 
 Route::get('/home', 'PagesController@home');
-Route::get('/reporte', 'ReportController@index');
+Route::get('/reportes', 'ReportController@index');
 Route::get('/about', 'PagesController@about');
 Route::get('/contact', 'TicketsController@create');
 Route::post('/contact', 'TicketsController@store');

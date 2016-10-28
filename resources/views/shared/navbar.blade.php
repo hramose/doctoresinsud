@@ -17,6 +17,12 @@
                 <li class="{{(Request::is('/') ? 'active' : '')}}"><a href="{{ URL::to('/') }}/">Home <i class="material-icons" style="position: relative; top: 5px;">home</i></a></li>
                 @if(Auth::check())
                     @if(Auth::user()->hasRole('Medico'))
+                        <li class="{{(Request::is('reportes') ? 'active' : '')}}"><a href="{{ action('ReportController@index') }}">Reportes <i class="material-icons" style="position: relative; top: 5px;">content_paste</i></a></li>
+                    @endif
+                @endif
+
+                @if(Auth::check())
+                    @if(Auth::user()->hasRole('Medico'))
                         <li class="{{(Request::is('panel') ? 'active' : '')}}"><a href="{{ action('Panel\PanelHistoriasController@index') }}">Panel Historias Clínicas <i class="material-icons" style="position: relative; top: 5px;">content_paste</i></a></li>
                     @endif
                 @endif

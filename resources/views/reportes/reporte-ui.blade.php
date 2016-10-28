@@ -4,7 +4,7 @@
 @include('shared.estilos')
 
 @section('content')
-
+    <?php $tablas_en_db = 'Tables_in_' . env('DB_DATABASE'); ?>
 
     <div class="container">
         <div class="well well bs-component">
@@ -12,36 +12,36 @@
 
                 @foreach ($tables as $table)
                 <div class="col-lg-4">
-                    @if (!in_array($table->Tables_in_dyt, $hide_tables))
+                    @if (!in_array($table->{$tablas_en_db}, $hide_tables))
 
                         <h2 class="choose-title">
-                            <input type="checkbox" value="{{ $table->Tables_in_dyt }}" class="choose">
-                            {{ str_replace('_', ' ', ucfirst($table->Tables_in_dyt)) }}
+                            <input type="checkbox" value="{{ $table->{$tablas_en_db} }}" class="choose">
+                            {{ str_replace('_', ' ', ucfirst($table->{$tablas_en_db})) }}
                             {{-- <span class="pull-right">&#8595;</span> --}}
                         </h2>
 
                         <ul class="list-unstyled">
-                        @foreach (\DB::getSchemaBuilder()->getColumnListing($table->Tables_in_dyt) as $key => $value)
+                        @foreach (\DB::getSchemaBuilder()->getColumnListing($table->{$tablas_en_db}) as $key => $value)
                             @if (!in_array($value, $hide_fields))
 
                             <li>
                                 <input type="checkbox"
                                        value="{{ $value }}"
                                        style="margin-left: 4px"
-                                       data-choose="{{ $table->Tables_in_dyt }}"
-                                       id="{{ $table->Tables_in_dyt }}__{{ $value }}"
-                                       name="{{ $table->Tables_in_dyt }}__{{ $value }}">
-                                <label for="{{ $table->Tables_in_dyt }}__{{ $value }}" style="cursor: pointer">
+                                       data-choose="{{ $table->{$tablas_en_db} }}"
+                                       id="{{ $table->{$tablas_en_db} }}__{{ $value }}"
+                                       name="{{ $table->{$tablas_en_db} }}__{{ $value }}">
+                                <label for="{{ $table->{$tablas_en_db} }}__{{ $value }}" style="cursor: pointer">
                                     {{ str_replace('_', ' ', ucfirst($value)) }} <br>
                                 </label>
                                 <div class="controlls pull-right">
-                                    <button data-view="{{ $table->Tables_in_dyt }}__{{ $value }}_close" class="hidden pull-right close-button">&times;</button>
-                                    <button data-view="{{ $table->Tables_in_dyt }}__{{ $value }}_filter_value" class="hidden pull-right"></button>
-                                    <button data-view="{{ $table->Tables_in_dyt }}__{{ $value }}_filter" class="hidden pull-right"></button>
+                                    <button data-view="{{ $table->{$tablas_en_db} }}__{{ $value }}_close" class="hidden pull-right close-button">&times;</button>
+                                    <button data-view="{{ $table->{$tablas_en_db} }}__{{ $value }}_filter_value" class="hidden pull-right"></button>
+                                    <button data-view="{{ $table->{$tablas_en_db} }}__{{ $value }}_filter" class="hidden pull-right"></button>
 
-                                    <button data-view="{{ $table->Tables_in_dyt }}__{{ $value }}_call" class="display-modal pull-right add-filter"
+                                    <button data-view="{{ $table->{$tablas_en_db} }}__{{ $value }}_call" class="display-modal pull-right add-filter"
                                             data-toggle="modal"
-                                            onclick="lightBox('{{ $table->Tables_in_dyt }}__{{ $value }}')"
+                                            onclick="lightBox('{{ $table->{$tablas_en_db} }}__{{ $value }}')"
                                             data-target=".modal">A&ntilde;adir filtro</button>
                                 </div>
                             </li>
