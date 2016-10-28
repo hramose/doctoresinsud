@@ -27,6 +27,7 @@
                             <li>
                                 <input type="checkbox"
                                        value="{{ $value }}"
+                                       style="margin-left: 4px"
                                        data-choose="{{ $table->Tables_in_dyt }}"
                                        id="{{ $table->Tables_in_dyt }}__{{ $value }}"
                                        name="{{ $table->Tables_in_dyt }}__{{ $value }}">
@@ -68,7 +69,7 @@
                 <tr>
                     <td><span class="modal-text-name"></span></td>
                     <td>
-                        <select name="  " id="filter">
+                        <select name="filter" id="filter">
                             <option value="">-- Elegir --</option>
                             <option value="=">igual</option>
                             <option value="&gt;=">mayor o igual</option>
