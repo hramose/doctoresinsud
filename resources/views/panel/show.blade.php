@@ -11,28 +11,28 @@
         });
 
         //Handler para traer datos de la consulta a editar
-        $(document).on('click', '.btn-edita-consulta', function (e) {
-            $.ajax({
-                type: "GET",
-                url: $(this).attr('data-href'),
-                success: function (data) {
-                    //$('#limpieza_edit').find('#form-editar-consulta')[0].reset();
-                    data = JSON.parse(data);
-                    //console.log(data);
-                    //console.log(data.consulta.titulo);
-                    //CKEDITOR.instances.editor_descripcion_edit.setData('');
-                    $('#titulo_edit').val(data.consulta.titulo);
-                    $('#id_consulta_edit').val(data.consulta.id);
-                    CKEDITOR.instances.editor_descripcion_edit.setData(data.consulta.descripcion);
-                    $("#modal-consulta-editar").modal('show');
-                    return false;
-                    //e.preventDefault();
-                },
-                error: function () {
-                    return alert("Ocurrió un problema. Contactar al desarrollador.");
-                }
-            });
-        });
+//        $(document).on('click', '.btn-edita-consulta', function (e) {
+//            $.ajax({
+//                type: "GET",
+//                url: $(this).attr('data-href'),
+//                success: function (data) {
+//                    //$('#limpieza_edit').find('#form-editar-consulta')[0].reset();
+//                    data = JSON.parse(data);
+//                    //console.log(data);
+//                    //console.log(data.consulta.titulo);
+//                    //CKEDITOR.instances.editor_descripcion_edit.setData('');
+//                    $('#titulo_edit').val(data.consulta.titulo);
+//                    $('#id_consulta_edit').val(data.consulta.id);
+//                    CKEDITOR.instances.editor_descripcion_edit.setData(data.consulta.descripcion);
+//                    $("#modal-consulta-editar").modal('show');
+//                    return false;
+//                    //e.preventDefault();
+//                },
+//                error: function () {
+//                    return alert("Ocurrió un problema. Contactar al desarrollador.");
+//                }
+//            });
+//        });
 
         $(document).on('ready', function () {
             $("#expand-boton").on('click', function () {
@@ -66,7 +66,7 @@
                         return alert("Ocurrió un problema. Contactar al desarrollador.");//fnCallback(data);
                     }
                 });
-            }
+            };
 
             //Handler confirmación de borrar consulta
             $('#submitConsulta_borrar').on('click', function (e) {
@@ -85,24 +85,24 @@
 
 
             //Handler para validar formulario de edición de consulta y luego enviar al servidor
-            $("#submitConsulta_editar").on('click', function (e) {
-                $("#hidden_descripcion_edit").val(CKEDITOR.instances.editor_descripcion_edit.getData());
-                //console.log($('#form-editar-consulta').serialize());
-                if (!$('#form-editar-consulta').isValid(false)) {
-                    return alert("El formulario contiene campos inválidos");
-                } else {
-                    ajaxSubmit(
-                            $('#form-editar-consulta'),
-                            function (data) {
-                                data = JSON.parse(data);
-                                $('#consulta_' + data.id + ' .titulo_consulta').html(data.titulo);
-                                $('#consulta_' + data.id + ' .desc_consulta').html(data.descripcion);
-                                $("#modal-consulta-editar").modal('hide');
-                            }
-                    );
-                    e.preventDefault();
-                }
-            });
+//            $("#submitConsulta_editar").on('click', function (e) {
+//                $("#hidden_descripcion_edit").val(CKEDITOR.instances.editor_descripcion_edit.getData());
+//                //console.log($('#form-editar-consulta').serialize());
+//                if (!$('#form-editar-consulta').isValid(false)) {
+//                    return alert("El formulario contiene campos inválidos");
+//                } else {
+//                    ajaxSubmit(
+//                            $('#form-editar-consulta'),
+//                            function (data) {
+//                                data = JSON.parse(data);
+//                                $('#consulta_' + data.id + ' .titulo_consulta').html(data.titulo);
+//                                $('#consulta_' + data.id + ' .desc_consulta').html(data.descripcion);
+//                                $("#modal-consulta-editar").modal('hide');
+//                            }
+//                    );
+//                    e.preventDefault();
+//                }
+//            });
 
             //Handler para validar formulario de nueva consulta y luego enviar al servidor
             $("#submitConsulta").on('click', function (e) {
@@ -358,7 +358,7 @@
                                                 <div class="col-lg-3">
                                                     <input type="date" class="form-control" id="proxima_cita"
                                                            name="proxima_cita"
-                                                           value="@if($paciente->proxima_cita){!! $paciente->proxima_cita->format('d/m/Y') !!}@endif"
+                                                           value="@if(!$consultas->isEmpty()){!! \Carbon\Carbon::parse($consultas->max('proxima_cita'))->format('d/m/Y') !!}@elseif($paciente->proxima_cita){!! $paciente->proxima_cita->format('d/m/Y') !!}@endif"
                                                            readonly>
                                                 </div>
                                             </div>
@@ -1325,13 +1325,11 @@
             </div>
         </div>
         <div class="col-lg-6">
-            <div class="panel panel-primary">
+            <div class="panel panel-primary" id="consultas">
                 <div class="panel-heading">
                     <h3 class="panel-title">Consultas
-                              <span class="pull-right"><a href="#"
-                                                          data-target="#modal-consulta-nueva"
-                                                          data-toggle="modal"
-                                                          class="btn-sm btn-raised btn-success salocin"
+                              <span class="pull-right"><a href="{!! action('Panel\PanelHistoriasController@showConsulta', $paciente->id) !!}"
+                                                          class="btn-sm btn-raised btn-success"
                                                           style="text-decoration: none;">Nueva
                                 consulta</a></span></h3>
                 </div>
@@ -1369,6 +1367,28 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-lg-6">
+                                    <p>
+                                        <strong>Sintomas detectados: </strong>
+                                    </p>
+                                    <ul>
+                                        @foreach($consulta->sintomas as $sintoma)
+                                            <li>{!! $sintoma->nombre !!}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6">
+                                    <p>
+                                        <strong>Patologías detectadas: </strong>
+                                    </p>
+                                    <ul>
+                                        @foreach($consulta->patologias as $patologia)
+                                            <li>{!! $patologia->nombre !!}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-5 col-lg-offset-7">
                                     @if(Auth::user()->hasRole('Manager'))
                                         <a href="javascript:void(0)"
@@ -1379,11 +1399,10 @@
                                         <a href="javascript:void(0)" class="btn btn-sm btn-danger" disabled="true">Eliminar</a>
                                     @endif
                                     @if(Auth::user()->name == $consulta->medico->name)
-                                        <button class="btn btn-sm btn-raised btn-primary btn-edita-consulta"
-                                                data-target="#modal-consulta-editar" data-toggle="modal"
-                                                data-href="{!! action('Panel\PanelHistoriasController@editarConsulta', ['id_p' => $paciente->id,'id_c' => $consulta->id]) !!}">
+                                        <a class="btn btn-sm btn-raised btn-primary btn-edita-consulta"
+                                                href="{!! action('Panel\PanelHistoriasController@editarConsulta', ['id_p' => $paciente->id,'id_c' => $consulta->id]) !!}">
                                             Editar
-                                        </button>
+                                        </a>
                                     @else
                                         <a href="javascript:void(0)" class="btn btn-sm btn-primary" disabled="true">Editar</a>
                                     @endif

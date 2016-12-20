@@ -64,4 +64,14 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+//    protected function render()
+//    {
+//        if (isset(Auth::user()->id)) {
+//            return redirect()->action('PagesController@home');
+//        } else {
+//            return redirect()->action('Auth\AuthController@getLogin');
+//        }
+//    }
+    
 }

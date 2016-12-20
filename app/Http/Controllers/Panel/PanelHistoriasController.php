@@ -5,9 +5,13 @@ namespace App\Http\Controllers\Panel;
 use App\Consulta;
 use App\EstudioPaciente;
 use App\EstudioPacienteValor;
+use App\Patologia;
+use App\Sintoma;
 use App\Tratamiento;
 use Illuminate\Http\Request;
 
+use Log;
+use Exception;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Paciente;
@@ -16,40 +20,59 @@ use Illuminate\Support\Facades\Input;
 use Carbon\Carbon;
 use App\Http\Requests\editHistoriaRequest;
 use App\Http\Requests\crearHistoriaFormRequest;
+use App\Http\Requests\ConsultaFormRequest;
+use Illuminate\Support\Facades\URL;
 
 class PanelHistoriasController extends Controller
 {
 
-    public function getHCJson(){
-        $pacientes = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre', 'fecha_alta', 'fecha_ult_consulta')->get();
+    public function getHCJson()
+    {
+        try {
+            $pacientes = DB::table('pacientes')
+                            ->select('id', 'id_hc', 'apellido', 'nombre', 'fecha_alta', 'fecha_ult_consulta')
+                            ->get();
 
-        $pacientes = json_decode(json_encode($pacientes), true);
-        //var_dump($pacientes); die;
-        return $pacientes;
+            return json_decode(json_encode($pacientes), true);
+        } catch (Exception $e) {
+            Log::error($e);
+        }
+        return ['error'=>500];
     }
 
-    public function nuevaConsulta(Request $request)
+    public function showConsulta($id_p)
     {
+        $paciente = Paciente::find($id_p);
+        $sintomas = Sintoma::all();
+        $patologias = Patologia::all();
 
-        $consulta = new Consulta(array(
-            'id_usuario' => $request->get('id_usuario'),
-            'id_paciente' => $request->get('id_paciente'),
-            'titulo' => $request->get('titulo'),
-            'descripcion' => $request->get('hidden_descripcion'),
-            'fecha' => date('Y-m-d H:i:s'),
-            'id_sede' => 1
-        ));
+        return view('panel.consulta.form', compact('paciente', 'sintomas', 'patologias'));
+    }
 
-        $consulta->save();
+    public function nuevaConsulta(ConsultaFormRequest $request)
+    {
+        $consulta = Consulta::create([
+            'id_usuario'    => $request->get('id_usuario'),
+            'id_paciente'   => $request->get('id_paciente'),
+            'titulo'        => $request->get('titulo'),
+            'descripcion'   => $request->get('descripcion'),
+            'proxima_cita'  => $request->get('proxima_cita'),
+            'frecuencia_cardiaca' => $request->get('frecuencia_cardiaca'),
+            'presion_sistolica' => $request->get('presion_sistolica'),
+            'presion_diastolica' => $request->get('presion_diastolica'),
+            'fecha'         => date('Y-m-d H:i:s'),
+            'id_sede'       => 1
+        ]);
 
-        $consulta = Consulta::with('medico', 'sede')->find($consulta->id);
-        //agregado
-        $paciente = Paciente::find($consulta->id_paciente);
+        $consulta->saveSintomas($request->get('sintomas'));
+        $consulta->savePatologias($request->get('patologias'));
 
+        $paciente = Paciente::find($request->get('id_paciente'));
         $paciente->fecha_ult_consulta =  date('d/m/Y');
         $paciente->save();
-        //fin agregado
-        return json_encode($consulta);
+
+        return redirect()->action('Panel\PanelHistoriasController@verHistoria', $paciente->id)
+                         ->with('status', 'Consulta agragada correctamente.');
     }
 
     /**
@@ -59,39 +82,65 @@ class PanelHistoriasController extends Controller
      * @param $id_c
      * @return json
      */
-
     public function editarConsulta($id_p, $id_c)
     {
-        $paciente = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre')->where('id', $id_p)->get();
+        $paciente = Paciente::find($id_p);
         $consulta = Consulta::find($id_c);
-
-        return json_encode(compact('paciente', 'consulta'));
-        //return view('panel.consulta.editar', compact('paciente', 'consulta'));
+        $sintomas = Sintoma::all();
+        $patologias = Patologia::all();
+        $sintomasSeleccionados = $consulta->sintomas->lists('id')->toArray();
+        $patologiasSeleccionadas = $consulta->patologias->lists('id')->toArray();
+        return view('panel.consulta.form', compact('paciente', 'consulta', 'sintomas', 'patologias', 'sintomasSeleccionados', 'patologiasSeleccionadas'));
     }
 
-    public function guardarConsulta(Request $request)
+    public function guardarConsulta(ConsultaFormRequest $request)
     {
-        //dd($request);
-        $consulta = Consulta::find($request->get('id_consulta'));
+        try {
+            $consulta = Consulta::findOrFail($request->get('id_consulta'));
+            $consulta->id_usuario  = $request->get('id_usuario');
+            $consulta->id_paciente = $request->get('id_paciente');
+            $consulta->titulo      = $request->get('titulo');
+            $consulta->descripcion = $request->get('descripcion');
+            $consulta->proxima_cita = $request->get('proxima_cita');
+            $consulta->frecuencia_cardiaca = $request->get('frecuencia_cardiaca');
+            $consulta->presion_sistolica = $request->get('presion_sistolica');
+            $consulta->presion_diastolica = $request->get('presion_diastolica');
+            $consulta->save();
+            $consulta->saveSintomas($request->get('sintomas'));
+            $consulta->savePatologias($request->get('patologias'));
 
-        $consulta->id_usuario = $request->get('id_usuario');
-        $consulta->id_paciente = $request->get('id_paciente_edit');
-        $consulta->titulo = $request->get('titulo_edit');
-        $consulta->descripcion = $request->get('hidden_descripcion_edit');
 
-        $consulta->save();
+//            $paciente = Paciente::find($request->get('id_paciente'));
+//            $paciente->proxima_cita = $request->get('proxima_cita');
+//            $paciente->save();
+        } catch (Exception $e) {
+            Log::error($e);
+        }
 
-        return json_encode($consulta);
+        return redirect()->action('Panel\PanelHistoriasController@verHistoria', [$consulta->id_paciente, '#consultas'])
+            ->with('status', 'Consulta editada correctamente')
+            ->with('consulta', $consulta);
     }
-
 
     public function borrarConsulta(Request $request)
     {
-        $consulta = Consulta::find($request->get('id_consulta'));
+    //        try {
+    //            $consulta = Consulta::find($request->get('id_consulta'));
+    //            $consulta->delete();
+    //            return response(['status' => 201], 201);
+    //        } catch (Exception $e) {
+    //            Log::error($e);
+    //        }
+    //        return response(['error' => 500], 500);
 
-        $consulta->delete();
 
-        return json_encode($request->get('id_consulta'));
+            $consulta = Consulta::find($request->get('id_consulta'));
+
+            $consulta->saveSintomas();
+
+            $consulta->delete();
+
+            return json_encode($request->get('id_consulta'));
 
     }
 
@@ -105,20 +154,26 @@ class PanelHistoriasController extends Controller
     public function verHistoria($id)
     {
         $paciente = Paciente::find($id);
-//        $paciente = Paciente::find($id)->with('tratamientos' => function($query){
-//                $query->where('id_hc', '=', ),
-//    });
-        $tratamientos = $paciente->tratamientos('id_paciente')->orderBy('fecha_trat', 'desc')->take(10)->get();
-       // $estudios = $paciente->estudioPacientes('id_hc')->orderBy('fecha', 'desc')->take(10)->get();
+
+        $tratamientos = $paciente->tratamientos('id_paciente')
+                            ->orderBy('fecha_trat', 'desc')
+                            ->take(10)
+                            ->get();
+
         $estudios = DB::table('estudios_pacientes')
-                        ->join('estudios','estudios_pacientes.id_estudio', '=', 'estudios.id')
+                        ->join('estudios', 'estudios_pacientes.id_estudio', '=', 'estudios.id')
                         ->where('estudios_pacientes.id_hc', '=', $id)
                         ->select('estudios_pacientes.*', 'estudios.nombre')
                         ->orderBy('estudios_pacientes.fecha', 'desc')
                         ->take(10)
                         ->get();
 
-        $consultas = $paciente->consultas()->with('medico', 'sede')->orderBy('fecha', 'desc')->orderBy('created_at', 'desc')->get();
+        $consultas = $paciente->consultas()->with('medico', 'sede', 'sintomas', 'patologias')
+                        ->orderBy('fecha', 'desc')
+                        ->orderBy('created_at', 'desc')
+                        ->get();
+
+        //$proximaConsulta = Consulta::where('id_paciente', $paciente->id)->max('proxima_cita');
 
         return view('panel.show', compact('paciente', 'tratamientos', 'estudios', 'consultas'));
     }
@@ -127,8 +182,6 @@ class PanelHistoriasController extends Controller
      * @param $id_p
      * @return \Illuminate\Http\Response
      */
-
-
     public function verTodosTratamientos($id_p)
     {
         $paciente = Paciente::find($id_p);
@@ -141,12 +194,10 @@ class PanelHistoriasController extends Controller
      * @param $id_p
      * @return \Illuminate\Http\Response
      */
-
-
     public function verTodosEstudios($id_p)
     {
         $estudios = DB::table('estudios_pacientes')
-            ->join('estudios','estudios_pacientes.id_estudio', '=', 'estudios.id')
+            ->join('estudios', 'estudios_pacientes.id_estudio', '=', 'estudios.id')
             ->where('estudios_pacientes.id_hc', '=', $id_p)
             ->select('estudios_pacientes.*', 'estudios.nombre')
             ->orderBy('estudios_pacientes.fecha', 'desc')
@@ -159,42 +210,26 @@ class PanelHistoriasController extends Controller
     /**
      * @return mixed
      */
-
     public function verEstudio($id_p, $id_e)
     {
-        //$estudioPaciente = EstudioPaciente::find($id_e)->with('valores')->get();
         $estudioPaciente = EstudioPaciente::with('valores.campoBase.UnidadMedida', 'estudio')->find($id_e);
         $paciente = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre')->where('id', $id_p)->get();
-        //dd($estudioPaciente);
-        //dd($estudioPaciente->valores);
-        //dd($paciente);
-
         return view('panel.estudios.show', compact('paciente', 'estudioPaciente'));
     }
 
     /**
      * @return mixed
      */
-
     public function verTratamiento($id_p, $id_t)
     {
         $paciente = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre')->where('id', $id_p)->get();
         $tratamiento = Tratamiento::find($id_t);
-
-        //dd($tratamiento);
-
         return view('panel.tratamientos.show', compact('paciente', 'tratamiento'));
     }
 
     public function index()
     {
-        //
-        //$pacientes = Paciente::all();
-        //$pacientes = collect(DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre', 'fecha_alta', 'fecha_ult_consulta')->get());
-
-        //var_dump($pacientes); die;
-
-        return view('panel.index'/*, compact('pacientes')*/);
+        return view('panel.index');
     }
 
     /**
@@ -441,7 +476,6 @@ class PanelHistoriasController extends Controller
 
         $paciente->save();
         return redirect()->action('Panel\PanelHistoriasController@verHistoria', $paciente->id)->with('status', 'Historia clínica editada correctamente.');
-        //return view('panel.show', compact('paciente'))->with('status', 'Historia clínica editada correctamente.');
     }
 
     /**

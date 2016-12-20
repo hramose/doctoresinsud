@@ -66,14 +66,14 @@
 
 @section('script_datatables')
     ,"ajax": {
-        "url":"/panel/ajax/hhcc",
+        "url":"{{ asset('/panel/ajax/hhcc') }}",
         "dataSrc": ""
     },
     "columns": [
         { "data": "id" },
         { "data": "id_hc",
            "render": function(data, type, row){
-                return '<a href="panel/paciente/' + row.id +'">' + row.id_hc + '</a>'
+                return '<a href="{{ asset('/panel/paciente') }}/' + row.id +'">' + row.id_hc + '</a>'
             }
         },
         { "data": "apellido" },

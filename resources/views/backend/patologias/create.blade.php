@@ -1,5 +1,5 @@
 @extends('master')
-@section('title', 'Crea un nuevo síntoma')
+@section('title', 'Crea una nueva patología')
 
 @section('content')
     <div class="container col-md-8 col-md-offset-2">
@@ -20,11 +20,11 @@
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}">
 
                 <fieldset>
-                    <legend>Crea un nuevo síntoma</legend>
+                    <legend>Crea una nueva patologia</legend>
                     <div class="form-group">
-                        <label for="sintoma" class="col-lg-2 control-label">Síntoma</label>
+                        <label for="patologia" class="col-lg-2 control-label">Patologia</label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control" id="sintoma" name="nombre">
+                            <input type="text" class="form-control" id="patologia" name="nombre">
                         </div>
                     </div>
                     <div class="form-group">

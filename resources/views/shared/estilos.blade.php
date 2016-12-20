@@ -52,6 +52,16 @@
 		width: 100%;
 	}*/
 
+/*	.vcenter {
+		vertical-align: middle;
+		position: relative; top: 5px;
+	}*/
+
+	.pbody-reportes-home {
+		height: 500px;
+		overflow-y: auto;
+	}
+
 </style>
 
 @endsection
