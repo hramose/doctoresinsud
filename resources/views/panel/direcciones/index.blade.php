@@ -50,7 +50,7 @@
                             </div>
                             <label for="altura" class="col-lg-2 control-label">Altura</label>
                             <div class="col-lg-2">
-                                <input type="number" class="form-control" id="altura" name="altura"
+                                <input type="text" class="form-control" id="altura" name="altura"
                                        value="{!! old('altura') !!}">
                             </div>
                         </div>
