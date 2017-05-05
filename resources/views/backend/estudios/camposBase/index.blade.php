@@ -1,12 +1,35 @@
 @extends('master')
 @section('title', 'Campos Base')
 @section('content')
-
-    <div class="container col-md-8 col-md-offset-2">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2> Campos base </h2>
+<h3 class="page-title">Listado de <b>Campos Base</b>  </h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{{ URL::to('/') }}/">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="{!! action('Admin\PagesController@home') !!}">Admin</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Campos Base</a>
+         </li>
+    </ul>
+</div>
+   <div class="portlet box grey-cascade"  >
+        <div class="portlet-title">
+            <div class="caption">
+                 <a href="{!! action('Admin\CamposBaseController@create') !!}" class="btn btn-info btn-raised">Crear</a>
             </div>
+             <div class="actions btn-set">
+                <a href="{!! action('Admin\PagesController@home') !!}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
+            </div>
+
+        </div>
+        <div class="portlet-body">
+         
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}

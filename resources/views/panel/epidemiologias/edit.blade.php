@@ -50,23 +50,48 @@
 @endsection
 
 @section('content')
-    <div class="panel panel-primary" style="margin-top: -20px   ">
-        <div class="panel-heading">
-            <div class="row">
-                <div class="col-lg-8">
-                    <h2 class="text-left" style="border-radius: 0">Historia Clínica
-                        de {!! $paciente->apellido . ", " . $paciente->nombre . " (H.C.:" . $paciente->id_hc . ")"!!}
-                    </h2>
-                </div>
-                <div class="col-lg-4">
-                    <div class="btn-group btn-group-justified btn-group-raised">
-                        <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}" class="btn btn-raised btn-default" style="background-color: #EEEEEE">Cancelar</a>
-                        <label for="submit-guardar" class="btn btn-raised btn-success">Guardar Datos</label>
-                    </div>
-                </div>
+
+
+
+
+<h3 class="page-title">Historia Clínica
+                        de <b>{!! $paciente->apellido . ", " . $paciente->nombre . " (H.C.:" . $paciente->id_hc . ")"!!}</b>  </h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{{ URL::to('/') }}/">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="{{ action('Panel\PanelHistoriasController@index') }}">Historias Clínicas</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+         <li>
+            <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}">Paciente</a>
+            <i class="fa fa-angle-right"></i>
+         </li>
+        <li>
+            <a href="{!! action('Panel\PanelHistoriasController@edit', $paciente->id) !!}">Editar</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Epidemiología</a>
+         </li>
+    </ul>
+</div>
+
+    <div class="portlet box grey-cascade" >
+
+
+        <div class="portlet-title">
+
+          <div class="actions btn-set">
+                <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
             </div>
+             
         </div>
-        <div class="panel-body">
+        <div class="portlet-body">
             <form class="form-horizontal" method="post">
 
                 @foreach ($errors->all() as $error)
@@ -82,16 +107,29 @@
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                 <input type="hidden" name="epidemiologia_id" value="{!! $paciente->epidemiologia->id !!}">
 
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="btn-group btn-group-justified btn-group-raised">
+
+                    <label for="submit-guardar" class="btn btn-raised btn-success">Guardar Datos</label>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
                 {{--Primera sección--}}
                 <div class="row">
+
+                
+
                     <div class="col-lg-4">
                         <div class="row">
                             <div class="col-lg-12">
                                 {{--Datos Personales--}}
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">Datos Personales</div>
-                                    <div class="panel-body">
-                                        <div class="row">
+                                <div class="portlet box blue">
+                                    <div class="portlet-title"> <div class="caption"> Datos Personales </div></div>
+                                    <div class="portlet-body">
+                                        <div class="form-group">
                                             <label for="sexo"
                                                    class="col-lg-8 text-left">Sexo</label>
                                             <div class="col-lg-4">
@@ -102,7 +140,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="estado_civil"
                                                    class="col-lg-8 text-left">Estado Civil</label>
                                             <div class="col-lg-4">
@@ -125,17 +163,17 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 {{--Sangre--}}
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">Sangre</div>
-                                    <div class="panel-body">
-                                        <div class="row">
+                                <div class="portlet box blue">
+                                    <div class="portlet-title"> <div class="caption"> Sangre </div></div>
+                                    <div class="portlet-body">
+                                        <div class="form-group">
                                             <label for="embarazo"
                                                    class="col-lg-8 text-left">¿Está embarazada?</label>
                                             <div class="col-lg-4">
-                                                {!! Form::checkbox('embarazo', old('embarazo'), in_array(old('embarazo', $paciente->epidemiologia->embarazo), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'embarazo']) !!}
+                                                {!! Form::checkbox('embarazo', old('embarazo'), in_array(old('embarazo', $paciente->epidemiologia->embarazo), array('on', 2)) ?  true : false, ['class'=>'', 'id'=>'embarazo']) !!}
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="dador_sangre"
                                                    class="col-lg-8 text-left">¿Donó sangre?</label>
                                             <div class="col-lg-4">
@@ -147,38 +185,38 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="dador_sangre_cant"
                                                    class="col-lg-8 text-left">¿Cuántas veces donó sangre?</label>
                                             <div class="col-lg-4">
                                                 <input type="number" class="form-control" id="dador_sangre_cant" name="dador_sangre_cant" value="{!! old('dador_sangre_cant', $paciente->epidemiologia->dador_sangre_cant) !!}">
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="dador_sangre_hosp"
                                                    class="col-lg-8 text-left">¿En qué hospital/es donó?</label>
                                             <div class="col-lg-4">
                                                 <input type="text" class="form-control" id="dador_sangre_hosp" name="dador_sangre_hosp" value="{!! old('dador_sangre_hosp', $paciente->epidemiologia->dador_sangre_hosp) !!}">
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="recep_sangre"
                                                    class="col-lg-8 text-left">¿Cuántas veces recibió sangre?</label>
                                             <div class="col-lg-4">
                                                 <input type="number" class="form-control" id="recep_sangre" name="recep_sangre" value="{!! old('recep_sangre', $paciente->epidemiologia->recep_sangre) !!}">
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="recep_sangre_hosp"
                                                    class="col-lg-8 text-left">¿En qué hospital/es recibió sangre?</label>
                                             <div class="col-lg-4">
                                                 <input type="text" class="form-control" id="recep_sangre_hosp" name="recep_sangre_hosp" value="{!! old('recep_sangre_hosp', $paciente->epidemiologia->recep_sangre_hosp) !!}">
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="recep_sangre_motivo"
-                                                   class="col-lg-8 text-left">Motivo de la transfusión</label>
-                                            <div class="col-lg-4">
+                                                   class="col-lg-6 text-left">Motivo de la transfusión</label>
+                                            <div class="col-lg-6">
                                                 <input type="text" class="form-control" id="recep_sangre_motivo" name="recep_sangre_motivo" value="{!! old('recep_sangre_motivo', $paciente->epidemiologia->recep_sangre_motivo) !!}">
                                             </div>
                                         </div>
@@ -191,24 +229,24 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 {{--Lugar de Nacimiento--}}
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">Lugar de Nacimiento</div>
-                                    <div class="panel-body">
-                                        <div class="row">
+                                <div class="portlet box blue">
+                                    <div class="portlet-title"> <div class="caption"> Lugar de Nacimiento </div></div>
+                                    <div class="portlet-body">
+                                        <div class="form-group">
                                             <label for="localidad_nac" style="vertical-align: bottom;"
                                                    class="col-lg-3 text-left">Localidad</label>
                                             <div class="col-lg-9">
                                                 <input type="text" class="form-control" id="localidad_nac" name="localidad_nac" value="{!! old('localidad_nac', $paciente->epidemiologia->localidad_nac) !!}">
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="provincia_nac"
                                                    class="col-lg-3 text-left">Provincia</label>
                                             <div class="col-lg-9">
                                                 <input type="text" class="form-control" id="provincia_nac" name="provincia_nac" value="{!! old('provincia_nac', $paciente->epidemiologia->provincia_nac) !!}">
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="pais_nac"
                                                    class="col-lg-3 text-left">País</label>
                                             <div class="col-lg-9">
@@ -222,10 +260,10 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 {{--Preguntas de Chagas--}}
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">Preguntas de Chagas</div>
-                                    <div class="panel-body">
-                                        <div class="row">
+                                <div class="portlet box blue">
+                                    <div class="portlet-title"> <div class="caption"> Preguntas de Chagas </div></div>
+                                    <div class="portlet-body">
+                                        <div class="form-group">
                                             <label for="conoce_vinchuca"
                                                    class="col-lg-8 text-left">¿Conoce vinchuca?</label>
                                             <div class="col-lg-4">
@@ -237,14 +275,14 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="puerta_entrada"
                                                    class="col-lg-8 text-left">¿Cuál fue la puerta de entrada?</label>
                                             <div class="col-lg-4">
                                                 <input type="text" class="form-control" id="puerta_entrada" name="puerta_entrada" value="{!! old('puerta_entrada', $paciente->epidemiologia->puerta_entrada) !!}">
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="sabe_chagasico"
                                                    class="col-lg-8 text-left">¿Se sabe chagásico?</label>
                                             <div class="col-lg-4">
@@ -256,14 +294,14 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="motivo_det_chagas"
                                                    class="col-lg-8 text-left">¿Motivo por el cual detectan Chagas?</label>
                                             <div class="col-lg-4">
                                                 <input type="text" class="form-control" id="motivo_det_chagas" name="motivo_det_chagas" value="{!! old('motivo_det_chagas', $paciente->epidemiologia->motivo_det_chagas) !!}">
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="fecha_det_chagas" class="col-lg-8 text-left">Fecha de detección de Chagas</label>
                                             <div class="col-lg-4">
                                                 <input type="text" class="form-control datepicker" id="fecha_det_chagas"
@@ -271,7 +309,7 @@
                                                        value="@if($paciente->epidemiologia->fecha_det_chagas){!! old('fecha_det_chagas',$paciente->epidemiologia->fecha_det_chagas->format('d/m/Y')) !!}@endif">
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="confirmacion_chagas"
                                                    class="col-lg-8 text-left">Confirmación de Chagas</label>
                                             <div class="col-lg-4">
@@ -290,10 +328,10 @@
                     </div>
                     <div class="col-lg-4">
                         {{--Datos Endémicos--}}
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Datos Endémicos</div>
-                            <div class="panel-body">
-                                <div class="row">
+                        <div class="portlet box blue">
+                            <div class="portlet-title">  <div class="caption"> Datos Endémicos </div></div>
+                            <div class="portlet-body">
+                                <div class="form-group">
                                     <label for="lugar_nac_urbanizado"
                                            class="col-lg-8 text-left">¿Lugar de nacimiento urbanizado?</label>
                                     <div class="col-lg-4">
@@ -306,7 +344,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="tipo_vivienda_nac"
                                            class="col-lg-8 text-left">Tipo de vivienda donde nació</label>
                                     <div class="col-lg-4">
@@ -319,14 +357,14 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="anios_area_endemica"
                                            class="col-lg-8 text-left">Años de residencia en área endémica</label>
                                     <div class="col-lg-4">
                                         <input type="number" class="form-control" id="anios_area_endemica" name="anios_area_endemica" value="{!! old('anios_area_endemica', $paciente->epidemiologia->anios_area_endemica) !!}">
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="tipo_residencia_ende"
                                            class="col-lg-8 text-left">Tipo de residencia en área endémica</label>
                                     <div class="col-lg-4">
@@ -340,7 +378,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="volvio_area_ende"
                                            class="col-lg-8 text-left">¿Volvió a área endémica?</label>
                                     <div class="col-lg-4">
@@ -353,7 +391,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="volvio_reciente_ende"
                                            class="col-lg-8 text-left">¿Volvió recientemente?</label>
                                     <div class="col-lg-4">
@@ -366,7 +404,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="fecha_cuando_volvio_ende" class="col-lg-8 text-left">¿Cuándo volvió a área endémica?</label>
                                     <div class="col-lg-4">
                                         <input type="text" class="form-control datepicker" id="fecha_cuando_volvio_ende"
@@ -374,7 +412,7 @@
                                                value="@if($paciente->epidemiologia->fecha_cuando_volvio_ende){!! old('fecha_cuando_volvio_ende',$paciente->epidemiologia->fecha_cuando_volvio_ende->format('d/m/Y')) !!}@endif">
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="otras_areas_ende"
                                            class="col-lg-8 text-left">¿Otras áreas?</label>
                                     <div class="col-lg-4">
@@ -387,14 +425,14 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="otras_areas_ende_lugar" style="vertical-align: bottom;"
                                            class="col-lg-5 text-left">¿Cuáles otras áreas?</label>
                                     <div class="col-lg-7">
                                         <input type="text" class="form-control" id="otras_areas_ende_lugar" name="otras_areas_ende_lugar" value="{!! old('otras_areas_ende_lugar', $paciente->epidemiologia->otras_areas_ende_lugar) !!}">
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="otras_areas_ende_tiempo"
                                            class="col-lg-8 text-left">Tiempo que residió en otras áreas</label>
                                     <div class="col-lg-4">
@@ -410,69 +448,69 @@
                 <div class="row">
                     <div class="col-lg-12">
                         {{--Antecedentes Familiares--}}
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Antecedentes Familiares</div>
-                            <div class="panel-body">
+                        <div class="portlet box green-meadow">
+                            <div class="portlet-title">  <div class="caption"> Antecedentes Familiares </div></div>
+                            <div class="portlet-body">
                                 <div class="row">
                                     <div class="col-lg-4">
                                         {{--Muerte Subita--}}
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">Muerte Súbita</div>
-                                            <div class="panel-body">
-                                                <div class="row">
+                                        <div class="portlet box blue">
+                                            <div class="portlet-title"> <div class="caption"> Muerte Súbita </div></div>
+                                            <div class="portlet-body">
+                                                <div class="form-group">
                                                     <label for="antefam_muerte_sub_no"
                                                            class="col-lg-8 text-left">No</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_muerte_sub_no', old('antefam_muerte_sub_no'), in_array(old('antefam_muerte_sub_no', $paciente->epidemiologia->antefam_muerte_sub_no), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_muerte_sub_no']) !!}
+                                                        {!! Form::checkbox('antefam_muerte_sub_no', old('antefam_muerte_sub_no'), in_array(old('antefam_muerte_sub_no', $paciente->epidemiologia->antefam_muerte_sub_no), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_muerte_sub_no']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_muerte_sub_ns"
                                                            class="col-lg-8 text-left">No sabe</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_muerte_sub_ns', old('antefam_muerte_sub_ns'), in_array(old('antefam_muerte_sub_ns', $paciente->epidemiologia->antefam_muerte_sub_ns), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_muerte_sub_ns']) !!}
+                                                        {!! Form::checkbox('antefam_muerte_sub_ns', old('antefam_muerte_sub_ns'), in_array(old('antefam_muerte_sub_ns', $paciente->epidemiologia->antefam_muerte_sub_ns), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_muerte_sub_ns']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_muerte_sub_padre"
                                                            class="col-lg-8 text-left">Padre</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_muerte_sub_padre', old('antefam_muerte_sub_padre'), in_array(old('antefam_muerte_sub_padre', $paciente->epidemiologia->antefam_muerte_sub_padre), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_muerte_sub_padre']) !!}
+                                                        {!! Form::checkbox('antefam_muerte_sub_padre', old('antefam_muerte_sub_padre'), in_array(old('antefam_muerte_sub_padre', $paciente->epidemiologia->antefam_muerte_sub_padre), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_muerte_sub_padre']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_muerte_sub_madre"
                                                            class="col-lg-8 text-left">Madre</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_muerte_sub_madre', old('antefam_muerte_sub_madre'), in_array(old('antefam_muerte_sub_madre', $paciente->epidemiologia->antefam_muerte_sub_madre), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_muerte_sub_madre']) !!}
+                                                        {!! Form::checkbox('antefam_muerte_sub_madre', old('antefam_muerte_sub_madre'), in_array(old('antefam_muerte_sub_madre', $paciente->epidemiologia->antefam_muerte_sub_madre), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_muerte_sub_madre']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_muerte_sub_hermano"
                                                            class="col-lg-8 text-left">Hermano</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_muerte_sub_hermano', old('antefam_muerte_sub_hermano'), in_array(old('antefam_muerte_sub_hermano', $paciente->epidemiologia->antefam_muerte_sub_hermano), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_muerte_sub_hermano']) !!}
+                                                        {!! Form::checkbox('antefam_muerte_sub_hermano', old('antefam_muerte_sub_hermano'), in_array(old('antefam_muerte_sub_hermano', $paciente->epidemiologia->antefam_muerte_sub_hermano), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_muerte_sub_hermano']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_muerte_sub_hijo"
                                                            class="col-lg-8 text-left">Hijo</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_muerte_sub_hijo', old('antefam_muerte_sub_hijo'), in_array(old('antefam_muerte_sub_hijo', $paciente->epidemiologia->antefam_muerte_sub_hijo), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_muerte_sub_hijo']) !!}
+                                                        {!! Form::checkbox('antefam_muerte_sub_hijo', old('antefam_muerte_sub_hijo'), in_array(old('antefam_muerte_sub_hijo', $paciente->epidemiologia->antefam_muerte_sub_hijo), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_muerte_sub_hijo']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_muerte_sub_otros"
                                                            class="col-lg-8 text-left">Otro familiar</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_muerte_sub_otros', old('antefam_muerte_sub_otros'), in_array(old('antefam_muerte_sub_otros', $paciente->epidemiologia->antefam_muerte_sub_otros), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_muerte_sub_otros']) !!}
+                                                        {!! Form::checkbox('antefam_muerte_sub_otros', old('antefam_muerte_sub_otros'), in_array(old('antefam_muerte_sub_otros', $paciente->epidemiologia->antefam_muerte_sub_otros), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_muerte_sub_otros']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_muerte_sub_desc"
                                                            class="col-lg-8 text-left">Desconocido</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_muerte_sub_desc', old('antefam_muerte_sub_desc'), in_array(old('antefam_muerte_sub_desc', $paciente->epidemiologia->antefam_muerte_sub_desc), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_muerte_sub_desc']) !!}
+                                                        {!! Form::checkbox('antefam_muerte_sub_desc', old('antefam_muerte_sub_desc'), in_array(old('antefam_muerte_sub_desc', $paciente->epidemiologia->antefam_muerte_sub_desc), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_muerte_sub_desc']) !!}
                                                     </div>
                                                 </div>
                                             </div>
@@ -480,63 +518,63 @@
                                     </div>
                                     <div class="col-lg-4">
                                         {{--Afección Cardíaca--}}
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">Afección Cardíaca</div>
-                                            <div class="panel-body">
-                                                <div class="row">
+                                        <div class="portlet box blue">
+                                            <div class="portlet-title"><div class="caption"> Afección Cardíaca </div></div>
+                                            <div class="portlet-body">
+                                                <div class="form-group">
                                                     <label for="antefam_afcardi_no"
                                                            class="col-lg-8 text-left">No</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_no', old('antefam_afcardi_no'), in_array(old('antefam_afcardi_no', $paciente->epidemiologia->antefam_afcardi_no), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_no']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_no', old('antefam_afcardi_no'), in_array(old('antefam_afcardi_no', $paciente->epidemiologia->antefam_afcardi_no), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_no']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_afcardi_ns"
                                                            class="col-lg-8 text-left">No sabe</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_ns', old('antefam_afcardi_ns'), in_array(old('antefam_afcardi_ns', $paciente->epidemiologia->antefam_afcardi_ns), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_ns']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_ns', old('antefam_afcardi_ns'), in_array(old('antefam_afcardi_ns', $paciente->epidemiologia->antefam_afcardi_ns), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_ns']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_afcardi_padre"
                                                            class="col-lg-8 text-left">Padre</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_padre', old('antefam_afcardi_padre'), in_array(old('antefam_afcardi_padre', $paciente->epidemiologia->antefam_afcardi_padre), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_padre']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_padre', old('antefam_afcardi_padre'), in_array(old('antefam_afcardi_padre', $paciente->epidemiologia->antefam_afcardi_padre), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_padre']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_afcardi_madre"
                                                            class="col-lg-8 text-left">Madre</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_madre', old('antefam_afcardi_madre'), in_array(old('antefam_afcardi_madre', $paciente->epidemiologia->antefam_afcardi_madre), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_madre']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_madre', old('antefam_afcardi_madre'), in_array(old('antefam_afcardi_madre', $paciente->epidemiologia->antefam_afcardi_madre), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_madre']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_afcardi_hermano"
                                                            class="col-lg-8 text-left">Hermano</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_hermano', old('antefam_afcardi_hermano'), in_array(old('antefam_afcardi_hermano', $paciente->epidemiologia->antefam_afcardi_hermano), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_hermano']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_hermano', old('antefam_afcardi_hermano'), in_array(old('antefam_afcardi_hermano', $paciente->epidemiologia->antefam_afcardi_hermano), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_hermano']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_afcardi_hijo"
                                                            class="col-lg-8 text-left">Hijo</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_hijo', old('antefam_afcardi_hijo'), in_array(old('antefam_afcardi_hijo', $paciente->epidemiologia->antefam_afcardi_hijo), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_hijo']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_hijo', old('antefam_afcardi_hijo'), in_array(old('antefam_afcardi_hijo', $paciente->epidemiologia->antefam_afcardi_hijo), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_hijo']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_afcardi_otros"
                                                            class="col-lg-8 text-left">Otro familiar</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_otros', old('antefam_afcardi_otros'), in_array(old('antefam_afcardi_otros', $paciente->epidemiologia->antefam_afcardi_otros), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_otros']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_otros', old('antefam_afcardi_otros'), in_array(old('antefam_afcardi_otros', $paciente->epidemiologia->antefam_afcardi_otros), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_otros']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_afcardi_desc"
                                                            class="col-lg-8 text-left">Desconocido</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_afcardi_desc', old('antefam_afcardi_desc'), in_array(old('antefam_afcardi_desc', $paciente->epidemiologia->antefam_afcardi_desc), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_afcardi_desc']) !!}
+                                                        {!! Form::checkbox('antefam_afcardi_desc', old('antefam_afcardi_desc'), in_array(old('antefam_afcardi_desc', $paciente->epidemiologia->antefam_afcardi_desc), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_desc']) !!}
                                                     </div>
                                                 </div>
                                             </div>
@@ -544,63 +582,63 @@
                                     </div>
                                     <div class="col-lg-4">
                                         {{--Chagas--}}
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">Chagas</div>
-                                            <div class="panel-body">
-                                                <div class="row">
+                                        <div class="portlet box blue">
+                                            <div class="portlet-title"> <div class="caption"> Chagas </div></div>
+                                            <div class="portlet-body">
+                                                <div class="form-group">
                                                     <label for="antefam_chagas_no"
                                                            class="col-lg-8 text-left">No</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_no', old('antefam_chagas_no'), in_array(old('antefam_chagas_no', $paciente->epidemiologia->antefam_chagas_no), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_no']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_no', old('antefam_chagas_no'), in_array(old('antefam_chagas_no', $paciente->epidemiologia->antefam_chagas_no), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_no']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_chagas_ns"
                                                            class="col-lg-8 text-left">No sabe</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_ns', old('antefam_chagas_ns'), in_array(old('antefam_chagas_ns', $paciente->epidemiologia->antefam_chagas_ns), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_ns']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_ns', old('antefam_chagas_ns'), in_array(old('antefam_chagas_ns', $paciente->epidemiologia->antefam_chagas_ns), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_ns']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_chagas_padre"
                                                            class="col-lg-8 text-left">Padre</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_padre', old('antefam_chagas_padre'), in_array(old('antefam_chagas_padre', $paciente->epidemiologia->antefam_chagas_padre), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_padre']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_padre', old('antefam_chagas_padre'), in_array(old('antefam_chagas_padre', $paciente->epidemiologia->antefam_chagas_padre), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_padre']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_chagas_madre"
                                                            class="col-lg-8 text-left">Madre</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_madre', old('antefam_chagas_madre'), in_array(old('antefam_chagas_madre', $paciente->epidemiologia->antefam_chagas_madre), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_madre']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_madre', old('antefam_chagas_madre'), in_array(old('antefam_chagas_madre', $paciente->epidemiologia->antefam_chagas_madre), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_madre']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_chagas_hermano"
                                                            class="col-lg-8 text-left">Hermano</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_hermano', old('antefam_chagas_hermano'), in_array(old('antefam_chagas_hermano', $paciente->epidemiologia->antefam_chagas_hermano), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_hermano']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_hermano', old('antefam_chagas_hermano'), in_array(old('antefam_chagas_hermano', $paciente->epidemiologia->antefam_chagas_hermano), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_hermano']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_chagas_hijo"
                                                            class="col-lg-8 text-left">Hijo</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_hijo', old('antefam_chagas_hijo'), in_array(old('antefam_chagas_hijo', $paciente->epidemiologia->antefam_chagas_hijo), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_hijo']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_hijo', old('antefam_chagas_hijo'), in_array(old('antefam_chagas_hijo', $paciente->epidemiologia->antefam_chagas_hijo), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_hijo']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_chagas_otros"
                                                            class="col-lg-8 text-left">Otro familiar</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_otros', old('antefam_chagas_otros'), in_array(old('antefam_chagas_otros', $paciente->epidemiologia->antefam_chagas_otros), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_otros']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_otros', old('antefam_chagas_otros'), in_array(old('antefam_chagas_otros', $paciente->epidemiologia->antefam_chagas_otros), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_otros']) !!}
                                                     </div>
                                                 </div>
-                                                <div class="row">
+                                                <div class="form-group">
                                                     <label for="antefam_chagas_desc"
                                                            class="col-lg-8 text-left">Desconocido</label>
                                                     <div class="col-lg-4">
-                                                        {!! Form::checkbox('antefam_chagas_desc', old('antefam_chagas_desc'), in_array(old('antefam_chagas_desc', $paciente->epidemiologia->antefam_chagas_desc), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'antefam_chagas_desc']) !!}
+                                                        {!! Form::checkbox('antefam_chagas_desc', old('antefam_chagas_desc'), in_array(old('antefam_chagas_desc', $paciente->epidemiologia->antefam_chagas_desc), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_desc']) !!}
                                                     </div>
                                                 </div>
                                             </div>
@@ -610,11 +648,12 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         {{--Campo Descripción Antecedentes Familiares--}}
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="antefam_descrip" style="vertical-align: bottom;"
                                                    class="col-lg-2 text-left">Descripción antecedentes</label>
-                                            <div class="col-lg-3">
-                                                <input type="text" class="form-control" id="antefam_descrip" name="antefam_descrip" value="{!! old('antefam_descrip', $paciente->epidemiologia->antefam_descrip) !!}">
+                                            <div class="col-lg-10">
+                                            <textarea class="form-control" id="antefam_descrip" name="antefam_descrip">{!! old('antefam_descrip', $paciente->epidemiologia->antefam_descrip) !!}</textarea>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -628,10 +667,10 @@
                 <div class="row">
                     <div class="col-lg-4">
                         {{--Composición de Vivienda--}}
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Composición de Vivienda</div>
-                            <div class="panel-body">
-                                <div class="row">
+                        <div class="portlet box blue">
+                            <div class="portlet-title"> <div class="caption"> Composición de Vivienda </div></div>
+                            <div class="portlet-body">
+                                <div class="form-group">
                                     <label for="conyuge"
                                            class="col-lg-8 text-left">¿Vive con su esposo/a?</label>
                                     <div class="col-lg-4">
@@ -643,28 +682,28 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="cant_hijos"
                                            class="col-lg-8 text-left">¿Cuántos hijos tiene?</label>
                                     <div class="col-lg-4">
                                         <input type="number" class="form-control" id="cant_hijos" name="cant_hijos" value="{!! old('cant_hijos', $paciente->epidemiologia->cant_hijos) !!}">
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="cant_pers_casa"
                                            class="col-lg-8 text-left">Cantidad de personas en vivienda</label>
                                     <div class="col-lg-4">
                                         <input type="number" class="form-control" id="cant_pers_casa" v-model="cantPersCasa" name="cant_pers_casa" value="{!! old('cant_pers_casa', $paciente->epidemiologia->cant_pers_casa) !!}">
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="cant_habit_casa"
                                            class="col-lg-8 text-left">Nro. de habitaciones (dormitorios y comedor)</label>
                                     <div class="col-lg-4">
                                         <input type="number" class="form-control" id="cant_habit_casa" v-model="cantHabitCasa" name="cant_habit_casa" value="{!! old('cant_habit_casa', $paciente->epidemiologia->cant_habit_casa) !!}">
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="indice_hacinamiento" style="vertical-align: bottom;"
                                            class="col-lg-8 text-left">Indice de hacinamiento</label>
                                     <div class="col-lg-4">
@@ -678,10 +717,10 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 {{--Servicios--}}
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">Servicios</div>
-                                    <div class="panel-body">
-                                        <div class="row">
+                                <div class="portlet box blue">
+                                    <div class="portlet-title"> <div class="caption"> Servicios </div></div>
+                                    <div class="portlet-body">
+                                        <div class="form-group">
                                             <label for="agua"
                                                    class="col-lg-8 text-left">Agua</label>
                                             <div class="col-lg-4">
@@ -695,7 +734,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="canieria"
                                                    class="col-lg-8 text-left">¿Tiene cañería dentro de la vivienda?</label>
                                             <div class="col-lg-4">
@@ -708,7 +747,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="sanitario"
                                                    class="col-lg-8 text-left">¿Tiene sanitario dentro de la vivienda?</label>
                                             <div class="col-lg-4">
@@ -728,10 +767,10 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 {{--Estudios--}}
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">Estudios</div>
-                                    <div class="panel-body">
-                                        <div class="row">
+                                <div class="portlet box blue">
+                                    <div class="portlet-title"> <div class="caption"> Estudios </div></div>
+                                    <div class="portlet-body">
+                                        <div class="form-group">
                                             <label for="escolaridad"
                                                    class="col-lg-8 text-left">Nivel de escolaridad</label>
                                             <div class="col-lg-4">
@@ -752,7 +791,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="form-group">
                                             <label for="grados_aprobados" style="vertical-align: bottom;"
                                                    class="col-lg-8 text-left">Cantidad de grados aprobados</label>
                                             <div class="col-lg-4">
@@ -766,10 +805,10 @@
                     </div>
                     <div class="col-lg-4">
                         {{--Situación laboral--}}
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Situación Laboral</div>
-                            <div class="panel-body">
-                                <div class="row">
+                        <div class="portlet box blue">
+                            <div class="portlet-title"> <div class="caption"> Situación Laboral </div></div>
+                            <div class="portlet-body">
+                                <div class="form-group">
                                     <label for="trabajo"
                                            class="col-lg-8 text-left">¿Trabaja?</label>
                                     <div class="col-lg-4">
@@ -786,14 +825,14 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="tipo_trabajo"
                                            class="col-lg-4 text-left">Tipo de trabajo</label>
                                     <div class="col-lg-8">
                                         <input type="text" class="form-control" id="tipo_trabajo" name="tipo_trabajo" value="{!! old('tipo_trabajo', $paciente->epidemiologia->tipo_trabajo) !!}">
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="rechazado_empleo_chagas"
                                            class="col-lg-8 text-left">¿Fue rechazado de algún empleo por Chagas?</label>
                                     <div class="col-lg-4">
@@ -806,28 +845,28 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="nombre_empresa_rech"
                                            class="col-lg-6 text-left">¿Qué empresa lo rechazó?</label>
                                     <div class="col-lg-6">
                                         <input type="text" class="form-control" id="nombre_empresa_rech" name="nombre_empresa_rech" value="{!! old('nombre_empresa_rech', $paciente->epidemiologia->nombre_empresa_rech) !!}">
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="obra_social"
                                            class="col-lg-6 text-left">Nombre Obra Social</label>
                                     <div class="col-lg-6">
                                         <input type="text" class="form-control" id="obra_social" name="obra_social" value="{!! old('obra_social', $paciente->epidemiologia->obra_social) !!}">
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="cant_conviv_trabajan"
                                            class="col-lg-8 text-left">Cant. Familiares convivientes que trabajan</label>
                                     <div class="col-lg-4">
                                         <input type="number" class="form-control" id="cant_conviv_trabajan" v-model="cantConvivTrabajan" name="cant_conviv_trabajan" value="{!! old('cant_conviv_trabajan', $paciente->epidemiologia->cant_conviv_trabajan) !!}">
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="form-group">
                                     <label for="indice_trab_conv"
                                            class="col-lg-8 text-left">Indice trabajadores/convivientes</label>
                                     <div class="col-lg-4">

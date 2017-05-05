@@ -6,62 +6,81 @@
 
 @section('content')
 
-{{--    <div class="aa-header">
-        <h2 class="text-center">Panel de Historias Clínicas</h2>
-    </div>--}}
 
-    <div class="panel panel-primary" style="margin-top: -20px   ">
-        <div class="panel-heading">
-            <h2 class="text-center" style="border-radius: 0">Panel de Historias Clínicas</h2>
-        </div>
-        <div class="panel-body">
-            <a href="{!! action('Panel\PanelHistoriasController@create') !!}" class="btn btn-info">Cargar nueva Historia Clínica</a>
-        </div>
-    </div>
+<h3 class="page-title">Listado de <b>Historias clínicas</b></h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{{ URL::to('/') }}/">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Historias Clínicas</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Listar</a>
+        </li>
+    </ul>
+</div>
 
-    <div class="container col-md-8 col-md-offset-2">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2> Todos los pacientes </h2>
-            </div>
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
+
+<div class="row">
+                <div class="col-md-12">
+                    <form class="form-horizontal form-row-seperated" action="#">
+                        <div class="portlet box grey-cascade">
+                            <div class="portlet-title">
+                                
+                                <div class="actions btn-set">
+                                    <a href="{{ URL::to('/') }}/" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
+                                  </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-container">
+                                    <div class="table-toolbar">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="btn-group">
+                                            <a href="{!! action('Panel\PanelHistoriasController@create') !!}" id="sample_editable_1_new" class="btn green">
+                                           Cargar nueva Historia Clínica <i class="fa fa-plus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="btn-group pull-right">
+                                          
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                                    <table class="table table-striped table-bordered table-hover" id="myTable">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>ID Historia Clinica</th>
+                                                <th>Apellido</th>
+                                                <th>Nombre</th>
+                                                <th>Fecha de Ingreso</th>
+                                                <th>Fecha de Ultima Consulta</th>
+                                                {{--<th>Opciones</th>--}}
+                                            </tr>
+                                        </thead>
+
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            @endif
-     {{--       @if ($pacientes->isEmpty())
-                <p> No hay pacientes cargados.</p>
-            @else--}}
-                <table class="table" id="myTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>ID Historia Clinica</th>
-                            <th>Apellido</th>
-                            <th>Nombre</th>
-                            <th>Fecha de Ingreso</th>
-                            <th>Fecha de Ultima Consulta</th>
-                            {{--<th>Opciones</th>--}}
-                        </tr>
-                    </thead>
-{{--                    <tbody>
-                    @foreach($pacientes as $paciente)
-                        <tr>
-                            <td><a href="{!! action('Panel\PanelHistoriasController@verHistoria', $paciente->id) !!}">{!! $paciente->id_hc !!}</a></td>
-                            <td>
-                                <a href="{!! action('Panel\PanelHistoriasController@verHistoria', $paciente->id) !!}">{!! $paciente->apellido .', '.$paciente->nombre !!} </a>
-                            </td>
-                            <td>{!! \Carbon\Carbon::parse($paciente->fecha_alta)->format('d/m/Y') !!}</td>
-                            <td>{!! \Carbon\Carbon::parse($paciente->fecha_ult_consulta)->format('d/m/Y') !!}</td>
-                            <td><a class="btn btn-default btn-xs" href="#">Visualizar</a></td>
-                        </tr>
-                    @endforeach
-                    </tbody>--}}
-                </table>
-            {{--@endif--}}
-        </div>
-    </div>
+            </div>
+ 
 
+    
+
+     
 @endsection
 
 @section('script_datatables')

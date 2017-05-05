@@ -2,8 +2,38 @@
 @section('title', 'Crea un nuevo campo base')
 
 @section('content')
-    <div class="container col-md-8 col-md-offset-2">
-        <div class="well well bs-component">
+
+<h3 class="page-title">Edición de <b>Campo Base</b>  </h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{{ URL::to('/') }}/">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="{!! action('Admin\PagesController@home') !!}">Admin</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+
+        <li>
+            <a href="{!! action('Admin\CamposBaseController@index') !!}">Campos Base</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Edición</a>
+         </li>
+    </ul>
+</div>
+ <div class="portlet box grey-cascade"  >
+        <div class="portlet-title">
+
+             <div class="actions btn-set">
+                <a href="{!! action('Admin\CamposBaseController@index') !!}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
+            </div>
+
+        </div>
+        <div class="portlet-body">
 
             <form class="form-horizontal" method="post">
 
@@ -20,8 +50,7 @@
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}">
 
                 <fieldset>
-                    <legend>Crea un nuevo campo base</legend>
-                    <div class="form-group">
+                     <div class="form-group">
                         <label for="nombre" class="col-lg-2 control-label">Nombre</label>
                         <div class="col-lg-10">
                             <input type="nombre" class="form-control" id="nombre" name="nombre">

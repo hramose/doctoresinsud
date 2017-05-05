@@ -1,4 +1,4 @@
-@extends('master')
+@extends('infopage')
 
 @section('title')
     Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Direcciones
@@ -23,20 +23,7 @@
 
 @section('content')
     <div class="panel panel-primary" style="margin-top: -20px   ">
-        <div class="panel-heading">
-            <div class="row">
-                <div class="col-lg-9">
-                    <h2 class="text-left" style="border-radius: 0">Direcciones de
-                        {!! $paciente->apellido . ", " . $paciente->nombre . " (H.C.:" . $paciente->id_hc . ")"!!}
-                    </h2>
-                </div>
-                <div class="col-lg-3">
-                    <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}"
-                       class="btn btn-raised btn-default" style="background-color: #EEEEEE">Volver a Historia
-                        Clinica</a>
-                </div>
-            </div>
-        </div>
+        
         <div class="container col-md-8 col-md-offset-2">
             <div class="well well bs-component">
                 <form class="form-horizontal" method="post">
@@ -67,7 +54,7 @@
                                        value="{!! old('altura') !!}">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="form-group">
                             <label for="piso" class="col-lg-2 control-label">Piso</label>
                             <div class="col-lg-2">
                                 <input type="number" class="form-control" id="piso" name="piso"
@@ -84,30 +71,30 @@
                                        value="{!! old('codigo_postal') !!}">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="form-group">
                             <label for="localidad" class="col-lg-2 control-label">Localidad</label>
                             <div class="col-lg-10">
                                 <input type="text" class="form-control" id="localidad" name="localidad"
                                        value="{!! old('localidad') !!}">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="form-group">
                             <label for="provincia" class="col-lg-2 control-label">Provincia</label>
                             <div class="col-lg-10">
                                 <input type="text" class="form-control" id="provincia" name="provincia"
                                        value="{!! old('provincia') !!}">
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="form-group">
                             <label for="pais" class="col-lg-2 control-label">Pais</label>
                             <div class="col-lg-10">
                                 <input type="text" class="form-control" id="pais" name="pais"
                                        value="{!! old('pais') !!}">
                             </div>
                         </div>
-                        <div class="row">
-                            <label for="activo" class="col-lg-2 control-label">Activo</label>
-                            <div class="col-lg-2">
+                        <div class="form-group">
+                            <label for="activo" class="col-xs-2 control-label">Activo</label>
+                            <div class="col-xs-2">
                                 {!! Form::checkbox('activo', old('activo',2), in_array(old('activo'), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'activo']) !!}
                             </div>
                         </div>
@@ -121,7 +108,7 @@
                 </form>
             </div>
         </div>
-        <div class="container col-md-10 col-md-offset-1">
+        <div class="  col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 @if ($direcciones->isEmpty())
                     <p>El paciente no posee direcciones.</p>

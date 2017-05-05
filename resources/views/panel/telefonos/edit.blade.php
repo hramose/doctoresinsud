@@ -1,4 +1,4 @@
-@extends('master')
+@extends('infopage')
 
 @section('title')
     Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Editar teléfono

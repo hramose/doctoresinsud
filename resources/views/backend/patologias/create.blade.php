@@ -2,8 +2,39 @@
 @section('title', 'Crea una nueva patología')
 
 @section('content')
-    <div class="container col-md-8 col-md-offset-2">
-        <div class="well well bs-component">
+
+
+<h3 class="page-title">Crea una nueva <b>patologia</b>  </h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{{ URL::to('/') }}/">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="{!! action('Admin\PagesController@home') !!}">Admin</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+
+        <li>
+            <a href="{!! action('Admin\PatologiasController@index') !!}">Patologias</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Creación</a>
+         </li>
+    </ul>
+</div>
+<div class="portlet box grey-cascade"  >
+        <div class="portlet-title">
+
+             <div class="actions btn-set">
+                <a href="{!! action('Admin\PatologiasController@index') !!}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
+            </div>
+
+        </div>
+        <div class="portlet-body">
 
             <form class="form-horizontal" method="post">
 
@@ -20,8 +51,7 @@
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}">
 
                 <fieldset>
-                    <legend>Crea una nueva patologia</legend>
-                    <div class="form-group">
+                     <div class="form-group">
                         <label for="patologia" class="col-lg-2 control-label">Patologia</label>
                         <div class="col-lg-10">
                             <input type="text" class="form-control" id="patologia" name="nombre">

@@ -2,11 +2,36 @@
 @section('title', 'Todos los estudios')
 @section('content')
 
-    <div class="container col-md-8 col-md-offset-2">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h2> Todos los estudios </h2>
+<h3 class="page-title">Estudios  </h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{{ URL::to('/') }}/">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="{!! action('Admin\PagesController@home') !!}">Admin</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Estudios</a>
+         </li>
+    </ul>
+</div>
+  <div class="portlet box grey-cascade"  >
+        <div class="portlet-title">
+            <div class="caption">
+                 <a href="{!! action('Admin\EstudiosController@create') !!}" class="btn btn-info btn-raised">Crear</a>
             </div>
+             <div class="actions btn-set">
+                <a href="{!! action('Admin\PagesController@home') !!}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
+            </div>
+
+        </div>
+        <div class="portlet-body">
+            
+           
             @if (session('status'))
                 <div class="alert alert-success">
                     {{ session('status') }}
@@ -28,7 +53,7 @@
                             <td>
                                 <a href="{!! action('Admin\EstudiosController@edit', $estudio->id) !!}">{!! $estudio->nombre !!} </a>
                             </td>
-                            <td><a class="btn btn-default btn-xs"   href="{!! action('Admin\EstudiosController@show', $estudio->id) !!}">Ver</a></td>
+                            <td>{{-- <a class="btn btn-success btn-xs"   href="{!! action('Admin\EstudiosController@show', $estudio->id) !!}">Ver</a>--}}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -36,11 +61,5 @@
             @endif
         </div>
     </div>
-     <div class="form-group">
-        <div class="col-lg-10 col-lg-offset-2">
-            <a href="{!! action('Admin\PagesController@home') !!}" class="btn btn-primary"> <- Volver a panel de administración</a>
-            
-        </div>
-    </div>
-
+      
 @endsection

@@ -2,7 +2,39 @@
 @section('title', 'Editar Estudio')
 
 @section('content')
-    <div class="container col-md-8 col-md-offset-2">
+
+<h3 class="page-title">Edición de <b>Estudios</b>  </h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{{ URL::to('/') }}/">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="{!! action('Admin\PagesController@home') !!}">Admin</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="{!! action('Admin\EstudiosController@index') !!}">Estudios</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Edición</a>
+         </li>
+    </ul>
+</div>
+ <div class="portlet box grey-cascade"  >
+        <div class="portlet-title">
+
+             <div class="actions btn-set">
+                <a href="{!! action('Admin\EstudiosController@index') !!}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
+            </div>
+
+        </div>
+        <div class="portlet-body">
+            
+     
         <form class="form-horizontal" method="post">
             <div class="well well bs-component">
 

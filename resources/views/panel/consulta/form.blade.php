@@ -7,18 +7,42 @@
 @endsection
 
 @section('content')
-    <div class="panel panel-primary" style="margin-top: -20px">
-        <div class="panel-heading">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2 class="text-left" style="border-radius: 0">Historia Clínica
-                        de {!! $paciente->apellido . ", " . $paciente->nombre . " (H.C.:" . $paciente->id_hc . ")"!!}</h2>
-                </div>
+
+
+<h3 class="page-title">Historia Clínica
+                        de <b>{!! $paciente->apellido . ", " . $paciente->nombre . " (H.C.:" . $paciente->id_hc . ")"!!}</b>  </h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{{ URL::to('/') }}/">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="{{ action('Panel\PanelHistoriasController@index') }}">Historias Clínicas</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+         <li>
+            <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}">Paciente</a>
+            <i class="fa fa-angle-right"></i>
+         </li>
+        <li>
+            <a href="#">Consulta</a>
+          </li>
+    </ul>
+</div>
+
+   
+    <div class="portlet box grey-cascade"  >
+        <div class="portlet-title">
+
+             <div class="actions btn-set">
+                <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
             </div>
+
+            
         </div>
-    </div>
-    <div class="container">
-        <div class="well well-lg">
+        <div class="portlet-body">
             @if( isset($consulta) )
             <form id="consulta" method="post"  class="form-horizontal"
                   action="{{ action('Panel\PanelHistoriasController@guardarConsulta') }}">
@@ -41,8 +65,8 @@
                     </ul>
                 @endif
 
-            <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
+            <div class="tabbable-custom nav-justified">
+                <ul class="nav nav-tabs nav-justified">
                     <li class="active"><a href="#consulta-tab" data-toggle="tab">Motivo de consulta</a></li>
                     <li><a href="#sintomas" data-toggle="tab">S&iacute;ntomas</a></li>
                     <li><a href="#patologia" data-toggle="tab">Patolog&iacute;a</a></li>
@@ -185,22 +209,13 @@
             customConfig: '{{ asset('/ckeditor/custom_config.js') }}'
         });
 
-        $.validate({
-            form: '#consulta',
-            lang: 'es'
-        });
+        
     </script>
 
 @endsection
 
 @section('scripts')
-<style>
-    .nav-tabs > li.active > a {
-        border-radius: 0;
-        height: 39px;
-        background-color: #03af9f !important
-    }
-</style>
+
 <script>
     $(document).on('ready', function() {
         var hash = window.location.hash;

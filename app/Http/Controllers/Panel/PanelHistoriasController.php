@@ -8,6 +8,7 @@ use App\EstudioPacienteValor;
 use App\Patologia;
 use App\Sintoma;
 use App\Tratamiento;
+use App\HistorialCampo;
 use Illuminate\Http\Request;
 
 use Log;
@@ -22,6 +23,7 @@ use App\Http\Requests\editHistoriaRequest;
 use App\Http\Requests\crearHistoriaFormRequest;
 use App\Http\Requests\ConsultaFormRequest;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Auth;
 
 class PanelHistoriasController extends Controller
 {
@@ -232,6 +234,18 @@ class PanelHistoriasController extends Controller
         return view('panel.index');
     }
 
+ public function historial(Request $request)
+    {
+
+        $historialModel= new HistorialCampo();
+        $recurso=$request->get("recurso");
+        $field=$request->get("field");
+        $tipo=$request->get("tipo");
+        $getHistorialByResource= $historialModel->getHistorialByResource($recurso,$field,$tipo);
+
+        return view('panel.historial')->with("historial",$getHistorialByResource);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -343,11 +357,15 @@ class PanelHistoriasController extends Controller
         ));
 
         $paciente->id_hc = (int) $request->get('id_hc');
+
+
         $paciente->save();
 
-        return redirect()->action('Panel\PanelHistoriasController@verHistoria', $paciente->id)->with('status', 'Nueva historia clínica agregada correctamente.');
+       // return redirect()->action('Panel\PanelHistoriasController@verHistoria', $paciente->id)->with('status', 'Nueva historia clínica agregada correctamente.');
     }
 
+
+ 
     /**
      * Display the specified resource.
      *
@@ -475,7 +493,59 @@ class PanelHistoriasController extends Controller
         $paciente->evolucion = $request->get('evolucion');
 
         $paciente->save();
-        return redirect()->action('Panel\PanelHistoriasController@verHistoria', $paciente->id)->with('status', 'Historia clínica editada correctamente.');
+
+         $this->actualizarHistorial($paciente->toArray(),$id);
+       
+      return redirect()->action('Panel\PanelHistoriasController@verHistoria', $paciente->id)->with('status', 'Historia clínica editada correctamente.');
+    }
+
+   public function actualizarHistorial($historial,$recurso){
+        foreach ($historial as $key=> $value) {
+
+            $historial = DB::table('historial_campo')
+            ->where('field',$key)
+            ->where('recurso',$recurso)
+            ->orderBy('created_at','desc')
+            ->first();
+            $valueG="";
+
+ 
+            if($key =="grupo_clinico_ing"  ||   $key=="nuevo_grupo_cli" ||   $key =="tipo_ecg"  ||   $key =="nuevos_cambios_ecg" ||   $key =="obs_ecg"  ||   $key =="efec_otros_bnz" ||   $key =="efec_otros_nifur" ||   $key =="trat_etio_obs" ||   $key =="otras_pat_asoc" ||   $key =="otros_sintomas_ing" ||   $key =="tipo_insuf_card"){
+
+                           $valueG=$value;
+
+                    }else{
+                    
+                        if($value=="1"){
+                            $valueG="NO";
+                        }else if($value=="2") {
+                            $valueG="SI";
+                        }else{
+                           $valueG=$value;
+                        }
+
+                    }
+
+             if( count($historial)>0){
+                if($historial->valor!=$valueG){
+                    $historialModel= new HistorialCampo();
+                    $historialModel->field=$key;
+                    $historialModel->recurso=$recurso;
+                    $historialModel->valor=$valueG;
+                    $historialModel->tipo=1;
+                    $historialModel->user_id=Auth::id();
+                    $historialModel->save();
+                }
+             }else{
+                $historialModel= new HistorialCampo();
+                $historialModel->field=$key;
+                $historialModel->recurso=$recurso;
+                $historialModel->valor=$valueG;
+                $historialModel->tipo=1;
+                $historialModel->user_id=Auth::id();
+                $historialModel->save();
+             }
+        }
     }
 
     /**

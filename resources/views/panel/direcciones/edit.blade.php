@@ -1,4 +1,4 @@
-@extends('master')
+@extends('infopage')
 
 @section('title')
     Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Editar dirección
@@ -23,19 +23,7 @@
 
 @section('content')
     <div class="panel panel-primary" style="margin-top: -20px   ">
-        <div class="panel-heading">
-            <div class="row">
-                <div class="col-lg-9">
-                    <h2 class="text-left" style="border-radius: 0">Direcciones de
-                        {!! $paciente->apellido . ", " . $paciente->nombre . " (H.C.:" . $paciente->id_hc . ")"!!}
-                    </h2>
-                </div>
-                <div class="col-lg-3">
-                    <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}"
-                       class="btn btn-raised btn-default" style="background-color: #EEEEEE">Volver a Historia Clinica</a>
-                </div>
-            </div>
-        </div>
+         
         <div class="container col-md-8 col-md-offset-2">
             <div class="well well bs-component">
                 <form class="form-horizontal" method="post">

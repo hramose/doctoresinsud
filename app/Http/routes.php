@@ -57,6 +57,7 @@ Route::get('api/estudios/{id_e}', 'Panel\EstudiosController@getCamposByEstudio')
 Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medico'), function () {
 
     Route::get('/', 'PanelHistoriasController@index');
+    Route::get('historial', 'PanelHistoriasController@historial');
 
     //Crear nueva historia clinica
     Route::get('paciente/crear', 'PanelHistoriasController@create');
@@ -232,4 +233,8 @@ Route::group(array('prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=> 'mana
     Route::get('tratamientos/{id?}/edit', 'TratamientosController@edit');
     Route::post('tratamientos/{id?}/edit', 'TratamientosController@update');
     Route::post('tratamientos/{id?}/delete', 'TratamientosController@destroy');
+
+    //Historial
+
+
 });
