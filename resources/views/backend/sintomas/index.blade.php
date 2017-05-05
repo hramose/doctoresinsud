@@ -43,13 +43,17 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Descripción</th>
-                    </tr>
+                     </tr>
                     </thead>
                     <tbody>
                     @foreach($sintomas as $sintoma)
                         <tr>
-                            <td>{!! $sintoma->nombre !!}</td>
+                            <td> 
+                                <a href="{!! action('Admin\SintomasController@edit', $sintoma->id) !!}">{!! $sintoma->nombre !!} </a>
+                            </td>
+
                             <td>{!! $sintoma->descripcion !!}</td>
+                       
                         </tr>
                     @endforeach
                     </tbody>
@@ -57,10 +61,5 @@
             @endif
         </div>
     </div>
-<div class="form-group">
-        <div class="col-lg-10 col-lg-offset-2">
-            <a href="{!! action('Admin\PagesController@home') !!}" class="btn btn-primary"> <- Volver a panel de administración</a>
-            
-        </div>
-    </div>
+ 
 @endsection

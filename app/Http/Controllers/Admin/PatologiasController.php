@@ -72,7 +72,8 @@ class PatologiasController extends Controller
      */
     public function edit($id)
     {
-        //
+        $patologia = Patologia::whereId($id)->firstOrFail();
+        return view('backend.patologias.edit', compact('patologia'));
     }
 
     /**
@@ -84,7 +85,14 @@ class PatologiasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $patologia = Patologia::whereId($id)->firstOrFail();
+        $patologia->nombre = $request->get('nombre');
+        $patologia->descripcion = $request->get('descripcion');
+        $patologia->estado = $request->get('estado');
+
+        $patologia->save();
+
+        return redirect(action('Admin\PatologiasController@edit', $patologia->id))->with('status', 'La patologia fue actualizada!');
     }
 
     /**

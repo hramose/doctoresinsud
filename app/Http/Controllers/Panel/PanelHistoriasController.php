@@ -88,8 +88,8 @@ class PanelHistoriasController extends Controller
     {
         $paciente = Paciente::find($id_p);
         $consulta = Consulta::find($id_c);
-        $sintomas = Sintoma::all();
-        $patologias = Patologia::all();
+        $sintomas = Sintoma::where("estado",1)->get();
+        $patologias = Patologia::where("estado",1)->get();
         $sintomasSeleccionados = $consulta->sintomas->lists('id')->toArray();
         $patologiasSeleccionadas = $consulta->patologias->lists('id')->toArray();
         return view('panel.consulta.form', compact('paciente', 'consulta', 'sintomas', 'patologias', 'sintomasSeleccionados', 'patologiasSeleccionadas'));
@@ -174,8 +174,7 @@ class PanelHistoriasController extends Controller
                         ->orderBy('fecha', 'desc')
                         ->orderBy('created_at', 'desc')
                         ->get();
-
-        //$proximaConsulta = Consulta::where('id_paciente', $paciente->id)->max('proxima_cita');
+         //$proximaConsulta = Consulta::where('id_paciente', $paciente->id)->max('proxima_cita');
 
         return view('panel.show', compact('paciente', 'tratamientos', 'estudios', 'consultas'));
     }

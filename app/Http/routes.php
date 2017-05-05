@@ -173,8 +173,8 @@ Route::group(array('prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=> 'mana
     Route::post('sintomas/create', 'SintomasController@store');
     Route::get('sintomas/{id?}/edit', 'SintomasController@edit');
     Route::post('sintomas/{id?}/edit', 'SintomasController@update');
-    Route::get('sintomas/{id?}/delete', 'SintomasController@show');
-    Route::post('sintomas/{id?}/delete', 'SintomasController@destroy');
+    Route::get('sintomas/{id?}/show', 'SintomasController@show');
+    Route::get('sintomas/{id?}/delete', 'SintomasController@destroy');
 
     //Administrar patologias
     Route::get('patologias', 'PatologiasController@index');

@@ -17,7 +17,7 @@ class HistorialCampo extends Model
     	->where('recurso',$recurso)
     	->where('field',$field)
     	->where('tipo',$tipo)
-    	->orderBy("created_at","desc")
+    	->orderBy("historial_campo.id","DESC")
     	->get();
     }
 }

@@ -51,7 +51,10 @@
                     <tbody>
                     @foreach($patologias as $patologia)
                         <tr>
-                            <td>{!! $patologia->nombre !!}</td>
+                            <td>
+                                <a href="{!! action('Admin\PatologiasController@edit', $patologia->id) !!}">{!! $patologia->nombre !!} </a>
+
+                            </td>
                             <td>{!! $patologia->descripcion !!}</td>
                         </tr>
                     @endforeach
