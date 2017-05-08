@@ -17,7 +17,7 @@
 function showHistorial(historial){
     console.log(historial,{{$paciente->id}},1);
 
-  showIframe('{!! action('Panel\PanelHistoriasController@historial') !!}?recurso='+{{$paciente->id}}+'&field='+historial+'&tipo=1 ')
+  showIframe('{!! action('Panel\PanelHistoriasController@historial') !!}?recurso='+{{$paciente->id}}+'&field='+historial+'&tipo=1 ',2)
 }
 
 $(function () {
@@ -341,11 +341,11 @@ $(".static-info span").hover(function (){
 
                                         </div>
                                         <div class="col-lg-2">
-                                            <a type="link"   class="btn btn-raised btn-default" onclick="showIframe('{!! action('Panel\TelefonosController@index', $paciente->id) !!}')"> <i class="fa fa-phone" aria-hidden="true"></i> Teléfonos</a>
+                                            <a type="link"   class="btn btn-raised btn-default" onclick="showIframe('{!! action('Panel\TelefonosController@index', $paciente->id) !!}',1)"> <i class="fa fa-phone" aria-hidden="true"></i> Teléfonos</a>
                                         </div>
                                         <div class="col-lg-2 ">
 
-                                            <a type="link"   class="btn btn-raised btn-default" onclick="showIframe('{!! action('Panel\DireccionesController@index', $paciente->id) !!}')"> <i class="fa fa-map-signs" aria-hidden="true"></i> Direcciones</a>
+                                            <a type="link"   class="btn btn-raised btn-default" onclick="showIframe('{!! action('Panel\DireccionesController@index', $paciente->id) !!}',1)"> <i class="fa fa-map-signs" aria-hidden="true"></i> Direcciones</a>
                                             
                                         </div>
                                     </div>
@@ -1230,7 +1230,7 @@ $(".static-info span").hover(function (){
                                     @foreach($tratamientos as $tratamiento)
                                         <tr>
                                             <td>
-                                                <button type="link" class="btn btn-link" onclick="showIframe('{!! action('Panel\PanelHistoriasController@verTratamiento', ['id_p' => $paciente->id, 'id_t' => $tratamiento->id]) !!}')"> {!! $tratamiento->droga !!}</button>
+                                                <button type="link" class="btn btn-link" onclick="showIframe('{!! action('Panel\PanelHistoriasController@verTratamiento', ['id_p' => $paciente->id, 'id_t' => $tratamiento->id]) !!}',1)"> {!! $tratamiento->droga !!}</button>
                                             </td>
                                             <td>{!! $tratamiento->dosis !!}</td>
                                             <td>@if($tratamiento->fecha_trat){!! $tratamiento->fecha_trat->format('d/m/Y') !!}@endif</td>
@@ -1282,7 +1282,7 @@ $(".static-info span").hover(function (){
                                         <tr>
                                             <td>
                                               
-                                                <button type="link" class="btn btn-link" onclick="showIframe( '{!! action('Panel\PanelHistoriasController@verEstudio', ['id_p' => $paciente->id,'id_e' => $estudio->id]) !!}')"> {!! $estudio->nombre !!}</button>
+                                                <button type="link" class="btn btn-link" onclick="showIframe( '{!! action('Panel\PanelHistoriasController@verEstudio', ['id_p' => $paciente->id,'id_e' => $estudio->id]) !!}',1)"> {!! $estudio->nombre !!}</button>
 
                                             </td>
                                             <td>{!! \Carbon\Carbon::parse($estudio->fecha)->format('d/m/Y') !!}</td>
@@ -1610,13 +1610,20 @@ $(".static-info span").hover(function (){
                 </div>
                          
              </div>
-          <iframe src="" id="iframeid" style="width: 100%; height: 80%;border: 0px"></iframe>
+          <iframe src="" id="iframeid" style="width: 100%;border: 0px"></iframe>
         </div>
       </div>
 </div>
 
 <script>
-function showIframe(url){
+function showIframe(url, type){
+
+    if(type==1){
+        $("#iframeid").css("height","90%");
+
+    }else{
+        $("#iframeid").css("height","50%");
+    }
     $("#iframeid").attr("src",url);
      $('#modalIframe').modal('show');
 }

@@ -14,7 +14,7 @@
         <div class="hor-menu hor-menu-light hidden-sm hidden-xs">
             <ul class="nav navbar-nav">
                 <!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the horizontal opening on mouse hover -->
-                <li class="classic-menu-dropdown {{(Request::is('/') ? 'active' : '')}}">
+                <li class="classic-menu-dropdown {{(Request::is('/') ? 'active' : '')}} {{(Request::is('home') ? 'active' : '')}}">
                     <a href="{{ URL::to('/') }}/">
                         <i class="fa fa-home" aria-hidden="true"></i>
                         Home <span class="selected">

@@ -21,7 +21,7 @@
                     <div class="portlet-body">
                         <div class="table-container">
                             
-                            <table class="table table-striped table-bordered table-hover" id="myTable">
+                            <table class="table table-striped table-bordered table-hover" >
                                 <thead>
                                     <tr>
                                         <th>Fecha Modificación</th>
