@@ -99,7 +99,7 @@
                             <div class="col-lg-10">
                                 <input type="text" class="form-control" id="titulo" placeholder="Titulo"
                                        name="titulo" data-validation="required" data-validation-length="min4"
-                                       value="{!! $consulta->titulo ?? '' !!}">
+                                       value="{!! $consulta->titulo or '' !!}">
                             </div>
                         </div>
 
@@ -107,7 +107,7 @@
                             <label for="content" class="col-lg-2 control-label">Descripcion</label>
                             <div class="col-lg-10">
                                 <textarea class="form-control" rows="3" id="descripcion"
-                                          name="descripcion">{!! $consulta->descripcion ?? '' !!}</textarea>
+                                          name="descripcion">{!! $consulta->descripcion or '' !!}</textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -119,19 +119,19 @@
                         <div class="form-group">
                             <label for="content" class="col-lg-2 control-label">Frecuencia Cardíaca</label>
                             <div class="col-lg-2">
-                                <input type="number" class="form-control" id="frecuencia_cardiaca" name="frecuencia_cardiaca" value="{!! $consulta->frecuencia_cardiaca ?? '' !!}">
+                                <input type="number" class="form-control" id="frecuencia_cardiaca" name="frecuencia_cardiaca" value="{!! $consulta->frecuencia_cardiaca or '' !!}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="content" class="col-lg-2 control-label">Presión Sistólica</label>
                             <div class="col-lg-2">
-                                <input type="number" class="form-control" id="presion_sistolica" name="presion_sistolica" value="{!! $consulta->presion_sistolica ?? '' !!}">
+                                <input type="number" class="form-control" id="presion_sistolica" name="presion_sistolica" value="{!! $consulta->presion_sistolica or '' !!}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="content" class="col-lg-2 control-label">Presión Diastólica</label>
                             <div class="col-lg-2">
-                                <input type="number" class="form-control" id="presion_diastolica" name="presion_diastolica" value="{!! $consulta->presion_diastolica ?? '' !!}">
+                                <input type="number" class="form-control" id="presion_diastolica" name="presion_diastolica" value="{!! $consulta->presion_diastolica or '' !!}">
                             </div>
                         </div>
                     </fieldset>
