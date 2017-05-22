@@ -200,17 +200,17 @@ $(document).on('ready', function () {
         });
     </script>
 
-    <script src="../../../ckeditor/ckeditor.js"></script>
+    <script src="{{asset("ckeditor/ckeditor.js")}}"></script>
     <script>
         CKEDITOR.replace('editor_descripcion', {
-            customConfig: '../../../ckeditor/custom_config.js'
+            customConfig: '{{asset("ckeditor/custom_config.js")}}'
         });
         CKEDITOR.replace('editor_descripcion_edit', {
-            customConfig: '../../../ckeditor/custom_config.js'
+            customConfig: '{{asset("ckeditor/custom_config.js")}}'
         });
 
         CKEDITOR.replace('editor_imprimible', {
-            customConfig: '../../../ckeditor/custom_config_imp.js'
+            customConfig: '{{asset("ckeditor/custom_config_imp.js")}}'
         });
     </script>
 
