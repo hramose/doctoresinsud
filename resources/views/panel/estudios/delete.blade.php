@@ -5,14 +5,46 @@
 @endsection
 
 @section('content')
-    <div class="container col-md-8 col-md-offset-2">
+    
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="{{ URL::to('/') }}/">Home</a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <a href="{{ action('Panel\PanelHistoriasController@index') }}">Historias Clínicas</a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+             <li>
+                <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente[0]->id) }}">Paciente</a>
+                <i class="fa fa-angle-right"></i>
+             </li>
+            <li>
+                <a href="#">Estudio</a>
+                <i class="fa fa-angle-right"></i>
+              </li>
+            <li>
+                <a href="#">Borrar</a>
+              </li>
+        </ul>
+    </div>
+
+      <div class="portlet box grey-cascade"  >
+        <div class="portlet-title">
+            <div class="caption">Borrar Estudio</div>
+            <div class="actions btn-set">
+                <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente[0]->id) }}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
+            </div>
+        </div>
+        <div class="portlet-body">
+
         <form class="form-horizontal" method="post">
             <input type="hidden" name="_token" value="{!! csrf_token() !!}">
             <div class="well well-lg">
                 <fieldset>
-                    <legend>
-                        Borrar Estudio
-                    </legend>
+ 
                     <div class="form-group">
                         <label for="hc" class="col-lg-2 control-label">Historia Clínica</label>
                         <div class="col-lg-10">
@@ -118,5 +150,6 @@
                 </fieldset>
             </div>
         </form>
+    </div>
     </div>
 @endsection

@@ -23,6 +23,11 @@ class EstudioPaciente extends Model
         return $this->hasMany('App\EstudioPacienteValor', 'estudios_pacientes_id');
     }
 
+    public function imagenes()
+    {
+        return $this->hasMany('App\ImagenEstudio', 'id_estudio');
+    }
+
     public function estudio()
     {
         return $this->hasOne('App\Estudio', 'id', 'id_estudio');

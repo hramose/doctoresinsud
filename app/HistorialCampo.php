@@ -12,7 +12,7 @@ class HistorialCampo extends Model
 
     public function  getHistorialByResource($recurso,$field,$tipo){
     	return $this
-    	->select("field","valor","historial_campo.created_at","users.name")
+    	->select("field","valor","estado","historial_campo.created_at","users.name")
     	->join("users","users.id","=","historial_campo.user_id")
     	->where('recurso',$recurso)
     	->where('field',$field)

@@ -130,7 +130,8 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
     // Fin Estudios
     //Route::get('ajax/estudio/{id}', 'EstudiosController@getEstudioJson');
     Route::get('ajax/hhcc', 'PanelHistoriasController@getHCJson');
-});
+    Route::post('ajax/uploadfile', 'PanelHistoriasController@uploadFile');
+}); 
 
 //-------Fin Front End Historias Clinicas--------------
 

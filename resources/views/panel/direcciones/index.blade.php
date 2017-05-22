@@ -24,7 +24,7 @@
 @section('content')
     <div class="panel panel-primary" style="margin-top: -20px   ">
         
-        <div class="container col-md-8 col-md-offset-2">
+        <div class="  col-md-8 col-md-offset-2">
             <div class="well well bs-component">
                 <form class="form-horizontal" method="post">
 

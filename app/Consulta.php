@@ -44,6 +44,18 @@ class Consulta extends Model
 
     }
 
+    public function estudios()
+    {
+        return $this->belongsToMany('App\Estudio', 'consultas_estudios')->withPivot('consulta_id', 'estudio_id');
+
+    }
+
+    public function tratamientos()
+    {
+        return $this->belongsToMany('App\Tratamiento', 'consultas_tratamientos')->withPivot('consulta_id', 'tratamiento_id');
+
+    }
+
     public function patologias()
     {
         return $this->belongsToMany('App\Patologia', 'consultas_patologias')->withPivot('consulta_id', 'patologia_id');
@@ -70,6 +82,25 @@ class Consulta extends Model
         }
     }
 
+    public function saveEstudios($estudios = [])
+    {
+        if(!empty($estudios))
+        {
+            $this->estudios()->sync($estudios);
+        } else {
+            $this->estudios()->detach();
+        }
+    }
+
+    public function saveTratamientos($tratamientos = [])
+    {
+        if(!empty($tratamientos))
+        {
+            $this->tratamientos()->sync($tratamientos);
+        } else {
+            $this->tratamientos()->detach();
+        }
+    }
     public function setProximaCitaAttribute($value)
     {
         if ($value) {

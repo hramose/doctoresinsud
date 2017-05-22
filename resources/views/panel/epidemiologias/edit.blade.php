@@ -362,6 +362,8 @@
                                            class="col-lg-8 text-left">Años de residencia en área endémica</label>
                                     <div class="col-lg-4">
                                         <input type="number" class="form-control" id="anios_area_endemica" name="anios_area_endemica" value="{!! old('anios_area_endemica', $paciente->epidemiologia->anios_area_endemica) !!}">
+
+                                        
                                     </div>
                                 </div>
                                 <div class="form-group">

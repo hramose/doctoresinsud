@@ -41,7 +41,7 @@
     $.datepicker.setDefaults($.datepicker.regional['es']);
 
     $(function() {
-        $(".datepicker").datepicker();
+        $(".datepicker").datepicker({ changeYear: true,yearRange: "-100:+0",changeMonth: true });
     });
 </script>
 @endsection
@@ -110,9 +110,15 @@
                                 <div class="portlet-title"><div class="caption">Información General</div></div>
                                 <div class="portlet-body">
                                     <div class="row">
-                                        <label for="tipo_doc" class="col-lg-2 text-left{{-- control-label --}} ">Tipo Documento</label>
-                                        <div class="col-lg-1">
-                                            <input type="text" class="form-control" id="tipo_doc" name="tipo_doc" value="{!! old('tipo_doc') !!}">
+                                        <label for="tipo_doc" class="col-xs-2 text-left{{-- control-label --}} ">Tipo Documento</label>
+                                        <div class="col-xs-3">
+ 
+                                            <select class="form-control" id="tipo_doc" name="tipo_doc">
+                                                <option value="DNI">Documento Único</option>
+                                                <option value="LE">Libreta de Enrolamiento</option>
+                                                <option value="LC">Libreta Cívica</option>
+                                                <option value="OTRO">Otro</option>
+                                            </select>
                                         </div>
                                          
                                         <label for="numero_doc" class="col-lg-2 text-left{{-- control-label --}}">Nro. Documento</label>
@@ -139,7 +145,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-5">
+                        <div class="col-lg-6">
                              
                             <div class="row">
                                 <div class="col-lg-12">
@@ -188,14 +194,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                             <div class="portlet box blue">
                                 <div class="portlet-title"><div class="caption">ECG</div></div>
                                 <div class="portlet-body">
                                     <div class="form-group">
                                         <label for="ecg"
-                                               class="col-lg-8 text-left {{--control-label --}}">Consignación</label>
-                                        <div class="col-lg-4">
+                                               class="col-lg-4 text-left {{--control-label --}}">Consignación</label>
+                                        <div class="col-lg-8">
                                             <select class="form-control" id="ecg" name="ecg">
                                                 <option value="" {{ old('ecg') == "" ? "selected": ""}}></option>
                                                 <option value="N" {{ old('ecg') == "N" ? "selected": "" }}>Normal</option>
@@ -207,31 +213,31 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="tipo_ecg"
-                                               class="col-lg-8 text-left {{--control-label --}}">Descripción</label>
-                                        <div class="col-lg-4">
+                                               class="col-lg-4 text-left {{--control-label --}}">Descripción</label>
+                                        <div class="col-lg-8">
                                             <input type="text" class="form-control" id="tipo_ecg" name="tipo_ecg" value="{!! old('tipo_ecg') !!}">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="nuevos_cambios_ecg" class="col-lg-8 text-left {{--control-label --}}">Nuevos
+                                        <label for="nuevos_cambios_ecg" class="col-lg-4 text-left {{--control-label --}}">Nuevos
                                             cambios</label>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-8">
                                             <input type="text" class="form-control" id="nuevos_cambios_ecg"
                                                    name="nuevos_cambios_ecg" value="{!! old('nuevos_cambios_ecg') !!}">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="fecha_cambios_ecg" class="col-lg-8 text-left {{--control-label --}}">Fecha
+                                        <label for="fecha_cambios_ecg" class="col-lg-4 text-left {{--control-label --}}">Fecha
                                             del cambio</label>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-8">
                                             <input type="text" class="form-control datepicker" id="fecha_cambios_ecg"
                                                    name="fecha_cambios_ecg" value="{!! old('fecha_cambios_ecg') !!}">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="tipo_cambio_ecg" class="col-lg-8 text-left {{--control-label --}}">Tipo
+                                        <label for="tipo_cambio_ecg" class="col-lg-4 text-left {{--control-label --}}">Tipo
                                             de cambio</label>
-                                        <div class="col-lg-4">
+                                        <div class="col-lg-8">
                                             <input type="text" class="form-control" id="tipo_cambio_ecg"
                                                    name="tipo_cambio_ecg" value="{!! old('tipo_cambio_ecg') !!}">
                                         </div>
@@ -247,24 +253,34 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        
+                        <div class="col-lg-12">
+
+                        <div class="col-lg-6">
                             {{--//Columna Grupo Clínico--}}
                             <div class="col-lg-12">
                                 <div class="portlet box blue">
                                     <div class="portlet-title"><div class="caption">Grupo Clínico</div></div>
                                     <div class="portlet-body">
                                         <div class="form-group">
-                                            <label for="grupo_clinico_ing" class="col-lg-8 control-label">Grupo Clínico al
+                                            <label for="grupo_clinico_ing" class="col-lg-4 control-label">Grupo Clínico al
                                                 Ingreso</label>
-                                            <div class="col-lg-4">
-                                                <input type="text" class="form-control" id="grupo_clinico_ing"
-                                                       name="grupo_clinico_ing" value="{!! old('grupo_clinico_ing') !!}">
+                                            <div class="col-lg-8">
+          
+                                                <select class="form-control" id="grupo_clinico_ing"
+                                               name="grupo_clinico_ing">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>                   
+                                                    <option value="5">5</option>
+                                               </select>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="cambio_grupo_cli" class="col-lg-8 control-label">Cambio en el Grupo
+                                            <label for="cambio_grupo_cli" class="col-lg-4  control-label">Cambio en el Grupo
                                                 Clínico</label>
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-8">
                                                 <select class="form-control" id="cambio_grupo_cli" name="cambio_grupo_cli">
                                                     <option value="" {{old('cambio_grupo_cli') == "" ? "selected" : ""}}> </option>
                                                     <option value="S" {{old('cambio_grupo_cli') == "S" ? "selected" : ""}}>Si</option>
@@ -273,28 +289,33 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="fecha_cambio_gcli" class="col-lg-8 control-label">Fecha Cambio Grupo
+                                            <label for="fecha_cambio_gcli" class="col-lg-4  control-label">Fecha Cambio Grupo
                                                 Clínico</label>
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-8">
                                                 <input type="text" class="form-control datepicker" id="fecha_cambio_gcli"
                                                        name="fecha_cambio_gcli" value="{!! old('fecha_cambio_gcli') !!}">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="nuevo_grupo_cli" class="col-lg-8 control-label">Nuevo Grupo
+                                            <label for="nuevo_grupo_cli" class="col-lg-4 control-label">Nuevo Grupo
                                                 Clínico</label>
-                                            <div class="col-lg-4">
-                                                <input type="text" class="form-control" id="nuevo_grupo_cli"
-                                                       name="nuevo_grupo_cli" value="{!! old('nuevo_grupo_cli') !!}">
+                                            <div class="col-lg-8">
+                                                <select class="form-control" id="nuevo_grupo_cli"
+                                               name="nuevo_grupo_cli">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>                   
+                                                    <option value="5">5</option>
+                                               </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
                             {{--//Columna Estado Paciente--}}
-                            <div class="col-lg-12">
+                            <div class="col-lg-6">
                                 <div class="portlet box blue">
                                     <div class="portlet-title"><div class="caption">Estado del paciente</div></div>
                                     <div class="portlet-body">
@@ -311,12 +332,15 @@
                                          
                                             <label for="causa_muerte" class="col-lg-2 control-label">¿Causa muerte?</label>
                                             <div class="col-lg-7">
-                                                <input type="text" class="form-control" id="causa_muerte" name="causa_muerte" value="{!! old('causa_muerte') !!}">
+                                            <textarea class="form-control" id="causa_muerte" name="causa_muerte">{!! old('causa_muerte') !!}</textarea>
+                                              
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
+
                         </div>
                     </div>
                 </div>
@@ -410,11 +434,13 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="efec_otros_bnz" class="col-lg-8 text-left {{--control-label --}}">Otros
+                                        <label for="efec_otros_bnz" class="col-lg-5 text-left {{--control-label --}}">Otros
                                             efectos adversos</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="efec_otros_bnz"
-                                                   name="efec_otros_bnz" value="{!! old('efec_otros_bnz') !!}">
+                                        <div class="col-lg-6">
+                                            <textarea  class="form-control" id="efec_otros_bnz"
+                                                   name="efec_otros_bnz">{!! old('efec_otros_bnz') !!}</textarea>
+                                            
+ 
                                         </div>
                                     </div>
                                 </div>
@@ -507,11 +533,11 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="efec_otros_nifur" class="col-lg-8 text-left {{--control-label --}}">Otros
+                                        <label for="efec_otros_nifur" class="col-lg-5 text-left {{--control-label --}}">Otros
                                             efectos adversos</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="efec_otros_nifur"
-                                                   name="efec_otros_nifur" value="{!! old('efec_otros_nifur') !!}">
+                                        <div class="col-lg-6">
+                                            <textarea  class="form-control" id="efec_otros_nifur"
+                                                   name="efec_otros_nifur">{!! old('efec_otros_nifur') !!}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -919,16 +945,22 @@
                                         <label for="rx_torax"
                                                class="col-lg-8 text-left {{--control-label --}}">Consignación</label>
                                         <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="rx_torax"
-                                                   name="rx_torax" value="{!! old('rx_torax') !!}">
+ 
+                                            <select class="form-control" id="rx_torax" name="rx_torax">
+                                                <option value="S">Si</option>
+                                                <option value="N">No</option>
+                                            </select>                                        
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="indice_cardiotorax" class="col-lg-8 text-left {{--control-label --}}">Índice
                                             cardiotorácico</label>
                                         <div class="col-lg-4">
-                                            <input type="number" class="form-control" id="indice_cardiotorax"
-                                                   name="indice_cardiotorax" value="{!! old('indice_cardiotorax') !!}">
+                                            <select class="form-control" id="indice_cardiotorax" name="indice_cardiotorax">
+                                                @for($i=1;$i<15;$i++)
+                                                    <option value="{{$i}}">{{$i}}</option>
+                                                @endfor
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -944,8 +976,10 @@
                                         <label for="cambios_rxt" class="col-lg-8 text-left {{--control-label --}}">Cambios
                                             en la Rx</label>
                                         <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="cambios_rxt"
-                                                   name="cambios_rxt" value="{!! old('cambios_rxt') !!}">
+                                            <select class="form-control" id="cambios_rxt" name="cambios_rxt">
+                                                <option value="S">Si</option>
+                                                <option value="N">No</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group">

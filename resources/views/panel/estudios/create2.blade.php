@@ -3,8 +3,44 @@
 
 @section('scripts')
     <script src="{{url('/')."/js/vue.js"}}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.4/vue-resource.js"></script> {{--TODO: Reemplazar por versión local--}}
+    <script src="{{ asset('/js/upload-file/jquery.ui.widget.js') }}"></script>
+    <script src="{{ asset('/js/upload-file/jquery.iframe-transport.js') }}"></script>
+    <script src="{{ asset('/js/upload-file/jquery.fileupload.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('/css/jquery.fileupload.css') }}">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.4/vue-resource.js"></script> {{--TODO: Reemplazar por versión local--}}
+<script>
+/*jslint unparam: true */
+/*global window, $ */
+$(function () {
+    'use strict';
+ 
+    $('#fileupload').fileupload({
+        url: "{{ action('Panel\PanelHistoriasController@uploadFile') }}",
+        dataType: 'json',
+        done: function (e, data) {
+            $.each(data.result.files, function (index, file) {
+                //$('<img/>').src(file.url).appendTo('#files');
+                var image="<img width='100px'  src="+file.url+"/>";
+                 
+                var input="<input type'hidden'  name='images[]' value='"+file.url+"'/>"
+                $("#inputsimagenes").append(input);
+                 $('#files').append(image);
+            });
+        
+ 
+        },
+        progressall: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .progress-bar').css(
+                'width',
+                progress + '%'
+            );
+        }
+    }).prop('disabled', !$.support.fileInput)
+        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+});
+</script>
     <script>
         $.datepicker.setDefaults($.datepicker.regional['es']);
 
@@ -74,6 +110,9 @@
 
 <h3 class="page-title">Crea un nuevo estudio
                          para <b>{!! $paciente->apellido . ", " . $paciente->nombre . " (H.C.:" . $paciente->id_hc . ")"!!}</b>  </h3>
+
+
+
 <div class="page-bar">
     <ul class="page-breadcrumb">
         <li>
@@ -121,7 +160,8 @@
                 @endif
 
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}">
-
+ 
+    <!-- The container for the uploaded files -->
                 <fieldset>
                      <p><span class="col-lg-2 text-right"><strong>Historia Clínica </strong></span>{!! $paciente->id_hc !!}</p>
                     <p><span class="col-lg-2 text-right"><strong>Apellido, Nombre </strong></span>{!! $paciente->apellido . ", " . $paciente->nombre !!}</p>
@@ -139,6 +179,9 @@
                             <input type="text" class="form-control" id="titulo" name="titulo"
                                    value="{!! old('titulo') !!}" required>
                         </div>
+                    </div>
+                    <div id="inputsimagenes">
+                        
                     </div>
                     <div class="form-group">
                         <label for="estudio_desc" class="col-lg-2 control-label">Descripción</label>
@@ -169,6 +212,23 @@
                         </div>
                     </div>
                 </fieldset>
+            </div>
+            <div class="well well-lg">
+                <span class="btn btn-success fileinput-button">
+                <i class="glyphicon glyphicon-plus"></i>
+                <span>Seleccione las imagenes...</span>
+                <!-- The file input field used as target for the file upload widget -->
+                    <input id="fileupload" type="file" name="files[]" multiple>
+                </span>
+                <br>
+                <br>
+                <!-- The global progress bar -->
+                <div id="progress" class="progress">
+                    <div class="progress-bar progress-bar-success"></div>
+                </div>
+
+                <div id="files" class="files"></div>
+
             </div>
             <div class="well well-lg">
                 <fieldset>

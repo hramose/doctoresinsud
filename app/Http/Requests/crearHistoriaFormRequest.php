@@ -63,8 +63,8 @@ class crearHistoriaFormRequest extends Request
     {
         return [
             //Valida todos los campos editables de la Historia Clinica
-            'apellido' => 'regex:/^[a-zA-Z\s]+$/|required',
-            'nombre' => 'regex:/^[a-zA-Z\s]+$/|required',
+            'apellido' => 'regex:/^[a-zA-Z\s][A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]+$/|required',
+            'nombre' => 'regex:/^[a-zA-Z\s][A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]+$/|required',
             'tipo_doc' => 'alpha|required',
             'numero_doc' => 'numeric|required|unique:pacientes,id_hc',
             'fecha_nac' => 'required|date_format:d/m/Y',

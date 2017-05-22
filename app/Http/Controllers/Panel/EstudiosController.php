@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 use App\Estudio;
 use App\EstudioPaciente;
+use App\ImagenEstudio;
 use App\EstudioPacienteValor;
 use App\Paciente;
 use Illuminate\Http\Request;
@@ -56,6 +57,8 @@ class EstudiosController extends Controller
      */
     public function store($id_p, Request $request)
     {
+
+
         //Graba en la base de datos el estudio recién cargado
 
         $estudioPaciente = new EstudioPaciente();
@@ -66,6 +69,17 @@ class EstudiosController extends Controller
         $estudioPaciente->descripcion = $request->get('estudio_desc');
 
         $estudioPaciente->save();
+
+        if($request->has("images")){
+            foreach ($request->get('images') as $key) {
+                $imagenEstudio= new ImagenEstudio();
+                $imagenEstudio->id_estudio=$estudioPaciente->id;
+                $imagenEstudio->img=$key;
+                $imagenEstudio->save();
+            }
+        }
+        
+     
 
         foreach($request->get('campos') as $campo){
             $valor = new EstudioPacienteValor();
@@ -131,14 +145,17 @@ class EstudiosController extends Controller
 
         $estudioPaciente->save();
 
-        foreach($request->get('campos') as $campo){
-            $valor = EstudioPacienteValor::find($campo['id_valor']);
-            if(array_key_exists('valor', $campo)){
-                $valor->valor = $campo['valor'];
+        if($request->has('campos')){
+            foreach($request->get('campos') as $campo){
+                $valor = EstudioPacienteValor::find($campo['id_valor']);
+                if(array_key_exists('valor', $campo)){
+                    $valor->valor = $campo['valor'];
+                }
+                $valor->obs = $campo['obs'];
+                $valor->save();
             }
-            $valor->obs = $campo['obs'];
-            $valor->save();
         }
+
 
         return redirect()->action('Panel\PanelHistoriasController@verHistoria', $id_p)->with('status', 'Estudio actualizado correctamente');
     }

@@ -25,23 +25,21 @@
                                 <thead>
                                     <tr>
                                         <th>Fecha Modificación</th>
-                                        <th>Campo</th>
                                         <th>Valor</th>
                                         <th>Modificado por</th>
-                                      
+                                        <th>Estado</th>
                                      </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($historial as $h)
                                     <tr>
                                         <td>{{$h->created_at}}</td>
-                                        <td>{{$h->field}}</td>
                                         <td>{{$h->valor}}</td>
                                         <td>{{$h->name}}</td>
+                                        <td>@if($h->estado==1) Creación @else Modificación @endif</td>
                                      </tr>
                                 @endforeach
                                 </tbody>
-
                             </table>
                         </div>
                     </div>

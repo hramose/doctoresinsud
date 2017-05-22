@@ -63,6 +63,5 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function pacientes()
     {
         return $this->belongsToMany('App\Paciente', 'paciente_user')->withPivot('user_id', 'paciente_id');
-
     }
 }

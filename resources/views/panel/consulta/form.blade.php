@@ -57,24 +57,24 @@
 
             <h1 style="margin: 0 0 20px 0">{{ isset($consulta) ? 'Editar':'Nueva'}} consulta</h1>
 
-                @if($errors->has())
-                    <ul class="list-group alert alert-danger">
-                        @foreach ($errors->all() as $error)
-                            <li class="list-group-item">{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                @endif
+            @if($errors->has())
+                <ul class="list-group alert alert-danger">
+                    @foreach ($errors->all() as $error)
+                        <li class="list-group-item">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
 
             <div class="tabbable-custom nav-justified">
                 <ul class="nav nav-tabs nav-justified">
                     <li class="active"><a href="#consulta-tab" data-toggle="tab">Motivo de consulta</a></li>
                     <li><a href="#sintomas" data-toggle="tab">S&iacute;ntomas</a></li>
                     <li><a href="#patologia" data-toggle="tab">Patolog&iacute;a</a></li>
-                    <li><a href="#eventos" data-toggle="tab">Eventos</a></li>
+                   <!--- <li><a href="#eventos" data-toggle="tab">Eventos</a></li>-->
                     <li><a href="#estudios" data-toggle="tab">Estudios Solicitados</a></li>
                     <li><a href="#tratamientos" data-toggle="tab">Tratamientos</a></li>
-                    <li><a href="#grupo-clinico" data-toggle="tab">Grupo Cl&iacute;nico</a></li>
-                </ul>
+                  <!---  <li><a href="#grupo-clinico" data-toggle="tab">Grupo Cl&iacute;nico</a></li>-->
+                </ul> 
             </div>
 
             <div class="clearfix"></div>
@@ -180,20 +180,58 @@
                         </fieldset>
                     </div>
                 </div>
-                <div class="tab-pane" id="eventos">
+               <!--- <div class="tab-pane" id="eventos">
                     <h3>Eventos</h3>
-                </div>
+                </div>-->
                 <div class="tab-pane" id="estudios">
                     <h3>Estudios Solicitados</h3>
+
+                    <div class="well well bs-component">
+                        <fieldset id="patologias-fieldset">
+                             <div>
+                                <select class="chosen-select" multiple name="estudios[]" id="select-estudios">
+                                    @if(isset($estudiosSeleccionadas))
+                                        @foreach($estudios as $estudio)
+                                            <option value="{!! $estudio->id !!}" @if(in_array($estudio->id, $estudiosSeleccionadas))
+                                            selected="selected" @endif> {!! $estudio->nombre !!}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach($estudios as $estudio)
+                                            <option value="{!! $estudio->id !!}"> {!! $estudio->nombre !!}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </fieldset>
+                    </div>
                 </div>
                 <div class="tab-pane" id="tratamientos">
                     <h3>Tratamientos</h3>
+                    <div class="well well bs-component">
+                        <fieldset id="patologias-fieldset">
+                             <div>
+
+                                <select class="chosen-select" multiple name="tratamientos[]" id="select-tratamientos">
+                                    @if(isset($tratamientosSeleccionadas))
+                                        @foreach($tratamientos as $tratamiento)
+                                            <option value="{!! $tratamiento->id !!}" @if(in_array($tratamiento->id, $tratamientosSeleccionadas))
+                                            selected="selected" @endif> {!! $tratamiento->droga !!}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach($tratamientos as $tratamiento)
+                                            <option value="{!! $tratamiento->id !!}"> {!! $tratamiento->droga !!}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </fieldset>
+                    </div>
                 </div>
-                <div class="tab-pane" id="grupo-clinico">
+                <!--<div class="tab-pane" id="grupo-clinico">
                     <h3>Grupo Cl&iacute;nico</h3>
-                </div>
-
-
+                </div>-->
+ 
+   
             </div>
 
                 <button type="submit" class="btn btn-success pull-right" id="submitConsulta_editar">Guardar</button>

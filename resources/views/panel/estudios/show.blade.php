@@ -54,6 +54,17 @@
                                value=" {!! $estudioPaciente->descripcion !!}" readonly>
                     </div>
                 </div>
+                 <div class="row">
+                    <label for="estudio_desc" class="col-lg-2 control-label">Imágenes</label>
+                    <div class="col-lg-10">
+ 
+                        @foreach($estudioPaciente->imagenes as $imagen)
+                            <div class="col-xs-3">
+                                <a href="{{$imagen->img}}" target="_blank" > <img src="{{$imagen->img}}" width="200" /></a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
             </fieldset>
         </div>
         <div class="well well-lg">

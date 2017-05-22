@@ -1,4 +1,4 @@
-<html>
+<html moznomarginboxes mozdisallowselectionprint>
 <head>
 <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title> @yield('title') </title>
@@ -35,6 +35,14 @@
     @yield('estilos')
 
 </head>
+
+<style type="text/css" media="print">
+    @page 
+    {
+        size: auto;   /* auto is the initial value */
+        margin: 0mm;  /* this affects the margin in the printer settings */
+    }
+</style>
 <body class="page-header-fixed page-quick-sidebar-over-content page-full-width">
 
 @include('shared.navbar')

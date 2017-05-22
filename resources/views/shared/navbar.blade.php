@@ -126,9 +126,6 @@
 
                 @else
 
-                 
-
-
                     <li class="classic-menu-dropdown  {{(Request::is('users/register') ? 'active' : '')}}">
                             <a href="{{ action('Auth\AuthController@getRegister') }}">
                             Registrar <span class="selected">
