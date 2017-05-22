@@ -72,7 +72,7 @@
         <div class="portlet-title">
 
              <div class="actions btn-set">
-                <a href="{{ action('Panel\PanelHistoriasController@verHistoria') }}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
+                <a href="{{ action('Panel\PanelHistoriasController@index') }}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
             </div>
 
         </div>
