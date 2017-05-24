@@ -290,7 +290,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
     <div class="portlet box grey-cascade"  >
         <div class="portlet-title">                                
             <div class="actions btn-set">
-                <a href="{{ URL::to('/panel') }}/" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
+                <a href="{{ action('Panel\PanelHistoriasController@index') }}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
             </div>
         </div>
         <div class="portlet-body">
