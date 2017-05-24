@@ -80,17 +80,19 @@ class EstudiosController extends Controller
         }
         
      
-
-        foreach($request->get('campos') as $campo){
-            $valor = new EstudioPacienteValor();
-            $valor->campos_base_id = $campo['id_campo_base'];
-            $valor->estudios_pacientes_id = $estudioPaciente->id;
-            if(array_key_exists('valor', $campo)){
-                $valor->valor = $campo['valor'];
+        if($request->has("campos")){
+            foreach($request->get('campos') as $campo){
+                $valor = new EstudioPacienteValor();
+                $valor->campos_base_id = $campo['id_campo_base'];
+                $valor->estudios_pacientes_id = $estudioPaciente->id;
+                if(array_key_exists('valor', $campo)){
+                    $valor->valor = $campo['valor'];
+                }
+                $valor->obs = $campo['obs'];
+                $valor->save();
             }
-            $valor->obs = $campo['obs'];
-            $valor->save();
         }
+         
 
         return redirect()->action('Panel\PanelHistoriasController@verHistoria', $id_p)->with('status', 'Estudio cargado correctamente');
     }
