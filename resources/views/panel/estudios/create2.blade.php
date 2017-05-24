@@ -86,7 +86,7 @@ $(function () {
                 refrescarListado: function () {
                     var vm = this;
                     if(vm.idEstudio !== "") {
-                        this.$http.get(window.location.origin + '/api/estudios/' + vm.idEstudio, function (listado) {
+                        this.$http.get('/api/estudios/' + vm.idEstudio, function (listado) {
 
                             this.listado = listado;
 
