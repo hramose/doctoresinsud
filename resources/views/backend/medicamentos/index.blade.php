@@ -26,7 +26,7 @@
                  <a href="{!! action('Admin\MedicamentosController@create') !!}" class="btn btn-info btn-raised">Crear</a>
             </div>
              <div class="actions btn-set">
-                <a href="{!! action('Admin\PagesController@home') !!}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
+                <a href="{{ URL::previous() }}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
             </div>
 
         </div>
