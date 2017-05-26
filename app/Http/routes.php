@@ -15,6 +15,7 @@ Route::get('/', 'PagesController@home');
 //Route::get('/', function () {
 //    return redirect()->action('Auth\AuthController@render');
 //});
+    Route::get('tutorial', 'PagesController@tutorial');
 
 Route::get('/home', 'PagesController@home');
 Route::get('/reportes', 'ReportController@index');
@@ -139,9 +140,8 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 Route::group(array('prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=> 'manager'), function () {
     //Admin dashboard
     Route::get('/', 'PagesController@home');
-    //ver usuarios
+    //ver usuarios 
     Route::get('users', 'UsersController@index');
-    Route::get('tutoriales', 'HistoriasClinicasController@tutorial');
     //administrar roles
     Route::get('roles', 'RolesController@index');
     Route::get('roles/create', 'RolesController@create');

@@ -21,11 +21,13 @@
                         </span>
                     </a>
                 </li>
-                 <li>
-                    <a href="{!! action('Admin\UsersController@tutorial') !!}">
-                    <i class="fa fa-user"></i> Tutoriales</a>
-                </li>
+                
                 @if(Auth::check())
+                
+                    <li>
+                        <a href="{!! action('PagesController@tutorial') !!}">
+                        <i class="fa fa-user"></i> Tutoriales</a>
+                    </li>
                     @if(Auth::user()->hasRole('Medico'))
 
                         <li class="classic-menu-dropdown {{(Request::is('reportes') ? 'active' : '')}}">
