@@ -21,7 +21,10 @@
                         </span>
                     </a>
                 </li>
-                
+                 <li>
+                    <a href="{!! action('Admin\UsersController@tutorial') !!}">
+                    <i class="fa fa-user"></i> Tutoriales</a>
+                </li>
                 @if(Auth::check())
                     @if(Auth::user()->hasRole('Medico'))
 
@@ -61,10 +64,7 @@
                     Administrar <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu pull-left">
-                        <li>
-                            <a href="{!! action('Admin\UsersController@tutorial') !!}">
-                            <i class="fa fa-user"></i> Tutoriales</a>
-                        </li>
+    
                         <li>
                             <a href="{!! action('Admin\UsersController@index') !!}">
                             <i class="fa fa-user"></i> Usuarios</a>
