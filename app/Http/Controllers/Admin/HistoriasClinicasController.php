@@ -29,6 +29,10 @@ class HistoriasClinicasController extends Controller
         return view('backend.items.index', compact('pacientes','medicos','items_hc'));
     }
 
+    public function tutorial(){
+
+        return view('backend.tutoriales');
+    }
 
     public function getPacientesByMedico(Request $request,$id){
         

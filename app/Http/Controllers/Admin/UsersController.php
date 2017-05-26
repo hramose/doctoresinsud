@@ -49,10 +49,7 @@ class UsersController extends Controller
     }
 
 
-    public function tutorial(){
-
-        return view('backend.tutoriales');
-    }
+   
 
     /**
      * Display the specified resource.
