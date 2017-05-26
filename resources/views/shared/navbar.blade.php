@@ -62,6 +62,10 @@
                     </a>
                     <ul class="dropdown-menu pull-left">
                         <li>
+                            <a href="{!! action('Admin\UsersController@tutorial') !!}">
+                            <i class="fa fa-user"></i> Tutoriales</a>
+                        </li>
+                        <li>
                             <a href="{!! action('Admin\UsersController@index') !!}">
                             <i class="fa fa-user"></i> Usuarios</a>
                         </li>

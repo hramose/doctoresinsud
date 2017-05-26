@@ -141,6 +141,7 @@ Route::group(array('prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=> 'mana
     Route::get('/', 'PagesController@home');
     //ver usuarios
     Route::get('users', 'UsersController@index');
+    Route::get('tutoriales', 'UsersController@tutorial');
     //administrar roles
     Route::get('roles', 'RolesController@index');
     Route::get('roles/create', 'RolesController@create');
