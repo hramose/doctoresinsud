@@ -22,8 +22,7 @@ class crearHistoriaFormRequest extends Request
         return [
             'numero_doc.unique' => 'El Número de documento (Historia Clínica) ya existe. Por favor, verifique.',
             'apellido.required' => 'El apellido es un campo requerido',
-            'apellido.regex' => 'El apellido solo puede contener caracteres o espacios',
-            'nombre.regex' => 'El nombre solo puede contener caracteres o espacios',
+             'nombre.regex' => 'El nombre solo puede contener caracteres o espacios',
             'nombre.required' => 'El nombre es un campo requerido',
             'tipo_doc.required' => 'El tipo de documento es requerido',
             'tipo_doc.alpha' => 'El tipo de documento solo acepta caracteres',

@@ -73,6 +73,7 @@
  
 <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 <script src="{{ asset('/css/global/plugins/datatables/plugins/bootstrap/dataTables.bootstrap.js') }}"></script>
+<script src="{{ asset('/css/global/plugins/select2/select2.js') }}"></script>
 
 @yield('scripts')
 
@@ -86,6 +87,8 @@
     });
 
 });
+
+    $(".selectTags").select2({tags: true})
 </script>
 </body>
 </html>

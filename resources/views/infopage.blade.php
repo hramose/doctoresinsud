@@ -54,6 +54,11 @@
     });
 
 });
+
+
 </script>
+<script src="{{ asset('/css/global/plugins/select2/select2.js') }}"></script>
+
+ 
     </body>
 </html>
