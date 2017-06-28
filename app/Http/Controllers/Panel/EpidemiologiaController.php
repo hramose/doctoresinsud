@@ -200,12 +200,11 @@ class EpidemiologiaController extends Controller
                     $epidemiologia->savePlaces($arrayPlaces);
 
         }else{
-        die("aqui");
-
+ 
                     $epidemiologia->savePlaces($request->has('places'));
 
         }
- 
+
         return redirect()->action('Panel\PanelHistoriasController@verHistoria', $id)->with('status', 'Datos familiares, socio-económicos y epidemiológicos actualizados correctamente');
         
     }
