@@ -185,17 +185,20 @@ class EpidemiologiaController extends Controller
         $epidemiologia->save();
 
         $arrayPlaces=array();
-        foreach ($request->get('places') as $key ) {
-            if(!is_numeric($key)){
-                $place= new Place();
-                $place->name=$key;
-                $place->save();
-                $arrayPlaces[]= $place->id;
+        if($request->has('places')){
+            foreach ($request->get('places') as $key ) {
+                if(!is_numeric($key)){
+                    $place= new Place();
+                    $place->name=$key;
+                    $place->save();
+                    $arrayPlaces[]= $place->id;
 
-            }else{
-                $arrayPlaces[]=$key;
-            } 
+                }else{
+                    $arrayPlaces[]=$key;
+                } 
+            }
         }
+
  
         $epidemiologia->savePlaces($arrayPlaces);
 
