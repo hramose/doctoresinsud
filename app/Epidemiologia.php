@@ -66,7 +66,7 @@ class Epidemiologia extends Model
         {
             $this->places()->sync($places);
         } else {
-            $this->sintomas()->detach();
+            $this->places()->detach();
         }
     }
 
