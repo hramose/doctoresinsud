@@ -200,7 +200,7 @@ class EpidemiologiaController extends Controller
                     $epidemiologia->savePlaces($arrayPlaces);
 
         }else{
-                    $epidemiologia->savePlaces($$request->has('places'));
+                    $epidemiologia->savePlaces($request->has('places'));
 
         }
 
