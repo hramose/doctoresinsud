@@ -763,7 +763,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                <div class="col-lg-12">
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <div class="caption">EXAMEN AL INGRESO</div>
+                        <div class="caption">Exámen al ingreso</div>
                      </div>
                      <div class="portlet-body">
                         <div class="row">

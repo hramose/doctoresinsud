@@ -20,7 +20,22 @@
         showIframe('{!! action('Panel\PanelHistoriasController@historial') !!}?recurso='+{{$paciente->id}}+'&field='+historial+'&tipo=1 ',2)
     }
 
+function chargeItemAjax(url){
+     
+    $( "#pbody-trat-modal" ).load(url, function() {
+        $("#modal-tratamientos").modal("show")
+    });
+       
+
+    
+}
+
     $(function () {
+
+
+         $( "#pbody-estudios" ).load("{!! action('Panel\PanelHistoriasController@verTodosEstudios', $paciente->id) !!}");
+         $( "#pbody-trat" ).load("{!! action('Panel\PanelHistoriasController@verTodosTratamientos', $paciente->id) !!}");
+
 
         $(".static-info span").hover(function (){
             var field=$(this).data("field");
@@ -1210,9 +1225,7 @@ style="border-radius: 50%; padding: 5px 5px;    bottom: -20px;"><i class="fa fa-
                         </div>
                         <div class="actions">
                             <a href="{!! action('Panel\TratamientosController@create', $paciente->id) !!}" class="btn btn-raised btn-success"> Agregar nuevo tratamiento <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                            <a href="{!! action('Panel\PanelHistoriasController@verTodosTratamientos', $paciente->id) !!}"
-                               data-target="#modal-tratamientos" data-toggle="modal" class="btn btn-raised default">Ver
-                               todos los tratamientos</a>
+                      
                            </div>
                        </div>
 
@@ -1260,15 +1273,16 @@ style="border-radius: 50%; padding: 5px 5px;    bottom: -20px;"><i class="fa fa-
                             <i class="fa fa-cogs"></i>Últimos estudios
                         </div>
                         <div class="actions">
-                            <a href="{!! action('Panel\EstudiosController@create', $paciente->id) !!}" class="btn btn-raised btn-success">Agregar nuevo estudio <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                            <a href="{!! action('Panel\PanelHistoriasController@verTodosEstudios', $paciente->id) !!}"
-                               data-target="#modal-estudios" data-toggle="modal" class="btn  default">Ver
-                               todos los estudios</a>
+                            <a href="{!! action('Panel\EstudiosController@create', $paciente->id) !!}" class="btn btn-raised btn-success">Agregar nuevo estudios <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                        
 
                            </div>
                        </div>
 
                        <div class="portlet-body" id="pbody-estudios">
+
+                         
+
                         @if (!($estudios))
                         <p>No hay estudios cargados para el paciente.</p>
                         @else
@@ -1412,7 +1426,7 @@ style="border-radius: 50%; padding: 5px 5px;    bottom: -20px;"><i class="fa fa-
                     <div class="panel-heading">
                         <h3 class="panel-title">Todos los estudios</h3>
                     </div>
-                    <div class="panel-body" id="pbody-estudios-modal">
+                    <div class="panel-body" id="pbody-estudios-modals">
 
                     </div>
                 </div>
@@ -1426,7 +1440,7 @@ style="border-radius: 50%; padding: 5px 5px;    bottom: -20px;"><i class="fa fa-
 
 <!-- Modal todos los tratamientos -->
 <div id="modal-tratamientos" class="modal fade" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -1435,7 +1449,7 @@ style="border-radius: 50%; padding: 5px 5px;    bottom: -20px;"><i class="fa fa-
             <div class="modal-body">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Todos los tratamientos</h3>
+                        <h3 class="panel-title">Resultado</h3>
                     </div>
                     <div class="panel-body" id="pbody-trat-modal">
 

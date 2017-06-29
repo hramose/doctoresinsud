@@ -542,11 +542,12 @@ Historia Clínica - Nuevo paciente
                   </div>
                </div>
             </div>
+
             <div class="row">
                <div class="col-lg-12">
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <div class="caption">Patologías</div>
+                        <div class="caption">Patología Asociada</div>
                      </div>
                      <div class="portlet-body">
                         <div class="row">
@@ -587,32 +588,9 @@ Historia Clínica - Nuevo paciente
                                     {!! Form::checkbox('dbt', old('dbt'), old('dbt') == 'on' ?  true : false, ['class'=>'', 'id'=>'dbt']) !!}
                                  </div>
                               </div>
-                              <div class="form-group">
-                                 <label for="asintomatico" class="col-lg-8 text-left {{--control-label --}}">Asintomático</label>
-                                 <div class="col-lg-4">
-                                    {{--{!! Form::hidden('asintomatico', 1) !!}--}}
-                                    {{--<input type="checkbox" class="form-control" id="asintomatico" name="asintomatico">--}}
-                                    {!! Form::checkbox('asintomatico', old('asintomatico'), old('asintomatico') == 'on' ?  true : false, ['class'=>'', 'id'=>'asintomatico']) !!}
-                                 </div>
-                              </div>
-                              <div class="form-group">
-                                 <label for="palpitaciones"
-                                    class="col-lg-8 text-left {{--control-label --}}">Palpitaciones</label>
-                                 <div class="col-lg-4">
-                                    {{--{!! Form::hidden('palpitaciones', 1) !!}--}}
-                                    {{--<input type="checkbox" class="form-control" id="palpitaciones" name="palpitaciones">--}}
-                                    {!! Form::checkbox('palpitaciones', old('palpitaciones'), old('palpitaciones') == 'on' ?  true : false, ['class'=>'', 'id'=>'palpitaciones']) !!}
-                                 </div>
-                              </div>
-                              <div class="form-group">
-                                 <label for="angor"
-                                    class="col-lg-8 text-left {{--control-label --}}">Angor</label>
-                                 <div class="col-lg-4">
-                                    {{--{!! Form::hidden('angor', 1) !!}--}}
-                                    {{--<input type="checkbox" class="form-control" id="angor" name="angor">--}}
-                                    {!! Form::checkbox('angor', old('angor'), old('angor') == 'on' ?  true : false, ['class'=>'', 'id'=>'angor']) !!}
-                                 </div>
-                              </div>
+ 
+ 
+ 
                            </div>
                            <div class="col-lg-3">
                               <div class="form-group">
@@ -649,6 +627,152 @@ Historia Clínica - Nuevo paciente
                                     {!! Form::checkbox('acv', old('acv'), old('acv') == 'on' ?  true : false, ['class'=>'', 'id'=>'acv']) !!}
                                  </div>
                               </div>
+ 
+                           </div>
+                           <div class="col-lg-3">
+  
+                              <div class="form-group">
+                                 <label for="hipotiroidismo"
+                                    class="col-lg-8 text-left {{--control-label --}}">Hipotiroidismo</label>
+                                 <div class="col-lg-4">
+                                    {{--{!! Form::hidden('hipotiroidismo', 1) !!}--}}
+                                    {{--<input type="checkbox" class="form-control" id="hipotiroidismo" name="hipotiroidismo">--}}
+                                    {!! Form::checkbox('hipotiroidismo', old('hipotiroidismo'), old('hipotiroidismo') == 'on' ?  true : false, ['class'=>'', 'id'=>'hipotiroidismo']) !!}
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label for="hipertiroidismo"
+                                    class="col-lg-8 text-left {{--control-label --}}">Hipertiroidismo</label>
+                                 <div class="col-lg-4">
+                                    {{--{!! Form::hidden('hipertiroidismo', 1) !!}--}}
+                                    {{--<input type="checkbox" class="form-control" id="hipertiroidismo" name="hipertiroidismo">--}}
+                                    {!! Form::checkbox('hipertiroidismo', old('hipertiroidismo'), old('hipertiroidismo') == 'on' ?  true : false, ['class'=>'', 'id'=>'hipertiroidismo']) !!}
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label for="cardio_congenitas"
+                                    class="col-lg-8 text-left {{--control-label --}}">Cardiopatías
+                                 congénitas</label>
+                                 <div class="col-lg-4">
+                                    {{--{!! Form::hidden('cardio_congenitas', 1) !!}--}}
+                                    {{--<input type="checkbox" class="form-control" id="cardio_congenitas" name="cardio_congenitas">--}}
+                                    {!! Form::checkbox('cardio_congenitas', old('cardio_congenitas'), old('cardio_congenitas') == 'on' ?  true : false, ['class'=>'', 'id'=>'cardio_congenitas']) !!}
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label for="valvulopatias"
+                                    class="col-lg-8 text-left {{--control-label --}}">Valvulopatias</label>
+                                 <div class="col-lg-4">
+                                    {{--{!! Form::hidden('valvulopatias', 1) !!}--}}
+                                    {{--<input type="checkbox" class="form-control" id="valvulopatias" name="valvulopatias">--}}
+                                    {!! Form::checkbox('valvulopatias', old('valvulopatias'), old('valvulopatias') == 'on' ?  true : false, ['class'=>'', 'id'=>'valvulopatias']) !!}
+                                 </div>
+                              </div>
+ 
+                           </div>
+                           <div class="col-lg-3">
+                              <div class="form-group">
+                                 <label for="cardio_isquemica"
+                                    class="col-lg-8 text-left {{--control-label --}}">Cardiopatía
+                                 isquémica</label>
+                                 <div class="col-lg-4">
+                                    {{--{!! Form::hidden('cardio_isquemica', 1) !!}--}}
+                                    {{--<input type="checkbox" class="form-control" id="cardio_isquemica" name="cardio_isquemica">--}}
+                                    {!! Form::checkbox('cardio_isquemica', old('cardio_isquemica'), old('cardio_isquemica') == 'on' ?  true : false, ['class'=>'', 'id'=>'cardio_isquemica']) !!}
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label for="ht_arterial_leve"
+                                    class="col-lg-8 text-left {{--control-label --}}">Hipertensión
+                                 arterial leve</label>
+                                 <div class="col-lg-4">
+                                    {{--{!! Form::hidden('ht_arterial_leve', 1) !!}--}}
+                                    {{--<input type="checkbox" class="form-control" id="ht_arterial_leve" name="ht_arterial_leve">--}}
+                                    {!! Form::checkbox('ht_arterial_leve', old('ht_arterial_leve'), old('ht_arterial_leve') == 'on' ?  true : false, ['class'=>'', 'id'=>'ht_arterial_leve']) !!}
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label for="ht_arterial_mode"
+                                    class="col-lg-8 text-left {{--control-label --}}">Hipertensión
+                                 arterial moderada</label>
+                                 <div class="col-lg-4">
+                                    {{--{!! Form::hidden('ht_arterial_mode', 1) !!}--}}
+                                    {{--<input type="checkbox" class="form-control" id="ht_arterial_mode" name="ht_arterial_mode">--}}
+                                    {!! Form::checkbox('ht_arterial_mode', old('ht_arterial_mode'), old('ht_arterial_mode') == 'on' ?  true : false, ['class'=>'', 'id'=>'ht_arterial_mode']) !!}
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label for="ht_arterial_severa"
+                                    class="col-lg-8 text-left {{--control-label --}}">Hipertensión
+                                 arterial severa</label>
+                                 <div class="col-lg-4">
+                                    {{--{!! Form::hidden('ht_arterial_severa', 1) !!}--}}
+                                    {{--<input type="checkbox" class="form-control" id="ht_arterial_severa" name="ht_arterial_severa">--}}
+                                    {!! Form::checkbox('ht_arterial_severa', old('ht_arterial_severa'), old('ht_arterial_severa') == 'on' ?  true : false, ['class'=>'', 'id'=>'ht_arterial_severa']) !!}
+                                 </div>
+                              </div>
+ 
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <div class="col-lg-1">
+                              <label for="otras_pat_asoc"
+                                 class="col-lg-8 text-left {{--control-label --}}">Otras
+                              patologías</label>
+                           </div>
+                           <div class="col-lg-11">
+                              <textarea class="form-control" name="otras_pat_asoc" id="otras_pat_asoc"
+                                 cols="145" rows="2">{!! old('otras_pat_asoc') !!}</textarea>
+                           </div>
+                        </div>
+ 
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <div class="row">
+               <div class="col-lg-12">
+                  <div class="portlet box blue">
+                     <div class="portlet-title">
+                        <div class="caption">Patologías</div>
+                     </div>
+                     <div class="portlet-body">
+                        <div class="row">
+                           <div class="col-lg-3">
+ 
+ 
+ 
+                              <div class="form-group">
+                                 <label for="asintomatico" class="col-lg-8 text-left {{--control-label --}}">Asintomático</label>
+                                 <div class="col-lg-4">
+                                    {{--{!! Form::hidden('asintomatico', 1) !!}--}}
+                                    {{--<input type="checkbox" class="form-control" id="asintomatico" name="asintomatico">--}}
+                                    {!! Form::checkbox('asintomatico', old('asintomatico'), old('asintomatico') == 'on' ?  true : false, ['class'=>'', 'id'=>'asintomatico']) !!}
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label for="palpitaciones"
+                                    class="col-lg-8 text-left {{--control-label --}}">Palpitaciones</label>
+                                 <div class="col-lg-4">
+                                    {{--{!! Form::hidden('palpitaciones', 1) !!}--}}
+                                    {{--<input type="checkbox" class="form-control" id="palpitaciones" name="palpitaciones">--}}
+                                    {!! Form::checkbox('palpitaciones', old('palpitaciones'), old('palpitaciones') == 'on' ?  true : false, ['class'=>'', 'id'=>'palpitaciones']) !!}
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label for="angor"
+                                    class="col-lg-8 text-left {{--control-label --}}">Angor</label>
+                                 <div class="col-lg-4">
+                                    {{--{!! Form::hidden('angor', 1) !!}--}}
+                                    {{--<input type="checkbox" class="form-control" id="angor" name="angor">--}}
+                                    {!! Form::checkbox('angor', old('angor'), old('angor') == 'on' ?  true : false, ['class'=>'', 'id'=>'angor']) !!}
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-lg-3">
+ 
+  
                               <div class="form-group">
                                  <label for="disnea"
                                     class="col-lg-8 text-left {{--control-label --}}">Disnea</label>
@@ -696,34 +820,9 @@ Historia Clínica - Nuevo paciente
                                     {!! Form::checkbox('disnea4', old('disnea4'), old('disnea4') == 'on' ?  true : false, ['class'=>'', 'id'=>'disnea4']) !!}
                                  </div>
                               </div>
-                              <div class="form-group">
-                                 <label for="hipotiroidismo"
-                                    class="col-lg-8 text-left {{--control-label --}}">Hipotiroidismo</label>
-                                 <div class="col-lg-4">
-                                    {{--{!! Form::hidden('hipotiroidismo', 1) !!}--}}
-                                    {{--<input type="checkbox" class="form-control" id="hipotiroidismo" name="hipotiroidismo">--}}
-                                    {!! Form::checkbox('hipotiroidismo', old('hipotiroidismo'), old('hipotiroidismo') == 'on' ?  true : false, ['class'=>'', 'id'=>'hipotiroidismo']) !!}
-                                 </div>
-                              </div>
-                              <div class="form-group">
-                                 <label for="hipertiroidismo"
-                                    class="col-lg-8 text-left {{--control-label --}}">Hipertiroidismo</label>
-                                 <div class="col-lg-4">
-                                    {{--{!! Form::hidden('hipertiroidismo', 1) !!}--}}
-                                    {{--<input type="checkbox" class="form-control" id="hipertiroidismo" name="hipertiroidismo">--}}
-                                    {!! Form::checkbox('hipertiroidismo', old('hipertiroidismo'), old('hipertiroidismo') == 'on' ?  true : false, ['class'=>'', 'id'=>'hipertiroidismo']) !!}
-                                 </div>
-                              </div>
-                              <div class="form-group">
-                                 <label for="cardio_congenitas"
-                                    class="col-lg-8 text-left {{--control-label --}}">Cardiopatías
-                                 congénitas</label>
-                                 <div class="col-lg-4">
-                                    {{--{!! Form::hidden('cardio_congenitas', 1) !!}--}}
-                                    {{--<input type="checkbox" class="form-control" id="cardio_congenitas" name="cardio_congenitas">--}}
-                                    {!! Form::checkbox('cardio_congenitas', old('cardio_congenitas'), old('cardio_congenitas') == 'on' ?  true : false, ['class'=>'', 'id'=>'cardio_congenitas']) !!}
-                                 </div>
-                              </div>
+ 
+     
+ 
                               <div class="form-group">
                                  <label for="valvulopatias"
                                     class="col-lg-8 text-left {{--control-label --}}">Valvulopatias</label>
@@ -744,46 +843,8 @@ Historia Clínica - Nuevo paciente
                               </div>
                            </div>
                            <div class="col-lg-3">
-                              <div class="form-group">
-                                 <label for="cardio_isquemica"
-                                    class="col-lg-8 text-left {{--control-label --}}">Cardiopatía
-                                 isquémica</label>
-                                 <div class="col-lg-4">
-                                    {{--{!! Form::hidden('cardio_isquemica', 1) !!}--}}
-                                    {{--<input type="checkbox" class="form-control" id="cardio_isquemica" name="cardio_isquemica">--}}
-                                    {!! Form::checkbox('cardio_isquemica', old('cardio_isquemica'), old('cardio_isquemica') == 'on' ?  true : false, ['class'=>'', 'id'=>'cardio_isquemica']) !!}
-                                 </div>
-                              </div>
-                              <div class="form-group">
-                                 <label for="ht_arterial_leve"
-                                    class="col-lg-8 text-left {{--control-label --}}">Hipertensión
-                                 arterial leve</label>
-                                 <div class="col-lg-4">
-                                    {{--{!! Form::hidden('ht_arterial_leve', 1) !!}--}}
-                                    {{--<input type="checkbox" class="form-control" id="ht_arterial_leve" name="ht_arterial_leve">--}}
-                                    {!! Form::checkbox('ht_arterial_leve', old('ht_arterial_leve'), old('ht_arterial_leve') == 'on' ?  true : false, ['class'=>'', 'id'=>'ht_arterial_leve']) !!}
-                                 </div>
-                              </div>
-                              <div class="form-group">
-                                 <label for="ht_arterial_mode"
-                                    class="col-lg-8 text-left {{--control-label --}}">Hipertensión
-                                 arterial moderada</label>
-                                 <div class="col-lg-4">
-                                    {{--{!! Form::hidden('ht_arterial_mode', 1) !!}--}}
-                                    {{--<input type="checkbox" class="form-control" id="ht_arterial_mode" name="ht_arterial_mode">--}}
-                                    {!! Form::checkbox('ht_arterial_mode', old('ht_arterial_mode'), old('ht_arterial_mode') == 'on' ?  true : false, ['class'=>'', 'id'=>'ht_arterial_mode']) !!}
-                                 </div>
-                              </div>
-                              <div class="form-group">
-                                 <label for="ht_arterial_severa"
-                                    class="col-lg-8 text-left {{--control-label --}}">Hipertensión
-                                 arterial severa</label>
-                                 <div class="col-lg-4">
-                                    {{--{!! Form::hidden('ht_arterial_severa', 1) !!}--}}
-                                    {{--<input type="checkbox" class="form-control" id="ht_arterial_severa" name="ht_arterial_severa">--}}
-                                    {!! Form::checkbox('ht_arterial_severa', old('ht_arterial_severa'), old('ht_arterial_severa') == 'on' ?  true : false, ['class'=>'', 'id'=>'ht_arterial_severa']) !!}
-                                 </div>
-                              </div>
+ 
+                           
                               <div class="form-group">
                                  <label for="perdida_conoc"
                                     class="col-lg-8 text-left {{--control-label --}}">Pérdida de
@@ -815,17 +876,7 @@ Historia Clínica - Nuevo paciente
                               </div>
                            </div>
                         </div>
-                        <div class="form-group">
-                           <div class="col-lg-1">
-                              <label for="otras_pat_asoc"
-                                 class="col-lg-8 text-left {{--control-label --}}">Otras
-                              patologías</label>
-                           </div>
-                           <div class="col-lg-11">
-                              <textarea class="form-control" name="otras_pat_asoc" id="otras_pat_asoc"
-                                 cols="145" rows="2">{!! old('otras_pat_asoc') !!}</textarea>
-                           </div>
-                        </div>
+ 
                         <div class="form-group">
                            <div class="col-lg-3">
                               <label for="otros_sintomas_ing"
@@ -841,6 +892,8 @@ Historia Clínica - Nuevo paciente
                   </div>
                </div>
             </div>
+
+
             <div class="row">
                <div class="col-lg-4">
                   <div class="portlet box blue">
