@@ -1,30 +1,10 @@
-@extends('infopage')
-
-@section('title')
-    Historia Clínica - {!! $paciente[0]->apellido . "," . $paciente[0]->nombre !!} -  {!! $tratamiento->droga !!} - {!! \Carbon\Carbon::parse($tratamiento->fecha_trat)->format('d/m/Y') !!}
-@endsection
-
-@section('content')
-    <div ">
+<div ">
         <div class="well well-lg" style="margin-top: 10px">
             <fieldset>
                 <legend>
                     Detalle de Tratamiento
                 </legend>
-                <div class="row">
-                    <label for="hc" class="col-lg-2 control-label">Historia Clínica</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control" id="hc" name="hc" value=" {!! $paciente[0]->id_hc !!}"
-                               readonly>
-                    </div>
-                </div>
-                <div class="row">
-                    <label for="nombre" class="col-lg-2 control-label">Apellido, Nombre</label>
-                    <div class="col-lg-10">
-                        <input type="text" class="form-control" id="nombre" name="nombre"
-                               value=" {!! $paciente[0]->apellido.", ".$paciente[0]->nombre !!}" readonly>
-                    </div>
-                </div>
+ 
                 <div class="row">
                     <label for="droga" class="col-lg-2 control-label">Droga</label>
                     <div class="col-lg-10">
@@ -63,4 +43,3 @@
             </fieldset>
         </div>
     </div>
-@endsection

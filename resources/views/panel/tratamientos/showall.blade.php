@@ -5,30 +5,45 @@
             @else
                 <table class="table" id="modalTableTrat">
                     <thead>
+                        <tr>
+                            <th>Droga</th>
+                            <th>Dosis</th>
+                            <th>Fecha</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
                     <tr>
                         <th>Droga</th>
                         <th>Dosis</th>
                         <th>Fecha</th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
-                    </thead>
+                </tfoot>
                     <tbody>
                     @foreach($tratamientos as $tratamiento)
                         <tr>
                             <td>
                                 
-
-                     <button class="btn btn-link"  onclick="chargeItemAjax('{!! action('Panel\PanelHistoriasController@verTratamiento', ['id_p' => $paciente->id, 'id_t' => $tratamiento->id]) !!}')"  >{!! $estudio->nombre !!}</button>
+                                {!! $tratamiento->droga !!}
+                        
                             </td>
                             <td>{!! $tratamiento->dosis !!}</td>
                             <td>{!! $tratamiento->fecha_trat->format('d/m/Y') !!}</td>
+                            <td>
+                                 <button class="btn btn-success  btn-xs"  onclick="chargeItemAjax('{!! action('Panel\PanelHistoriasController@verTratamiento', ['id_p' => $tratamiento->id, 'id_t' => $tratamiento->id]) !!}')"  >Ver</button>
+                            </td>
                             <td>
                                 <a href="{!! action('Panel\TratamientosController@edit', ['id_p' => $paciente->id, 'id_t' => $tratamiento->id]) !!}" class="btn btn-xs btn-primary">Editar</a>
                             </td>
                             <td>
                                 <a href="{!! action('Panel\TratamientosController@showForDelete', ['id_p' => $paciente->id, 'id_t' => $tratamiento->id]) !!}" class="btn btn-xs btn-danger">Eliminar</a>
                             </td>
+
                         </tr>
                     @endforeach
                     </tbody>
@@ -37,13 +52,42 @@
        
 
 <script>
-    $(document).ready(function(){
-        $('#modalTableTrat').DataTable( {
-            "language": {
-                "url": "../../../lang/datatables_es.json"
-            }
-        });
-    });
+
+
+$(document).ready(function() {
+    $('#modalTableTrat').DataTable( {
+
+    "iDisplayLength": 7,
+        initComplete: function () {
+            this.api().columns().every( function (i) {
+               if(i==0){
+
+                
+                 var column = this;
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo( $(column.header()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+ 
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+ 
+                column.data().unique().sort().each( function ( d, j ) {
+
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+                }
+
+            } );
+        }
+    } );
+} );
+
+ 
 </script>
 
 </body>

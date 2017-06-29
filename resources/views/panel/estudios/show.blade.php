@@ -1,10 +1,4 @@
-@extends('infopage')
-
-@section('title')
-    Historia Clínica - {!! $paciente[0]->apellido . "," . $paciente[0]->nombre !!} -  {!! $estudioPaciente->estudio->nombre !!} - {!! \Carbon\Carbon::parse($estudioPaciente->fecha)->format('d/m/Y') !!}
-@endsection
-
-@section('content')
+ 
     <div class="containe-fluid ">
         <div class="well well-lg">
             <fieldset>
@@ -120,4 +114,4 @@
                 </table>
             </fieldset>
         </div>
-@endsection
+ 
