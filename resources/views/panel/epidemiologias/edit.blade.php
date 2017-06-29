@@ -735,167 +735,7 @@ function noSabeCheck(checked,checkno,container,checksi){
                         </div>
                       </div>
                   </div>
-<!---
-                     <div class="row">
-                        <div class="col-lg-4">
-                           {{--Muerte Subita--}}
-                           <div class="portlet box blue">
-                              <div class="portlet-title">
-                                 <div class="caption"> Muerte Súbita </div>
-                              </div>
-                              <div class="portlet-body">
-                                 <div class="form-group">
-                                    <label for="antefam_muerte_sub_no"
-                                       class="col-lg-8 text-left">No</label>
-                                    <div class="col-lg-4">
-                                      
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="antefam_muerte_sub_ns"
-                                       class="col-lg-8 text-left">No sabe</label>
-                                    <div class="col-lg-4">
-                                       
-                                    </div>
-                                 </div>
-                                 
-                              </div>
-                           </div>
-                        </div>
-                        <div class="col-lg-4">
-                           {{--Afección Cardíaca--}}
-                           <div class="portlet box blue">
-                              <div class="portlet-title">
-                                 <div class="caption"> Afección Cardíaca </div>
-                              </div>
-                              <div class="portlet-body">
-                                 <div class="form-group">
-                                    <label for="antefam_afcardi_no"
-                                       class="col-lg-8 text-left">No</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_afcardi_no', old('antefam_afcardi_no'), in_array(old('antefam_afcardi_no', $paciente->epidemiologia->antefam_afcardi_no), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_no']) !!}
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="antefam_afcardi_ns"
-                                       class="col-lg-8 text-left">No sabe</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_afcardi_ns', old('antefam_afcardi_ns'), in_array(old('antefam_afcardi_ns', $paciente->epidemiologia->antefam_afcardi_ns), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_ns']) !!}
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="antefam_afcardi_padre"
-                                       class="col-lg-8 text-left">Padre</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_afcardi_padre', old('antefam_afcardi_padre'), in_array(old('antefam_afcardi_padre', $paciente->epidemiologia->antefam_afcardi_padre), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_padre']) !!}
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="antefam_afcardi_madre"
-                                       class="col-lg-8 text-left">Madre</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_afcardi_madre', old('antefam_afcardi_madre'), in_array(old('antefam_afcardi_madre', $paciente->epidemiologia->antefam_afcardi_madre), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_madre']) !!}
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="antefam_afcardi_hermano"
-                                       class="col-lg-8 text-left">Hermano</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_afcardi_hermano', old('antefam_afcardi_hermano'), in_array(old('antefam_afcardi_hermano', $paciente->epidemiologia->antefam_afcardi_hermano), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_hermano']) !!}
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="antefam_afcardi_hijo"
-                                       class="col-lg-8 text-left">Hijo</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_afcardi_hijo', old('antefam_afcardi_hijo'), in_array(old('antefam_afcardi_hijo', $paciente->epidemiologia->antefam_afcardi_hijo), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_hijo']) !!}
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="antefam_afcardi_otros"
-                                       class="col-lg-8 text-left">Otro familiar</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_afcardi_otros', old('antefam_afcardi_otros'), in_array(old('antefam_afcardi_otros', $paciente->epidemiologia->antefam_afcardi_otros), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_otros']) !!}
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="antefam_afcardi_desc"
-                                       class="col-lg-8 text-left">Desconocido</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_afcardi_desc', old('antefam_afcardi_desc'), in_array(old('antefam_afcardi_desc', $paciente->epidemiologia->antefam_afcardi_desc), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_afcardi_desc']) !!}
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                        <div class="col-lg-4">
-                           {{--Chagas--}}
-                           <div class="portlet box blue">
-                              <div class="portlet-title">
-                                 <div class="caption"> Chagas </div>
-                              </div>
-                              <div class="portlet-body">
-                                 <div class="form-group">
-                                    <label for="antefam_chagas_no"
-                                       class="col-lg-8 text-left">No</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_chagas_no', old('antefam_chagas_no'), in_array(old('antefam_chagas_no', $paciente->epidemiologia->antefam_chagas_no), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_no']) !!}
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="antefam_chagas_ns"
-                                       class="col-lg-8 text-left">No sabe</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_chagas_ns', old('antefam_chagas_ns'), in_array(old('antefam_chagas_ns', $paciente->epidemiologia->antefam_chagas_ns), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_ns']) !!}
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="antefam_chagas_padre"
-                                       class="col-lg-8 text-left">Padre</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_chagas_padre', old('antefam_chagas_padre'), in_array(old('antefam_chagas_padre', $paciente->epidemiologia->antefam_chagas_padre), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_padre']) !!}
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="antefam_chagas_madre"
-                                       class="col-lg-8 text-left">Madre</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_chagas_madre', old('antefam_chagas_madre'), in_array(old('antefam_chagas_madre', $paciente->epidemiologia->antefam_chagas_madre), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_madre']) !!}
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="antefam_chagas_hermano"
-                                       class="col-lg-8 text-left">Hermano</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_chagas_hermano', old('antefam_chagas_hermano'), in_array(old('antefam_chagas_hermano', $paciente->epidemiologia->antefam_chagas_hermano), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_hermano']) !!}
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="antefam_chagas_hijo"
-                                       class="col-lg-8 text-left">Hijo</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_chagas_hijo', old('antefam_chagas_hijo'), in_array(old('antefam_chagas_hijo', $paciente->epidemiologia->antefam_chagas_hijo), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_hijo']) !!}
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="antefam_chagas_otros"
-                                       class="col-lg-8 text-left">Otro familiar</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_chagas_otros', old('antefam_chagas_otros'), in_array(old('antefam_chagas_otros', $paciente->epidemiologia->antefam_chagas_otros), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_otros']) !!}
-                                    </div>
-                                 </div>
-                                 <div class="form-group">
-                                    <label for="antefam_chagas_desc"
-                                       class="col-lg-8 text-left">Desconocido</label>
-                                    <div class="col-lg-4">
-                                       {!! Form::checkbox('antefam_chagas_desc', old('antefam_chagas_desc'), in_array(old('antefam_chagas_desc', $paciente->epidemiologia->antefam_chagas_desc), array('on', 2)) ?  true : false, ['class'=>' ', 'id'=>'antefam_chagas_desc']) !!}
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     -->
+ 
                      <hr/>
                      <div class="row">
                         <div class="col-lg-12">
@@ -919,7 +759,7 @@ function noSabeCheck(checked,checkno,container,checksi){
                                 <div class="caption"> Sangre Dador – Receptor</div>
                              </div>
                              <div class="portlet-body">
-                             <div class="row">
+                             <div class="row hover-row">
                                  
                             <div class="col-xs-4">
                                 <div class="form-group">
@@ -956,7 +796,8 @@ function noSabeCheck(checked,checkno,container,checksi){
                                 </div>
 
                             </div>
-
+                            </div>
+                            <div class="row hover-row">
                             <div class="col-xs-4">
                                 <div class="form-group">
                                    <label for="dador_sangre_hosp"
@@ -984,6 +825,8 @@ function noSabeCheck(checked,checkno,container,checksi){
                                    </div>
                                 </div>                                
                             </div>
+                            </div>
+                            <div class="row hover-row">
                             <div class="col-xs-9">
                                 <div class="form-group">
                                    <label for="recep_sangre_motivo"
@@ -1007,7 +850,7 @@ function noSabeCheck(checked,checkno,container,checksi){
                      <div class="caption"> Preguntas de Chagas </div>
                   </div>
                   <div class="portlet-body">
-                  <div class="row">
+                  <div class="row hover-row">
                       
 
                   <div class="col-xs-4">
@@ -1053,6 +896,8 @@ function noSabeCheck(checked,checkno,container,checksi){
                      </div>
 
                   </div>
+                  </div>
+                  <div class="row hover-row">
                   <div class="col-xs-4">
 
                      <div class="form-group">
