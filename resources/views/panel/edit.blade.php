@@ -107,7 +107,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                               </select>
                            </div>
                            <div class="col-lg-6">
-                              <label for="causa_muerte" class=" control-label">¿Causa muerte?</label>
+                              <label for="causa_muerte" class=" control-label">¿Causa de muerte?</label>
                               <div class="col-lg-12">
                                  <textarea  id="causa_muerte" class="form-control" name="causa_muerte">{!! $paciente->causa_muerte !!}</textarea>
                               </div>
@@ -202,6 +202,56 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                      </div>
                   </div>
                </div>
+                
+                 <div class="col-lg-4">
+                  {{--//Columna Serología--}}
+                  <div class="col-lg-12">
+                     <div class="portlet box blue">
+                        <div class="portlet-title">
+                           <div class="caption">Serología</div>
+                        </div>
+                        <div class="portlet-body">
+                           <div class="form-group">
+                              <label for="tres_negativas" class="col-lg-8 control-label">3 pruebas serológicas
+                              negativas</label>
+                              <div class="col-lg-4">
+                                 {!! Form::hidden('tres_negativas', 1) !!}
+                                 <input type="checkbox" id="tres_negativas"
+                                 name="tres_negativas" @if($paciente->tres_negativas == 2) checked
+                                 @endif>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="serologia_ing" class="col-lg-8 control-label">Serología al
+                              ingreso</label>
+                              <div class="col-lg-4">
+                                 <input type="text" class="form-control" id="serologia_ing"
+                                    name="serologia_ing" value="{!! $paciente->serologia_ing !!}">
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="titulos_sero_ing" class="col-lg-8 control-label">Titulos serológicos
+                              al ingreso</label>
+                              <div class="col-lg-4">
+                                 <input type="text" class="form-control" id="titulos_sero_ing"
+                                    name="titulos_sero_ing" value="{!! $paciente->titulos_sero_ing !!}">
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="trat_etio" class="col-lg-8 control-label">Tratamiento
+                              Etiológico</label>
+                              <div class="col-lg-4">
+                                 <select class="form-control" id="trat_etio" name="trat_etio">
+                                 <option value="S" @if($paciente->trat_etio =="S") selected @endif>Si</option>
+                                 <option value="N" @if($paciente->trat_etio =="N") selected @endif>No</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+                
                <div class="col-lg-4">
                   <div class="portlet box blue">
                      <div class="portlet-title">
@@ -265,7 +315,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                      </div>
                   </div>
                </div>
-               <div class="col-lg-4">
+               <div class="col-lg-12">
                   {{--//Columna Grupo Clínico--}}
                   <div class="col-lg-12">
                      <div class="portlet box blue">
@@ -315,6 +365,9 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                                     name="nuevo_grupo_cli">
                                  <option value="1" @if($paciente->nuevo_grupo_cli==1) selected @endif>0</option>
                                  <option value="2" @if($paciente->nuevo_grupo_cli==2) selected @endif>1</option>                                                    <option value="3" @if($paciente->nuevo_grupo_cli==3) selected @endif>2</option>                                                    <option value="4" @if($paciente->nuevo_grupo_cli==4) selected @endif>3</option>                                                    <option value="5" @if($paciente->nuevo_grupo_cli==5) selected @endif>4</option>
+                                 <option value="3" @if($paciente->nuevo_grupo_cli==3) selected @endif>2</option>                                                    <option value="3" @if($paciente->nuevo_grupo_cli==3) selected @endif>2</option>                                                    <option value="4" @if($paciente->nuevo_grupo_cli==4) selected @endif>3</option>                                                    <option value="5" @if($paciente->nuevo_grupo_cli==5) selected @endif>4</option>
+                                 <option value="4" @if($paciente->nuevo_grupo_cli==4) selected @endif>3</option>                                                    <option value="3" @if($paciente->nuevo_grupo_cli==3) selected @endif>2</option>                                                    <option value="4" @if($paciente->nuevo_grupo_cli==4) selected @endif>3</option>                                                    <option value="5" @if($paciente->nuevo_grupo_cli==5) selected @endif>4</option>
+                                 <option value="5" @if($paciente->nuevo_grupo_cli==5) selected @endif>F</option>                                                    <option value="3" @if($paciente->nuevo_grupo_cli==3) selected @endif>2</option>                                                    <option value="4" @if($paciente->nuevo_grupo_cli==4) selected @endif>3</option>                                                    <option value="5" @if($paciente->nuevo_grupo_cli==5) selected @endif>4</option>
                                  </select>
                               </div>
                            </div>
@@ -414,7 +467,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                            </div>
                         </div>
                         <div class="form-group">
-                           <label for="susp_bnz" class="col-lg-8 text-left {{--control-label --}}">Suspención
+                           <label for="susp_bnz" class="col-lg-8 text-left {{--control-label --}}">Suspensión
                            del tratamiento</label>
                            <div class="col-lg-4">
                               {!! Form::hidden('susp_bnz', 1) !!}
@@ -953,54 +1006,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                      </div>
                   </div>
                </div>
-               <div class="col-lg-4">
-                  {{--//Columna Serología--}}
-                  <div class="col-lg-12">
-                     <div class="portlet box blue">
-                        <div class="portlet-title">
-                           <div class="caption">Serología</div>
-                        </div>
-                        <div class="portlet-body">
-                           <div class="form-group">
-                              <label for="tres_negativas" class="col-lg-8 control-label">3 pruebas serológicas
-                              negativas</label>
-                              <div class="col-lg-4">
-                                 {!! Form::hidden('tres_negativas', 1) !!}
-                                 <input type="checkbox" id="tres_negativas"
-                                 name="tres_negativas" @if($paciente->tres_negativas == 2) checked
-                                 @endif>
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label for="serologia_ing" class="col-lg-8 control-label">Serología al
-                              ingreso</label>
-                              <div class="col-lg-4">
-                                 <input type="text" class="form-control" id="serologia_ing"
-                                    name="serologia_ing" value="{!! $paciente->serologia_ing !!}">
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label for="titulos_sero_ing" class="col-lg-8 control-label">Titulos serológicos
-                              al ingreso</label>
-                              <div class="col-lg-4">
-                                 <input type="text" class="form-control" id="titulos_sero_ing"
-                                    name="titulos_sero_ing" value="{!! $paciente->titulos_sero_ing !!}">
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label for="trat_etio" class="col-lg-8 control-label">Tratamiento
-                              Etiológico</label>
-                              <div class="col-lg-4">
-                                 <select class="form-control" id="trat_etio" name="trat_etio">
-                                 <option value="S" @if($paciente->trat_etio =="S") selected @endif>Si</option>
-                                 <option value="N" @if($paciente->trat_etio =="N") selected @endif>No</option>
-                                 </select>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+              
                <div class="col-lg-4">
                   <div class="portlet box blue">
                      <div class="portlet-title">
@@ -1052,6 +1058,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                                  name="cambios_rxt">
                               <option value="S" @if($paciente->cambios_rxt =="S") selected @endif>Si</option>
                               <option value="N" @if($paciente->cambios_rxt =="N") selected @endif>No</option>
+                              <option value="NULL" @if($paciente->cambios_rxt =="N") selected @endif>NULL</option>
                               </select>
                            </div>
                         </div>
@@ -1085,7 +1092,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                   <div class="row">
                      <div class="col-lg-12">
                         <textarea class="form-control" name="evolucion" id="evolucion" cols="145"
-                           rows="4" readonly>{!! $paciente->evolucion !!}</textarea>
+                           rows="4" >{!! $paciente->evolucion !!}</textarea>
                      </div>
                   </div>
                </div>

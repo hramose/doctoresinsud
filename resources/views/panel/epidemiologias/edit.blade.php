@@ -247,16 +247,17 @@ function noSabeCheck(checked,checkno,container,checksi){
                               <div class="form-group">
                                  <label for="sexo"
                                     class="col-lg-1 text-left">Sexo</label>
-                                 <div class="col-lg-4">
+                                 <div class="col-lg-11">
                                     <select class="form-control" id="sexo" name="sexo">
                                        <option value=""></option>
                                        <option value="M" @if(old('sexo',$paciente->epidemiologia->sexo)=="M") selected @endif>Masculino</option>
                                        <option value="F" @if(old('sexo',$paciente->epidemiologia->sexo)=="F") selected @endif>Femenino</option>
                                     </select>
+                                     <br/>
                                  </div>
                                  <label for="estado_civil"
                                     class="col-lg-3 text-left padding-0">Estado Civil</label>
-                                 <div class="col-lg-4">
+                                 <div class="col-lg-9">
                                     <select class="form-control" id="estado_civil" name="estado_civil">
                                        <option value=""></option>
                                        <option value="S" @if($paciente->epidemiologia->estado_civil=="S") selected @endif>Soltero</option>
@@ -287,16 +288,16 @@ function noSabeCheck(checked,checkno,container,checksi){
                         </div>
                         <div class="portlet-body">
                            <div class="row">
-                              <div class="col-xs-4">
+                              <div class="col-xs-12">
                                  <div class="form-group ">
                                     <label for="localidad_nac" style="vertical-align: bottom;"
-                                       class="col-lg-5 text-left">Localidad</label>
-                                    <div class="col-lg-7">
+                                       class="col-lg-3 text-left">Localidad</label>
+                                    <div class="col-lg-9">
                                        <input type="text" class="form-control" id="localidad_nac" name="localidad_nac" value="{!! old('localidad_nac', $paciente->epidemiologia->localidad_nac) !!}">
                                     </div>
                                  </div>
                               </div>
-                              <div class="col-xs-4">
+                              <div class="col-xs-6">
                                  <div class="form-group ">
                                     <label for="provincia_nac"
                                        class="col-lg-4 text-left">Provincia</label>
@@ -305,7 +306,7 @@ function noSabeCheck(checked,checkno,container,checksi){
                                     </div>
                                  </div>
                               </div>
-                              <div class="col-xs-4">
+                              <div class="col-xs-6">
                                  <div class="form-group ">
                                     <label for="pais_nac"
                                        class="col-lg-4 text-left">País</label>
@@ -766,7 +767,12 @@ function noSabeCheck(checked,checkno,container,checksi){
                                    <label for="embarazo"
                                       class="col-lg-5 text-left">¿Está embarazada?</label>
                                    <div class="col-lg-4">
-                                      {!! Form::checkbox('embarazo', old('embarazo'), in_array(old('embarazo', $paciente->epidemiologia->embarazo), array('on', 2)) ?  true : false, ['class'=>'', 'id'=>'embarazo']) !!}
+                                       <select name="embarazo" class="form-control">
+                                           <option value="2"  @if($paciente->epidemiologia->embarazo =="2") selected @endif>SI</option>
+                                           <option value="1"  @if($paciente->epidemiologia->embarazo =="1") selected @endif>NO</option>
+                                           <option value="3"  @if($paciente->epidemiologia->embarazo =="3") selected @endif>NULL</option>
+                                       </select>
+ 
                                    </div>
                                 </div>                             
                             </div>
@@ -1023,8 +1029,8 @@ function noSabeCheck(checked,checkno,container,checksi){
                         <div class="portlet-body">
                            <div class="form-group">
                               <label for="escolaridad"
-                                 class="col-lg-8 text-left">Nivel de escolaridad</label>
-                              <div class="col-lg-4">
+                                 class="col-lg-5 text-left">Nivel de escolaridad</label>
+                              <div class="col-lg-7">
                                  <select class="form-control" id="escolaridad" name="escolaridad">
                                     <option value=""></option>
                                     <option value="AN" @if($paciente->epidemiologia->escolaridad=="AN") selected @endif>Analfabeto</option>
@@ -1065,8 +1071,8 @@ function noSabeCheck(checked,checkno,container,checksi){
                   <div class="portlet-body">
                      <div class="form-group">
                         <label for="trabajo"
-                           class="col-lg-8 text-left">¿Trabaja?</label>
-                        <div class="col-lg-4">
+                           class="col-lg-6 text-left">¿Trabaja?</label>
+                        <div class="col-lg-6">
                            <select class="form-control" id="trabajo" name="trabajo">
                               <option value=""></option>
                               <option value="S" @if($paciente->epidemiologia->trabajo=="S") selected @endif>Si</option>

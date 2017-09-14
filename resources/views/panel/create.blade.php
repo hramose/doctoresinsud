@@ -127,7 +127,7 @@ Historia Clínica - Nuevo paciente
                </div>
             </div>
             <div class="row">
-               <div class="col-lg-6">
+               <div class="col-lg-4">
                   <div class="row">
                      <div class="col-lg-12">
                         <div class="portlet box blue">
@@ -177,7 +177,52 @@ Historia Clínica - Nuevo paciente
                      </div>
                   </div>
                </div>
-               <div class="col-lg-6">
+                <div class="col-lg-4">
+                  {{--//Columna Serología--}}
+                  <div class="col-lg-12">
+                     <div class="portlet box blue">
+                        <div class="portlet-title">
+                           <div class="caption">Serología</div>
+                        </div>
+                        <div class="portlet-body">
+                           <div class="form-group">
+                              <label for="tres_negativas" class="col-lg-8 control-label">3 pruebas serológicas
+                              negativas</label>
+                              <div class="col-lg-4">
+                                 {{--{!! Form::hidden('tres_negativas', 1) !!}--}}
+                                 {{--<input type="checkbox" class="form-control" id="tres_negativas" name="tres_negativas">--}}
+                                 {!! Form::checkbox('tres_negativas', old('tres_negativas'), old('tres_negativas') == 'on' ?  true : false, ['class'=>'', 'id'=>'tres_negativas']) !!}
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="serologia_ing" class="col-lg-8 control-label">Serología al
+                              ingreso</label>
+                              <div class="col-lg-4">
+                                 <input type="text" class="form-control" id="serologia_ing"
+                                    name="serologia_ing" value="{!! old('serologia_ing') !!}">
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="titulos_sero_ing" class="col-lg-8 control-label">Titulos serológicos
+                              al ingreso</label>
+                              <div class="col-lg-4">
+                                 <input type="text" class="form-control" id="titulos_sero_ing"
+                                    name="titulos_sero_ing" value="{!! old('titulos_sero_ing') !!}">
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <label for="trat_etio" class="col-lg-8 control-label">Tratamiento
+                              Etiológico</label>
+                              <div class="col-lg-4">
+                                 <input type="text" class="form-control" id="trat_etio" name="trat_etio" value="{!! old('trat_etio') !!}">
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+                
+               <div class="col-lg-4">
                   <div class="portlet box blue">
                      <div class="portlet-title">
                         <div class="caption">ECG</div>
@@ -314,7 +359,7 @@ Historia Clínica - Nuevo paciente
                                     <option value="N">No</option>
                                  </select>
                               </div>
-                              <label for="causa_muerte" class="col-lg-2 control-label">¿Causa muerte?</label>
+                              <label for="causa_muerte" class="col-lg-2 control-label">¿Causa de muerte?</label>
                               <div class="col-lg-7">
                                  <textarea class="form-control" id="causa_muerte" name="causa_muerte">{!! old('causa_muerte') !!}</textarea>
                               </div>
@@ -408,7 +453,7 @@ Historia Clínica - Nuevo paciente
                            </div>
                         </div>
                         <div class="form-group">
-                           <label for="susp_bnz" class="col-lg-8 text-left {{--control-label --}}">Suspención
+                           <label for="susp_bnz" class="col-lg-8 text-left {{--control-label --}}">Suspensión
                            del tratamiento</label>
                            <div class="col-lg-4">
                               {{--{!! Form::hidden('susp_bnz', 1) !!}--}}
@@ -735,7 +780,7 @@ Historia Clínica - Nuevo paciente
                <div class="col-lg-12">
                   <div class="portlet box blue">
                      <div class="portlet-title">
-                        <div class="caption">Patologías</div>
+                        <div class="caption">Exámen al ingreso</div>
                      </div>
                      <div class="portlet-body">
                         <div class="row">
@@ -928,50 +973,7 @@ Historia Clínica - Nuevo paciente
                      </div>
                   </div>
                </div>
-               <div class="col-lg-4">
-                  {{--//Columna Serología--}}
-                  <div class="col-lg-12">
-                     <div class="portlet box blue">
-                        <div class="portlet-title">
-                           <div class="caption">Serología</div>
-                        </div>
-                        <div class="portlet-body">
-                           <div class="form-group">
-                              <label for="tres_negativas" class="col-lg-8 control-label">3 pruebas serológicas
-                              negativas</label>
-                              <div class="col-lg-4">
-                                 {{--{!! Form::hidden('tres_negativas', 1) !!}--}}
-                                 {{--<input type="checkbox" class="form-control" id="tres_negativas" name="tres_negativas">--}}
-                                 {!! Form::checkbox('tres_negativas', old('tres_negativas'), old('tres_negativas') == 'on' ?  true : false, ['class'=>'', 'id'=>'tres_negativas']) !!}
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label for="serologia_ing" class="col-lg-8 control-label">Serología al
-                              ingreso</label>
-                              <div class="col-lg-4">
-                                 <input type="text" class="form-control" id="serologia_ing"
-                                    name="serologia_ing" value="{!! old('serologia_ing') !!}">
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label for="titulos_sero_ing" class="col-lg-8 control-label">Titulos serológicos
-                              al ingreso</label>
-                              <div class="col-lg-4">
-                                 <input type="text" class="form-control" id="titulos_sero_ing"
-                                    name="titulos_sero_ing" value="{!! old('titulos_sero_ing') !!}">
-                              </div>
-                           </div>
-                           <div class="form-group">
-                              <label for="trat_etio" class="col-lg-8 control-label">Tratamiento
-                              Etiológico</label>
-                              <div class="col-lg-4">
-                                 <input type="text" class="form-control" id="trat_etio" name="trat_etio" value="{!! old('trat_etio') !!}">
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+               
                <div class="col-lg-4">
                   <div class="portlet box blue">
                      <div class="portlet-title">
@@ -993,6 +995,7 @@ Historia Clínica - Nuevo paciente
                               <select class="form-control" id="rx_torax" name="rx_torax">
                                  <option value="S">Si</option>
                                  <option value="N">No</option>
+                                 <option value="NULL">NULL</option>
                               </select>
                            </div>
                         </div>
@@ -1042,6 +1045,21 @@ Historia Clínica - Nuevo paciente
                </div>
             </div>
          </div>
+         
+            <div class="portlet box blue">
+               <div class="portlet-title">
+                  <div class="caption">Evolución</div>
+               </div>
+               <div class="portlet-body">
+                  <div class="row">
+                     <div class="col-lg-12">
+                        <textarea class="form-control" name="evolucion" id="evolucion" cols="145"
+                           rows="4" ></textarea>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         
          <input type="submit" class="hidden" name="submit-guardar" id="submit-guardar">
       </form>
    </div>
