@@ -1,4 +1,5 @@
- 
+     <link href="{{ asset('/css/global/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+
     <div class="containe-fluid ">
         <div class="well well-lg">
             <fieldset>

@@ -1364,6 +1364,7 @@ style="border-radius: 50%; padding: 5px 5px;    bottom: -20px;"><i class="fa fa-
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
+                        @if($consulta->sintomas->count())
                             <p>
                                 <strong>Sintomas detectados: </strong>
                             </p>
@@ -1372,8 +1373,11 @@ style="border-radius: 50%; padding: 5px 5px;    bottom: -20px;"><i class="fa fa-
                                 <li>{!! $sintoma->nombre !!}</li>
                                 @endforeach
                             </ul>
+                            @endif
                         </div>
                         <div class="col-lg-6">
+                            @if($consulta->patologias->count())
+
                             <p>
                                 <strong>Patologías detectadas: </strong>
                             </p>
@@ -1382,6 +1386,7 @@ style="border-radius: 50%; padding: 5px 5px;    bottom: -20px;"><i class="fa fa-
                                 <li>{!! $patologia->nombre !!}</li>
                                 @endforeach
                             </ul>
+                            @endif
                         </div>
                     </div>
                     <div class="row">

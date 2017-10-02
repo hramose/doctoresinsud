@@ -127,7 +127,7 @@ Historia Clínica - Nuevo paciente
                </div>
             </div>
             <div class="row">
-               <div class="col-lg-4">
+               <div class="col-lg-6">
                   <div class="row">
                      <div class="col-lg-12">
                         <div class="portlet box blue">
@@ -177,7 +177,7 @@ Historia Clínica - Nuevo paciente
                      </div>
                   </div>
                </div>
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                   {{--//Columna Serología--}}
                   <div class="col-lg-12">
                      <div class="portlet box blue">
@@ -222,7 +222,7 @@ Historia Clínica - Nuevo paciente
                   </div>
                </div>
                 
-               <div class="col-lg-4">
+               <div class="col-lg-6">
                   <div class="portlet box blue">
                      <div class="portlet-title">
                         <div class="caption">ECG</div>
@@ -237,7 +237,7 @@ Historia Clínica - Nuevo paciente
                               <option value="N" {{ old('ecg') == "N" ? "selected": "" }}>Normal</option>
                               <option value="E" {{ old('ecg') == "E" ? "selected": "" }}>Específico</option>
                               <option value="I" {{ old('ecg') == "I" ? "selected": "" }}>Inespecífico</option>
-                              <option value="?" {{ old('ecg') == "?" ? "selected": "" }}>?</option>
+                              <option value="?" {{ old('ecg') == "?" ? "selected": "" }}>NO SABE</option>
                               </select>
                            </div>
                         </div>
@@ -252,8 +252,14 @@ Historia Clínica - Nuevo paciente
                            <label for="nuevos_cambios_ecg" class="col-lg-4 text-left {{--control-label --}}">Nuevos
                            cambios</label>
                            <div class="col-lg-8">
-                              <input type="text" class="form-control" id="nuevos_cambios_ecg"
-                                 name="nuevos_cambios_ecg" value="{!! old('nuevos_cambios_ecg') !!}">
+                              
+                              <select class="form-control" id="nuevos_sintomas" name="nuevos_sintomas">
+                                 <option value="S" {{ old('nuevos_cambios_ecg') == "S" ? "selected": "" }}>S</option>
+                                 <option value="N" {{ old('nuevos_cambios_ecg') == "N" ? "selected": "" }}>S</option>
+                                 <option value="?" {{ old('nuevos_cambios_ecg') == "?" ? "selected": "" }}>NO SABE</option>
+                                 <option value="NULL" {{ old('nuevos_cambios_ecg') == "NULL" ? "selected": "" }}>NULL</option>
+
+                              </select>
                            </div>
                         </div>
                         <div class="form-group">
@@ -283,7 +289,7 @@ Historia Clínica - Nuevo paciente
                      </div>
                   </div>
                </div>
-               <div class="col-lg-12">
+               <div class="col-lg-6">
                   <div class="col-lg-6">
                      {{--//Columna Grupo Clínico--}}
                      <div class="col-lg-12">
@@ -314,6 +320,10 @@ Historia Clínica - Nuevo paciente
                                     <option value="" {{old('cambio_grupo_cli') == "" ? "selected" : ""}}> </option>
                                     <option value="S" {{old('cambio_grupo_cli') == "S" ? "selected" : ""}}>Si</option>
                                     <option value="N" {{old('cambio_grupo_cli') == "N" ? "selected" : ""}}>No</option>
+
+                                    <option value="?" {{old('cambio_grupo_cli') == "?"  "selected" : ""}}>NO SABE</option>
+
+                                    <option value="NULL" {{old('cambio_grupo_cli') == "NULL" ? "selected" : ""}}>NULL</option>
                                     </select>
                                  </div>
                               </div>
@@ -357,6 +367,8 @@ Historia Clínica - Nuevo paciente
                                     <option value=""> </option>
                                     <option value="S" selected>Si</option>
                                     <option value="N">No</option>
+                                    <option value="?">NO SABE</option>
+                                    <option value="NULL">NULL</option>
                                  </select>
                               </div>
                               <label for="causa_muerte" class="col-lg-2 control-label">¿Causa de muerte?</label>
@@ -955,6 +967,9 @@ Historia Clínica - Nuevo paciente
                               <option value="" {{ old('nuevos_sintomas') == "" ? "selected" : "" }}> </option>
                               <option value="S" {{ old('nuevos_sintomas') == "S" ? "selected" : "" }}>Si</option>
                               <option value="N" {{ old('nuevos_sintomas') == "N" ? "selected" : "" }}>No</option>
+                              <option value="?" {{ old('nuevos_sintomas') == "?" ? "selected" : "" }}>NO SABE</option>
+                              <option value="NULL" {{ old('nuevos_sintomas') == "NULL" ? "selected" : "" }}>NULL</option>
+
                               </select>
                            </div>
                         </div>
@@ -974,7 +989,7 @@ Historia Clínica - Nuevo paciente
                   </div>
                </div>
                
-               <div class="col-lg-4">
+               <div class="col-lg-6">
                   <div class="portlet box blue">
                      <div class="portlet-title">
                         <div class="caption">Radiografía</div>
@@ -996,6 +1011,7 @@ Historia Clínica - Nuevo paciente
                                  <option value="S">Si</option>
                                  <option value="N">No</option>
                                  <option value="NULL">NULL</option>
+                                 <option value="?">NO SABE</option>
                               </select>
                            </div>
                         </div>
@@ -1022,6 +1038,8 @@ Historia Clínica - Nuevo paciente
                               <select class="form-control" id="cambios_rxt" name="cambios_rxt">
                                  <option value="S">Si</option>
                                  <option value="N">No</option>
+                                 <option value="NULL">NULL</option>
+                                 <option value="?">NO SABE</option>
                               </select>
                            </div>
                         </div>

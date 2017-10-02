@@ -104,6 +104,8 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                                  <option value=""> </option>
                                  <option value="S" @if($paciente->vivo =="S") selected @endif>Si</option>
                                  <option value="N" @if($paciente->vivo =="N") selected @endif>No</option>
+                                 <option value="?" @if($paciente->vivo =="?") selected @endif>NO SABE</option>
+                                 <option value="NULL" @if($paciente->vivo =="NULL") selected @endif>NULL</option>
                               </select>
                            </div>
                            <div class="col-lg-6">
@@ -118,7 +120,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                </div>
             </div>
             <div class="row">
-               <div class="col-lg-4">
+               <div class="col-lg-6">
                   <div class="row">
                      <div class="col-lg-12">
                         <div class="portlet box blue">
@@ -203,7 +205,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                   </div>
                </div>
                 
-                 <div class="col-lg-4">
+                 <div class="col-lg-6">
                   {{--//Columna Serología--}}
                   <div class="col-lg-12">
                      <div class="portlet box blue">
@@ -244,6 +246,8 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                                  <select class="form-control" id="trat_etio" name="trat_etio">
                                  <option value="S" @if($paciente->trat_etio =="S") selected @endif>Si</option>
                                  <option value="N" @if($paciente->trat_etio =="N") selected @endif>No</option>
+                                 <option value="?" @if($paciente->trat_etio =="?") selected @endif>NO SABE</option>
+                                 <option value="NULL" @if($paciente->trat_etio =="NULL") selected @endif>NULL</option>
                                  </select>
                               </div>
                            </div>
@@ -252,7 +256,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                   </div>
                </div>
                 
-               <div class="col-lg-4">
+               <div class="col-lg-6">
                   <div class="portlet box blue">
                      <div class="portlet-title">
                         <div class="caption"> ECG </div>
@@ -267,7 +271,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                                  <option value="N" @if($paciente->ecg=="N") selected @endif>Normal</option>
                                  <option value="E" @if($paciente->ecg=="E") selected @endif>Específico</option>
                                  <option value="I" @if($paciente->ecg=="I") selected @endif>Inespecífico</option>
-                                 <option value="?" @if($paciente->ecg=="?") selected @endif>?</option>
+                                 <option value="?" @if($paciente->ecg=="?") selected @endif>NO SABE</option>
                               </select>
                            </div>
                         </div>
@@ -283,8 +287,18 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                            <label for="nuevos_cambios_ecg" class="col-lg-6 text-left {{--control-label --}}">Nuevos
                            cambios</label>
                            <div class="col-lg-6">
-                              <input type="text" class="form-control" id="nuevos_cambios_ecg"
-                                 name="nuevos_cambios_ecg" value="{!! $paciente->nuevos_cambios_ecg !!}">
+                            
+
+                              <select class="form-control" id="ecg" name="ecg">
+                                 <option value=""></option>
+                                 <option value="S" @if($paciente->nuevos_cambios_ecg=="S") selected @endif>S</option>
+                                 <option value="N" @if($paciente->nuevos_cambios_ecg=="N") selected @endif>N</option>
+                                 <option value="?" @if($paciente->nuevos_cambios_ecg=="?") selected @endif>NO SABE</option>
+                                 <option value="NULL" @if($paciente->nuevos_cambios_ecg=="NULL") selected @endif>NULL</option>
+                                 
+                              </select>
+
+
                            </div>
                         </div>
                         <div class="form-group">
@@ -315,7 +329,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                      </div>
                   </div>
                </div>
-               <div class="col-lg-12">
+               <div class="col-lg-6">
                   {{--//Columna Grupo Clínico--}}
                   <div class="col-lg-12">
                      <div class="portlet box blue">
@@ -345,6 +359,8 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                                     <option value="{!! $paciente->cambio_grupo_cli !!}" selected>{!! $paciente->cambio_grupo_cli !!}</option>
                                     @endif
                                     <option value="" @if($paciente->cambio_grupo_cli=="") selected @endif></option>
+                                     <option value="?" @if($paciente->cambio_grupo_cli=="?") selected @endif>NO SABE</option>
+                                   <option value="NULL" @if($paciente->cambio_grupo_cli=="NULL") selected @endif>NULL</option>
                                  </select>
                               </div>
                            </div>
@@ -990,6 +1006,8 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                                  <option value=""> </option>
                                  <option value="S" @if($paciente->nuevos_sintomas=="S") selected @endif>Si</option>
                                  <option value="N" @if($paciente->nuevos_sintomas=="N") selected @endif>No</option>
+                                 <option value="?" @if($paciente->nuevos_sintomas=="?") selected @endif>NO SABE</option>
+                                 <option value="NULL" @if($paciente->nuevos_sintomas=="NULL") selected @endif>NULL</option>
                               </select>
                            </div>
                         </div>
@@ -1007,7 +1025,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                   </div>
                </div>
               
-               <div class="col-lg-4">
+               <div class="col-lg-6">
                   <div class="portlet box blue">
                      <div class="portlet-title">
                         <div class="caption">Radiografía</div>
@@ -1030,6 +1048,8 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                                  name="rx_torax">
                               <option value="S" @if($paciente->rx_torax =="S") selected @endif>Si</option>
                               <option value="N" @if($paciente->rx_torax =="N") selected @endif>No</option>
+                              <option value="?" @if($paciente->rx_torax =="?") selected @endif>NO SABE</option>
+                              <option value="NULL" @if($paciente->rx_torax =="NULL") selected @endif>NULL</option>
                               </select>
                            </div>
                         </div>
@@ -1059,6 +1079,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                               <option value="S" @if($paciente->cambios_rxt =="S") selected @endif>Si</option>
                               <option value="N" @if($paciente->cambios_rxt =="N") selected @endif>No</option>
                               <option value="NULL" @if($paciente->cambios_rxt =="N") selected @endif>NULL</option>
+                              <option value="?" @if($paciente->cambios_rxt =="?") selected @endif>NO SABE</option>
                               </select>
                            </div>
                         </div>

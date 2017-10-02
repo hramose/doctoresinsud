@@ -186,8 +186,7 @@
                       <div class="row">
                           <div class="form-group">
                             <div class="col-lg-10 col-lg-offset-2">
-                                <button type="reset" class="btn btn-default">Cancelar</button>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         </div>
                       </div>
