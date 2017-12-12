@@ -233,11 +233,19 @@ Historia Clínica - Nuevo paciente
                               class="col-lg-4 text-left {{--control-label --}}">Consignación</label>
                            <div class="col-lg-8">
                               <select class="form-control" id="ecg" name="ecg">
+<<<<<<< HEAD
                               <option value=""></option>
+=======
+                               <option value=""></option>
+>>>>>>> d4532f77b24b3212baa88e78969d1e8b8e207d9b
                               <option value="N" >Normal</option>
                               <option value="E" >Específico</option>
                               <option value="I" >Inespecífico</option>
                               <option value="?" >NO SABE</option>
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> d4532f77b24b3212baa88e78969d1e8b8e207d9b
                               </select>
                            </div>
                         </div>
@@ -254,10 +262,18 @@ Historia Clínica - Nuevo paciente
                            <div class="col-lg-8">
                               
                               <select class="form-control" id="nuevos_sintomas" name="nuevos_sintomas">
+<<<<<<< HEAD
                                  <option value="S" >S</option>
                                  <option value="N" >S</option>
                                  <option value="?"  >NO SABE</option>
                                  <option value="NULL"  >NULL</option>
+=======
+                                  <option value="S" >S</option>
+                                 <option value="N" >S</option>
+                                 <option value="?"  >NO SABE</option>
+                                 <option value="NULL"  >NULL</option>
+ 
+>>>>>>> d4532f77b24b3212baa88e78969d1e8b8e207d9b
 
                               </select>
                            </div>
@@ -317,13 +333,21 @@ Historia Clínica - Nuevo paciente
                                  Clínico</label>
                                  <div class="col-lg-8">
                                     <select class="form-control" id="cambio_grupo_cli" name="cambio_grupo_cli">
+<<<<<<< HEAD
                                     <option value="" > </option>
+=======
+                                     <option value="" > </option>
+>>>>>>> d4532f77b24b3212baa88e78969d1e8b8e207d9b
                                     <option value="S"  >Si</option>
                                     <option value="N" >No</option>
 
                                     <option value="?"  >NO SABE</option>
 
                                     <option value="NULL" >NULL</option>
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> d4532f77b24b3212baa88e78969d1e8b8e207d9b
                                     </select>
                                  </div>
                               </div>

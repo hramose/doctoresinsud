@@ -41,7 +41,7 @@
 
 
 <video width=700 height="440" controls>
-  <source src="http://chagas.mundosano.org/doctores/web/public/videos/admin/1-%20Admin%20Campos%20Base.mp4" type="video/mp4">
+  <source src="{{asset('videos/admin/1-%20Admin%20Campos%20Base.mp4')}}" type="video/mp4">
  Your browser does not support the video tag.
 </video>
 
