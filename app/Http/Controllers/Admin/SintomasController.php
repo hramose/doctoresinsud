@@ -60,7 +60,8 @@ class SintomasController extends Controller
      */
     public function show($id)
     {
-        //
+        $sintoma = Sintoma::whereId($id)->firstOrFail();
+        return view('backend.sintomas.show', compact('sintoma'));
     }
 
     /**
@@ -71,11 +72,13 @@ class SintomasController extends Controller
      */
     public function edit($id)
     {
-        //
+         //Edita una sede
+        $sintoma = Sintoma::whereId($id)->firstOrFail();
+        return view('backend.sintomas.edit', compact('sintoma'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage. 
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -83,7 +86,14 @@ class SintomasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $sintoma = Sintoma::whereId($id)->firstOrFail();
+        $sintoma->nombre = $request->get('nombre');
+        $sintoma->descripcion = $request->get('descripcion');
+        $sintoma->estado = $request->get('estado');
+
+        $sintoma->save();
+
+        return redirect(action('Admin\SintomasController@edit', $sintoma->id))->with('status', 'El sintoma fue actualizado!');
     }
 
     /**
@@ -94,6 +104,8 @@ class SintomasController extends Controller
      */
     public function destroy($id)
     {
-        //
+         $sintoma = Sintoma::whereId($id)->firstOrFail();
+          $sintoma->save();
+        return redirect(action('Admin\SedesController@index', $sintoma->id))->with('status', 'El sintoma fue eliminado!');
     }
 }

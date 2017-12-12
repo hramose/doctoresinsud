@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 use App\Epidemiologia;
 use App\Paciente;
+use App\Place;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -63,11 +64,30 @@ class EpidemiologiaController extends Controller
     {
         //Muestra datos socio-eco, familiares y epidemiológicos para editar o crear
         $paciente = Paciente::with('epidemiologia')->find($id_p);
+
         if(! $paciente->epidemiologia){
             $paciente->epidemiologia = new Epidemiologia();
+
+   
         }
-        //dd($paciente->epidemiologia);
-        return view('panel.epidemiologias.edit', compact('paciente'));
+ 
+           
+        $places = Place::select('name',"id")->get();
+        $placesArray=array();
+        foreach ($places as  $value) {
+             $placesArray[$value->id]=$value->name;
+        }
+
+ 
+        $placesSelected=$paciente->epidemiologia->places;
+
+        $arraySelected=array();
+
+        foreach ($placesSelected as   $ps) {
+             $arraySelected[]=$ps->id;
+        }
+          //dd($paciente->epidemiologia);
+        return view('panel.epidemiologias.edit', compact('paciente'))->with("places",$placesArray)->with("selectedPlaces",$arraySelected);
     }
 
     /**
@@ -81,6 +101,9 @@ class EpidemiologiaController extends Controller
     {
         //Actualiza o crea un nuevo registro de epidemiologia
         $epidemiologia = Epidemiologia::find($request->get('epidemiologia_id'));
+
+//dd($request->all());
+
 
         if(is_null($epidemiologia)){
             $epidemiologia = new Epidemiologia();
@@ -131,6 +154,7 @@ class EpidemiologiaController extends Controller
         $epidemiologia->obra_social = $request->get('obra_social');
         $epidemiologia->cant_conviv_trabajan = $request->get('cant_conviv_trabajan');
         $epidemiologia->antefam_muerte_sub_no = $request->get('antefam_muerte_sub_no') == 'on' ? 2 : 1;
+        $epidemiologia->antefam_muerte_sub_si = $request->get('antefam_muerte_sub_si') == 'on' ? 2 : 1;
         $epidemiologia->antefam_muerte_sub_ns = $request->get('antefam_muerte_sub_ns') == 'on' ? 2 : 1;
         $epidemiologia->antefam_muerte_sub_padre = $request->get('antefam_muerte_sub_padre') == 'on' ? 2 : 1;
         $epidemiologia->antefam_muerte_sub_madre = $request->get('antefam_muerte_sub_madre') == 'on' ? 2 : 1;
@@ -139,6 +163,7 @@ class EpidemiologiaController extends Controller
         $epidemiologia->antefam_muerte_sub_otros = $request->get('antefam_muerte_sub_otros') == 'on' ? 2 : 1;
         $epidemiologia->antefam_muerte_sub_desc = $request->get('antefam_muerte_sub_desc') == 'on' ? 2 : 1;
         $epidemiologia->antefam_afcardi_no = $request->get('antefam_afcardi_no') == 'on' ? 2 : 1;
+        $epidemiologia->antefam_afcardi_si = $request->get('antefam_afcardi_si') == 'on' ? 2 : 1;
         $epidemiologia->antefam_afcardi_ns = $request->get('antefam_afcardi_ns') == 'on' ? 2 : 1;
         $epidemiologia->antefam_afcardi_padre = $request->get('antefam_afcardi_padre') == 'on' ? 2 : 1;
         $epidemiologia->antefam_afcardi_madre = $request->get('antefam_afcardi_madre') == 'on' ? 2 : 1;
@@ -147,6 +172,7 @@ class EpidemiologiaController extends Controller
         $epidemiologia->antefam_afcardi_otros = $request->get('antefam_afcardi_otros') == 'on' ? 2 : 1;
         $epidemiologia->antefam_afcardi_desc = $request->get('antefam_afcardi_desc') == 'on' ? 2 : 1;
         $epidemiologia->antefam_chagas_no = $request->get('antefam_chagas_no') == 'on' ? 2 : 1;
+        $epidemiologia->antefam_chagas_si = $request->get('antefam_chagas_si') == 'on' ? 2 : 1;
         $epidemiologia->antefam_chagas_ns = $request->get('antefam_chagas_ns') == 'on' ? 2 : 1;
         $epidemiologia->antefam_chagas_padre = $request->get('antefam_chagas_padre') == 'on' ? 2 : 1;
         $epidemiologia->antefam_chagas_madre = $request->get('antefam_chagas_madre') == 'on' ? 2 : 1;
@@ -157,6 +183,27 @@ class EpidemiologiaController extends Controller
         $epidemiologia->embarazo = $request->get('embarazo') == 'on' ? 2 : 1;
 
         $epidemiologia->save();
+
+        $arrayPlaces=array();
+        if($request->has('places')){
+            foreach ($request->get('places') as $key ) {
+                if(!is_numeric($key)){
+                    $place= new Place();
+                    $place->name=$key;
+                    $place->save();
+                    $arrayPlaces[]= $place->id;
+
+                }else{
+                    $arrayPlaces[]=$key;
+                } 
+            }
+                    $epidemiologia->savePlaces($arrayPlaces);
+
+        }else{
+ 
+                    $epidemiologia->savePlaces($request->has('places'));
+
+        }
 
         return redirect()->action('Panel\PanelHistoriasController@verHistoria', $id)->with('status', 'Datos familiares, socio-económicos y epidemiológicos actualizados correctamente');
         

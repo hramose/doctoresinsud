@@ -23,6 +23,14 @@ class Epidemiologia extends Model
         return $this->hasOne('App\Paciente', 'id', 'id_paciente');
     }
 
+
+    public function places()
+    {
+        return $this->belongsToMany('App\Place',"places_epidemiologia","id_epidemiologia","id_place");
+
+    }
+
+
     public function setFechaDetChagasAttribute($value)
     {
         if ($value) {
@@ -49,6 +57,17 @@ class Epidemiologia extends Model
     public function getFechaCuandoVolvioEndeAttribute($value)
     {
         return  in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
+    }
+
+
+        public function savePlaces($places = [])
+    {
+        if(!empty($places))
+        {
+            $this->places()->sync($places);
+        } else {
+            $this->places()->detach();
+        }
     }
 
 }

@@ -2,8 +2,38 @@
 @section('name', 'Edita Sede')
 
 @section('content')
-    <div class="container col-md-6 col-md-offset-3">
-        <div class="well well bs-component">
+<h3 class="page-title">Borrar esta <b>Sede</b>  </h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{{ URL::to('/') }}/">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="{!! action('Admin\PagesController@home') !!}">Admin</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+
+        <li>
+            <a href="{!! action('Admin\SedesController@index') !!}">Sedes</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="#">Borrar</a>
+         </li>
+    </ul>
+</div>
+
+   <div class="portlet box grey-cascade"  >
+        <div class="portlet-title">
+
+             <div class="actions btn-set">
+                <a href="{!! action('Admin\SedesController@index') !!}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
+            </div>
+
+        </div>
+        <div class="portlet-body">
 
             <form class="form-horizontal" method="post">
 
@@ -20,8 +50,7 @@
                 {!! csrf_field() !!}
 
                 <fieldset>
-                    <legend>Editar Sede</legend>
-                    <div class="form-group">
+                     <div class="form-group">
                         <label for="nombre" class="col-lg-2 control-label">Nombre</label>
 
                         <div class="col-lg-10">

@@ -1,11 +1,8 @@
-@extends('master')
+@extends('login')
 @section('title', 'Login')
 
 @section('content')
-    <div class="container col-md-6 col-md-offset-3">
-        <div class="well well bs-component">
-
-            <form class="form-horizontal" method="post">
+    <form class="form-horizontal" method="post">
 
                 @foreach ($errors->all() as $error)
                     <p class="alert alert-danger">{{ $error }}</p>
@@ -14,35 +11,25 @@
                  {!! csrf_field() !!}
 
                 <fieldset>
-                    <legend>Login</legend>
+                    <h3>Login</h3>
 
                     <div class="form-group">
-                        <label for="email" class="col-lg-2 control-label">Email</label>
-                        <div class="col-lg-10">
-                            <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}">
-                        </div>
+                        <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                        <label class="control-label visible-ie8 visible-ie9">Email</label>
+                        <input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="Email"  id="email" name="email"  value="{{ old('email') }}"/>
                     </div>
-
                     <div class="form-group">
-                        <label for="password" class="col-lg-2 control-label">Contraseña</label>
-                        <div class="col-lg-10">
-                            <input type="password" class="form-control"  name="password">
-                        </div>
+                        <label class="control-label visible-ie8 visible-ie9">Contraseña</label>
+                        <input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="Password" name="password"/>
                     </div>
 
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="remember" > Recordarme?
-                        </label>
-                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-success uppercase">Ingresar</button>
+                        <label class="rememberme check">
+                        <input type="checkbox" name="remember" value="1"/>Remember </label>
+                     </div>
 
-                    <div class="form-group">
-                        <div class="col-lg-10 col-lg-offset-2">
-                            <button type="submit" class="btn btn-primary">Ingresar</button>
-                        </div>
-                    </div>
+                    
                 </fieldset>
             </form>
-        </div>
-    </div>
 @endsection

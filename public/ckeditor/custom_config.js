@@ -1,4 +1,7 @@
 CKEDITOR.editorConfig = function( config ) {
+	 config.extraPlugins = 'print';
+	 config.extraPlugins = 'justify,print';
+
 	config.toolbarGroups = [
 		{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
 		{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },

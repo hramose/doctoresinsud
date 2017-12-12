@@ -3,7 +3,54 @@
 @include('shared.estilos')
 
 @section('scripts')
-    <script>
+
+<style>
+
+    .static-info span{
+        cursor: pointer;
+
+    }
+
+</style>
+<script>
+
+    function showHistorial(historial){
+        console.log(historial,{{$paciente->id}},1);
+
+        showIframe('{!! action('Panel\PanelHistoriasController@historial') !!}?recurso='+{{$paciente->id}}+'&field='+historial+'&tipo=1 ',2)
+    }
+
+function chargeItemAjax(url){
+     
+    $( "#pbody-trat-modal" ).load(url, function() {
+        $("#modal-tratamientos").modal("show")
+    });
+       
+
+    
+}
+
+    $(function () {
+
+
+         $( "#pbody-estudios" ).load("{!! action('Panel\PanelHistoriasController@verTodosEstudios', $paciente->id) !!}");
+         $( "#pbody-trat" ).load("{!! action('Panel\PanelHistoriasController@verTodosTratamientos', $paciente->id) !!}");
+
+
+        $(".static-info span").hover(function (){
+            var field=$(this).data("field");
+            if(!!field){
+             $(this).attr('onClick','showHistorial("'+field+'")');
+
+             $(this).append(' <i class="fa fa-clock-o historial" onclick="showHistorial(\''+field+'\')" aria-hidden="true"></i>');
+         }
+     },function (){
+        $(".historial").remove();
+    });
+    })
+    
+
+
 
         //Handler para borrar una consulta
         $(document).on('click', '.btn-borra-consulta', function (e) {
@@ -34,21 +81,21 @@
 //            });
 //        });
 
-        $(document).on('ready', function () {
-            $("#expand-boton").on('click', function () {
+$(document).on('ready', function () {
+    $("#expand-boton").on('click', function () {
 
-                $cabecera = $("#cabecera");
+        $cabecera = $("#cabecera");
 
                 //getting the next element
                 $content = $cabecera.next();
                 //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
                 $content.slideToggle(500, function () {
-                    $content.is(":visible") ? $("#expand-boton").children('i').html("keyboard_arrow_up") : $("#expand-boton").children('i').html("keyboard_arrow_down");
+                    $content.is(":visible") ? $("#expand-boton").children('i').removeClass("fa-sort-desc").addClass("fa-sort-asc") : $("#expand-boton").children('i').removeClass("fa-sort-asc").addClass("fa-sort-desc");
                 });
             });
-            $('#modal-consulta-nueva').on('show.bs.modal', function (e) {
-                $('#limpieza').find('form')[0].reset();
-                CKEDITOR.instances.editor_descripcion.setData('');
+    $('#modal-consulta-nueva').on('show.bs.modal', function (e) {
+        $('#limpieza').find('form')[0].reset();
+        CKEDITOR.instances.editor_descripcion.setData('');
                 //$('#limpieza').find('iframe>html>body').remove();
             });
 
@@ -71,15 +118,15 @@
             //Handler confirmación de borrar consulta
             $('#submitConsulta_borrar').on('click', function (e) {
                 ajaxSubmit(
-                        $('#form-borrar-consulta'),
-                        function (data) {
-                            data = JSON.parse(data);
-                            $('#modal-consulta-borrar').modal('hide');
-                            $('#consulta_' + data).fadeOut(2000, function () {
-                                $(this).remove();
-                            });
-                        }
-                );
+                    $('#form-borrar-consulta'),
+                    function (data) {
+                        data = JSON.parse(data);
+                        $('#modal-consulta-borrar').modal('hide');
+                        $('#consulta_' + data).fadeOut(2000, function () {
+                            $(this).remove();
+                        });
+                    }
+                    );
                 e.preventDefault();
             });
 
@@ -112,47 +159,47 @@
                     return alert("El formulario contiene campos inválidos");
                 } else {
                     ajaxSubmit(
-                            $('#form-nueva-consulta'),
-                            function (data) {
-                                data = JSON.parse(data);
+                        $('#form-nueva-consulta'),
+                        function (data) {
+                            data = JSON.parse(data);
 
-                                var newConsulta = $('<div>');
-                                newConsulta.addClass('well well-lg');
-                                newConsulta.attr('id', 'consulta_' + data.id);
-                                newConsulta.html('<div class="row">\
-                                        <div class="col-lg-8">\
-                                        <p><strong>Medico: </strong>' + data.medico.name + '</p>\
+                            var newConsulta = $('<div>');
+                            newConsulta.addClass('well well-lg');
+                            newConsulta.attr('id', 'consulta_' + data.id);
+                            newConsulta.html('<div class="row">\
+                                <div class="col-lg-8">\
+                                    <p><strong>Medico: </strong>' + data.medico.name + '</p>\
                                 </div>\
                                 <div class="col-lg-4">\
-                                        <p><strong>Fecha: </strong>' + moment(data.fecha).format('DD/MM/YYYY') + '</p>\
+                                    <p><strong>Fecha: </strong>' + moment(data.fecha).format('DD/MM/YYYY') + '</p>\
                                 </div>\
+                            </div>\
+                            <div class="row">\
+                                <div class="col-lg-12">\
+                                    <p><strong>Titulo: </strong>\
+                                        <span class="titulo_consulta">' + data.titulo + '</span></p>\
+                                    </p>\
                                 </div>\
-                                <div class="row">\
-                                        <div class="col-lg-12">\
-                                        <p><strong>Titulo: </strong>\
-                                <span class="titulo_consulta">' + data.titulo + '</span></p>\
-                                        </p>\
-                                        </div>\
-                                        </div>\
-                                        <div class="row">\
-                                        <div class="col-lg-12">\
-                                        <p>\
+                            </div>\
+                            <div class="row">\
+                                <div class="col-lg-12">\
+                                    <p>\
                                         <strong>Descripción: </strong>\
-                                </p>\
-                                        <div class="desc_consulta">' + data.descripcion + '</div>\
-                                        </div>\
-                                        </div>\
-                                        <div class="row">\
-                                        <div class="col-lg-5 col-lg-offset-7">\
-                                        <a href="javascript:void(0)" class="btn btn-sm btn-raised btn-danger btn-borra-consulta" data-id="' + data.id + '" data-target="#modal-consulta-borrar" data-toggle="modal">Eliminar</a>\
-                                                        <button class="btn btn-sm btn-raised btn-primary btn-edita-consulta"\
-                                                        data-target="#modal-consulta-editar" data-toggle="modal"\
-                                                        data-href="/panel/paciente/' + data.id_paciente + '/consulta/' + data.id + '">Editar</button>\
-                                        </div>\
-                                        </div>');
+                                    </p>\
+                                    <div class="desc_consulta">' + data.descripcion + '</div>\
+                                </div>\
+                            </div>\
+                            <div class="row">\
+                                <div class="col-lg-5 col-lg-offset-7">\
+                                    <a href="javascript:void(0)" class="btn btn-sm btn-raised btn-danger btn-borra-consulta" data-id="' + data.id + '" data-target="#modal-consulta-borrar" data-toggle="modal">Eliminar</a>\
+                                    <button class="btn btn-sm btn-raised btn-primary btn-edita-consulta"\
+                                    data-target="#modal-consulta-editar" data-toggle="modal"\
+                                    data-href="/panel/paciente/' + data.id_paciente + '/consulta/' + data.id + '">Editar</button>\
+                                </div>\
+                            </div>');
 
 
-                                $("#pbody-consultas").prepend(newConsulta);
+                            $("#pbody-consultas").prepend(newConsulta);
 
                                 //agregado
                                 $("#fecha_ult_consulta").val( moment(data.fecha).format('DD/MM/YYYY'));
@@ -160,7 +207,7 @@
                                 $("#modal-consulta-nueva").modal('hide');
                                 $("#pbody-consultas").scrollTop(0);
                             }
-                    );
+                            );
                     e.preventDefault();
                 }
             });
@@ -168,13 +215,17 @@
         });
     </script>
 
-    <script src="../../../ckeditor/ckeditor.js"></script>
+    <script src="{{asset("ckeditor/ckeditor.js")}}"></script>
     <script>
         CKEDITOR.replace('editor_descripcion', {
-            customConfig: '../../../ckeditor/custom_config.js'
+            customConfig: '{{asset("ckeditor/custom_config.js")}}'
         });
         CKEDITOR.replace('editor_descripcion_edit', {
-            customConfig: '../../../ckeditor/custom_config.js'
+            customConfig: '{{asset("ckeditor/custom_config.js")}}'
+        });
+
+        CKEDITOR.replace('editor_imprimible', {
+            customConfig: '{{asset("ckeditor/custom_config_imp.js")}}'
         });
     </script>
 
@@ -188,1496 +239,1464 @@
              onSuccess : function($form) {
              alert('The form '+$form.attr('id')+' is valid!');
              return false; // Will stop the submission of the form
-             },*/
-        });
-    </script>
+         },*/
+     });
+ </script>
 
-    @if(session('status'))
+ @if(session('status'))
 
-        <script>
-            $(document).ready(function () {
+ <script>
+    $(document).ready(function () {
 
-                toastr.options = {
-                    "closeButton": true,
-                    "debug": false,
-                    "newestOnTop": false,
-                    "progressBar": false,
-                    "positionClass": "toast-bottom-right",
-                    "preventDuplicates": false,
-                    "onclick": null,
-                    "showDuration": "1000",
-                    "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
-                    "showEasing": "swing",
-                    "hideEasing": "linear",
-                    "showMethod": "fadeIn",
-                    "hideMethod": "fadeOut"
-                };
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "1000",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
 
-                toastr["success"]("{{ session('status') }}");
+        toastr["success"]("{{ session('status') }}");
 
-            });
-        </script>
-    @endif
+    });
+</script>
+@endif
 
 @endsection
 
 @section('title')
-    Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
+Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
 @endsection
 
 @section('content')
-    <div class="panel panel-primary" style="margin-top: -20px   ">
-        <div class="panel-heading">
-            <div class="row">
-                <div class="col-lg-7">
-                    <h2 class="text-left" style="border-radius: 0">Historia Clínica
-                        de {!! $paciente->apellido . ", " . $paciente->nombre . " (H.C.:" . $paciente->id_hc . ")"!!}</h2>
-                </div>
-                {{--                <div class="col-lg-2">
-                                    <a href="#" class="btn btn-raised btn-success pull-right">Editar Historia</a>
-                                </div>--}}
-                <div class="col-lg-3">
-                    <div class="btn-group btn-group-justified btn-group-raised">
-                        <a href="{!! action('Panel\EpidemiologiaController@edit', $paciente->id) !!}" class="btn btn-raised btn-default"
-                           style="background-color: #EEEEEE">Epidemiología</a>
-                        <a href="{!! action('Panel\PanelHistoriasController@edit', $paciente->id) !!}"
-                           class="btn btn-raised btn-success">Editar Historia</a>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <a href="#" class="btn btn-raised btn-info pull-right">Versión imprimible</a>
-                </div>
+
+
+
+<h3 class="page-title">Historia Clínica
+    de <b>{!! $paciente->apellido . ", " . $paciente->nombre . " (H.C.:" . $paciente->id_hc . ")"!!}</b>  </h3>
+    <div class="page-bar">
+        <ul class="page-breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="{{ URL::to('/') }}/">Home</a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <a href="{{ action('Panel\PanelHistoriasController@index') }}">Historias Clínicas</a>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <a href="#">Paciente</a>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="portlet box grey-cascade"  >
+        <div class="portlet-title">                                
+            <div class="actions btn-set">
+                <a href="{{ action('Panel\PanelHistoriasController@index') }}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
             </div>
         </div>
-        <div class="panel-body">
+        <div class="portlet-body">
             <form class="form-horizontal" method="post">
 
                 @foreach ($errors->all() as $error)
-                    <p class="alert alert-danger">{{ $error }}</p>
+                <p class="alert alert-danger">{{ $error }}</p>
                 @endforeach
 
-                {{--   @if (session('status'))
-                       <div class="alert alert-success">
-                           {{ session('status') }}
-                       </div>
-                   @endif
-   --}}
+                
                 <input type="hidden" name="_token" value="{!! csrf_token() !!}">
                 {{--Cabecera - Siempre visible--}}
-                <div id="cabecera">
+                <div id="cabecera" class="col-lg-12">
+
                     <div class="row">
-                        {{--Columna Documento y Seguimiento--}}
-                        {{--<div class="form-group">--}}
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <label for="tipo_doc" class="col-lg-2 text-left{{-- control-label --}} ">Tipo
-                                        Documento</label>
-                                    <div class="col-lg-1">
-                                        <input type="text" class="form-control" id="tipo_doc" name="tipo_doc"
-                                               value="{!! $paciente->tipo_doc !!}" readonly>
+                        <div class="col-md-6">
+                            <div class="btn-group">
+                                <a href="{!! action('Panel\PanelHistoriasController@edit', $paciente->id) !!}"
+                                   class="btn btn-raised btn-success">Editar Historia</a>
+                               </div>
+                           </div>
+                           <div class="col-md-3">
+                            <a href="{!! action('Panel\EpidemiologiaController@edit', $paciente->id) !!}" class="btn btn-raised btn-default"
+                                >Epidemiología</a>
+                            </a>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="btn-group pull-right">
+                               <a href="javascript:imprimir()" class="btn btn-raised btn-info pull-right">Versión imprimible</a>
+                           </div>
+                       </div>
+                   </div>
+
+                   <hr/>
+
+
+                   <div class="row">
+                    {{--Columna Documento y Seguimiento--}}
+                    <div class="col-lg-12">
+                     <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="row  ">
+
+                                <div class="col-lg-3">Tipo Documento 
+                                    <b class="value">
+                                     @if($paciente->tipo_doc =="DNI") Documento Único @endif
+                                     @if($paciente->tipo_doc =="LE") Libreta de Enrolamiento @endif
+                                     @if($paciente->tipo_doc =="LC") Libreta Cívica @endif
+                                     @if($paciente->tipo_doc =="OTRO") Otro @endif
+                                 </b>
+                             </div>
+
+                             <div class="col-lg-2">Nro. Documento  <b class="value">{!! $paciente->numero_doc !!} </b>
+                             </div>
+                             <div class="col-lg-2">
+                                ¿Vivo?  <b class="value"> @if($paciente->vivo =="S") Si @elseif($paciente->vivo=="N") No @else {!! $paciente->vivo  !!} @endif </b>
+                            </div>
+                            <div class="col-lg-2">
+                                <a type="link"   class="btn btn-raised btn-default" onclick="showIframe('{!! action('Panel\TelefonosController@index', $paciente->id) !!}',1)"> <i class="fa fa-phone" aria-hidden="true"></i> Teléfonos</a>
+                            </div>
+                            <div class="col-lg-2 ">
+                                 <a type="link"   class="btn btn-raised btn-default" onclick="showIframe('{!! action('Panel\DireccionesController@index', $paciente->id) !!}',1)"> <i class="fa fa-map-signs" aria-hidden="true"></i> Direcciones</a>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4">
+             <div class="row">
+                <div class="col-lg-12">
+                    <div class="portlet box blue">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                Seguimiento
+                            </div>
+                        </div>
+                        <div class="portlet-body">
+                            <div class="row static-info">
+                                <span for="fecha_nac"   class="col-lg-3  ">Fecha Nac.</span>
+                                <div class="col-lg-3 value">
+                                  @if($paciente->fecha_nac){!! $paciente->fecha_nac->format('d/m/Y') !!}@endif
+                              </div>
+                              <span for="edad_ing"  class="col-lg-3 ">Edad al
+                                ingreso</span>
+                                <div class="col-lg-3 value">
+                                    @if($paciente->fecha_alta and $paciente->fecha_nac){!! $paciente->fecha_alta->diffInYears($paciente->fecha_nac) !!}@else 0 @endif
+                                </div>
+                            </div>
+                            <div class="row static-info">
+                                <span for="fecha_alta" class="col-lg-3  ">Fecha Ing.</span>
+                                    <div class="col-lg-3 value">
+                                       @if($paciente->fecha_alta){!! $paciente->fecha_alta->format('d/m/Y') !!}@endif
+                                   </div>
+                                   <span for="anios_seg" class="col-lg-3 ">Años
+                                    Seguimiento.</span>
+                                    <div class="col-lg-3 value"   data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+                                        @if($paciente->fecha_alta){!! \Carbon\Carbon::now()->diffInYears($paciente->fecha_alta) !!}@endif
                                     </div>
-                                    {{--</div>--}}
-                                    {{--<div class="form-group">--}}
-                                    <label for="numero_doc" class="col-lg-2 text-left{{-- control-label --}}">Nro.
-                                        Documento</label>
-                                    <div class="col-lg-2">
-                                        <input type="text" class="form-control" id="numero_doc" name="numero_doc"
-                                               value="{!! $paciente->numero_doc !!}" readonly>
-                                    </div>
-                                    <div class="col-lg-1 col-lg-offset-1">
-                                        <a href="{!! action('Panel\TelefonosController@index', $paciente->id) !!}" class="btn btn-raised btn-default"
-                                           style="background-color: #EEEEEE">Teléfonos</a>
-                                    </div>
-                                    <div class="col-lg-1 col-lg-offset-1">
-                                        <a href="{!! action('Panel\DireccionesController@index', $paciente->id) !!}" class="btn btn-raised btn-default"
-                                           style="background-color: #EEEEEE">Direcciones</a>
+                                </div>
+                                <div class="row static-info ">
+                                    <span for="fecha_ult_consulta" class="col-lg-3  ">Fecha
+                                        Ult.
+                                        Consulta</span>
+                                        <div class="col-lg-3 value">
+                                            @if(!$consultas->isEmpty()){!! \Carbon\Carbon::parse($consultas->max('fecha'))->format('d/m/Y') !!}@elseif($paciente->fecha_ult_consulta){!! $paciente->fecha_ult_consulta->format('d/m/Y') !!}@endif
+                                        </div>
+                                        <span for="proxima_cita" data-field="proxima_cita" class="col-lg-3  ">Próxima
+                                            Cita</span>
+                                            <div class="col-lg-3 value">
+                                                @if(!$consultas->isEmpty()){!! \Carbon\Carbon::parse($consultas->max('proxima_cita'))->format('d/m/Y') !!}@elseif($paciente->proxima_cita){!! $paciente->proxima_cita->format('d/m/Y') !!}@endif
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-4">
-                            {{--</div>--}}
-                            <div class="row">
+                    <div class="col-lg-4">
+                        <div class="portlet box blue">
+                         <div class="portlet-title">
+                            <div class="caption">
+                                ECG
+                            </div>
+                        </div>
+
+                        <div class="portlet-body ">
+                            <div class="row static-info">
+                                <span for="ecg" data-field="ecg"
+                                class="col-lg-8 text-left {{--control-span --}}">Consignación</span>
+                                <div class="col-lg-4 value">
+                                   @if($paciente->ecg=="N") Normal @elseif($paciente->ecg=="E") Específico @elseif($paciente->ecg == "I") Inespecífico @else {!! $paciente->ecg !!} @endif
+                               </div>
+                           </div>
+                           <div class="row static-info">
+                            <span for="tipo_ecg" data-field="tipo_ecg"
+                            class="col-lg-8 text-left {{--control-span --}}">Descripción</span>
+                            <div class="col-lg-4 value">
+                               {!! $paciente->tipo_ecg !!}
+                           </div>
+                       </div>
+                       <div class="row static-info">
+                        <span for="nuevos_cambios_ecg" data-field="nuevos_cambios_ecg"
+                        class="col-lg-8 text-left {{--control-span --}}">Nuevos
+                        cambios</span>
+                        <div class="col-lg-4 value">
+                          {!! $paciente->nuevos_cambios_ecg !!}
+                        </div>
+                  </div>
+                  <div class="row static-info">
+                    <span for="fecha_cambios_ecg" data-field="fecha_cambios_ecg"
+                    class="col-lg-8 text-left {{--control-span --}}">Fecha
+                    del cambio</span>
+                    <div class="col-lg-4 value">
+                        @if($paciente->fecha_cambios_ecg){!! $paciente->fecha_cambios_ecg->format('d/m/Y') !!}@endif
+                    </div>
+                </div>
+                <div class="row static-info">
+                    <span for="tipo_cambio_ecg" data-field="tipo_cambio_ecg" class="col-lg-8 text-left {{--control-span --}}">Tipo
+                        de cambio</span>
+                        <div class="col-lg-4 value">
+                           {!! $paciente->tipo_cambio_ecg !!}
+                       </div>
+                   </div>
+                   <div class="row static-info">
+                    <span for="obs_ecg" data-field="obs_ecg"
+                    class="col-lg-8 text-left {{--control-span --}}">Observación</span>
+                    <div class="col-lg-9 value">
+                        {!! $paciente->obs_ecg !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="col-lg-4">
+        {{--//Columna Grupo Clínico--}}
+        
+        
+        <div class="col-lg-12">
+            <div class="portlet box blue">
+                <div class="portlet-title">
+                    <div class="caption">
+                        Grupo Clínico
+                    </div>
+                </div>
+            <div class="portlet-body">
+                <div class="row static-info">
+                    <span for="grupo_clinico_ing" data-field="grupo_clinico_ing" class="col-lg-8  ">Grupo Clínico
+                        al
+                        Ingreso</span>
+                        <div class="col-lg-4 value">
+                           {!! $paciente->grupo_clinico_ing !!}
+                       </div>
+                   </div>
+                   <div class="row static-info">
+                    <span for="cambio_grupo_cli" data-field="cambio_grupo_cli" class="col-lg-8 ">Cambio en el
+                        Grupo
+                        Clínico</span>
+                        <div class="col-lg-4 value">
+                            @if($paciente->cambio_grupo_cli=="S") Si @elseif($paciente->cambio_grupo_cli=="N") No @endif
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <span for="fecha_cambio_gcli" data-field="fecha_cambio_gcli" class="col-lg-8 ">Fecha Cambio
+                            Grupo
+                            Clínico</span>
+                            <div class="col-lg-4 value">
+                               @if($paciente->fecha_cambio_gcli) {!! $paciente->fecha_cambio_gcli->format('d/m/Y') !!} @endif
+                           </div>
+                       </div>
+                       <div class="row static-info">
+                        <span for="nuevo_grupo_cli" data-field="nuevo_grupo_cli" class="col-lg-8 ">Nuevo Grupo
+                            Clínico</span>
+                            <div class="col-lg-4 value">
+                                {!! $paciente->nuevo_grupo_cli !!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        @if($paciente->vivo =="N")
+        <div class="col-lg-12">
+            <div class="row static-info">
+                <span for="nuevo_grupo_cli" data-field="nuevo_grupo_cli" class="col-lg-2 ">¿Causa muerte?</span>
+                <div class="col-lg-10 value">
+                    {!! $paciente->causa_muerte !!}
+                </div>
+            </div>
+        </div>
+        @endif 
+    </div>
+</div>
+{{--Detalles - Se ocultan y solo se muestran cuando el usuario decide--}}
+<div id="detalles">
+    <div class="row">
+        <div class="col-lg-4">
+            {{--Nuevo--}}
+            <div class="portlet box blue">
+             <div class="portlet-title">
+                <div class="caption">
+                    Seguimiento
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="row static-info">
+                    <span for="trat_bnz" data-field="trat_bnz" class="col-lg-8 text-left {{--control-span --}}">Tratamiento
+                        con Benznidazol</span>
+                        <div class="col-lg-4 value">
+                            @if($paciente->trat_bnz == 2) SI @else NO @endif
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <span for="fecha_ini_trat_bnz" data-field="fecha_ini_trat_bnz" 
+                        class="col-lg-8 text-left {{--control-span --}}">Fecha
+                        Inicio Tratamiento</span>
+                        <div class="col-lg-4 value">
+                          @if($paciente->fecha_ini_trat_bnz){!! $paciente->fecha_ini_trat_bnz->format('d/m/Y') !!}@endif
+                      </div>
+                  </div>
+                  <div class="row static-info">
+                    <span for="efectos_adv_bnz"  data-field="efectos_adv_bnz"  class="col-lg-8 text-left {{--control-span --}}">Efectos
+                        Adversos</span>
+                        <div class="col-lg-4 value">
+                            @if($paciente->efectos_adv_bnz == 2) SI @else NO @endif
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <span for="efec_rash_bnz"  data-field="efec_rash_bnz"  class="col-lg-8 text-left {{--control-span --}}">Presenta
+                            rash cutáneo</span>
+                            <div class="col-lg-4 value">
+                              @if($paciente->efec_rash_bnz == 2) SI @else NO @endif
+                          </div>
+                      </div>
+                      <div class="row static-info">
+                        <span for="efec_intgas_bnz" data-field="efec_intgas_bnz" class="col-lg-8 text-left {{--control-span --}}">Presenta
+                            intolerancia gástrica/digestiva</span>
+                            <div class="col-lg-4 value">
+                              @if($paciente->efec_intgas_bnz == 2) SI @else NO
+                              @endif
+                          </div>
+                      </div>
+                      <div class="row static-info">
+                        <span for="efec_afhep_bnz" data-field="efec_afhep_bnz" class="col-lg-8 text-left {{--control-span --}}">Presenta
+                            afectación hepática</span>
+                            <div class="col-lg-4 value">
+                              @if($paciente->efec_afhep_bnz == 2) SI @else NO  @endif
+                          </div>
+                      </div>
+                      <div class="row static-info">
+                        <span for="efec_afneur_bnz" data-field="efec_afneur_bnz"  class="col-lg-8 text-left {{--control-span --}}">Presenta
+                            afectación neurológica</span>
+                            <div class="col-lg-4 value">
+                               @if($paciente->efec_afneur_bnz == 2) SI @else NO @endif
+                           </div>
+                       </div>
+                       <div class="row static-info">
+                        <span for="efec_afhem_bnz" data-field="efec_afhem_bnz" class="col-lg-8 text-left {{--control-span --}}">Presenta
+                            afectación hematológica</span>
+                            <div class="col-lg-4 value">
+                                @if($paciente->efec_afhem_bnz == 2) SI @else NO @endif
+                            </div>
+                        </div>
+                        <div class="row static-info">
+                            <span for="susp_bnz" data-field="susp_bnz" class="col-lg-8 text-left {{--control-span --}}">Suspensión
+                                del tratamiento</span>
+                                <div class="col-lg-4 value">
+                                 @if($paciente->susp_bnz == 2) SI @else NO  @endif
+                             </div>
+                         </div>
+                         <div class="row static-info">
+                            <span for="efec_otros_bnz" data-field="efec_otros_bnz" class="col-lg-8 text-left {{--control-span --}}">Otros
+                                efectos adversos</span>
+                                <div class="col-lg-4 value">
+                                    {!! $paciente->efec_otros_bnz !!}
+                                </div>
+                            </div>
+                        </div> 
+                        {{--Fin Nuevo--}}
+                    </div>
+                    
+                </div>
+                <div class="col-lg-4">
+                    <div class="portlet box blue">
+                        <div class="portlet-title">
+                            <div class="caption">
+                                Tratamiento con Nifurtimox
+                            </div>
+                        </div>
+
+                        <div class="portlet-body">
+                            <div class="row static-info">
+                                <span for="trat_nifur" data-field="trat_nifur" class="col-lg-8 text-left {{--control-span --}}">Tratamiento
+                                    con Nifurtimox</span>
+                                    <div class="col-lg-4 value">
+                                        @if($paciente->trat_nifur == 2) SI @else NO @endif
+                                    </div>
+                                </div>
+                                <div class="row static-info">
+                                    <span for="fecha_ini_trat_nifur" data-field="fecha_ini_trat_nifur"
+                                    class="col-lg-8 text-left {{--control-span --}}">Fecha
+                                    Inicio Tratamiento</span>
+                                    <div class="col-lg-4 value">
+                                       @if($paciente->fecha_ini_trat_nifur){!! $paciente->fecha_ini_trat_nifur->format('d/m/Y') !!}@endif
+                                   </div>
+                               </div>
+                               <div class="row static-info">
+                                <span for="efectos_adv_nifur" data-field="efectos_adv_nifur"
+                                class="col-lg-8 text-left {{--control-span --}}">Efectos
+                                Adversos</span>
+                                <div class="col-lg-4 value">
+                                    @if($paciente->efectos_adv_nifur == 2) SI @else NO @endif
+                                </div>
+                            </div>
+                            <div class="row static-info">
+                                <span for="efec_rash_nifur" data-field="efec_rash_nifur" class="col-lg-8 text-left {{--control-span --}}">Presenta
+                                    rash cutáneo</span>
+                                    <div class="col-lg-4 value">
+                                        @if($paciente->efec_rash_nifur == 2) SI @else NO
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="row static-info">
+                                    <span for="efec_intgas_nifur" data-field="efec_intgas_nifur"
+                                    class="col-lg-8 text-left {{--control-span --}}">Presenta
+                                    intolerancia gástrica/digestiva</span>
+                                    <div class="col-lg-4 value">
+                                      @if($paciente->efec_intgas_nifur == 2) SI @else NO
+                                      @endif
+                                  </div>
+                              </div>
+                              <div class="row static-info">
+                                <span for="efec_afhep_nifur" data-field="efec_afhep_nifur" class="col-lg-8 text-left {{--control-span --}}">Presenta
+                                    afectación hepática</span>
+                                    <div class="col-lg-4 value">
+                                     @if($paciente->efec_afhep_nifur == 2) SI @else NO
+                                     @endif
+                                 </div>
+                             </div>
+                             <div class="row static-info">
+                                <span for="efec_afneur_nifur" data-field="efec_afneur_nifur"
+                                class="col-lg-8 text-left {{--control-span --}}">Presenta
+                                afectación neurológica</span>
+                                <div class="col-lg-4 value">
+                                   @if($paciente->efec_afneur_nifur == 2) SI @else NO
+                                   @endif
+                               </div>
+                           </div>
+                           <div class="row static-info">
+                            <span for="efec_afhem_nifur" data-field="efec_afhem_nifur" class="col-lg-8 text-left {{--control-span --}}">Presenta
+                                afectación hematológica</span>
+                                <div class="col-lg-4 value">
+                                 @if($paciente->efec_afhem_nifur == 2) SI @else NO
+                                 @endif
+                             </div>
+                         </div>
+                         <div class="row static-info">
+                            <span for="susp_nifur" data-field="susp_nifur" class="col-lg-8 text-left {{--control-span --}}">Suspensión
+                                del tratamiento</span>
+                                <div class="col-lg-4 value">
+                                    @if($paciente->susp_nifur == 2) SI @else NO
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row static-info">
+                                <span for="efec_otros_nifur"  data-field="efec_otros_nifur" class="col-lg-8 text-left {{--control-span --}}">Otros
+                                    efectos adversos</span>
+                                    <div class="col-lg-4 value">
+                                       {!! $paciente->efec_otros_nifur !!}
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+
+                   </div>
+                   <div class="col-lg-4">
+                    {{--Observaciones Tratamiento Etiológico--}}
+                    <div class="portlet box blue">
+
+                        <div class="portlet-title">
+                            <div class="caption">
+                                Otros efectos adverso
+                            </div>
+                        </div>
+
+                        <div class="portlet-body">
+
+                            <div class="row static-info">
                                 <div class="col-lg-12">
-                                    <div class="panel panel-default">
-                                        <div class="panel-heading">Seguimiento</div>
-                                        <div class="panel-body">
-                                            <div class="row">
-                                                <label for="fecha_nac" class="col-lg-3 control-label">Fecha Nac.</label>
-                                                <div class="col-lg-3">
-                                                    <input type="date" class="form-control" id="fecha_nac"
-                                                           name="fecha_nac"
-                                                           value="@if($paciente->fecha_nac){!! $paciente->fecha_nac->format('d/m/Y') !!}@endif"
-                                                           readonly>
-                                                </div>
-                                                <label for="edad_ing" class="col-lg-3 control-label">Edad al
-                                                    ingreso</label>
-                                                <div class="col-lg-3">
-                                                    <input type="number" class="form-control" id="edad_ing"
-                                                           name="edad_ing"
-                                                           value="@if($paciente->fecha_alta and $paciente->fecha_nac){!! $paciente->fecha_alta->diffInYears($paciente->fecha_nac) !!}@else 0 @endif"
-                                                           readonly>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="fecha_alta" class="col-lg-3 control-label">Fecha
-                                                    Ing.</label>
-                                                <div class="col-lg-3">
-                                                    <input type="date" class="form-control" id="fecha_alta"
-                                                           name="fecha_alta"
-                                                           value="@if($paciente->fecha_alta){!! $paciente->fecha_alta->format('d/m/Y') !!}@endif"
-                                                           readonly>
-                                                </div>
-                                                <label for="anios_seg" class="col-lg-3 control-label">Años
-                                                    Seguimiento.</label>
-                                                <div class="col-lg-3">
-                                                    <input type="number" class="form-control" id="anios_seg"
-                                                           name="anios_seg"
-                                                           value="@if($paciente->fecha_alta){!! \Carbon\Carbon::now()->diffInYears($paciente->fecha_alta) !!}@endif"
-                                                           readonly>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="fecha_ult_consulta" class="col-lg-3 control-label">Fecha
-                                                    Ult.
-                                                    Consulta</label>
-                                                <div class="col-lg-3">
-                                                    <input type="date" class="form-control" id="fecha_ult_consulta"
-                                                           name="fecha_ult_consulta"
-                                                           {{--value="@if($paciente->fecha_ult_consulta){!! $paciente->fecha_ult_consulta->format('d/m/Y') !!}@endif"--}}
-                                                           value="@if(!$consultas->isEmpty()){!! \Carbon\Carbon::parse($consultas->max('fecha'))->format('d/m/Y') !!}@elseif($paciente->fecha_ult_consulta){!! $paciente->fecha_ult_consulta->format('d/m/Y') !!}@endif"
-                                                           readonly>
-                                                </div>
-                                                <label for="proxima_cita" class="col-lg-3 control-label">Próxima
-                                                    Cita</label>
-                                                <div class="col-lg-3">
-                                                    <input type="date" class="form-control" id="proxima_cita"
-                                                           name="proxima_cita"
-                                                           value="@if(!$consultas->isEmpty()){!! \Carbon\Carbon::parse($consultas->max('proxima_cita'))->format('d/m/Y') !!}@elseif($paciente->proxima_cita){!! $paciente->proxima_cita->format('d/m/Y') !!}@endif"
-                                                           readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {{--                                   <fieldset style="border: solid 1px black">
-                                                                           <legend>Seguimiento</legend>
+                                    <span for="trat_etio_obs"  data-field="trat_etio_obs" class="col-lg-8 text-left {{--control-span --}}">Otros
+                                        efectos adversos</span>
+                                        <br><br>
 
-                                                                       </fieldset>--}}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">ECG</div>
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <label for="ecg"
-                                               class="col-lg-8 text-left {{--control-label --}}">Consignación</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="ecg"
-                                                   name="ecg"
-                                                   value="@if($paciente->ecg=="N") Normal @elseif($paciente->ecg=="E") Específico @elseif($paciente->ecg == "I") Inespecífico @else {!! $paciente->ecg !!} @endif"
-                                                   readonly>
-                                        </div>
+                                        <textarea class="form-control" name="trat_etio_obs" id="trat_etio_obs" cols="30"
+                                        rows="15" readonly></textarea>
                                     </div>
-                                    <div class="row">
-                                        <label for="tipo_ecg"
-                                               class="col-lg-8 text-left {{--control-label --}}">Descripción</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="tipo_ecg"
-                                                   name="tipo_ecg" value="{!! $paciente->tipo_ecg !!}"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="nuevos_cambios_ecg"
-                                               class="col-lg-8 text-left {{--control-label --}}">Nuevos
-                                            cambios</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="nuevos_cambios_ecg"
-                                                   name="nuevos_cambios_ecg"
-                                                   value="{!! $paciente->nuevos_cambios_ecg !!}"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="fecha_cambios_ecg"
-                                               class="col-lg-8 text-left {{--control-label --}}">Fecha
-                                            del cambio</label>
-                                        <div class="col-lg-4">
-                                            <input type="date" class="form-control" id="fecha_cambios_ecg"
-                                                   name="fecha_cambios_ecg"
-                                                   value="@if($paciente->fecha_cambios_ecg){!! $paciente->fecha_cambios_ecg->format('d/m/Y') !!}@endif"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="tipo_cambio_ecg" class="col-lg-8 text-left {{--control-label --}}">Tipo
-                                            de cambio</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="tipo_cambio_ecg"
-                                                   name="tipo_cambio_ecg" value="{!! $paciente->tipo_cambio_ecg !!}"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="obs_ecg"
-                                               class="col-lg-3 text-left {{--control-label --}}">Observación</label>
-                                        <div class="col-lg-9">
-                                        <textarea class="form-control" name="obs_ecg" id="obs_ecg" cols="30"
-                                                  rows="2" readonly>{!! $paciente->obs_ecg !!}</textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {{--                      <fieldset class="col-lg-12" style="border: solid 1px black;">
-                                                      <legend>ECG</legend>
-
-                                                  </fieldset>--}}
-                        </div>
-                        <div class="col-lg-3">
-                            {{--//Columna Grupo Clínico--}}
-                            <div class="col-lg-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">Grupo Clínico</div>
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <label for="grupo_clinico_ing" class="col-lg-8 control-label">Grupo Clínico
-                                                al
-                                                Ingreso</label>
-                                            <div class="col-lg-4">
-                                                <input type="text" class="form-control" id="grupo_clinico_ing"
-                                                       name="grupo_clinico_ing"
-                                                       value="{!! $paciente->grupo_clinico_ing !!}"
-                                                       readonly>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="cambio_grupo_cli" class="col-lg-8 control-label">Cambio en el
-                                                Grupo
-                                                Clínico</label>
-                                            <div class="col-lg-4">
-                                                <input type="text" class="form-control" id="cambio_grupo_cli"
-                                                       name="cambio_grupo_cli"
-                                                       value="@if($paciente->cambio_grupo_cli=="S") Si @elseif($paciente->cambio_grupo_cli=="N") No @endif"
-                                                       readonly>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="fecha_cambio_gcli" class="col-lg-8 control-label">Fecha Cambio
-                                                Grupo
-                                                Clínico</label>
-                                            <div class="col-lg-4">
-                                                <input type="date" class="form-control" id="fecha_cambio_gcli"
-                                                       name="fecha_cambio_gcli"
-                                                       value="@if($paciente->fecha_cambio_gcli) {!! $paciente->fecha_cambio_gcli->format('d/m/Y') !!} @endif"
-                                                       readonly>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="nuevo_grupo_cli" class="col-lg-8 control-label">Nuevo Grupo
-                                                Clínico</label>
-                                            <div class="col-lg-4">
-                                                <input type="text" class="form-control" id="nuevo_grupo_cli"
-                                                       name="nuevo_grupo_cli" value="{!! $paciente->nuevo_grupo_cli !!}"
-                                                       readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{--                                <fieldset style="border: solid 1px black;">
-                                                                    <legend>Grupo Clínico</legend>
-
-                                                                </fieldset>--}}
-                            </div>
-                        </div>
-                        <div class="col-lg-1">
-                            {{--//Columna Estado Paciente--}}
-                            <div class="col-lg-12">
-                                <div class="row">
-                                    <label for="vivo" class="col-lg-12 control-label">¿Vivo?</label>
-                                    <div class="col-lg-12">
-                                        <input type="text" class="form-control" id="vivo" name="vivo"
-                                               value="@if($paciente->vivo =="S") Si @elseif($paciente->vivo=="N") No @else {!! $paciente->vivo  !!} @endif"
-                                               readonly>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <label for="causa_muerte" class="col-lg-12 control-label">¿Causa muerte?</label>
-                                    <div class="col-lg-12">
-                                        <input type="text" class="form-control" id="causa_muerte" name="causa_muerte"
-                                               value="{!! $paciente->causa_muerte !!}" readonly>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {{--Detalles - Se ocultan y solo se muestran cuando el usuario decide--}}
-                <div id="detalles">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    Patologías
+                                </div>
+                            </div>
+
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="row static-info">
+                                            <span for="sin_patologia"  data-field="sin_patologia"
+                                            class="col-lg-8 text-left {{--control-span --}}">Paciente sin
+                                            patología asociada</span>
+                                            <div class="col-lg-4 value">
+                                             @if($paciente->sin_patologia == 2) SI @else NO
+                                             @endif
+                                         </div>
+                                     </div>
+                                     <div class="row static-info">
+                                        <span for="tuberculosis" data-field="tuberculosis"
+                                        class="col-lg-8 text-left {{--control-span --}}">Tuberculosis</span>
+                                        <div class="col-lg-4 value">
+                                          @if($paciente->tuberculosis == 2) SI @else NO
+                                          @endif
+                                      </div>
+                                  </div>
+                                  <div class="row static-info">
+                                    <span for="epoc" data-field="epoc"
+                                    class="col-lg-8 text-left {{--control-span --}}">E.P.O.C.</span>
+                                    <div class="col-lg-4 value">
+                                        @if($paciente->epoc == 2) SI @else NO
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="row static-info">
+                                    <span for="dbt" data-field="dbt"
+                                    class="col-lg-8 text-left {{--control-span --}}">Diabetes</span>
+                                    <div class="col-lg-4 value">
+                                        @if($paciente->dbt == 2) SI @else NO
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="row static-info">
+                                    <span for="asintomatico"  data-field="asintomatico"
+                                    class="col-lg-8 text-left {{--control-span --}}">Asintomático</span>
+                                    <div class="col-lg-4 value">
+                                        @if($paciente->asintomatico == 2) SI @else NO
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="row static-info">
+                                    <span for="palpitaciones" data-field="palpitaciones"
+                                    class="col-lg-8 text-left {{--control-span --}}">Palpitaciones</span>
+                                    <div class="col-lg-4 value">
+                                     @if($paciente->palpitaciones == 2) SI @else NO
+                                     @endif
+                                 </div>
+                             </div>
+                             <div class="row static-info">
+                                <span for="angor" data-field="angor"
+                                class="col-lg-8 text-left {{--control-span --}}">Angor</span>
+                                <div class="col-lg-4 value">
+                                    @if($paciente->angor == 2) SI @else NO  
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="row static-info">
+                                <span for="colageno" data-field="colageno" class="col-lg-8 text-left {{--control-span --}}">Colagenopatías</span>
+                                <div class="col-lg-4 value">
+                                  @if($paciente->colageno == 2) SI @else NO
+                                  @endif
+                              </div>
+                          </div>
+                          <div class="row static-info">
+                            <span for="obesidad" data-field="obesidad" class="col-lg-8 text-left {{--control-span --}}">Obesidad
+                                mórbida</span>
+                                <div class="col-lg-4 value">
+                                   @if($paciente->obesidad == 2) SI @else NO
+                                   @endif
+                               </div>
+                           </div>
+                           <div class="row static-info">
+                            <span for="alcoholismo" data-field="alcoholismo" 
+                            class="col-lg-8 text-left {{--control-span --}}">Alcoholismo</span>
+                            <div class="col-lg-4 value">
+                                @if($paciente->alcoholismo == 2) SI @else NO 
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row static-info">
+                            <span for="acv" data-field="acv"  class="col-lg-8 text-left {{--control-span --}}">Accidente
+                                Cerebrovascular</span>
+                                <div class="col-lg-4 value">
+                                    @if($paciente->acv == 2) SI @else NO
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row static-info">
+                                <span for="disnea" data-field="disnea"
+                                class="col-lg-8 text-left {{--control-span --}}">Disnea</span>
+                                <div class="col-lg-4 value">
+                                    @if($paciente->disnea == 2) SI @else NO
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="row static-info">
+                                <span for="disnea1" data-field="disnea1" class="col-lg-8 text-left {{--control-span --}}">Disnea
+                                    Clase Funcional I</span>
+                                    <div class="col-lg-4 value">
+                                       @if($paciente->disnea1 == 2) SI @else NO
+                                       @endif
+                                   </div>
+                               </div>
+                               <div class="row static-info">
+                                <span for="disnea2" data-field="disnea2"  class="col-lg-8 text-left {{--control-span --}}">Disnea
+                                    Clase Funcional II</span>
+                                    <div class="col-lg-4 value">
+                                        @if($paciente->disnea2 == 2) SI @else NO
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="row static-info">
+                                    <span for="disnea3" data-field="disnea3"  class="col-lg-8 text-left {{--control-span --}}">Disnea
+                                        Clase Funcional III</span>
+                                        <div class="col-lg-4 value">
+                                            @if($paciente->disnea3 == 2) SI @else NO
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="row static-info">
+                                        <span for="disnea4" data-field="disnea4" class="col-lg-8 text-left {{--control-span --}}">Disnea
+                                            Clase Funcional IV</span>
+                                            <div class="col-lg-4 value">
+                                             @if($paciente->disnea4 == 2) SI @else NO
+                                             @endif
+                                         </div>
+                                     </div>
+                                     <div class="row static-info">
+                                        <span for="hipotiroidismo" data-field="hipotiroidismo" 
+                                        class="col-lg-8 text-left {{--control-span --}}">Hipotiroidismo</span>
+                                        <div class="col-lg-4 value">
+                                           @if($paciente->hipotiroidismo == 2) SI @else NO
+                                           @endif
+                                       </div>
+                                   </div>
+                                   <div class="row static-info">
+                                    <span for="hipertiroidismo" data-field="hipertiroidismo"
+                                    class="col-lg-8 text-left {{--control-span --}}">Hipertiroidismo</span>
+                                    <div class="col-lg-4 value">
+                                        @if($paciente->hipertiroidismo == 2) SI @else NO
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="row static-info">
+                                    <span for="cardio_congenitas" data-field="cardio_congenitas"
+                                    class="col-lg-8 text-left {{--control-span --}}">Cardiopatías
+                                    congénitas</span>
+                                    <div class="col-lg-4 value">
+                                     @if($paciente->cardio_congenitas == 2) SI @else NO
+                                     @endif
+                                 </div>
+                             </div>
+                             <div class="row static-info">
+                                <span for="valvulopatias" data-field="valvulopatias"
+                                class="col-lg-8 text-left {{--control-span --}}">Valvulopatias</span>
+                                <div class="col-lg-4 value">
+                                    @if($paciente->valvulopatias == 2) SI @else NO
+                                    @endif 
+                                </div>
+                            </div>
+                            <div class="row static-info">
+                                <span for="mareos" data-field="mareos"
+                                class="col-lg-8 text-left {{--control-span --}}">Mareos</span>
+                                <div class="col-lg-4 value">
+                                    @if($paciente->mareos == 2) SI @else NO
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="row static-info">
+                                <span for="cardio_isquemica" data-field="cardio_isquemica"
+                                class="col-lg-8 text-left {{--control-span --}}">Cardiopatía
+                                isquémica</span>
+                                <div class="col-lg-4 value">
+                                    @if($paciente->cardio_isquemica == 2) SI @else NO 
+                                    @endif 
+                                </div>
+                            </div>
+                            <div class="row static-info">
+                                <span for="ht_arterial_leve" data-field="ht_arterial_leve"
+                                class="col-lg-8 text-left {{--control-span --}}">Hipertensión
+                                arterial leve</span>
+                                <div class="col-lg-4 value">
+                                  @if($paciente->ht_arterial_leve == 2) SI @else NO
+                                  @endif
+                              </div>
+                          </div>
+                          <div class="row static-info">
+                            <span for="ht_arterial_mode"  data-field="ht_arterial_mode"
+                            class="col-lg-8 text-left {{--control-span --}}">Hipertensión
+                            arterial moderada</span>
+                            <div class="col-lg-4 value">
+                             @if($paciente->ht_arterial_mode == 2) SI @else NO
+                             @endif
+                         </div>
+                     </div>
+                     <div class="row static-info">
+                        <span for="ht_arterial_severa" data-field="ht_arterial_severa"
+                        class="col-lg-8 text-left {{--control-span --}}">Hipertensión
+                        arterial severa</span>
+                        <div class="col-lg-4 value">
+                            @if($paciente->ht_arterial_severa == 2) SI @else NO
+                            @endif
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <span for="perdida_conoc" data-field="perdida_conoc"
+                        class="col-lg-8 text-left {{--control-span --}}">Pérdida de
+                        conocimiento</span>
+                        <div class="col-lg-4 value">
+                           @if($paciente->perdida_conoc == 2) SI @else NO
+                           @endif
+                       </div>
+                   </div>
+                   <div class="row static-info">
+                        <span for="insuf_cardiaca" data-field="insuf_cardiaca"
+                    class="col-lg-8 text-left {{--control-span --}}">Insuficiencia
+                    cardíaca</span>
+                    <div class="col-lg-4 value">
+                       @if($paciente->insuf_cardiaca == 2) SI @else NO
+                       @endif
+                   </div>
+               </div>
+               <div class="row static-info">
+                <span for="tipo_insuf_card"  data-field="tipo_insuf_card"
+                class="col-lg-8 text-left {{--control-span --}}">Tipo de
+                insuficiencia cardíaca</span>
+                <div class="col-lg-4 value">
+                   {!! $paciente->tipo_insuf_card !!}
+               </div>
+           </div>
+       </div>
+   </div>
+   <hr/>
+   <div class="row static-info">
+    <div class="col-lg-3">
+        <span for="otras_pat_asoc"  data-field="otras_pat_asoc"
+        class="col-lg-8 text-left {{--control-span --}}">Otras
+        patologías</span>
+    </div>
+    <div class="col-lg-9">
+        <textarea class="form-control" name="otras_pat_asoc" id="otras_pat_asoc"
+        cols="145" rows="2"
+        readonly>{!! $paciente->otras_pat_asoc !!}</textarea>
+    </div>
+</div>
+<div class="row static-info">
+    <div class="col-lg-3">
+        <span for="otros_sintomas_ing" data-field="otros_sintomas_ing"
+        class="col-lg-8 text-left {{--control-span --}}">Otros síntomas al
+        ingreso</span>
+    </div>
+    <div class="col-lg-9">
+        <textarea class="form-control" name="otros_sintomas_ing" id="otros_sintomas_ing"
+        cols="145" rows="2"
+        readonly>{!! $paciente->otros_sintomas_ing !!}</textarea>
+
+        
+    </div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+<div class="row">
+    <div class="col-lg-4">
+        <div class="portlet box blue">
+            <div class="portlet-title">
+                <div class="caption">
+                    Nuevos Síntomas
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="row static-info">
+                    <span for="nuevos_sintomas" data-field="nuevos_sintomas"
+                    class="col-lg-8 text-left {{--control-span --}}">¿Hubo nuevos
+                    síntomas?</span>
+                    <div class="col-lg-4 value">
+                       @if($paciente->nuevos_sintomas=="S") Si @elseif($paciente->nuevos_sintomas=="N") No @else {!! $paciente->nuevos_sintomas !!} @endif
+                   </div>
+               </div>
+               <div class="row static-info">
+                <div class="col-lg-12">
+                    <span for="obs_sintomas" data-field="obs_sintomas"
+                    class="col-lg-8 text-left {{--control-span --}}">Observaciones</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <textarea class="form-control" name="obs_sintomas" id="obs_sintomas" cols="30"
+                    rows="6" readonly>{!! $paciente->obs_sintomas !!}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div class="col-lg-4">
+    {{--//Columna Serología--}}
+    <div class="col-lg-12">
+        <div class="portlet box blue">
+         <div class="portlet-title">
+            <div class="caption">
+                Serología
+            </div>
+        </div>
+
+        <div class="portlet-body">
+            <div class="row static-info">
+                <span for="tres_negativas" data-field="tres_negativas" class="col-lg-8 control-span">3 pruebas
+                    serológicas
+                    negativas</span>
+                    <div class="col-lg-4 value">
+                        @if($paciente->tres_negativas == 2) SI @else NO
+                        @endif
+                    </div>
+                </div>
+                <div class="row static-info">
+                    <span for="serologia_ing"  data-field="serologia_ing"  class="col-lg-8 control-span">Serología al
+                        ingreso</span>
+                        <div class="col-lg-4 value">
+                            {!! $paciente->serologia_ing !!}
+                        </div>
+                    </div>
+                    <div class="row static-info">
+                        <span for="titulos_sero_ing" data-field="titulos_sero_ing" class="col-lg-8 control-span">Titulos
+                            serológicos
+                            al ingreso</span>
+                            <div class="col-lg-4 value">
+                                {!! $paciente->titulos_sero_ing !!}
+                            </div>
+                        </div>
+                        <div class="row static-info">
+                            <span for="trat_etio" data-field="trat_etio" class="col-lg-8 control-span">Tratamiento
+                                Etiológico</span>
+                                <div class="col-lg-4 value">
+                                    @if($paciente->trat_etio=="S") Si @elseif($paciente->trat_etio=="N") No @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="portlet box blue">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            Radiografía
+                        </div>
+                    </div>
+
+                    <div class="portlet-body">
+                        <div class="row static-info">
+                            <span for="fecha_rx_torax" data-field="fecha_rx_torax" class="col-lg-8 text-left {{--control-span --}}">Fecha
+                                de Radiografía de Tórax</span>
+                                <div class="col-lg-4 value">
+                                   @if($paciente->fecha_rx_torax){!! $paciente->fecha_rx_torax->format('d/m/Y') !!}@endif
+                               </div>
+                           </div>
+                           <div class="row static-info">
+                            <span for="rx_torax" data-field="rx_torax"
+                            class="col-lg-8 text-left {{--control-span --}}">Consignación</span>
+                            <div class="col-lg-4 value">
+                                {!! $paciente->rx_torax !!}
+                            </div>
+                        </div>
+                        <div class="row static-info">
+                            <span for="indice_cardiotorax" data-field="indice_cardiotorax"
+                            class="col-lg-8 text-left {{--control-span --}}">Índice
+                            cardiotorácico</span>
+                            <div class="col-lg-4 value">
+                               {!! $paciente->indice_cardiotorax !!}
+                           </div>
+                       </div>
+                       <div class="row static-info">
+                        <span for="obs_rxt"  data-field="obs_rxt"
+                        class="col-lg-3 text-left {{--control-span --}}">Observación</span>
+                        <div class="col-lg-8 col-lg-offset-1 value">
+                            <textarea class="form-control" name="obs_rxt" id="obs_rxt" cols="30"
+                            rows="2" readonly>{!! $paciente->obs_rxt !!}</textarea>
+                        </div>
+                    </div>
+                    {{--Cambios--}}
+                    <div class="row static-info">
+                        <span for="cambios_rxt" data-field="cambios_rxt" class="col-lg-8 text-left {{--control-span --}}">Cambios
+                            en la Rx</span>
+                            <div class="col-lg-4 value">
+                                {!! $paciente->cambios_rxt !!}
+                            </div>
+                        </div>
+                        <div class="row static-info">
+                            <span for="fecha_cambios_rxt" data-field="fecha_cambios_rxt" 
+                            class="col-lg-8 text-left {{--control-span --}}">Fecha
+                            del cambio</span>
+                            <div class="col-lg-4 value">
+                               @if($paciente->fecha_cambios_rxt){!! $paciente->fecha_cambios_rxt->format('d/m/Y') !!}@endif
+                           </div>
+                       </div>
+                       <div class="row static-info">
+                        <span for="nueva_rxt" data-field="nueva_rxt"  class="col-lg-8 text-left {{--control-span --}}">Nueva
+                            Radiografía</span>
+                            <div class="col-lg-4 value">
+                               {!! $paciente->nueva_rxt !!}
+                           </div>
+                       </div>
+                   </div>
+               </div>
+
+
+           </div>
+       </div>
+       <div class="portlet box blue">
+         <div class="portlet-title">
+            <div class="caption">
+                Evolución
+            </div>
+        </div>
+        <div class="portlet-body">
+            <div class="row static-info">
+                <div class="col-lg-12">
+                    <span for="evolucion" data-field="evolucion"  class="col-lg-8 text-left {{--control-span --}}">Evolución</span>
+                    <br><br>
+                    <textarea class="form-control" name="evolucion" id="evolucion" cols="145"
+                    rows="4" readonly>{!! $paciente->evolucion !!}</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</form>
+{{--Botón de expand/collapse--}}
+<a href="javascript:void(0)" id="expand-boton" class="btn btn-primary btn-lg"
+style="border-radius: 50%; padding: 5px 5px;    bottom: -20px;"><i class="fa fa-sort-desc" aria-hidden="true"></i>
+</a>
+</div>
+</div>
+{{--Sección Principal--}}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="portlet box blue">
+
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-cogs"></i>Últimos tratamientos
+                        </div>
+                        <div class="actions">
+                            <a href="{!! action('Panel\TratamientosController@create', $paciente->id) !!}" class="btn btn-raised btn-success"> Agregar nuevo tratamiento <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                      
+                           </div>
+                       </div>
+
+
+                       <div class="portlet-body" id="pbody-trat">
+                        @if ($tratamientos->isEmpty())
+                        <p>No hay tratamientos cargados para el paciente.</p>
+                        @else
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Droga</th>
+                                    <th>Dosis</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($tratamientos as $tratamiento)
+                                <tr>
+                                    <td>
+                                        <button type="link" class="btn btn-link" onclick="showIframe('{!! action('Panel\PanelHistoriasController@verTratamiento', ['id_p' => $paciente->id, 'id_t' => $tratamiento->id]) !!}',1)"> {!! $tratamiento->droga !!}</button>
+                                    </td>
+                                    <td>{!! $tratamiento->dosis !!}</td>
+                                    <td>@if($tratamiento->fecha_trat){!! $tratamiento->fecha_trat->format('d/m/Y') !!}@endif</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="col-lg-6">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="portlet box blue">
+
+
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-cogs"></i>Últimos estudios
+                        </div>
+                        <div class="actions">
+                            <a href="{!! action('Panel\EstudiosController@create', $paciente->id) !!}" class="btn btn-raised btn-success">Agregar nuevo estudios <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                        
+
+                           </div>
+                       </div>
+
+                       <div class="portlet-body" id="pbody-estudios">
+
+                         
+
+                        @if (!($estudios))
+                        <p>No hay estudios cargados para el paciente.</p>
+                        @else
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Estudio</th>
+                                    <th>Fecha</th>
+                                    <th>Titulo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($estudios as $estudio)
+                                <tr>
+                                    <td>
+
+                                        <button type="link" class="btn btn-link" onclick="showIframe( '{!! action('Panel\PanelHistoriasController@verEstudio', ['id_p' => $paciente->id,'id_e' => $estudio->id]) !!}',1)"> {!! $estudio->nombre !!}</button>
+
+                                    </td>
+                                    <td>{!! \Carbon\Carbon::parse($estudio->fecha)->format('d/m/Y') !!}</td>
+                                    <td>{!! substr($estudio->titulo, 0, 12) !!}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <div class="col-lg-12">
+        <div class="portlet box blue" id="consultas">
+
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="fa fa-cogs"></i>Consultas
+                </div>
+                <div class="actions">
+                    <a href="{!! action('Panel\PanelHistoriasController@showConsulta', $paciente->id) !!}" class="btn-sm btn-raised btn-success"  style="text-decoration: none;">Nueva consulta</a>
+                </div>
+            </div>
+
+
+            <div class="portlet-body" id="pbody-consultas" style="background: #e5e5e5;">
+                {{--                    @for($i = 0; $i < 10; $i++)
+                <div class="well well-lg">
+                    Item de historia clinica {!! $i+1 !!} - (En desarrollo)
+                </div>
+                @endfor--}}
+                @foreach($consultas as $consulta)
+                <div class="well well-lg" id={!! "consulta_" . $consulta->id  !!}>
                     <div class="row">
-                        <div class="col-lg-4">
-                            {{--Nuevo--}}
-                            <div class="panel panel-default">
-                                <div class="panel-heading">Tratamiento con BNZ</div>
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <label for="trat_bnz" class="col-lg-8 text-left {{--control-label --}}">Tratamiento
-                                            con Benznidazol</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="trat_bnz"
-                                                   name="trat_bnz" @if($paciente->trat_bnz == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="fecha_ini_trat_bnz"
-                                               class="col-lg-8 text-left {{--control-label --}}">Fecha
-                                            Inicio Tratamiento</label>
-                                        <div class="col-lg-4">
-                                            <input type="date" class="form-control" id="fecha_ini_trat_bnz"
-                                                   name="fecha_ini_trat_bnz"
-                                                   value="@if($paciente->fecha_ini_trat_bnz){!! $paciente->fecha_ini_trat_bnz->format('d/m/Y') !!}@endif"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="efectos_adv_bnz" class="col-lg-8 text-left {{--control-label --}}">Efectos
-                                            Adversos</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="efectos_adv_bnz"
-                                                   name="efectos_adv_bnz" @if($paciente->efectos_adv_bnz == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="efec_rash_bnz" class="col-lg-8 text-left {{--control-label --}}">Presenta
-                                            rash cutáneo</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="efec_rash_bnz"
-                                                   name="efec_rash_bnz" @if($paciente->efec_rash_bnz == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="efec_intgas_bnz" class="col-lg-8 text-left {{--control-label --}}">Presenta
-                                            intolerancia gástrica/digestiva</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="efec_intgas_bnz"
-                                                   name="efec_intgas_bnz" @if($paciente->efec_intgas_bnz == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="efec_afhep_bnz" class="col-lg-8 text-left {{--control-label --}}">Presenta
-                                            afectación hepática</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="efec_afhep_bnz"
-                                                   name="efec_afhep_bnz" @if($paciente->efec_afhep_bnz == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="efec_afneur_bnz" class="col-lg-8 text-left {{--control-label --}}">Presenta
-                                            afectación neurológica</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="efec_afneur_bnz"
-                                                   name="efec_afneur_bnz" @if($paciente->efec_afneur_bnz == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="efec_afhem_bnz" class="col-lg-8 text-left {{--control-label --}}">Presenta
-                                            afectación hematológica</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="efec_afhem_bnz"
-                                                   name="efec_afhem_bnz" @if($paciente->efec_afhem_bnz == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="susp_bnz" class="col-lg-8 text-left {{--control-label --}}">Suspensión
-                                            del tratamiento</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="susp_bnz"
-                                                   name="susp_bnz" @if($paciente->susp_bnz == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="efec_otros_bnz" class="col-lg-8 text-left {{--control-label --}}">Otros
-                                            efectos adversos</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="efec_otros_bnz"
-                                                   name="efec_otros_bnz" value="{!! $paciente->efec_otros_bnz !!}"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{--Fin Nuevo--}}
-                            </div>
-                            {{--                    <fieldset class="col-lg-12" style="border: solid 1px black;">
-                                                    <legend>Tratamiento con BNZ</legend>
-
-                                                </fieldset>--}}
+                        <div class="col-lg-8">
+                            <p><strong>Medico: </strong> {!! $consulta->medico->name !!}</p>
                         </div>
                         <div class="col-lg-4">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">Tratamiento con Nifurtimox</div>
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <label for="trat_nifur" class="col-lg-8 text-left {{--control-label --}}">Tratamiento
-                                            con Nifurtimox</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="trat_nifur"
-                                                   name="trat_nifur" @if($paciente->trat_nifur == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="fecha_ini_trat_nifur"
-                                               class="col-lg-8 text-left {{--control-label --}}">Fecha
-                                            Inicio Tratamiento</label>
-                                        <div class="col-lg-4">
-                                            <input type="date" class="form-control" id="fecha_ini_trat_nifur"
-                                                   name="fecha_ini_trat_nifur"
-                                                   value="@if($paciente->fecha_ini_trat_nifur){!! $paciente->fecha_ini_trat_nifur->format('d/m/Y') !!}@endif"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="efectos_adv_nifur"
-                                               class="col-lg-8 text-left {{--control-label --}}">Efectos
-                                            Adversos</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="efectos_adv_nifur"
-                                                   name="efectos_adv_nifur"
-                                                   @if($paciente->efectos_adv_nifur == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="efec_rash_nifur" class="col-lg-8 text-left {{--control-label --}}">Presenta
-                                            rash cutáneo</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="efec_rash_nifur"
-                                                   name="efec_rash_nifur" @if($paciente->efec_rash_nifur == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="efec_intgas_nifur"
-                                               class="col-lg-8 text-left {{--control-label --}}">Presenta
-                                            intolerancia gástrica/digestiva</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="efec_intgas_nifur"
-                                                   name="efec_intgas_nifur"
-                                                   @if($paciente->efec_intgas_nifur == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="efec_afhep_nifur" class="col-lg-8 text-left {{--control-label --}}">Presenta
-                                            afectación hepática</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="efec_afhep_nifur"
-                                                   name="efec_afhep_nifur" @if($paciente->efec_afhep_nifur == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="efec_afneur_nifur"
-                                               class="col-lg-8 text-left {{--control-label --}}">Presenta
-                                            afectación neurológica</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="efec_afneur_nifur"
-                                                   name="efec_afneur_nifur"
-                                                   @if($paciente->efec_afneur_nifur == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="efec_afhem_nifur" class="col-lg-8 text-left {{--control-label --}}">Presenta
-                                            afectación hematológica</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="efec_afhem_nifur"
-                                                   name="efec_afhem_nifur" @if($paciente->efec_afhem_nifur == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="susp_nifur" class="col-lg-8 text-left {{--control-label --}}">Suspensión
-                                            del tratamiento</label>
-                                        <div class="col-lg-4">
-                                            <input type="checkbox" class="form-control" id="susp_nifur"
-                                                   name="susp_nifur" @if($paciente->susp_nifur == 2) checked
-                                                   @endif disabled>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="efec_otros_nifur" class="col-lg-8 text-left {{--control-label --}}">Otros
-                                            efectos adversos</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="efec_otros_nifur"
-                                                   name="efec_otros_nifur" value="{!! $paciente->efec_otros_nifur !!}"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {{--                        <fieldset class="col-lg-12" style="border: solid 1px black;">
-                                                        <legend>Tratamiento con Nifurtimox</legend>
-
-                                                    </fieldset>--}}
-                        </div>
-                        <div class="col-lg-4">
-                            {{--Observaciones Tratamiento Etiológico--}}
-                            <div class="panel panel-default">
-                                <div class="panel-heading">Otros efectos adversos</div>
-                                <div class="panel-body">
-                                    {{--         <div class="row">
-                                                 <label for="trat_etio_obs" class="col-lg-12 text-left --}}{{--control-label --}}{{--">Otros
-                                                     efectos adversos</label>
-                                             </div>--}}
-                                    <div class="row">
-                                <textarea class="form-control" name="trat_etio_obs" id="trat_etio_obs" cols="30"
-                                          rows="15" readonly>{!! $paciente->trat_etio_obs !!}</textarea>
-                                    </div>
-                                </div>
-                            </div>
+                            <p>
+                                <strong>Fecha: </strong>{!! \Carbon\Carbon::parse($consulta->fecha)->format('d/m/Y') !!}
+                            </p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">Patologías</div>
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-lg-3">
-                                            <div class="row">
-                                                <label for="sin_patologia"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Paciente sin
-                                                    patología asociada</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="sin_patologia"
-                                                           name="sin_patologia"
-                                                           @if($paciente->sin_patologia == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="tuberculosis"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Tuberculosis</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="tuberculosis"
-                                                           name="tuberculosis" @if($paciente->tuberculosis == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="epoc"
-                                                       class="col-lg-8 text-left {{--control-label --}}">E.P.O.C.</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="epoc"
-                                                           name="epoc" @if($paciente->epoc == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="dbt"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Diabetes</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="dbt"
-                                                           name="dbt" @if($paciente->dbt == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="asintomatico"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Asintomático</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="asintomatico"
-                                                           name="asintomatico" @if($paciente->asintomatico == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="palpitaciones"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Palpitaciones</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="palpitaciones"
-                                                           name="palpitaciones"
-                                                           @if($paciente->palpitaciones == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="angor"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Angor</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="angor"
-                                                           name="angor" @if($paciente->angor == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="row">
-                                                <label for="colageno" class="col-lg-8 text-left {{--control-label --}}">Colagenopatías</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="colageno"
-                                                           name="colageno" @if($paciente->colageno == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="obesidad" class="col-lg-8 text-left {{--control-label --}}">Obesidad
-                                                    mórbida</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="obesidad"
-                                                           name="obesidad" @if($paciente->obesidad == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="alcoholismo"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Alcoholismo</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="alcoholismo"
-                                                           name="alcoholismo" @if($paciente->alcoholismo == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="acv" class="col-lg-8 text-left {{--control-label --}}">Accidente
-                                                    Cerebrovascular</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="acv"
-                                                           name="acv" @if($paciente->acv == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="disnea"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Disnea</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="disnea"
-                                                           name="disnea" @if($paciente->disnea == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="disnea1" class="col-lg-8 text-left {{--control-label --}}">Disnea
-                                                    Clase Funcional I</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="disnea1"
-                                                           name="disnea1" @if($paciente->disnea1 == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="disnea2" class="col-lg-8 text-left {{--control-label --}}">Disnea
-                                                    Clase Funcional II</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="disnea2"
-                                                           name="disnea2" @if($paciente->disnea2 == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="row">
-                                                <label for="disnea3" class="col-lg-8 text-left {{--control-label --}}">Disnea
-                                                    Clase Funcional III</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="disnea3"
-                                                           name="disnea3" @if($paciente->disnea3 == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="disnea4" class="col-lg-8 text-left {{--control-label --}}">Disnea
-                                                    Clase Funcional IV</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="disnea4"
-                                                           name="disnea4" @if($paciente->disnea4 == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="hipotiroidismo"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Hipotiroidismo</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="hipotiroidismo"
-                                                           name="hipotiroidismo"
-                                                           @if($paciente->hipotiroidismo == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="hipertiroidismo"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Hipertiroidismo</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="hipertiroidismo"
-                                                           name="hipertiroidismo"
-                                                           @if($paciente->hipertiroidismo == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="cardio_congenitas"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Cardiopatías
-                                                    congénitas</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="cardio_congenitas"
-                                                           name="cardio_congenitas"
-                                                           @if($paciente->cardio_congenitas == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="valvulopatias"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Valvulopatias</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="valvulopatias"
-                                                           name="valvulopatias"
-                                                           @if($paciente->valvulopatias == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="mareos"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Mareos</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="mareos"
-                                                           name="mareos" @if($paciente->mareos == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="row">
-                                                <label for="cardio_isquemica"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Cardiopatía
-                                                    isquémica</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="cardio_isquemica"
-                                                           name="cardio_isquemica"
-                                                           @if($paciente->cardio_isquemica == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="ht_arterial_leve"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Hipertensión
-                                                    arterial leve</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="ht_arterial_leve"
-                                                           name="ht_arterial_leve"
-                                                           @if($paciente->ht_arterial_leve == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="ht_arterial_mode"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Hipertensión
-                                                    arterial moderada</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="ht_arterial_mode"
-                                                           name="ht_arterial_mode"
-                                                           @if($paciente->ht_arterial_mode == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="ht_arterial_severa"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Hipertensión
-                                                    arterial severa</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="ht_arterial_severa"
-                                                           name="ht_arterial_severa"
-                                                           @if($paciente->ht_arterial_severa == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="perdida_conoc"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Pérdida de
-                                                    conocimiento</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="perdida_conoc"
-                                                           name="perdida_conoc"
-                                                           @if($paciente->perdida_conoc == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="insuf_cardiaca"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Insuficiencia
-                                                    cardíaca</label>
-                                                <div class="col-lg-4">
-                                                    <input type="checkbox" class="form-control" id="insuf_cardiaca"
-                                                           name="insuf_cardiaca"
-                                                           @if($paciente->insuf_cardiaca == 2) checked
-                                                           @endif disabled>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <label for="tipo_insuf_card"
-                                                       class="col-lg-8 text-left {{--control-label --}}">Tipo de
-                                                    insuficiencia cardíaca</label>
-                                                <div class="col-lg-4">
-                                                    <input type="text" class="form-control" id="tipo_insuf_card"
-                                                           name="tipo_insuf_card"
-                                                           value="{!! $paciente->tipo_insuf_card !!}"
-                                                           readonly>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-1">
-                                            <label for="otras_pat_asoc"
-                                                   class="col-lg-8 text-left {{--control-label --}}">Otras
-                                                patologías</label>
-                                        </div>
-                                        <div class="col-lg-11">
-                                        <textarea class="form-control" name="otras_pat_asoc" id="otras_pat_asoc"
-                                                  cols="145" rows="2"
-                                                  readonly>{!! $paciente->otras_pat_asoc !!}</textarea>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-3">
-                                            <label for="otros_sintomas_ing"
-                                                   class="col-lg-8 text-left {{--control-label --}}">Otros síntomas al
-                                                ingreso</label>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="otros_sintomas_ing"
-                                                   name="otros_sintomas_ing"
-                                                   value="{!! $paciente->otros_sintomas_ing !!}"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {{--                     <fieldset class="col-lg-12" style="border: solid 1px black;">
-                                                     <legend>Patologías</legend>
-
-                                                 </fieldset>--}}
+                            <p><strong>Titulo: </strong>
+                                <span class="titulo_consulta">{!! $consulta->titulo !!}</span>
+                            </p>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-4">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">Nuevos Síntomas</div>
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <label for="nuevos_sintomas"
-                                               class="col-lg-8 text-left {{--control-label --}}">¿Hubo nuevos
-                                            síntomas?</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="nuevos_sintomas"
-                                                   name="nuevos_sintomas"
-                                                   value="@if($paciente->nuevos_sintomas=="S") Si @elseif($paciente->nuevos_sintomas=="N") No @else {!! $paciente->nuevos_sintomas !!} @endif"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <label for="obs_sintomas"
-                                                   class="col-lg-8 text-left {{--control-label --}}">Observaciones</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                        <textarea class="form-control" name="obs_sintomas" id="obs_sintomas" cols="30"
-                                                  rows="6" readonly>{!! $paciente->obs_sintomas !!}</textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {{--                 <fieldset class="col-lg-12" style="border: solid 1px black;">
-                                                 <legend>Nuevos Síntomas</legend>
-
-                                             </fieldset>--}}
-                        </div>
-                        <div class="col-lg-4">
-                            {{--//Columna Serología--}}
-                            <div class="col-lg-12">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">Serología</div>
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <label for="tres_negativas" class="col-lg-8 control-label">3 pruebas
-                                                serológicas
-                                                negativas</label>
-                                            <div class="col-lg-4">
-                                                <input type="checkbox" class="form-control" id="tres_negativas"
-                                                       name="tres_negativas" @if($paciente->tres_negativas == 2) checked
-                                                       @endif disabled>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="serologia_ing" class="col-lg-8 control-label">Serología al
-                                                ingreso</label>
-                                            <div class="col-lg-4">
-                                                <input type="text" class="form-control" id="serologia_ing"
-                                                       name="serologia_ing" value="{!! $paciente->serologia_ing !!}"
-                                                       readonly>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="titulos_sero_ing" class="col-lg-8 control-label">Titulos
-                                                serológicos
-                                                al ingreso</label>
-                                            <div class="col-lg-4">
-                                                <input type="text" class="form-control" id="titulos_sero_ing"
-                                                       name="titulos_sero_ing"
-                                                       value="{!! $paciente->titulos_sero_ing !!}"
-                                                       readonly>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <label for="trat_etio" class="col-lg-8 control-label">Tratamiento
-                                                Etiológico</label>
-                                            <div class="col-lg-4">
-                                                <input type="text" class="form-control" id="trat_etio" name="trat_etio"
-                                                       value="@if($paciente->trat_etio=="S") Si @elseif($paciente->trat_etio=="N") No @endif"
-                                                       readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{--                                <fieldset style="border: solid 1px black">
-                                                                    <legend>Serología</legend>
-
-                                                                </fieldset>--}}
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">Radiografía</div>
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <label for="fecha_rx_torax" class="col-lg-8 text-left {{--control-label --}}">Fecha
-                                            de Radiografía de Tórax</label>
-                                        <div class="col-lg-4">
-                                            <input type="date" class="form-control" id="fecha_rx_torax"
-                                                   name="fecha_rx_torax"
-                                                   value="@if($paciente->fecha_rx_torax){!! $paciente->fecha_rx_torax->format('d/m/Y') !!}@endif"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="rx_torax"
-                                               class="col-lg-8 text-left {{--control-label --}}">Consignación</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="rx_torax"
-                                                   name="rx_torax"
-                                                   value="{!! $paciente->rx_torax !!}"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="indice_cardiotorax"
-                                               class="col-lg-8 text-left {{--control-label --}}">Índice
-                                            cardiotorácico</label>
-                                        <div class="col-lg-4">
-                                            <input type="number" class="form-control" id="indice_cardiotorax"
-                                                   name="indice_cardiotorax"
-                                                   value="{!! $paciente->indice_cardiotorax !!}"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="obs_rxt"
-                                               class="col-lg-3 text-left {{--control-label --}}">Observación</label>
-                                        <div class="col-lg-8 col-lg-offset-1">
-                                        <textarea class="form-control" name="obs_rxt" id="obs_rxt" cols="30"
-                                                  rows="2" readonly>{!! $paciente->obs_rxt !!}</textarea>
-                                        </div>
-                                    </div>
-                                    {{--Cambios--}}
-                                    <div class="row">
-                                        <label for="cambios_rxt" class="col-lg-8 text-left {{--control-label --}}">Cambios
-                                            en la Rx</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="cambios_rxt"
-                                                   name="cambios_rxt"
-                                                   value="{!! $paciente->cambios_rxt !!}"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="fecha_cambios_rxt"
-                                               class="col-lg-8 text-left {{--control-label --}}">Fecha
-                                            del cambio</label>
-                                        <div class="col-lg-4">
-                                            <input type="date" class="form-control" id="fecha_cambios_rxt"
-                                                   name="fecha_cambios_rxt"
-                                                   value="@if($paciente->fecha_cambios_rxt){!! $paciente->fecha_cambios_rxt->format('d/m/Y') !!}@endif"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label for="nueva_rxt" class="col-lg-8 text-left {{--control-label --}}">Nueva
-                                            Radiografía</label>
-                                        <div class="col-lg-4">
-                                            <input type="text" class="form-control" id="nueva_rxt"
-                                                   name="nueva_rxt"
-                                                   value="{!! $paciente->nueva_rxt !!}"
-                                                   readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {{--                            <fieldset class="col-lg-12" style="border: solid 1px black;">
-                                                            <legend>Radiografía</legend>
-
-                                                        </fieldset>--}}
+                        <div class="col-lg-12">
+                            <p>
+                                <strong>Descripción: </strong>
+                            </p>
+                            <div class="desc_consulta">{!! $consulta->descripcion !!}</div>
                         </div>
                     </div>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Evolución</div>
-                        <div class="panel-body">
-                            <div class="col-lg-12">
-                            <textarea class="form-control" name="evolucion" id="evolucion" cols="145"
-                                      rows="4" readonly>{!! $paciente->evolucion !!}</textarea>
-                            </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                        @if($consulta->sintomas->count())
+                            <p>
+                                <strong>Sintomas detectados: </strong>
+                            </p>
+                            <ul>
+                                @foreach($consulta->sintomas as $sintoma)
+                                <li>{!! $sintoma->nombre !!}</li>
+                                @endforeach
+                            </ul>
+                            @endif
                         </div>
-                    </div>
+                        <div class="col-lg-6">
+                            @if($consulta->patologias->count())
 
-                    {{--                  <div class="row">
-                                          <div class="col-lg-1">
-                                              <label for="evolucion" class="col-lg-8 text-left --}}{{--control-label --}}{{--">Evolución</label>
-                                          </div>
-                                          <div class="col-lg-11">
-                                              <textarea class="form-control" name="evolucion" id="evolucion" cols="145"
-                                                        rows="4" readonly>{!! $paciente->evolucion !!}</textarea>
-                                          </div>
-                                      </div>--}}
-                </div>
-            </form>
-            {{--Botón de expand/collapse--}}
-            <a href="javascript:void(0)" id="expand-boton" class="btn btn-primary btn-sm"
-               style="border-radius: 50%; padding: 5px 5px;"><i
-                        class="material-icons">keyboard_arrow_down</i></a>
-        </div>
-    </div>
-    {{--Sección Principal--}}
-    <div class="row">
-        <div class="col-lg-3">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Últimos tratamientos</h3>
-                        </div>
-                        <div class="panel-body" id="pbody-trat">
-                            @if ($tratamientos->isEmpty())
-                                <p>No hay tratamientos cargados para el paciente.</p>
-                            @else
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Droga</th>
-                                        <th>Dosis</th>
-                                        <th>Fecha</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($tratamientos as $tratamiento)
-                                        <tr>
-                                            <td>
-                                                <a href="{!! action('Panel\PanelHistoriasController@verTratamiento', ['id_p' => $paciente->id, 'id_t' => $tratamiento->id]) !!}"
-                                                   target="_blank">{!! $tratamiento->droga !!}</a>
-                                            </td>
-                                            <td>{!! $tratamiento->dosis !!}</td>
-                                            <td>@if($tratamiento->fecha_trat){!! $tratamiento->fecha_trat->format('d/m/Y') !!}@endif</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                            <p>
+                                <strong>Patologías detectadas: </strong>
+                            </p>
+                            <ul>
+                                @foreach($consulta->patologias as $patologia)
+                                <li>{!! $patologia->nombre !!}</li>
+                                @endforeach
+                            </ul>
                             @endif
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 col-centered" style="margin-left: 30px;">
-                    <a href="{!! action('Panel\TratamientosController@create', $paciente->id) !!}" class="btn btn-raised btn-success">Agregar nuevo tratamiento</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 col-centered" style="margin-left: 30px;">
-                    <a href="{!! action('Panel\PanelHistoriasController@verTodosTratamientos', $paciente->id) !!}"
-                       data-target="#modal-tratamientos" data-toggle="modal" class="btn btn-raised btn-primary">Ver
-                        todos los tratamientos</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="panel panel-primary" id="consultas">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Consultas
-                              <span class="pull-right"><a href="{!! action('Panel\PanelHistoriasController@showConsulta', $paciente->id) !!}"
-                                                          class="btn-sm btn-raised btn-success"
-                                                          style="text-decoration: none;">Nueva
-                                consulta</a></span></h3>
-                </div>
-                <div class="panel-body" id="pbody-consultas">
-                    {{--                    @for($i = 0; $i < 10; $i++)
-                                            <div class="well well-lg">
-                                                Item de historia clinica {!! $i+1 !!} - (En desarrollo)
-                                            </div>
-                                        @endfor--}}
-                    @foreach($consultas as $consulta)
-                        <div class="well well-lg" id={!! "consulta_" . $consulta->id  !!}>
-                            <div class="row">
-                                <div class="col-lg-8">
-                                    <p><strong>Medico: </strong> {!! $consulta->medico->name !!}</p>
-                                </div>
-                                <div class="col-lg-4">
-                                    <p>
-                                        <strong>Fecha: </strong>{!! \Carbon\Carbon::parse($consulta->fecha)->format('d/m/Y') !!}
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <p><strong>Titulo: </strong>
-                                        <span class="titulo_consulta">{!! $consulta->titulo !!}</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <p>
-                                        <strong>Descripción: </strong>
-                                    </p>
-                                    <div class="desc_consulta">{!! $consulta->descripcion !!}</div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <p>
-                                        <strong>Sintomas detectados: </strong>
-                                    </p>
-                                    <ul>
-                                        @foreach($consulta->sintomas as $sintoma)
-                                            <li>{!! $sintoma->nombre !!}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                                <div class="col-lg-6">
-                                    <p>
-                                        <strong>Patologías detectadas: </strong>
-                                    </p>
-                                    <ul>
-                                        @foreach($consulta->patologias as $patologia)
-                                            <li>{!! $patologia->nombre !!}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-5 col-lg-offset-7">
-                                    @if(Auth::user()->hasRole('Manager'))
-                                        <a href="javascript:void(0)"
-                                           class="btn btn-sm btn-raised btn-danger btn-borra-consulta"
-                                           data-id="{!! $consulta->id !!}" data-target="#modal-consulta-borrar"
-                                           data-toggle="modal">Eliminar</a>
-                                    @else
-                                        <a href="javascript:void(0)" class="btn btn-sm btn-danger" disabled="true">Eliminar</a>
-                                    @endif
-                                    @if(Auth::user()->name == $consulta->medico->name)
-                                        <a class="btn btn-sm btn-raised btn-primary btn-edita-consulta"
-                                                href="{!! action('Panel\PanelHistoriasController@editarConsulta', ['id_p' => $paciente->id,'id_c' => $consulta->id]) !!}">
-                                            Editar
-                                        </a>
-                                    @else
-                                        <a href="javascript:void(0)" class="btn btn-sm btn-primary" disabled="true">Editar</a>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Últimos estudios</h3>
-                        </div>
-                        <div class="panel-body" id="pbody-estudios">
-                            @if (!($estudios))
-                                <p>No hay estudios cargados para el paciente.</p>
+                    <div class="row">
+                        <div class="col-lg-5 col-lg-offset-7">
+                            @if(Auth::user()->hasRole('Manager'))
+                            <a href="javascript:void(0)"
+                            class="btn btn-sm btn-raised btn-danger btn-borra-consulta"
+                            data-id="{!! $consulta->id !!}" data-target="#modal-consulta-borrar"
+                            data-toggle="modal">Eliminar</a>
                             @else
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th>Estudio</th>
-                                        <th>Fecha</th>
-                                        <th>Titulo</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($estudios as $estudio)
-                                        <tr>
-                                            <td>
-                                                <a href="{!! action('Panel\PanelHistoriasController@verEstudio', ['id_p' => $paciente->id,'id_e' => $estudio->id]) !!}"
-                                                   target="_blank">{!! $estudio->nombre !!}</a>
-                                            </td>
-                                            <td>{!! \Carbon\Carbon::parse($estudio->fecha)->format('d/m/Y') !!}</td>
-                                            <td>{!! substr($estudio->titulo, 0, 12) !!}</td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+                            <a href="javascript:void(0)" class="btn btn-sm btn-danger" disabled="true">Eliminar</a>
                             @endif
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-centered" style="margin-left: 65px;">
-                        <a href="{!! action('Panel\EstudiosController@create', $paciente->id) !!}" class="btn btn-raised btn-success">Agregar nuevo estudio</a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-centered" style="margin-left: 65px;">
-                        <a href="{!! action('Panel\PanelHistoriasController@verTodosEstudios', $paciente->id) !!}"
-                           data-target="#modal-estudios" data-toggle="modal" class="btn btn-raised btn-primary">Ver
-                            todos los estudios</a>
+                            @if(Auth::user()->name == $consulta->medico->name)
+                            <a class="btn btn-sm btn-raised btn-primary btn-edita-consulta"
+                            href="{!! action('Panel\PanelHistoriasController@editarConsulta', ['id_p' => $paciente->id,'id_c' => $consulta->id]) !!}">
+                            Editar
+                        </a>
+                        @else
+                        <a href="javascript:void(0)" class="btn btn-sm btn-primary" disabled="true">Editar</a>
+                        @endif
                     </div>
                 </div>
             </div>
+            @endforeach
         </div>
     </div>
+</div>
 
-    <!-- Modals -->
-    <!-- Modal todos los estudios -->
-    <div id="modal-estudios" class="modal fade" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Todos los estudios</h3>
-                        </div>
-                        <div class="panel-body" id="pbody-estudios-modal">
+</div>
 
-                        </div>
+<!-- Modals -->
+<!-- Modal todos los estudios -->
+<div id="modal-estudios" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Todos los estudios</h3>
+                    </div>
+                    <div class="panel-body" id="pbody-estudios-modals">
+
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal todos los tratamientos -->
-    <div id="modal-tratamientos" class="modal fade" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Todos los tratamientos</h3>
-                        </div>
-                        <div class="panel-body" id="pbody-trat-modal">
+<!-- Modal todos los tratamientos -->
+<div id="modal-tratamientos" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Resultado</h3>
+                    </div>
+                    <div class="panel-body" id="pbody-trat-modal">
 
-                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Modal nueva consulta -->
-    <div id="modal-consulta-nueva" class="modal fade" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body" id="limpieza">
-                    <div class="well well-lg">
-                        <form id="form-nueva-consulta" method="post" action="{{ URL::action('Panel\PanelHistoriasController@nuevaConsulta') }}" class="form-horizontal">
-                            <input type="hidden" name="_token" value="{!! csrf_token() !!}">
-                            <fieldset>
-                                <legend>Nueva consulta</legend>
-
-                                <div class="form-group" style="vertical-align: middle">
-                                    <input type="hidden" name="id_usuario" value="{{ Auth::user()->id }}">
-                                    <label for="medico" class="col-lg-2 control-label"
-                                           style="padding-top:0;">Médico</label>
-                                    <p id="medico" name="medico">
-                                        @if(Auth::check())
-                                            {{ Auth::user()->name }}
-                                        @endif
-                                    </p>
-
-                                </div>
-
-                                <input type="hidden" id="id_paciente" name="id_paciente" value="{{ $paciente->id }}">
-                                <input type="hidden" id="hidden_descripcion" name="hidden_descripcion">
-
-                                <div class="form-group">
-                                    <label for="title" class="col-lg-2 control-label">Titulo</label>
-                                    <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="titulo" placeholder="Titulo"
-                                               name="titulo" data-validation="required" data-validation-length="min4">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="content" class="col-lg-2 control-label">Descripcion</label>
-                                    <div class="col-lg-10">
-                                        <textarea class="form-control" rows="3" id="editor_descripcion"
-                                                  name="descripcion"></textarea>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-success" id="submitConsulta" style="float: right;">Guardar</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: right;">Cancelar</button>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-                {{--                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                                    <button type="submit" class="btn btn-success" data-dismiss="modal">Guardar</button>
-                                </div>--}}
+<!-- Modal nueva consulta -->
+<div id="modal-consulta-nueva" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
             </div>
-        </div>
-    </div>
-
-    <!-- Modal editar consulta -->
-    <div id="modal-consulta-editar" class="modal fade" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body" id="limpieza_edit">
-                    <div class="well well-lg">
-                        <form id="form-editar-consulta" method="post"
-                              action="{{ URL::action('Panel\PanelHistoriasController@guardarConsulta') }}"
-                              class="form-horizontal">
-                            <input type="hidden" name="_token" value="{!! csrf_token() !!}">
-                            <fieldset>
-                                <legend>Editar consulta</legend>
-
-                                <div class="form-group" style="vertical-align: middle">
-                                    <input type="hidden" name="id_usuario" value="{{ Auth::user()->id }}">
-                                    <label for="medico" class="col-lg-2 control-label"
-                                           style="padding-top:0;">Médico</label>
-                                    <p id="medico" name="medico">
-                                        @if(Auth::check())
-                                            {{ Auth::user()->name }}
-                                        @endif
-                                    </p>
-
-                                </div>
-
-                                <input type="hidden" id="id_paciente_edit" name="id_paciente_edit"
-                                       value="{{ $paciente->id }}">
-                                <input type="hidden" id="hidden_descripcion_edit" name="hidden_descripcion_edit">
-                                <input type="hidden" id="id_consulta_edit" name="id_consulta">
-
-                                <div class="form-group">
-                                    <label for="titulo_edit" class="col-lg-2 control-label">Titulo</label>
-                                    <div class="col-lg-10">
-                                        <input type="text" class="form-control" id="titulo_edit" placeholder="Titulo"
-                                               name="titulo_edit" data-validation="required"
-                                               data-validation-length="min4">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="editor_descripcion_edit"
-                                           class="col-lg-2 control-label">Descripcion</label>
-                                    <div class="col-lg-10">
-                                        <textarea class="form-control" rows="3" id="editor_descripcion_edit"
-                                                  name="descripcion"></textarea>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-success" id="submitConsulta_editar"
-                                        style="float: right;">Guardar
-                                </button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: right;">
-                                    Cancelar
-                                </button>
-                            </fieldset>
-                        </form>
-                    </div>
-                </div>
-                {{--                <div class="modal-footer">
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                                    <button type="submit" class="btn btn-success" data-dismiss="modal">Guardar</button>
-                                </div>--}}
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal eliminar consulta -->
-    <div id="modal-consulta-borrar" class="modal fade" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title">Eliminar consulta</h4>
-                </div>
-                <div class="modal-body">
-                    <p>¿Está seguro de eliminar la consulta?</p>
-                    <form id="form-borrar-consulta" method="DELETE"
-                          action="{{ URL::action('Panel\PanelHistoriasController@borrarConsulta') }}"
-                          class="form-horizontal">
+            <div class="modal-body" id="limpieza">
+                <div class="well well-lg">
+                    <form id="form-nueva-consulta" method="post" action="{{ URL::action('Panel\PanelHistoriasController@nuevaConsulta') }}" class="form-horizontal">
                         <input type="hidden" name="_token" value="{!! csrf_token() !!}">
-                        <input type="hidden" id="id_consulta_borrar" name="id_consulta">
-                        <button type="button" class="btn btn-default" style="margin-left: 50%" data-dismiss="modal">
-                            Cancelar
-                        </button>
-                        <button type="submit" id="submitConsulta_borrar" class="btn btn-danger">Aceptar</button>
+                        <fieldset>
+                            <legend>Nueva consulta</legend>
+
+                            <div class="form-group" style="vertical-align: middle">
+                                <input type="hidden" name="id_usuario" value="{{ Auth::user()->id }}">
+                                <span for="medico" class="col-lg-2 control-span"
+                                style="padding-top:0;">Médico</span>
+                                <p id="medico" name="medico">
+                                    @if(Auth::check())
+                                    {{ Auth::user()->name }}
+                                    @endif
+                                </p>
+
+                            </div>
+
+                            <input type="hidden" id="id_paciente" name="id_paciente" value="{{ $paciente->id }}">
+                            <input type="hidden" id="hidden_descripcion" name="hidden_descripcion">
+
+                            <div class="form-group">
+                                <span for="title" class="col-lg-2 control-span">Titulo</span>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control" id="titulo" placeholder="Titulo"
+                                    name="titulo" data-validation="required" data-validation-length="min4">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span for="content" class="col-lg-2 control-span">Descripcion</span>
+                                <div class="col-lg-10">
+                                    <textarea class="form-control" rows="3" id="editor_descripcion"
+                                    name="descripcion"></textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success" id="submitConsulta" style="float: right;">Guardar</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: right;">Cancelar</button>
+                        </fieldset>
                     </form>
                 </div>
-                {{--                <div class="modal-footer">
-                                    <button type="submit" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-inverse btn-danger">Aceptar</button>
-                                </div>--}}
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal editar consulta -->
+<div id="formularioImprimir" class="modal fade bs-example-modal-lg" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-body" id="limpieza_edit">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <button class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true" ></i></button>
+                    </div>
+                    <br><br>
+                </div>
+                <textarea id="editor_imprimible">
+                    <p style="text-align:right">San Mart&iacute;n, {!! \Carbon\Carbon::now()->format('j F \d\e Y ') !!}</p>
+
+                    <p>Resumen de Historia Cl&iacute;nica ambulatoria</p>
+
+                    <p>Consultorio de Enfermedad de Chagas</p>
+                    
+                    <p>{{Auth::user()->sedes[0]->nombre }}</p>
+
+                    <p> {!! $paciente->apellido . "," . $paciente->nombre !!}</p>
+
+                    <p>{!! $paciente->tipo_doc !!} {!! $paciente->numero_doc !!}</p>
+
+                    <p>Paciente de @if($paciente->fecha_alta and $paciente->fecha_nac){!!  \Carbon\Carbon::now()->diffInYears($paciente->fecha_nac) !!} @endif a&ntilde;os de edad con diagn&oacute;stico de enfermedad de Chagas con {!! $paciente->serologia_ing !!} pruebas serol&oacute;gicas reactivas @if($paciente->cardio_isquemica == 2) con @else sin @endif  manifestaciones de cardiopat&iacute;a.</p>
+
+                    <p>@if(array_key_exists("descripcion",$consultas)) {{ strip_tags($consultas[0]->descripcion) }}@endif  
+                     @if(array_key_exists("sintomas",$consultas)), con s&iacute;ntomas actuales: @else Sin s&iacute;ntomas actuales. @endif  
+
+                     @if(array_key_exists("sintomas",$consultas)) @foreach($consultas[0]->sintomas as $sintoma) {!! $sintoma->nombre !!}, @endforeach @endif  
+                 </p>
+
+
+                 @if (($estudios)) 
+                 @foreach($estudios as $estudio)
+                 <p>{!! $estudio->nombre !!}   {!! \Carbon\Carbon::parse($estudio->fecha)->format('j F \d\e Y ') !!} {!! $estudio->descripcion !!}</p>
+                 @endforeach
+                 @endif
+
+                 @if ($tratamientos->isEmpty())
+                 @else
+                 <p>El tratamiento actual es: </p>
+
+                 @foreach($tratamientos as $tratamiento)
+                 <p>{!! $tratamiento->droga !!} {!! $tratamiento->dosis !!} en @if($tratamiento->fecha_trat){!! $tratamiento->fecha_trat->format('d/m/Y') !!} @endif  @if($tratamiento->obs_trat) {!! $tratamiento->obs_trat !!} @endif
+                 </p>
+                 @endforeach
+                 @endif
+
+                 <p>Contin&uacute;a en control, seguimiento y tratamiento en nuestro servicio.</p>
+             </textarea>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal editar consulta -->
+<div id="modal-consulta-editar" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body" id="limpieza_edit">
+                <div class="well well-lg">
+                    <form id="form-editar-consulta" method="post"
+                    action="{{ URL::action('Panel\PanelHistoriasController@guardarConsulta') }}"
+                    class="form-horizontal">
+                        <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+                        <fieldset>
+                            <legend>Editar consulta</legend>
+
+                            <div class="form-group" style="vertical-align: middle">
+                                <input type="hidden" name="id_usuario" value="{{ Auth::user()->id }}">
+                                <span for="medico" class="col-lg-2 control-span"
+                                style="padding-top:0;">Médico</span>
+                                <p id="medico" name="medico">
+                                    @if(Auth::check())
+                                    {{ Auth::user()->name }}
+                                    @endif
+                                </p>
+
+                            </div>
+
+                            <input type="hidden" id="id_paciente_edit" name="id_paciente_edit"
+                            value="{{ $paciente->id }}">
+                            <input type="hidden" id="hidden_descripcion_edit" name="hidden_descripcion_edit">
+                            <input type="hidden" id="id_consulta_edit" name="id_consulta">
+
+                            <div class="form-group">
+                                <span for="titulo_edit" class="col-lg-2 control-span">Titulo</span>
+                                <div class="col-lg-10">
+                                    <input type="text" class="form-control" id="titulo_edit" placeholder="Titulo"
+                                    name="titulo_edit" data-validation="required"
+                                    data-validation-length="min4">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span for="editor_descripcion_edit"
+                                class="col-lg-2 control-span">Descripcion</span>
+                                <div class="col-lg-10">
+                                    <textarea class="form-control" rows="3" id="editor_descripcion_edit"
+                                    name="descripcion"></textarea>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success" id="submitConsulta_editar"
+                            style="float: right;">Guardar
+                            </button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" style="float: right;">
+                                Cancelar
+                            </button>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal eliminar consulta -->
+<div id="modal-consulta-borrar" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Eliminar consulta</h4>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro de eliminar la consulta?</p>
+                <form id="form-borrar-consulta" method="DELETE"
+                action="{{ URL::action('Panel\PanelHistoriasController@borrarConsulta') }}"
+                class="form-horizontal">
+                    <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+                    <input type="hidden" id="id_consulta_borrar" name="id_consulta">
+                    <button type="button" class="btn btn-default" style="margin-left: 50%" data-dismiss="modal">
+                        Cancelar
+                    </button>
+                    <button type="submit" id="submitConsulta_borrar" class="btn btn-danger">Aceptar</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
-    {{--    <script>
-            $(document).on('ready',function () {
-                $('#modal-consulta-nueva').on('show.bs.modal', function(e){
-                    console.log('pase por aca');
-                    alert("hola");
-                    $('#limpieza').find('form')[0].reset();
-                });
-            });
-        </script>--}}
+<div id="modalIframe" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-xs-12">
+                    <button class="btn btn-danger pull-right" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true" ></i></button>
+                </div>
+            </div>
+            <iframe src="" id="iframeid" style="width: 100%;border: 0px"></iframe>
+        </div>
+    </div>
+</div>
+<script>
+
+    function imprimir(){
+        $("#formularioImprimir").modal('show');
+    }
+    function showIframe(url, type){
+        if(type==1){
+            $("#iframeid").css("height","90%");
+        }else{
+            $("#iframeid").css("height","50%");
+        }
+        $("#iframeid").attr("src",url);
+        $('#modalIframe').modal('show');
+    }
+</script>
 @endsection

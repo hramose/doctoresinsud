@@ -233,11 +233,12 @@ Historia Clínica - Nuevo paciente
                               class="col-lg-4 text-left {{--control-label --}}">Consignación</label>
                            <div class="col-lg-8">
                               <select class="form-control" id="ecg" name="ecg">
-                              <option value=""></option>
+                               <option value=""></option>
                               <option value="N" >Normal</option>
                               <option value="E" >Específico</option>
                               <option value="I" >Inespecífico</option>
                               <option value="?" >NO SABE</option>
+ 
                               </select>
                            </div>
                         </div>
@@ -254,10 +255,11 @@ Historia Clínica - Nuevo paciente
                            <div class="col-lg-8">
                               
                               <select class="form-control" id="nuevos_sintomas" name="nuevos_sintomas">
-                                 <option value="S" >S</option>
+                                  <option value="S" >S</option>
                                  <option value="N" >S</option>
                                  <option value="?"  >NO SABE</option>
                                  <option value="NULL"  >NULL</option>
+ 
 
                               </select>
                            </div>
@@ -317,13 +319,14 @@ Historia Clínica - Nuevo paciente
                                  Clínico</label>
                                  <div class="col-lg-8">
                                     <select class="form-control" id="cambio_grupo_cli" name="cambio_grupo_cli">
-                                    <option value="" > </option>
+                                     <option value="" > </option>
                                     <option value="S"  >Si</option>
                                     <option value="N" >No</option>
 
                                     <option value="?"  >NO SABE</option>
 
                                     <option value="NULL" >NULL</option>
+ 
                                     </select>
                                  </div>
                               </div>

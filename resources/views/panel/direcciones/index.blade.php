@@ -1,4 +1,4 @@
-@extends('master')
+@extends('infopage')
 
 @section('title')
     Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Direcciones
@@ -23,23 +23,10 @@
 
 @section('content')
     <div class="panel panel-primary" style="margin-top: -20px   ">
-        <div class="panel-heading">
-            <div class="row">
-                <div class="col-lg-9">
-                    <h2 class="text-left" style="border-radius: 0">Direcciones de
-                        {!! $paciente->apellido . ", " . $paciente->nombre . " (H.C.:" . $paciente->id_hc . ")"!!}
-                    </h2>
-                </div>
-                <div class="col-lg-3">
-                    <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}"
-                       class="btn btn-raised btn-default" style="background-color: #EEEEEE">Volver a Historia
-                        Clinica</a>
-                </div>
-            </div>
-        </div>
-        <div class="container col-md-8 col-md-offset-2">
+        
+        <div class="  col-md-8 col-md-offset-2">
             <div class="well well bs-component">
-                <form class="form-horizontal" method="post">
+                <form class="form-inline" method="post">
 
                     @foreach ($errors->all() as $error)
                         <p class="alert alert-danger">{{ $error }}</p>
@@ -56,72 +43,159 @@
                     <fieldset>
                         <legend>Agregar nueva dirección</legend>
                         <div class="row">
-                            <label for="calle" class="col-lg-2 control-label">Calle</label>
-                            <div class="col-lg-5">
-                                <input type="text" class="form-control" id="calle" name="calle"
-                                       value="{!! old('calle') !!}">
+                            <div class="col-xs-5 ">
+                                <div class="form-group ">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">Calle</div>
+                                        <input type="text" class="form-control col-lg-12" id="calle" name="calle" value="{!! old('calle') !!}">
+                                    </div>
+                                </div>
                             </div>
-                            <label for="altura" class="col-lg-2 control-label">Altura</label>
-                            <div class="col-lg-2">
-                                <input type="number" class="form-control" id="altura" name="altura"
-                                       value="{!! old('altura') !!}">
+                            <div class="col-xs-4">
+                                <div class="form-group ">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">Altura</div>
+                                            <input type="text" class="form-control" id="altura" name="altura" value="{!! old('altura') !!}">
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label for="piso" class="col-lg-2 control-label">Piso</label>
-                            <div class="col-lg-2">
-                                <input type="number" class="form-control" id="piso" name="piso"
-                                       value="{!! old('piso') !!}">
-                            </div>
-                            <label for="departamento" class="col-lg-2 control-label">Departamento</label>
-                            <div class="col-lg-2">
-                                <input type="text" class="form-control" id="departamento" name="departamento"
-                                       value="{!! old('departamento') !!}">
-                            </div>
-                            <label for="codigo_postal" class="col-lg-2 control-label">Código Postal</label>
-                            <div class="col-lg-2">
-                                <input type="text" class="form-control" id="codigo_postal" name="codigo_postal"
-                                       value="{!! old('codigo_postal') !!}">
+                            <div class="col-xs-3">
+                                <div class="form-group ">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">Piso</div>
+                                        <input type="number" class="form-control" id="piso" name="piso" value="{!! old('piso') !!}">
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <br/>
+                        <div class="row ">
+                            
+                            <div class="col-xs-4 ">
+                                <div class="form-group ">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">Departamento</div>
+                                        <input type="text" class="form-control" id="departamento" name="departamento" value="{!! old('departamento') !!}">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                <div class="form-group ">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">Código Postal</div>
+                                        <input type="text" class="form-control" id="codigo_postal" name="codigo_postal" value="{!! old('codigo_postal') !!}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-4">
+                                
+                                <div class="form-group ">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">Pais</div>
+                                         
+                                        <select class="form-control" onchange="cambiarProvincia(this.value)" id="pais" name="pais">
+                                            <option value="ARG">Argentina</option>
+                                            <option value="BOL">Bolivia</option>
+                                            <option value="BRA">Brasil</option>
+                                            <option value="CHI">Chile</option>
+                                            <option value="PAR">Paraguay</option>
+                                            <option value="PER">Perú</option>
+                                            <option value="URU">Uruguay</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>                        
+                        
+                        <br/>
+
                         <div class="row">
-                            <label for="localidad" class="col-lg-2 control-label">Localidad</label>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control" id="localidad" name="localidad"
+                            <div class="col-xs-5 ">
+                                <div class="form-group ">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">Localidad</div>
+                                        <input type="text" class="form-control" id="localidad" name="localidad"
                                        value="{!! old('localidad') !!}">
+
+                                    </div>
+                                </div>
+                                
                             </div>
-                        </div>
-                        <div class="row">
-                            <label for="provincia" class="col-lg-2 control-label">Provincia</label>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control" id="provincia" name="provincia"
-                                       value="{!! old('provincia') !!}">
+                            <div class="col-xs-4">
+                                <div class="form-group ">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">Provincia</div>
+                                 
+                                        <select class="form-control"   id="provincia" name="provincia">
+                                            <option value="BA">Buenos Aires</option>
+                                            <option value="CF">Capital Federal</option>
+                                            <option value="CA">Catamarca</option>
+                                            <option value="CB">Córdoba</option>
+                                            <option value="CH">Chaco</option>
+                                            <option value="CO">Corrientes</option>
+                                            <option value="CU">Chubut</option>
+                                            <option value="ER">Entre Rios</option>
+                                            <option value="FO">Formosa</option>
+                                            <option value="JU">Jujuy</option>
+                                            <option value="LP">La Pampa</option>
+                                            <option value="LR">La Rioja</option>
+                                            <option value="ME">Mendoza</option>
+                                            <option value="MI">Misiones</option>
+                                            <option value="NE">Neuquén</option>
+                                            <option value="RN">Rio Negro</option>
+                                            <option value="SA">Salta</option>
+                                            <option value="SC">Santa Cruz</option>
+                                            <option value="SE">Santiago del Estero</option>
+                                            <option value="SF">Santa Fe</option>
+                                            <option value="SJ">San Juan</option>
+                                            <option value="SL">San Luis</option>
+                                            <option value="TF">Tierra del Fuego</option>
+                                            <option value="TU">Tucumán</option>
+                                            <option value="EX">Provincias Externas</option>
+                                            <option value="BOL">Bolivia</option>
+                                            <option value="BRA">Brasil</option>
+                                            <option value="CHI">Chile</option>
+                                            <option value="PAR">Paraguay</option>
+                                            <option value="PER">Perú</option>
+                                            <option value="URU">Uruguay</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <label for="pais" class="col-lg-2 control-label">Pais</label>
-                            <div class="col-lg-10">
-                                <input type="text" class="form-control" id="pais" name="pais"
+                            <div class="col-xs-3">
+                                <!--<div class="form-group ">
+                                    <div class="input-group">
+                                        <div class="input-group-addon">{!! Form::checkbox('activo', old('activo',2), in_array(old('activo'), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'activo']) !!} </div>
+                                        <input type="text" class="form-control" id="pais" name="pais"
                                        value="{!! old('pais') !!}">
+                                    </div>
+                                </div>-->
+                                 
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                  <input type="checkbox" aria-label="...">
+                                </span>
+                                <input type="text" class="form-control" value="¿Activo?" disabled="">
+                              </div><!-- /input-group -->
                             </div>
-                        </div>
-                        <div class="row">
-                            <label for="activo" class="col-lg-2 control-label">Activo</label>
-                            <div class="col-lg-2">
-                                {!! Form::checkbox('activo', old('activo',2), in_array(old('activo'), array('on', 2)) ?  true : false, ['class'=>'form-control', 'id'=>'activo']) !!}
-                            </div>
-                        </div>
-                        <div class="form-group">
+                        </div> 
+                        
+                      <br/>
+                      <div class="row">
+                          <div class="form-group">
                             <div class="col-lg-10 col-lg-offset-2">
-                                <button type="reset" class="btn btn-default">Cancelar</button>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         </div>
+                      </div>
+                        
                     </fieldset>
                 </form>
             </div>
         </div>
-        <div class="container col-md-10 col-md-offset-1">
+        <div class="  col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 @if ($direcciones->isEmpty())
                     <p>El paciente no posee direcciones.</p>
@@ -169,4 +243,15 @@
             </div>
         </div>
     </div>
+
+<script>
+function cambiarProvincia(value){
+    if(value!="ARG"){
+        $("#provincia").val(value);
+    }else{
+        $("#provincia").val("CF");
+    }
+ }
+
+</script>
 @endsection

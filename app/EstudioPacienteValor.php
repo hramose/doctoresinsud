@@ -21,6 +21,12 @@ class EstudioPacienteValor extends Model
 		return $this->belongsTo('App\EstudioPaciente', 'id', 'estudios_pacientes_id');
 	}
 
+		public function estudioPacientes()
+	{
+		return $this->belongsTo('App\EstudioPaciente', 'id', 'id_estudio');
+	}
+
+
 	public function campoBase()
 	{
 		return $this->hasOne('App\CampoBase', 'id', 'campos_base_id');

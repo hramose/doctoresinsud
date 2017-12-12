@@ -2,8 +2,41 @@
 @section('name', 'Edit a user')
 
 @section('content')
-    <div class="container col-md-6 col-md-offset-3">
-        <div class="well well bs-component">
+
+<h3 class="page-title">Edición usuario
+                        de <b>{!! $user->name !!}</b>  </h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{{ URL::to('/') }}/">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="{!! action('Admin\PagesController@home') !!}">Admin</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="{!! action('Admin\UsersController@index') !!}">Usuarios</a>
+            <i class="fa fa-angle-right"></i>
+         </li>
+        <li>
+            <a href="#">Editar</a>
+          </li>
+    </ul>
+</div>
+
+
+
+   <div class="portlet box grey-cascade"  >
+        <div class="portlet-title">
+
+             <div class="actions btn-set">
+                <a href="{!! action('Admin\UsersController@index') !!}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
+            </div>
+
+        </div>
+        <div class="portlet-body">
 
             <form class="form-horizontal" method="post">
 

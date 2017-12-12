@@ -7,18 +7,42 @@
 @endsection
 
 @section('content')
-    <div class="panel panel-primary" style="margin-top: -20px">
-        <div class="panel-heading">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2 class="text-left" style="border-radius: 0">Historia Clínica
-                        de {!! $paciente->apellido . ", " . $paciente->nombre . " (H.C.:" . $paciente->id_hc . ")"!!}</h2>
-                </div>
+
+
+<h3 class="page-title">Historia Clínica
+                        de <b>{!! $paciente->apellido . ", " . $paciente->nombre . " (H.C.:" . $paciente->id_hc . ")"!!}</b>  </h3>
+<div class="page-bar">
+    <ul class="page-breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{{ URL::to('/') }}/">Home</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+        <li>
+            <a href="{{ action('Panel\PanelHistoriasController@index') }}">Historias Clínicas</a>
+            <i class="fa fa-angle-right"></i>
+        </li>
+         <li>
+            <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}">Paciente</a>
+            <i class="fa fa-angle-right"></i>
+         </li>
+        <li>
+            <a href="#">Consulta</a>
+          </li>
+    </ul>
+</div>
+
+   
+    <div class="portlet box grey-cascade"  >
+        <div class="portlet-title">
+
+             <div class="actions btn-set">
+                <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
             </div>
+
+            
         </div>
-    </div>
-    <div class="container">
-        <div class="well well-lg">
+        <div class="portlet-body">
             @if( isset($consulta) )
             <form id="consulta" method="post"  class="form-horizontal"
                   action="{{ action('Panel\PanelHistoriasController@guardarConsulta') }}">
@@ -33,24 +57,24 @@
 
             <h1 style="margin: 0 0 20px 0">{{ isset($consulta) ? 'Editar':'Nueva'}} consulta</h1>
 
-                @if($errors->has())
-                    <ul class="list-group alert alert-danger">
-                        @foreach ($errors->all() as $error)
-                            <li class="list-group-item">{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                @endif
+            @if($errors->has())
+                <ul class="list-group alert alert-danger">
+                    @foreach ($errors->all() as $error)
+                        <li class="list-group-item">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
 
-            <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
+            <div class="tabbable-custom nav-justified">
+                <ul class="nav nav-tabs nav-justified">
                     <li class="active"><a href="#consulta-tab" data-toggle="tab">Motivo de consulta</a></li>
                     <li><a href="#sintomas" data-toggle="tab">S&iacute;ntomas</a></li>
                     <li><a href="#patologia" data-toggle="tab">Patolog&iacute;a</a></li>
-                    <li><a href="#eventos" data-toggle="tab">Eventos</a></li>
+                   <!--- <li><a href="#eventos" data-toggle="tab">Eventos</a></li>-->
                     <li><a href="#estudios" data-toggle="tab">Estudios Solicitados</a></li>
                     <li><a href="#tratamientos" data-toggle="tab">Tratamientos</a></li>
-                    <li><a href="#grupo-clinico" data-toggle="tab">Grupo Cl&iacute;nico</a></li>
-                </ul>
+                  <!---  <li><a href="#grupo-clinico" data-toggle="tab">Grupo Cl&iacute;nico</a></li>-->
+                </ul> 
             </div>
 
             <div class="clearfix"></div>
@@ -75,7 +99,7 @@
                             <div class="col-lg-10">
                                 <input type="text" class="form-control" id="titulo" placeholder="Titulo"
                                        name="titulo" data-validation="required" data-validation-length="min4"
-                                       value="{!! $consulta->titulo ?? '' !!}">
+                                       value="{!! $consulta->titulo or '' !!}">
                             </div>
                         </div>
 
@@ -83,7 +107,7 @@
                             <label for="content" class="col-lg-2 control-label">Descripcion</label>
                             <div class="col-lg-10">
                                 <textarea class="form-control" rows="3" id="descripcion"
-                                          name="descripcion">{!! $consulta->descripcion ?? '' !!}</textarea>
+                                          name="descripcion">{!! $consulta->descripcion or '' !!}</textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -95,19 +119,19 @@
                         <div class="form-group">
                             <label for="content" class="col-lg-2 control-label">Frecuencia Cardíaca</label>
                             <div class="col-lg-2">
-                                <input type="number" class="form-control" id="frecuencia_cardiaca" name="frecuencia_cardiaca" value="{!! $consulta->frecuencia_cardiaca ?? '' !!}">
+                                <input type="number" class="form-control" id="frecuencia_cardiaca" name="frecuencia_cardiaca" value="{!! $consulta->frecuencia_cardiaca or '' !!}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="content" class="col-lg-2 control-label">Presión Sistólica</label>
                             <div class="col-lg-2">
-                                <input type="number" class="form-control" id="presion_sistolica" name="presion_sistolica" value="{!! $consulta->presion_sistolica ?? '' !!}">
+                                <input type="number" class="form-control" id="presion_sistolica" name="presion_sistolica" value="{!! $consulta->presion_sistolica or '' !!}">
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="content" class="col-lg-2 control-label">Presión Diastólica</label>
                             <div class="col-lg-2">
-                                <input type="number" class="form-control" id="presion_diastolica" name="presion_diastolica" value="{!! $consulta->presion_diastolica ?? '' !!}">
+                                <input type="number" class="form-control" id="presion_diastolica" name="presion_diastolica" value="{!! $consulta->presion_diastolica or '' !!}">
                             </div>
                         </div>
                     </fieldset>
@@ -156,20 +180,58 @@
                         </fieldset>
                     </div>
                 </div>
-                <div class="tab-pane" id="eventos">
+               <!--- <div class="tab-pane" id="eventos">
                     <h3>Eventos</h3>
-                </div>
+                </div>-->
                 <div class="tab-pane" id="estudios">
                     <h3>Estudios Solicitados</h3>
+
+                    <div class="well well bs-component">
+                        <fieldset id="patologias-fieldset">
+                             <div>
+                                <select class="chosen-select" multiple name="estudios[]" id="select-estudios">
+                                    @if(isset($estudiosSeleccionadas))
+                                        @foreach($estudios as $estudio)
+                                            <option value="{!! $estudio->id !!}" @if(in_array($estudio->id, $estudiosSeleccionadas))
+                                            selected="selected" @endif> {!! $estudio->nombre !!}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach($estudios as $estudio)
+                                            <option value="{!! $estudio->id !!}"> {!! $estudio->nombre !!}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </fieldset>
+                    </div>
                 </div>
                 <div class="tab-pane" id="tratamientos">
                     <h3>Tratamientos</h3>
+                    <div class="well well bs-component">
+                        <fieldset id="patologias-fieldset">
+                             <div>
+
+                                <select class="chosen-select" multiple name="tratamientos[]" id="select-tratamientos">
+                                    @if(isset($tratamientosSeleccionadas))
+                                        @foreach($tratamientos as $tratamiento)
+                                            <option value="{!! $tratamiento->id !!}" @if(in_array($tratamiento->id, $tratamientosSeleccionadas))
+                                            selected="selected" @endif> {!! $tratamiento->droga !!}</option>
+                                        @endforeach
+                                    @else
+                                        @foreach($tratamientos as $tratamiento)
+                                            <option value="{!! $tratamiento->id !!}"> {!! $tratamiento->droga !!}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </fieldset>
+                    </div>
                 </div>
-                <div class="tab-pane" id="grupo-clinico">
+                <!--<div class="tab-pane" id="grupo-clinico">
                     <h3>Grupo Cl&iacute;nico</h3>
-                </div>
-
-
+                </div>-->
+ 
+   
             </div>
 
                 <button type="submit" class="btn btn-success pull-right" id="submitConsulta_editar">Guardar</button>
@@ -185,22 +247,13 @@
             customConfig: '{{ asset('/ckeditor/custom_config.js') }}'
         });
 
-        $.validate({
-            form: '#consulta',
-            lang: 'es'
-        });
+        
     </script>
 
 @endsection
 
 @section('scripts')
-<style>
-    .nav-tabs > li.active > a {
-        border-radius: 0;
-        height: 39px;
-        background-color: #03af9f !important
-    }
-</style>
+
 <script>
     $(document).on('ready', function() {
         var hash = window.location.hash;

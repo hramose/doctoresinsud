@@ -1,11 +1,6 @@
-@extends('infopage')
+     <link href="{{ asset('/css/global/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
 
-@section('title')
-    Historia Clínica - {!! $paciente[0]->apellido . "," . $paciente[0]->nombre !!} -  {!! $estudioPaciente->estudio->nombre !!} - {!! \Carbon\Carbon::parse($estudioPaciente->fecha)->format('d/m/Y') !!}
-@endsection
-
-@section('content')
-    <div class="container col-md-8 col-md-offset-2">
+    <div class="containe-fluid ">
         <div class="well well-lg">
             <fieldset>
                 <legend>
@@ -52,6 +47,17 @@
                     <div class="col-lg-10">
                         <input type="text" class="form-control" id="estudio_desc" name="estudio_desc"
                                value=" {!! $estudioPaciente->descripcion !!}" readonly>
+                    </div>
+                </div>
+                 <div class="row">
+                    <label for="estudio_desc" class="col-lg-2 control-label">Imágenes</label>
+                    <div class="col-lg-10">
+ 
+                        @foreach($estudioPaciente->imagenes as $imagen)
+                            <div class="col-xs-3">
+                                <a href="{{$imagen->img}}" target="_blank" > <img src="{{$imagen->img}}" width="200" /></a>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </fieldset>
@@ -109,5 +115,4 @@
                 </table>
             </fieldset>
         </div>
-    </div>
-@endsection
+ 

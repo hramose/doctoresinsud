@@ -7,7 +7,9 @@ use App\EstudioPaciente;
 use App\EstudioPacienteValor;
 use App\Patologia;
 use App\Sintoma;
+use App\Estudio;
 use App\Tratamiento;
+use App\HistorialCampo;
 use Illuminate\Http\Request;
 
 use Log;
@@ -22,6 +24,7 @@ use App\Http\Requests\editHistoriaRequest;
 use App\Http\Requests\crearHistoriaFormRequest;
 use App\Http\Requests\ConsultaFormRequest;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Auth;
 
 class PanelHistoriasController extends Controller
 {
@@ -40,13 +43,46 @@ class PanelHistoriasController extends Controller
         return ['error'=>500];
     }
 
+
+    public function uploadFile(Request $request)
+    {
+
+       // dd(Input::all());
+        if ($request->hasFile('files')) {
+                $files = $request->file('files');
+
+                $arrayReturn=array();
+            foreach($files as $file){
+
+                $filename = $file->getClientOriginalName();
+                $extension = $file->getClientOriginalExtension();
+                $picture = date('His').$filename;
+                $destinationPath = base_path() . '\public\images/';
+
+                $filedata=array(
+                    "name"=>$picture,
+                    "size"=>$file->getClientSize(),
+                    "url"=>url('/images/')."/".$picture,
+                    "thumbnailUrl"=>url('/images/')."/".$picture,
+                    );
+                $arrayReturn[]=$filedata;
+                $file->move($destinationPath, $picture);
+             }
+
+            return array("files"=>$arrayReturn);
+
+        }
+    }
+
     public function showConsulta($id_p)
     {
         $paciente = Paciente::find($id_p);
         $sintomas = Sintoma::all();
         $patologias = Patologia::all();
-
-        return view('panel.consulta.form', compact('paciente', 'sintomas', 'patologias'));
+        $estudios = Estudio::all();
+        $tratamientos = Tratamiento::where("id_paciente",$paciente->id)->get();
+ 
+        return view('panel.consulta.form', compact('paciente', 'sintomas', 'patologias','estudios','tratamientos'));
     }
 
     public function nuevaConsulta(ConsultaFormRequest $request)
@@ -86,11 +122,17 @@ class PanelHistoriasController extends Controller
     {
         $paciente = Paciente::find($id_p);
         $consulta = Consulta::find($id_c);
-        $sintomas = Sintoma::all();
-        $patologias = Patologia::all();
+        $sintomas = Sintoma::where("estado",1)->get();
+        $patologias = Patologia::where("estado",1)->get();
+        $estudios = Estudio::all();
+        $tratamientos = Tratamiento::where("id_paciente",$paciente->id)->get();
+
         $sintomasSeleccionados = $consulta->sintomas->lists('id')->toArray();
         $patologiasSeleccionadas = $consulta->patologias->lists('id')->toArray();
-        return view('panel.consulta.form', compact('paciente', 'consulta', 'sintomas', 'patologias', 'sintomasSeleccionados', 'patologiasSeleccionadas'));
+        $estudiosSeleccionadas = $consulta->estudios->lists('id')->toArray();
+        $tratamientosSeleccionadas = $consulta->tratamientos->lists('id')->toArray();
+
+         return view('panel.consulta.form', compact('paciente','estudios', 'consulta', 'sintomas', 'patologias', 'sintomasSeleccionados', 'patologiasSeleccionadas','estudiosSeleccionadas','tratamientosSeleccionadas','tratamientos'));
     }
 
     public function guardarConsulta(ConsultaFormRequest $request)
@@ -108,6 +150,8 @@ class PanelHistoriasController extends Controller
             $consulta->save();
             $consulta->saveSintomas($request->get('sintomas'));
             $consulta->savePatologias($request->get('patologias'));
+            $consulta->saveEstudios($request->get('estudios'));
+            $consulta->saveTratamientos($request->get('tratamientos'));
 
 
 //            $paciente = Paciente::find($request->get('id_paciente'));
@@ -172,8 +216,7 @@ class PanelHistoriasController extends Controller
                         ->orderBy('fecha', 'desc')
                         ->orderBy('created_at', 'desc')
                         ->get();
-
-        //$proximaConsulta = Consulta::where('id_paciente', $paciente->id)->max('proxima_cita');
+         //$proximaConsulta = Consulta::where('id_paciente', $paciente->id)->max('proxima_cita');
 
         return view('panel.show', compact('paciente', 'tratamientos', 'estudios', 'consultas'));
     }
@@ -230,6 +273,18 @@ class PanelHistoriasController extends Controller
     public function index()
     {
         return view('panel.index');
+    }
+
+ public function historial(Request $request)
+    {
+
+        $historialModel= new HistorialCampo();
+        $recurso=$request->get("recurso");
+        $field=$request->get("field");
+        $tipo=$request->get("tipo");
+        $getHistorialByResource= $historialModel->getHistorialByResource($recurso,$field,$tipo);
+
+        return view('panel.historial')->with("historial",$getHistorialByResource);
     }
 
     /**
@@ -339,15 +394,21 @@ class PanelHistoriasController extends Controller
             'obs_rxt' => $request->get('obs_rxt'),
             'cambios_rxt' => $request->get('cambios_rxt') == 'S' ? 'S' : 'N',
             'fecha_cambios_rxt' => $request->get('fecha_cambios_rxt'), //Carbon::createFromFormat('d/m/Y',trim($request->get('fecha_cambios_rxt')))->format('Y-m-d');
-            'nueva_rxt' => $request->get('nueva_rxt')
+            'nueva_rxt' => $request->get('nueva_rxt'),
+            'vivo' => $request->get('vivo') == 'S' ? 'S' : 'N',
         ));
 
         $paciente->id_hc = (int) $request->get('id_hc');
+
+
         $paciente->save();
+        $this->actualizarHistorial($paciente->toArray(),$paciente->id,1,2);
 
         return redirect()->action('Panel\PanelHistoriasController@verHistoria', $paciente->id)->with('status', 'Nueva historia clínica agregada correctamente.');
     }
 
+
+ 
     /**
      * Display the specified resource.
      *
@@ -473,9 +534,62 @@ class PanelHistoriasController extends Controller
         $paciente->fecha_cambios_rxt = $request->get('fecha_cambios_rxt'); //Carbon::createFromFormat('d/m/Y',trim($request->get('fecha_cambios_rxt')))->format('Y-m-d');
         $paciente->nueva_rxt = $request->get('nueva_rxt');
         $paciente->evolucion = $request->get('evolucion');
+        $paciente->vivo = $request->get('vivo');
 
         $paciente->save();
-        return redirect()->action('Panel\PanelHistoriasController@verHistoria', $paciente->id)->with('status', 'Historia clínica editada correctamente.');
+
+         $this->actualizarHistorial($paciente->toArray(),$id,2);
+       
+      return redirect()->action('Panel\PanelHistoriasController@verHistoria', $paciente->id)->with('status', 'Historia clínica editada correctamente.');
+    }
+
+   public function actualizarHistorial($historial,$recurso,$estado){
+        foreach ($historial as $key=> $value) {
+
+            $historial = DB::table('historial_campo')
+            ->where('field',$key)
+            ->where('recurso',$recurso)
+            ->orderBy('created_at','desc')
+            ->first();
+            $valueG="";
+
+ 
+            if($key =="grupo_clinico_ing"  ||   $key=="nuevo_grupo_cli" ||   $key =="tipo_ecg"  ||   $key =="nuevos_cambios_ecg" ||   $key =="obs_ecg"  ||   $key =="efec_otros_bnz" ||   $key =="efec_otros_nifur" ||   $key =="trat_etio_obs" ||   $key =="otras_pat_asoc" ||$key =="otros_sintomas_ing" ||   $key =="tipo_insuf_card"
+                ){
+                     $valueG=$value;
+                }else{
+                
+                    if($value=="1"){
+                        $valueG="NO";
+                    }else if($value=="2") {
+                        $valueG="SI";
+                    }else{
+                       $valueG=$value;
+                    }
+                }
+
+             if( count($historial)>0){
+                if($historial->valor!=$valueG){
+                    $historialModel= new HistorialCampo();
+                    $historialModel->field=$key;
+                    $historialModel->recurso=$recurso;
+                    $historialModel->valor=$valueG;
+                    $historialModel->tipo=1;
+                    $historialModel->user_id=Auth::id();
+                    $historialModel->estado=$estado;
+                    $historialModel->save();
+                }
+             }else{
+                $historialModel= new HistorialCampo();
+                $historialModel->field=$key;
+                $historialModel->recurso=$recurso;
+                $historialModel->valor=$valueG;
+                $historialModel->tipo=1;
+                $historialModel->user_id=Auth::id();
+                $historialModel->estado=$estado;
+                $historialModel->save();
+             }
+        }
     }
 
     /**

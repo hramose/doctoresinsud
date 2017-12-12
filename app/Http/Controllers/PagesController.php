@@ -13,6 +13,13 @@ class PagesController extends Controller
 {
     //Controlador de paginas del sitio
 
+
+    public function tutorial(){
+
+        return view('backend.tutoriales');
+    }
+
+
     public function home()
     {
 

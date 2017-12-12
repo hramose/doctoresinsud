@@ -15,6 +15,7 @@ Route::get('/', 'PagesController@home');
 //Route::get('/', function () {
 //    return redirect()->action('Auth\AuthController@render');
 //});
+    Route::get('tutorial', 'PagesController@tutorial');
 
 Route::get('/home', 'PagesController@home');
 Route::get('/reportes', 'ReportController@index');
@@ -57,6 +58,7 @@ Route::get('api/estudios/{id_e}', 'Panel\EstudiosController@getCamposByEstudio')
 Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medico'), function () {
 
     Route::get('/', 'PanelHistoriasController@index');
+    Route::get('historial', 'PanelHistoriasController@historial');
 
     //Crear nueva historia clinica
     Route::get('paciente/crear', 'PanelHistoriasController@create');
@@ -129,7 +131,8 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
     // Fin Estudios
     //Route::get('ajax/estudio/{id}', 'EstudiosController@getEstudioJson');
     Route::get('ajax/hhcc', 'PanelHistoriasController@getHCJson');
-});
+    Route::post('ajax/uploadfile', 'PanelHistoriasController@uploadFile');
+}); 
 
 //-------Fin Front End Historias Clinicas--------------
 
@@ -137,7 +140,7 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 Route::group(array('prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=> 'manager'), function () {
     //Admin dashboard
     Route::get('/', 'PagesController@home');
-    //ver usuarios
+    //ver usuarios 
     Route::get('users', 'UsersController@index');
     //administrar roles
     Route::get('roles', 'RolesController@index');
@@ -172,8 +175,8 @@ Route::group(array('prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=> 'mana
     Route::post('sintomas/create', 'SintomasController@store');
     Route::get('sintomas/{id?}/edit', 'SintomasController@edit');
     Route::post('sintomas/{id?}/edit', 'SintomasController@update');
-    Route::get('sintomas/{id?}/delete', 'SintomasController@show');
-    Route::post('sintomas/{id?}/delete', 'SintomasController@destroy');
+    Route::get('sintomas/{id?}/show', 'SintomasController@show');
+    Route::get('sintomas/{id?}/delete', 'SintomasController@destroy');
 
     //Administrar patologias
     Route::get('patologias', 'PatologiasController@index');
@@ -232,4 +235,8 @@ Route::group(array('prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=> 'mana
     Route::get('tratamientos/{id?}/edit', 'TratamientosController@edit');
     Route::post('tratamientos/{id?}/edit', 'TratamientosController@update');
     Route::post('tratamientos/{id?}/delete', 'TratamientosController@destroy');
+
+    //Historial
+
+
 });
