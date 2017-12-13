@@ -1,0 +1,13 @@
+/vendor
+/node_modules
+/bower_components
+Homestead.yaml
+Homestead.json
+.env
+/.idea
+npm-debug.log
+.vagrant
+Vagrantfile
+common.cab
+install.log
+/nbproject/private/
