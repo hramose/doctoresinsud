@@ -311,7 +311,6 @@ Historia Clínica - Nuevo paciente
                                        <option value="3">2</option>
                                        <option value="4">3</option>
                                        <option value="f">F</option>
-                                       <option value="NULL">NULL</option>
                                     </select>
                                  </div>
                               </div>
