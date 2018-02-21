@@ -308,7 +308,6 @@ class PanelHistoriasController extends Controller
         //TODO: Desarrollar función que reciba un form request validado y lo guarde en la base de datos. Luego redirija a la vista panel.show
         //$idHistoria = (int) $request->get('numero_doc');
         //dd(var_dump($request));
-         
         $paciente = new Paciente(array(
             'nombre' => $request->get('nombre'),
             'apellido' => $request->get('apellido'),
@@ -321,7 +320,6 @@ class PanelHistoriasController extends Controller
             'proxima_cita' => $request->get('proxima_cita'),//Carbon::createFromFormat('d/m/Y',trim($request->get('proxima_cita')))->format('Y-m-d');
             'ecg' => $request->get('ecg'),
             'tipo_ecg' => $request->get('tipo_ecg'),
-           
             'nuevos_cambios_ecg' => $request->get('nuevos_cambios_ecg'),
             'fecha_cambios_ecg' => $request->get('fecha_cambios_ecg'),//Carbon::createFromFormat('d/m/Y',trim($request->get('fecha_cambios_ecg')))->format('Y-m-d');
             'tipo_cambio_ecg' => $request->get('tipo_cambio_ecg'),

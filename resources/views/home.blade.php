@@ -15,7 +15,7 @@
             <div class="col-lg-12">
 
                 <h1 class="text-center margin-top-100 editContent">
-                    ¡Ambiente de desarrollo!
+                    Ambiente de desarrollo
                 </h1>
 
                 @if( !Auth::guest() )
