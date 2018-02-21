@@ -69,7 +69,7 @@ Historia Clínica - Nuevo paciente
       <div class="row">
          <div class="col-lg-4">
             <div class="btn-group btn-group-justified btn-group-raised">
-               <a href="/panel" class="btn btn-raised btn-default" style="background-color: #EEEEEE">Cancelar</a>
+               <a href="{{ Url::previous() }}" class="btn btn-raised btn-default" style="background-color: #EEEEEE">Cancelar</a>
                <label for="submit-guardar" class="btn btn-raised btn-success">Guardar Historia</label>
             </div>
          </div>
@@ -254,9 +254,9 @@ Historia Clínica - Nuevo paciente
                            cambios</label>
                            <div class="col-lg-8">
                               
-                              <select class="form-control" id="nuevos_sintomas" name="nuevos_sintomas">
+                              <select class="form-control" id="nuevos_cambios_ecg" name="nuevos_cambios_ecg">
                                   <option value="S" >S</option>
-                                 <option value="N" >S</option>
+                                 <option value="N" >N</option>
                                  <option value="?"  >NO SABE</option>
                                  <option value="NULL"  >NULL</option>
  
@@ -311,6 +311,7 @@ Historia Clínica - Nuevo paciente
                                        <option value="3">2</option>
                                        <option value="4">3</option>
                                        <option value="f">F</option>
+                                       <option value="NULL">NULL</option>
                                     </select>
                                  </div>
                               </div>
