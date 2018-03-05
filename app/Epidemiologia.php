@@ -69,5 +69,9 @@ class Epidemiologia extends Model
             $this->places()->detach();
         }
     }
+    public function getPacienteById($id)
+    {
+        return $this('id_paciente', $id)->get();
+    }
 
 }

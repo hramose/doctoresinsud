@@ -319,7 +319,10 @@ class Paciente extends Model
     {
         return in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
     }
-
+    public function getPacienteByHistoryClinic($idHist)
+    {
+        return $this->where('id_hc', $idHist)->get();
+    }
     //  public function saveMedico($user)
     // {
     //     if(!empty($user))

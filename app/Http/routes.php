@@ -10,7 +10,7 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-
+Route::get('importador', 'ImportControler@epidiImport');
 Route::get('/', 'PagesController@home');
 //Route::get('/', function () {
 //    return redirect()->action('Auth\AuthController@render');
