@@ -41,7 +41,7 @@ class EstudioPaciente extends Model
     public function setFechaAttribute($value)
     {
         if ($value) {
-            dump($value);
+            
             if($value != "02030207") {
                 
                 $this->attributes['fecha'] = Carbon::createFromFormat('d/m/Y', trim($value))->format('Y-m-d');

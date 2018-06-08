@@ -32,8 +32,8 @@ class editHistoriaRequest extends Request
             'anios_seg.between' => 'El campo "años de seguimiento" debe ser un valor entre 1 y 130',
             'fecha_ult_consulta.date_format' => 'La fecha de última consulta debe tener formato DD/MM/AAAA. Revise que no contenga espacios adelante o atrás.',
             'proxima_cita.date_format' => 'La fecha de próxima cita debe tener formato DD/MM/AAAA. Revise que no contenga espacios adelante o atrás.',
-            'ecg.in' => 'La consignación de ECG debe estar entre estos valores :values.',
-            'fecha_cambios_ecg.date_format' => 'La fecha de cambios en ECG debe tener formato DD/MM/AAAA. Revise que no contenga espacios adelante o atrás.',
+            //'ecg.in' => 'La consignación de ECG debe estar entre estos valores :values.',
+            //'fecha_cambios_ecg.date_format' => 'La fecha de cambios en ECG debe tener formato DD/MM/AAAA. Revise que no contenga espacios adelante o atrás.',
             'grupo_clinico_ing.between' => 'El campo "Grupo Clínico al ingreso" debe ser un valor entre :min y :max',
             'cambio_grupo_cli.in' => 'El campo "Cambio en Grupo Clinico" debe ser "Si" o "No"',
             'fecha_cambio_gcli.date_format' => 'La fecha de cambio de Grupo Clínico debe tener formato DD/MM/AAAA. Revise que no contenga espacios adelante o atrás.',
@@ -66,7 +66,7 @@ class editHistoriaRequest extends Request
             'anios_seg' => 'between:1,130',
             'fecha_ult_consulta' => 'date_format:d/m/Y',
             'proxima_cita' => 'date_format:d/m/Y',
-            'ecg' => 'in:E,N,I,?',
+            //'ecg' => 'in:E,N,I,?',
             //'tipo_ecg' =>
             //'nuevos_cambios_ecg' =>
             'fecha_cambios_ecg' => 'date_format:d/m/Y',

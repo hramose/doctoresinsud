@@ -71,7 +71,7 @@ class Epidemiologia extends Model
     }
     public function getPacienteById($id)
     {
-        return $this('id_paciente', $id)->get();
+        return $this->where('id_paciente', $id)->get();
     }
-
+    
 }

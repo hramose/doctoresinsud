@@ -10,14 +10,15 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::get('importador', 'ImportControler@epidiImport');
+Route::get('importador', 'ImportControler@ecoImport');
+
 Route::get('/', 'PagesController@home');
 //Route::get('/', function () {
 //    return redirect()->action('Auth\AuthController@render');
 //});
     Route::get('tutorial', 'PagesController@tutorial');
 
-Route::get('/home', 'PagesController@home');
+Route::get('/home', 'PagesController@home')->name('home');
 Route::get('/reportes', 'ReportController@index');
 Route::get('/about', 'PagesController@about');
 Route::get('/contact', 'TicketsController@create');

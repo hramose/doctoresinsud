@@ -186,7 +186,7 @@ Historia Clínica - Nuevo paciente
                         </div>
                         <div class="portlet-body">
                            <div class="form-group">
-                              <label for="tres_negativas" class="col-lg-8 control-label">3 pruebas serológicas
+                              <label for="tres_negativas" class="col-lg-8 control-label">2 ó 3 pruebas serológicas
                               negativas</label>
                               <div class="col-lg-4">
                                  {{--{!! Form::hidden('tres_negativas', 1) !!}--}}

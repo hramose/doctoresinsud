@@ -57,8 +57,7 @@ class HistoriasClinicasController extends Controller
     {
         $usuarios = User::all();
         $pacientes = Paciente::all();
-        dump("Estoy aqui");
-        die;
+       
         return view('backend.items.create', compact( 'usuarios','pacientes'));
     }
 

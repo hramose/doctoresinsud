@@ -36,4 +36,10 @@ class Tratamiento extends Model
 	{
 		return  in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
 	}
+        public function getTratamientoImporter($id, $date, $flia){
+            return $this->where('id_hc', $id)
+                        ->where('fecha_trat', $date)
+                        ->where('droga', $flia)
+                        ->get();
+        }
 }

@@ -1542,9 +1542,12 @@ style="border-radius: 50%; padding: 5px 5px;    bottom: -20px;"><i class="fa fa-
                     <p>Resumen de Historia Cl&iacute;nica ambulatoria</p>
 
                     <p>Consultorio de Enfermedad de Chagas</p>
-                    
+                    @if(count(Auth::user()->sedes) != 0)
                     <p>{{Auth::user()->sedes[0]->nombre }}</p>
-
+                    @endif
+                    @if(count(Auth::user()->sedes) == 0)
+                     <p>~~SEDE DEL HOSPITAL~~</p>
+                    @endif
                     <p> {!! $paciente->apellido . "," . $paciente->nombre !!}</p>
 
                     <p>{!! $paciente->tipo_doc !!} {!! $paciente->numero_doc !!}</p>

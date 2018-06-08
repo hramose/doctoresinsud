@@ -39,7 +39,7 @@
              <div class="actions btn-set">
                 <a href="{{ action('Panel\PanelHistoriasController@verHistoria', $paciente->id) }}" type="button" name="back" class="btn default"><i class="fa fa-angle-left"></i> Atras</a>
             </div>
-
+          
             
         </div>
         <div class="portlet-body">
@@ -78,7 +78,7 @@
             </div>
 
             <div class="clearfix"></div>
-
+ 
             <div class="tab-content">
                 <div class="tab-pane active" id="consulta-tab">
                     <h3>Motivo de consulta</h3>
@@ -142,6 +142,7 @@
                         <fieldset id="sintomas-fieldset">
                             <legend>Sintomas detectados</legend>
                             <div>
+                                 
                                 <select class="chosen-select" multiple name="sintomas[]" id="select-sintomas">
                                     @if(isset($sintomasSeleccionados))
                                         @foreach($sintomas as $sintoma)
@@ -164,6 +165,7 @@
                         <fieldset id="patologias-fieldset">
                             <legend>Patologías detectadas</legend>
                             <div>
+                                
                                 <select class="chosen-select" multiple name="patologias[]" id="select-patologias">
                                     @if(isset($patologiasSeleccionadas))
                                         @foreach($patologias as $patologia)

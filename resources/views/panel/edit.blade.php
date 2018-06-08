@@ -268,10 +268,10 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                            <div class="col-lg-5">
                               <select class="form-control" id="ecg" name="ecg">
                                  <option value=""></option>
-                                 <option value="N" @if($paciente->ecg=="N") selected @endif>Normal</option>
-                                 <option value="E" @if($paciente->ecg=="E") selected @endif>Específico</option>
-                                 <option value="I" @if($paciente->ecg=="I") selected @endif>Inespecífico</option>
-                                 <option value="?" @if($paciente->ecg=="?") selected @endif>NO SABE</option>
+                                 <option value="N" name="N" @if($paciente->ecg=="N") selected @endif>N</option>
+                                 <option value="E" name="E" @if($paciente->ecg=="E") selected @endif>E</option>
+                                 <option value="I" name="I" @if($paciente->ecg=="I") selected @endif>I</option>
+                                 <option value="?" name="?" @if($paciente->ecg=="?") selected @endif>?</option>
                               </select>
                            </div>
                         </div>

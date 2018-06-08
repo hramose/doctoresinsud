@@ -51,7 +51,7 @@
 		<!-- END SIDEBAR TOGGLER BUTTON -->
 		<!-- BEGIN LOGO -->
 		<div class="logo">
-			<a href="index.html">
+			<a href="{{ route('home') }}">
 				<img src="{{ asset('/img/logo.png') }}"  alt=""/>
 			</a>
 		</div>
@@ -66,7 +66,7 @@
 			<!-- END REGISTRATION FORM -->
 		</div>
 		<div class="copyright">
-			 2017 © Insud.
+			 2018 © Grupo Insud - Fundacion Mundo sano.
 		</div>
 		 
 		<!-- END JAVASCRIPTS -->
