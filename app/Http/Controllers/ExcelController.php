@@ -13,6 +13,7 @@ use App\Estudio;
 use App\EstudioPaciente;
 use App\EstudioPacienteValor;
 //HELPERS
+use Storage;
 use Excel;
 class ExcelController extends Controller
 {
@@ -46,7 +47,8 @@ class ExcelController extends Controller
     //
     public function proccessPeg($excelFile)
     {
-        Excel::load($excelFile, function($reader){            
+        $file = Storage::put('excel/', file_get_contents($excelFile)->getRealPath());
+        Excel::filter('chunk')->load($file)->chunk(250, function($reader){           
             $results = $reader->get();
             
             foreach ($results as $result) {
@@ -101,7 +103,8 @@ class ExcelController extends Controller
     //  
     public function proccessEco($excelFile)
     {
-        Excel::load($excelFile, function($reader){
+        $file = Storage::put('excel/', file_get_contents($excelFile)->getRealPath());
+        Excel::filter('chunk')->load($file)->chunk(250, function($reader){
             $results = $reader->get();
            
             foreach ($results as $result) {
@@ -152,13 +155,15 @@ class ExcelController extends Controller
             }
             dump($error);
         });
+        dump("ejecucion completa");
     }
     //
     //  PROCESADOR DE LABORATORIO SERIOLOGICO Y LABORATORIO CLINICO
     //
     public function proccessLab($excelFile)
     {
-        Excel::load($excelFile, function($reader){
+        $file = Storage::put('excel/', file_get_contents($excelFile)->getRealPath());
+        Excel::filter('chunk')->load($file)->chunk(250, function($reader){
             $results = $reader->get();
             
             foreach ($results as $result){
