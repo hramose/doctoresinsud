@@ -80,8 +80,8 @@
                     @foreach($estudioPaciente->valores as $valor)
                         <tr>
                             <td>{!! $valor->campoBase->descripcion !!}</td>
-                            <td>@if($valor->campoBase->tipo=="número entero"){!! (int) $valor->valor !!}
-                                @elseif($valor->campoBase->tipo=="número con decimales") {!! (float) $valor->valor !!}
+                            <td>@if($valor->campoBase->tipo=="número entero"){!!  $valor->valor !!}
+                                @elseif($valor->campoBase->tipo=="número con decimales") {!!  $valor->valor !!}
                                 @elseif($valor->campoBase->tipo=="Verdadero/Falso") @if($valor->valor=="T" or $valor->valor=="on") Si @else
                                         No @endif
                                 @else {!! $valor->valor !!}

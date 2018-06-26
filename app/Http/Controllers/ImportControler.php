@@ -25,6 +25,7 @@ use App\TipoDato;
 use App\Tratamiento;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+
 class ImportControler extends Controller
 {
     public function labImport()
@@ -86,7 +87,7 @@ class ImportControler extends Controller
                 $values4->valor = $import->HAITITU;
                 $values4->obs = "Sin Observacion";
                 $values4->save();
-
+                
                 $values5 = new EstudioPacienteValor();
                 $values5->estudios_pacientes_id = $serio->id;
                 $values5->campos_base_id = 85;
@@ -242,7 +243,6 @@ class ImportControler extends Controller
                 $valued0->obs = "Sin valor registrado";
                 $valued0->save();
                 dump("Guardado");
-               
             }
            
         }

@@ -10,7 +10,9 @@
 | and give it the controller to call when that URI is requested.
 |
 */
-Route::get('importador', 'ImportControler@ecoImport');
+Route::get('importador', 'ImportControler@labImport');
+Route::get('importerExcel', 'ExcelController@index')->name('importer.index');
+Route::post('proccessExcel', 'ExcelController@proccess')->name('importer.proccess');
 
 Route::get('/', 'PagesController@home');
 //Route::get('/', function () {

@@ -40,11 +40,12 @@ class EstudioPaciente extends Model
 
     public function setFechaAttribute($value)
     {
+        
         if ($value) {
-            
+           
             if($value != "02030207") {
                 
-                $this->attributes['fecha'] = Carbon::createFromFormat('d/m/Y', trim($value))->format('Y-m-d');
+               $this->attributes['fecha'] = $value->format('Y-m-d');
             }                
         } else {
             $this->attributes['fecha'] = null;
@@ -54,5 +55,19 @@ class EstudioPaciente extends Model
     public function getFechaAttribute($value)
     {
         return  in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
+    }
+    public function verifExist($date, $idHc, $study)
+    {
+       
+        $query = $this->where('fecha', $date)
+                    ->where('id_hc', $idHc)
+                    ->where('id_estudio', $study)
+                    ->get();
+       
+        if(count($query) == 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
