@@ -109,7 +109,7 @@ class ExcelController extends Controller
                 $paciente = $paciente->getPacienteByHistoryClinic($result->histcli);
                 if(isset($paciente[0])){
                     $estudio = new EstudioPaciente();
-                    if($estudio->verifExist($paciente[0]->id, $result->fecha, 1 )){
+                    if($estudio->verifExist($result->fecha, $paciente[0]->id, 1)){
                         $estudio->id_hc = $paciente[0]->id;
                         $estudio->id_estudio =  1;
                         $estudio->fecha = $result->fecha;
@@ -167,7 +167,7 @@ class ExcelController extends Controller
                     $paciente = $paciente->getPacienteByHistoryClinic($result->histcli);
                     if(isset($paciente[0])){
                         $estudio = new EstudioPaciente();
-                        if($estudio->verifExist($paciente[0]->id, $result->fecha, 4)){
+                        if($estudio->verifExist($result->fecha, $paciente[0]->id, 4)){
                             $estudio->id_hc = $paciente[0]->id;
                             $estudio->id_estudio =  4;
                             $estudio->fecha = $result->fecha;
@@ -225,7 +225,7 @@ class ExcelController extends Controller
                     $paciente = $paciente->getPacienteByHistoryClinic($result->histcli);
                     if(isset($paciente[0])){
                         $estudio = new EstudioPaciente();
-                        if($estudio->verifExist($paciente[0]->id, $result->fecha, 3)){
+                        if($estudio->verifExist($result->fecha, $paciente[0]->id, 3)){
                             $estudio->id_hc = $paciente[0]->id;
                             $estudio->id_estudio =  3;
                             $estudio->fecha = $result->fecha;

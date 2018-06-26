@@ -63,11 +63,12 @@ class EstudioPaciente extends Model
                     ->where('id_hc', $idHc)
                     ->where('id_estudio', $study)
                     ->get();
-       
+        
         if(count($query) == 0){
             return true;
         }else{
             return false;
         }
     }
+    
 }
