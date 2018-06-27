@@ -259,7 +259,20 @@ class PanelHistoriasController extends Controller
         $paciente = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre')->where('id', $id_p)->get();
         return view('panel.estudios.show', compact('paciente', 'estudioPaciente'));
     }
-
+    /**
+     * @return mixed
+     */
+    public function verHistoric($id_p, $id_e)
+    {
+        $estudioPaciente = EstudioPaciente::with('valores.campoBase.UnidadMedida', 'estudio')
+            ->where('id_estudio', $id_e)
+            ->where('id_hc', $id_p)
+            ->get();
+       
+        $paciente = DB::table('pacientes')->select('id', 'id_hc', 'apellido', 'nombre')->where('id', $id_p)->get();
+        
+        return view('panel.estudios.historic', compact('paciente', 'estudioPaciente'));
+    }
     /**
      * @return mixed
      */

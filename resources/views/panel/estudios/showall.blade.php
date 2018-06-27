@@ -13,6 +13,7 @@
                         <th></th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -23,7 +24,9 @@
                             </td>
                             <td>{!! \Carbon\Carbon::parse($estudio->fecha)->format('d/m/Y') !!}</td>
                             <td>{!! substr($estudio->titulo, 0, 40) !!}</td>
-
+                            <td>
+                                <button class="btn btn-xs btn-info" onclick="chargeItemHistoric('{!! action('Panel\PanelHistoriasController@verHistoric', ['id_p' => $estudio->id_hc,'id_e' => $estudio->id_estudio]) !!}')"  >Hist</button> 
+                            </td>
                             <td>
                                 <button class="btn btn-success btn-xs"  onclick="chargeItemAjax('{!! action('Panel\PanelHistoriasController@verEstudio', ['id_p' => $estudio->id_hc,'id_e' => $estudio->id]) !!}')" >Ver</button>
                             </td>
@@ -33,6 +36,7 @@
                             <td>
                                 <a href="{!! action('Panel\EstudiosController@showForDelete', ['id_p' => $estudio->id_hc, 'id_e' => $estudio->id]) !!}" class="btn btn-xs btn-danger">Eliminar</a>
                             </td>
+                            
                         </tr>
                     @endforeach
                     </tbody>

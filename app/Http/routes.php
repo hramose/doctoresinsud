@@ -130,7 +130,8 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
     Route::get('paciente/{id_p?}/estudio/{id_e?}', 'PanelHistoriasController@verEstudio');
     //Consulta todos
     Route::get('paciente/{id_p?}/estudios', 'PanelHistoriasController@verTodosEstudios');
-
+    //Consulta historicos
+    Route::get('paciente/{id_p?}/estudios/{id_e?}', 'PanelHistoriasController@verHistoric');
     // Fin Estudios
     //Route::get('ajax/estudio/{id}', 'EstudiosController@getEstudioJson');
     Route::get('ajax/hhcc', 'PanelHistoriasController@getHCJson');

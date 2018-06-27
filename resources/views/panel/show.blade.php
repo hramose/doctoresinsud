@@ -29,6 +29,15 @@ function chargeItemAjax(url){
 
     
 }
+function chargeItemHistoric(url){
+     
+    $( "#pbody-hist-modal" ).load(url, function() {
+        $("#modal-historicos").modal("show")
+    });
+       
+
+    
+}
 
     $(function () {
 
@@ -551,88 +560,98 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
             <div class="portlet box blue">
              <div class="portlet-title">
                 <div class="caption">
-                    Seguimiento
+                    Tratamiento con Benznidazol
                 </div>
             </div>
 
             <div class="portlet-body">
                 <div class="row static-info">
                     <span for="trat_bnz" data-field="trat_bnz" class="col-lg-8 text-left {{--control-span --}}">Tratamiento
-                        con Benznidazol</span>
-                        <div class="col-lg-4 value">
-                            @if($paciente->trat_bnz == 2) SI @else NO @endif
-                        </div>
+                        con Benznidazol
+                    </span>
+                    <div class="col-lg-4 value">
+                        @if($paciente->trat_bnz == 2) SI @else NO @endif
                     </div>
-                    <div class="row static-info">
-                        <span for="fecha_ini_trat_bnz" data-field="fecha_ini_trat_bnz" 
-                        class="col-lg-8 text-left {{--control-span --}}">Fecha
-                        Inicio Tratamiento</span>
-                        <div class="col-lg-4 value">
-                          @if($paciente->fecha_ini_trat_bnz){!! $paciente->fecha_ini_trat_bnz->format('d/m/Y') !!}@endif
-                      </div>
-                  </div>
-                  <div class="row static-info">
-                    <span for="efectos_adv_bnz"  data-field="efectos_adv_bnz"  class="col-lg-8 text-left {{--control-span --}}">Efectos
-                        Adversos</span>
-                        <div class="col-lg-4 value">
-                            @if($paciente->efectos_adv_bnz == 2) SI @else NO @endif
-                        </div>
-                    </div>
-                    <div class="row static-info">
-                        <span for="efec_rash_bnz"  data-field="efec_rash_bnz"  class="col-lg-8 text-left {{--control-span --}}">Presenta
-                            rash cutáneo</span>
-                            <div class="col-lg-4 value">
-                              @if($paciente->efec_rash_bnz == 2) SI @else NO @endif
-                          </div>
-                      </div>
-                      <div class="row static-info">
-                        <span for="efec_intgas_bnz" data-field="efec_intgas_bnz" class="col-lg-8 text-left {{--control-span --}}">Presenta
-                            intolerancia gástrica/digestiva</span>
-                            <div class="col-lg-4 value">
-                              @if($paciente->efec_intgas_bnz == 2) SI @else NO
-                              @endif
-                          </div>
-                      </div>
-                      <div class="row static-info">
-                        <span for="efec_afhep_bnz" data-field="efec_afhep_bnz" class="col-lg-8 text-left {{--control-span --}}">Presenta
-                            afectación hepática</span>
-                            <div class="col-lg-4 value">
-                              @if($paciente->efec_afhep_bnz == 2) SI @else NO  @endif
-                          </div>
-                      </div>
-                      <div class="row static-info">
-                        <span for="efec_afneur_bnz" data-field="efec_afneur_bnz"  class="col-lg-8 text-left {{--control-span --}}">Presenta
-                            afectación neurológica</span>
-                            <div class="col-lg-4 value">
-                               @if($paciente->efec_afneur_bnz == 2) SI @else NO @endif
-                           </div>
-                       </div>
-                       <div class="row static-info">
-                        <span for="efec_afhem_bnz" data-field="efec_afhem_bnz" class="col-lg-8 text-left {{--control-span --}}">Presenta
-                            afectación hematológica</span>
-                            <div class="col-lg-4 value">
-                                @if($paciente->efec_afhem_bnz == 2) SI @else NO @endif
-                            </div>
-                        </div>
-                        <div class="row static-info">
-                            <span for="susp_bnz" data-field="susp_bnz" class="col-lg-8 text-left {{--control-span --}}">Suspensión
-                                del tratamiento</span>
-                                <div class="col-lg-4 value">
-                                 @if($paciente->susp_bnz == 2) SI @else NO  @endif
-                             </div>
-                         </div>
-                         <div class="row static-info">
-                            <span for="efec_otros_bnz" data-field="efec_otros_bnz" class="col-lg-8 text-left {{--control-span --}}">Otros
-                                efectos adversos</span>
-                                <div class="col-lg-4 value">
-                                    {!! $paciente->efec_otros_bnz !!}
-                                </div>
-                            </div>
-                        </div> 
-                        {{--Fin Nuevo--}}
-                    </div>
-                    
                 </div>
+                <div class="row static-info">
+                    <span for="fecha_ini_trat_bnz" data-field="fecha_ini_trat_bnz" 
+                        class="col-lg-8 text-left {{--control-span --}}">Fecha
+                        Inicio Tratamiento
+                    </span>
+                    <div class="col-lg-4 value">
+                          @if($paciente->fecha_ini_trat_bnz){!! $paciente->fecha_ini_trat_bnz->format('d/m/Y') !!}@endif
+                    </div>
+                </div>
+                <div class="row static-info">
+                    <span for="efectos_adv_bnz"  data-field="efectos_adv_bnz"  class="col-lg-8 text-left {{--control-span --}}">Efectos
+                        Adversos
+                    </span>
+                    <div class="col-lg-4 value">
+                        @if($paciente->efectos_adv_bnz == 2) SI @else NO @endif
+                    </div>
+                </div>
+                <div class="row static-info">
+                    <span for="efec_rash_bnz"  data-field="efec_rash_bnz"  class="col-lg-8 text-left {{--control-span --}}">Presenta
+                            rash cutáneo
+                    </span>
+                    <div class="col-lg-4 value">
+                        @if($paciente->efec_rash_bnz == 2) SI @else NO @endif
+                    </div>
+                </div>
+                <div class="row static-info">
+                    <span for="efec_intgas_bnz" data-field="efec_intgas_bnz" class="col-lg-8 text-left {{--control-span --}}">Presenta
+                            intolerancia gástrica/digestiva
+                    </span>
+                    <div class="col-lg-4 value">
+                        @if($paciente->efec_intgas_bnz == 2) SI @else NO
+                        @endif
+                    </div>
+                </div>
+                <div class="row static-info">
+                    <span for="efec_afhep_bnz" data-field="efec_afhep_bnz" class="col-lg-8 text-left {{--control-span --}}">Presenta
+                            afectación hepática
+                    </span>
+                    <div class="col-lg-4 value">
+                        @if($paciente->efec_afhep_bnz == 2) SI @else NO  @endif
+                    </div>
+                </div>
+                <div class="row static-info">
+                    <span for="efec_afneur_bnz" data-field="efec_afneur_bnz"  class="col-lg-8 text-left {{--control-span --}}">Presenta
+                            afectación neurológica
+                    </span>
+                    <div class="col-lg-4 value">
+                        @if($paciente->efec_afneur_bnz == 2) SI @else NO @endif
+                    </div>
+                </div>
+                <div class="row static-info">
+                    <span for="efec_afhem_bnz" data-field="efec_afhem_bnz" class="col-lg-8 text-left {{--control-span --}}">Presenta
+                            afectación hematológica
+                    </span>
+                    <div class="col-lg-4 value">
+                        @if($paciente->efec_afhem_bnz == 2) SI @else NO @endif
+                    </div>
+                </div>
+                <div class="row static-info">
+                    <span for="susp_bnz" data-field="susp_bnz" class="col-lg-8 text-left {{--control-span --}}">Suspensión
+                        del tratamiento
+                    </span>
+                    <div class="col-lg-4 value">
+                         @if($paciente->susp_bnz == 2) SI @else NO  @endif
+                     </div>
+                </div>
+                <div class="row static-info">
+                    <span for="efec_otros_bnz" data-field="efec_otros_bnz" class="col-lg-8 text-left {{--control-span --}}">Otros
+                                efectos adversos
+                    </span>
+                    <div class="col-lg-4 value">
+                        {!! $paciente->efec_otros_bnz !!}
+                    </div>
+                </div>
+            </div> 
+                    {{--Fin Nuevo--}}
+        </div>
+                    
+    </div>
                 <div class="col-lg-4">
                     <div class="portlet box blue">
                         <div class="portlet-title">
@@ -753,6 +772,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="portlet box blue">
@@ -761,281 +781,325 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
                                     Patologías
                                 </div>
                             </div>
-
                             <div class="portlet-body">
                                 <div class="row">
                                     <div class="col-lg-3">
                                         <div class="row static-info">
                                             <span for="sin_patologia"  data-field="sin_patologia"
                                             class="col-lg-8 text-left {{--control-span --}}">Paciente sin
-                                            patología asociada</span>
+                                            patología asociada
+                                            </span>
                                             <div class="col-lg-4 value">
                                              @if($paciente->sin_patologia == 2) SI @else NO
                                              @endif
-                                         </div>
-                                     </div>
-                                     <div class="row static-info">
-                                        <span for="tuberculosis" data-field="tuberculosis"
+                                            </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="tuberculosis" data-field="tuberculosis"
                                         class="col-lg-8 text-left {{--control-span --}}">Tuberculosis</span>
-                                        <div class="col-lg-4 value">
-                                          @if($paciente->tuberculosis == 2) SI @else NO
-                                          @endif
-                                      </div>
-                                  </div>
-                                  <div class="row static-info">
-                                    <span for="epoc" data-field="epoc"
-                                    class="col-lg-8 text-left {{--control-span --}}">E.P.O.C.</span>
-                                    <div class="col-lg-4 value">
-                                        @if($paciente->epoc == 2) SI @else NO
-                                        @endif
+                                            <div class="col-lg-4 value">
+                                                @if($paciente->tuberculosis == 2) SI @else NO
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="epoc" data-field="epoc"
+                                            class="col-lg-8 text-left {{--control-span --}}">E.P.O.C.
+                                            </span>
+                                            <div class="col-lg-4 value">
+                                                @if($paciente->epoc == 2) SI @else NO
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="dbt" data-field="dbt"
+                                            class="col-lg-8 text-left {{--control-span --}}">Diabetes
+                                            </span>
+                                            <div class="col-lg-4 value">
+                                                @if($paciente->dbt == 2) SI @else NO
+                                                @endif
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        
                                     </div>
-                                </div>
-                                <div class="row static-info">
-                                    <span for="dbt" data-field="dbt"
-                                    class="col-lg-8 text-left {{--control-span --}}">Diabetes</span>
-                                    <div class="col-lg-4 value">
-                                        @if($paciente->dbt == 2) SI @else NO
-                                        @endif
+                                    <div class="col-lg-3">
+                                        <div class="row static-info">
+                                            <span for="colageno" data-field="colageno" class="col-lg-8 text-left {{--control-span --}}">Colagenopatías</span>
+                                            <div class="col-lg-4 value">
+                                              @if($paciente->colageno == 2) SI @else NO
+                                              @endif
+                                            </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="obesidad" data-field="obesidad" class="col-lg-8 text-left {{--control-span --}}">Obesidad
+                                                mórbida</span>
+                                                <div class="col-lg-4 value">
+                                                   @if($paciente->obesidad == 2) SI @else NO
+                                                   @endif
+                                               </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="alcoholismo" data-field="alcoholismo" 
+                                            class="col-lg-8 text-left {{--control-span --}}">Alcoholismo</span>
+                                            <div class="col-lg-4 value">
+                                                @if($paciente->alcoholismo == 2) SI @else NO 
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="acv" data-field="acv"  class="col-lg-8 text-left {{--control-span --}}">Accidente
+                                                Cerebrovascular</span>
+                                            <div class="col-lg-4 value">
+                                                @if($paciente->acv == 2) SI @else NO
+                                                @endif
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        
                                     </div>
-                                </div>
-                                <div class="row static-info">
-                                    <span for="asintomatico"  data-field="asintomatico"
-                                    class="col-lg-8 text-left {{--control-span --}}">Asintomático</span>
-                                    <div class="col-lg-4 value">
-                                        @if($paciente->asintomatico == 2) SI @else NO
-                                        @endif
+                                    <div class="col-lg-3">
+                                        
+                                        
+                                         <div class="row static-info">
+                                            <span for="hipotiroidismo" data-field="hipotiroidismo" 
+                                            class="col-lg-8 text-left {{--control-span --}}">Hipotiroidismo</span>
+                                            <div class="col-lg-4 value">
+                                               @if($paciente->hipotiroidismo == 2) SI @else NO
+                                               @endif
+                                           </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="hipertiroidismo" data-field="hipertiroidismo"
+                                            class="col-lg-8 text-left {{--control-span --}}">Hipertiroidismo</span>
+                                            <div class="col-lg-4 value">
+                                                @if($paciente->hipertiroidismo == 2) SI @else NO
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="cardio_congenitas" data-field="cardio_congenitas"
+                                            class="col-lg-8 text-left {{--control-span --}}">Cardiopatías
+                                            congénitas</span>
+                                            <div class="col-lg-4 value">
+                                                @if($paciente->cardio_congenitas == 2) SI @else NO
+                                                @endif
+                                            </div>
+                                        </div>
+                                        
+                                        
                                     </div>
-                                </div>
-                                <div class="row static-info">
-                                    <span for="palpitaciones" data-field="palpitaciones"
-                                    class="col-lg-8 text-left {{--control-span --}}">Palpitaciones</span>
-                                    <div class="col-lg-4 value">
-                                     @if($paciente->palpitaciones == 2) SI @else NO
-                                     @endif
-                                 </div>
-                             </div>
-                             <div class="row static-info">
-                                <span for="angor" data-field="angor"
-                                class="col-lg-8 text-left {{--control-span --}}">Angor</span>
-                                <div class="col-lg-4 value">
-                                    @if($paciente->angor == 2) SI @else NO  
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="row static-info">
-                                <span for="colageno" data-field="colageno" class="col-lg-8 text-left {{--control-span --}}">Colagenopatías</span>
-                                <div class="col-lg-4 value">
-                                  @if($paciente->colageno == 2) SI @else NO
-                                  @endif
-                              </div>
-                          </div>
-                          <div class="row static-info">
-                            <span for="obesidad" data-field="obesidad" class="col-lg-8 text-left {{--control-span --}}">Obesidad
-                                mórbida</span>
-                                <div class="col-lg-4 value">
-                                   @if($paciente->obesidad == 2) SI @else NO
-                                   @endif
-                               </div>
-                           </div>
-                           <div class="row static-info">
-                            <span for="alcoholismo" data-field="alcoholismo" 
-                            class="col-lg-8 text-left {{--control-span --}}">Alcoholismo</span>
-                            <div class="col-lg-4 value">
-                                @if($paciente->alcoholismo == 2) SI @else NO 
-                                @endif
-                            </div>
-                        </div>
-                        <div class="row static-info">
-                            <span for="acv" data-field="acv"  class="col-lg-8 text-left {{--control-span --}}">Accidente
-                                Cerebrovascular</span>
-                                <div class="col-lg-4 value">
-                                    @if($paciente->acv == 2) SI @else NO
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row static-info">
-                                <span for="disnea" data-field="disnea"
-                                class="col-lg-8 text-left {{--control-span --}}">Disnea</span>
-                                <div class="col-lg-4 value">
-                                    @if($paciente->disnea == 2) SI @else NO
-                                    @endif
-                                </div>
-                            </div>
-                            <div class="row static-info">
-                                <span for="disnea1" data-field="disnea1" class="col-lg-8 text-left {{--control-span --}}">Disnea
-                                    Clase Funcional I</span>
-                                    <div class="col-lg-4 value">
-                                       @if($paciente->disnea1 == 2) SI @else NO
-                                       @endif
-                                   </div>
-                               </div>
-                               <div class="row static-info">
-                                <span for="disnea2" data-field="disnea2"  class="col-lg-8 text-left {{--control-span --}}">Disnea
-                                    Clase Funcional II</span>
-                                    <div class="col-lg-4 value">
-                                        @if($paciente->disnea2 == 2) SI @else NO
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-3">
-                                <div class="row static-info">
-                                    <span for="disnea3" data-field="disnea3"  class="col-lg-8 text-left {{--control-span --}}">Disnea
-                                        Clase Funcional III</span>
-                                        <div class="col-lg-4 value">
-                                            @if($paciente->disnea3 == 2) SI @else NO
-                                            @endif
+                                    <div class="col-lg-3">
+                                        <div class="row static-info">
+                                            <span for="cardio_isquemica" data-field="cardio_isquemica"
+                                            class="col-lg-8 text-left {{--control-span --}}">Cardiopatía
+                                            isquémica</span>
+                                            <div class="col-lg-4 value">
+                                                @if($paciente->cardio_isquemica == 2) SI @else NO 
+                                                @endif 
+                                            </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="ht_arterial_leve" data-field="ht_arterial_leve"
+                                            class="col-lg-8 text-left {{--control-span --}}">Hipertensión
+                                            arterial leve</span>
+                                            <div class="col-lg-4 value">
+                                              @if($paciente->ht_arterial_leve == 2) SI @else NO
+                                              @endif
+                                            </div>
+                                        </div>
+                                      <div class="row static-info">
+                                            <span for="ht_arterial_mode"  data-field="ht_arterial_mode"
+                                            class="col-lg-8 text-left {{--control-span --}}">Hipertensión
+                                            arterial moderada</span>
+                                            <div class="col-lg-4 value">
+                                             @if($paciente->ht_arterial_mode == 2) SI @else NO
+                                             @endif
                                         </div>
                                     </div>
                                     <div class="row static-info">
-                                        <span for="disnea4" data-field="disnea4" class="col-lg-8 text-left {{--control-span --}}">Disnea
-                                            Clase Funcional IV</span>
-                                            <div class="col-lg-4 value">
-                                             @if($paciente->disnea4 == 2) SI @else NO
-                                             @endif
-                                         </div>
-                                     </div>
-                                     <div class="row static-info">
-                                        <span for="hipotiroidismo" data-field="hipotiroidismo" 
-                                        class="col-lg-8 text-left {{--control-span --}}">Hipotiroidismo</span>
-                                        <div class="col-lg-4 value">
-                                           @if($paciente->hipotiroidismo == 2) SI @else NO
-                                           @endif
-                                       </div>
-                                   </div>
-                                   <div class="row static-info">
-                                    <span for="hipertiroidismo" data-field="hipertiroidismo"
-                                    class="col-lg-8 text-left {{--control-span --}}">Hipertiroidismo</span>
+                                        <span for="ht_arterial_severa" data-field="ht_arterial_severa"
+                                        class="col-lg-8 text-left {{--control-span --}}">Hipertensión
+                                        arterial severa</span>
                                     <div class="col-lg-4 value">
-                                        @if($paciente->hipertiroidismo == 2) SI @else NO
+                                        @if($paciente->ht_arterial_severa == 2) SI @else NO
                                         @endif
                                     </div>
                                 </div>
-                                <div class="row static-info">
-                                    <span for="cardio_congenitas" data-field="cardio_congenitas"
-                                    class="col-lg-8 text-left {{--control-span --}}">Cardiopatías
-                                    congénitas</span>
-                                    <div class="col-lg-4 value">
-                                     @if($paciente->cardio_congenitas == 2) SI @else NO
-                                     @endif
-                                 </div>
-                             </div>
-                             <div class="row static-info">
-                                <span for="valvulopatias" data-field="valvulopatias"
-                                class="col-lg-8 text-left {{--control-span --}}">Valvulopatias</span>
-                                <div class="col-lg-4 value">
-                                    @if($paciente->valvulopatias == 2) SI @else NO
-                                    @endif 
-                                </div>
+                                
+                               
+                               
                             </div>
-                            <div class="row static-info">
-                                <span for="mareos" data-field="mareos"
-                                class="col-lg-8 text-left {{--control-span --}}">Mareos</span>
-                                <div class="col-lg-4 value">
-                                    @if($paciente->mareos == 2) SI @else NO
-                                    @endif
-                                </div>
+                        </div>           
+                        <hr/>
+                        <div class="row static-info">
+                            <div class="col-lg-3">
+                                <span for="otras_pat_asoc"  data-field="otras_pat_asoc"
+                                class="col-lg-8 text-left {{--control-span --}}">Otras
+                                patologías</span>
+                            </div>
+                            <div class="col-lg-9">
+                                <textarea class="form-control" name="otras_pat_asoc" id="otras_pat_asoc"
+                                cols="145" rows="2"
+                                readonly>{!! $paciente->otras_pat_asoc !!}</textarea>
                             </div>
                         </div>
-                        <div class="col-lg-3">
-                            <div class="row static-info">
-                                <span for="cardio_isquemica" data-field="cardio_isquemica"
-                                class="col-lg-8 text-left {{--control-span --}}">Cardiopatía
-                                isquémica</span>
-                                <div class="col-lg-4 value">
-                                    @if($paciente->cardio_isquemica == 2) SI @else NO 
-                                    @endif 
+                        <div class="row static-info">
+                            
+                            
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    Examen al ingreso
                                 </div>
                             </div>
-                            <div class="row static-info">
-                                <span for="ht_arterial_leve" data-field="ht_arterial_leve"
-                                class="col-lg-8 text-left {{--control-span --}}">Hipertensión
-                                arterial leve</span>
-                                <div class="col-lg-4 value">
-                                  @if($paciente->ht_arterial_leve == 2) SI @else NO
-                                  @endif
-                              </div>
-                          </div>
-                          <div class="row static-info">
-                            <span for="ht_arterial_mode"  data-field="ht_arterial_mode"
-                            class="col-lg-8 text-left {{--control-span --}}">Hipertensión
-                            arterial moderada</span>
-                            <div class="col-lg-4 value">
-                             @if($paciente->ht_arterial_mode == 2) SI @else NO
-                             @endif
-                         </div>
-                     </div>
-                     <div class="row static-info">
-                        <span for="ht_arterial_severa" data-field="ht_arterial_severa"
-                        class="col-lg-8 text-left {{--control-span --}}">Hipertensión
-                        arterial severa</span>
-                        <div class="col-lg-4 value">
-                            @if($paciente->ht_arterial_severa == 2) SI @else NO
-                            @endif
+                            <div class="portlet-body">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <div class="row static-info">
+                                            <span for="asintomatico"  data-field="asintomatico"
+                                            class="col-lg-8 text-left {{--control-span --}}">Asintomático</span>
+                                            <div class="col-lg-4 value">
+                                                @if($paciente->asintomatico == 2) SI @else NO
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="palpitaciones" data-field="palpitaciones"
+                                            class="col-lg-8 text-left {{--control-span --}}">Palpitaciones</span>
+                                            <div class="col-lg-4 value">
+                                                 @if($paciente->palpitaciones == 2) SI @else NO
+                                                 @endif
+                                            </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="angor" data-field="angor"
+                                            class="col-lg-8 text-left {{--control-span --}}">Angor</span>
+                                            <div class="col-lg-4 value">
+                                                @if($paciente->angor == 2) SI @else NO  
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="row static-info">
+                                            <span for="disnea" data-field="disnea"
+                                            class="col-lg-8 text-left {{--control-span --}}">Disnea</span>
+                                            <div class="col-lg-4 value">
+                                                @if($paciente->disnea == 2) SI @else NO
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="disnea1" data-field="disnea1" class="col-lg-8 text-left {{--control-span --}}">Disnea
+                                                Clase Funcional I</span>
+                                            <div class="col-lg-4 value">
+                                               @if($paciente->disnea1 == 2) SI @else NO
+                                               @endif
+                                           </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="disnea2" data-field="disnea2"  class="col-lg-8 text-left {{--control-span --}}">Disnea
+                                                Clase Funcional II</span>
+                                            <div class="col-lg-4 value">
+                                                @if($paciente->disnea2 == 2) SI @else NO
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="row static-info">
+                                            <span for="disnea3" data-field="disnea3"  class="col-lg-8 text-left {{--control-span --}}">Disnea
+                                                Clase Funcional III</span>
+                                            <div class="col-lg-4 value">
+                                                @if($paciente->disnea3 == 2) SI @else NO
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="disnea4" data-field="disnea4" class="col-lg-8 text-left {{--control-span --}}">Disnea
+                                                Clase Funcional IV</span>
+                                                <div class="col-lg-4 value">
+                                                 @if($paciente->disnea4 == 2) SI @else NO
+                                                 @endif
+                                             </div>
+                                         </div>
+                                         <div class="row static-info">
+                                            <span for="valvulopatias" data-field="valvulopatias"
+                                            class="col-lg-8 text-left {{--control-span --}}">Valvulopatias</span>
+                                            <div class="col-lg-4 value">
+                                                @if($paciente->valvulopatias == 2) SI @else NO
+                                                @endif 
+                                            </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="mareos" data-field="mareos"
+                                            class="col-lg-8 text-left {{--control-span --}}">Mareos</span>
+                                            <div class="col-lg-4 value">
+                                                @if($paciente->mareos == 2) SI @else NO
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div class="row static-info">
+                                            <span for="perdida_conoc" data-field="perdida_conoc"
+                                            class="col-lg-8 text-left {{--control-span --}}">Pérdida de
+                                            conocimiento</span>
+                                            <div class="col-lg-4 value">
+                                               @if($paciente->perdida_conoc == 2) SI @else NO
+                                               @endif
+                                            </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="insuf_cardiaca" data-field="insuf_cardiaca"
+                                            class="col-lg-8 text-left {{--control-span --}}">Insuficiencia
+                                            cardíaca</span>
+                                            <div class="col-lg-4 value">
+                                               @if($paciente->insuf_cardiaca == 2) SI @else NO
+                                               @endif
+                                           </div>
+                                        </div>
+                                        <div class="row static-info">
+                                            <span for="tipo_insuf_card"  data-field="tipo_insuf_card"
+                                            class="col-lg-8 text-left {{--control-span --}}">Tipo de
+                                            insuficiencia cardíaca</span>
+                                            <div class="col-lg-4 value">
+                                               {!! $paciente->tipo_insuf_card !!}
+                                            </div>
+                                       </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row static-info">
+                                    <div class="col-lg-3">
+                                        <span for="otros_sintomas_ing" data-field="otros_sintomas_ing"
+                                        class="col-lg-8 text-left {{--control-span --}}">Otros síntomas al
+                                        ingreso</span>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <textarea class="form-control" name="otros_sintomas_ing" id="otros_sintomas_ing"
+                                        cols="145" rows="2"
+                                        readonly>{!! $paciente->otros_sintomas_ing !!}</textarea>
+
+                                        
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row static-info">
-                        <span for="perdida_conoc" data-field="perdida_conoc"
-                        class="col-lg-8 text-left {{--control-span --}}">Pérdida de
-                        conocimiento</span>
-                        <div class="col-lg-4 value">
-                           @if($paciente->perdida_conoc == 2) SI @else NO
-                           @endif
-                       </div>
-                   </div>
-                   <div class="row static-info">
-                        <span for="insuf_cardiaca" data-field="insuf_cardiaca"
-                    class="col-lg-8 text-left {{--control-span --}}">Insuficiencia
-                    cardíaca</span>
-                    <div class="col-lg-4 value">
-                       @if($paciente->insuf_cardiaca == 2) SI @else NO
-                       @endif
-                   </div>
-               </div>
-               <div class="row static-info">
-                <span for="tipo_insuf_card"  data-field="tipo_insuf_card"
-                class="col-lg-8 text-left {{--control-span --}}">Tipo de
-                insuficiencia cardíaca</span>
-                <div class="col-lg-4 value">
-                   {!! $paciente->tipo_insuf_card !!}
-               </div>
-           </div>
-       </div>
-   </div>
-   <hr/>
-   <div class="row static-info">
-    <div class="col-lg-3">
-        <span for="otras_pat_asoc"  data-field="otras_pat_asoc"
-        class="col-lg-8 text-left {{--control-span --}}">Otras
-        patologías</span>
-    </div>
-    <div class="col-lg-9">
-        <textarea class="form-control" name="otras_pat_asoc" id="otras_pat_asoc"
-        cols="145" rows="2"
-        readonly>{!! $paciente->otras_pat_asoc !!}</textarea>
-    </div>
-</div>
-<div class="row static-info">
-    <div class="col-lg-3">
-        <span for="otros_sintomas_ing" data-field="otros_sintomas_ing"
-        class="col-lg-8 text-left {{--control-span --}}">Otros síntomas al
-        ingreso</span>
-    </div>
-    <div class="col-lg-9">
-        <textarea class="form-control" name="otros_sintomas_ing" id="otros_sintomas_ing"
-        cols="145" rows="2"
-        readonly>{!! $paciente->otros_sintomas_ing !!}</textarea>
-
-        
-    </div>
-</div>
-</div>
-</div>
-
-</div>
-</div>
+                </div>
+            </div>
+        </div>
 <div class="row">
     <div class="col-lg-4">
         <div class="portlet box blue">
@@ -1302,6 +1366,7 @@ style="border-radius: 50%; padding: 5px 5px;    bottom: -20px;"><i class="fa fa-
                                         <button type="link" class="btn btn-link" onclick="showIframe( '{!! action('Panel\PanelHistoriasController@verEstudio', ['id_p' => $paciente->id,'id_e' => $estudio->id]) !!}',1)"> {!! $estudio->nombre !!}</button>
 
                                     </td>
+                                   
                                     <td>{!! \Carbon\Carbon::parse($estudio->fecha)->format('d/m/Y') !!}</td>
                                     <td>{!! substr($estudio->titulo, 0, 12) !!}</td>
                                 </tr>
@@ -1467,7 +1532,30 @@ style="border-radius: 50%; padding: 5px 5px;    bottom: -20px;"><i class="fa fa-
         </div>
     </div>
 </div>
+<!-- Modal todos historicos -->
+<div id="modal-historicos" class="modal fade" tabindex="-1" style=" overflow-y: auto;">
+    <div class="modal-dialog modal-lg" style="width: 90%;">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body" >
+                <div class="panel panel-primary" >
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Historicos</h3>
+                    </div>
+                    <div class="panel-body" id="pbody-hist-modal"  style=" overflow-x: auto;">
 
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Modal nueva consulta -->
 <div id="modal-consulta-nueva" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
