@@ -42,11 +42,7 @@ class EstudioPaciente extends Model
     {
         
         if ($value) {
-           
-            if($value != "02030207") {
-                
-               $this->attributes['fecha'] = $value->format('Y-m-d');
-            }                
+            $this->attributes['fecha'] = Carbon::createFromFormat('d/m/Y', trim($value))->format('Y-m-d');
         } else {
             $this->attributes['fecha'] = null;
         }
