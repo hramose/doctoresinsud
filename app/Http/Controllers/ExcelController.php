@@ -284,7 +284,7 @@ class ExcelController extends Controller
                 $paciente = $paciente->getPacienteByHistoryClinic($result->histcli);
                 if(isset($paciente[0])){
                     $trat = new Tratamiento();
-                    $verif = $trat->getTratamientoImporter($paciente->id_hc, $result->fecha, $result->fliadroga);
+                    $verif = $trat->getTratamientoImporter($paciente[0]->id_hc, $result->fecha, $result->fliadroga);
                     if(!isset($verif[0])){
                         $trat->fecha_trat = $result->fecha;
                         $trat->droga = $result->droga;
