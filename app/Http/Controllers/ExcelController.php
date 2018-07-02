@@ -291,6 +291,11 @@ class ExcelController extends Controller
                         $trat->dosis = $result->dosis;
                         $trat->flia_droga = $result->fliadroga;
                         $trat->obs_trat = $result->observacio;
+                        foreach ($trat as $key => $value){
+                            if( $value == null){
+                                $trat->$key = '';
+                            }
+                        }
                         $trat->save();
                     }
                 }else{
