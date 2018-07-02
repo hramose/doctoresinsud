@@ -42,4 +42,5 @@ class Tratamiento extends Model
                         ->where('droga', $flia)
                         ->get();
         }
+        
 }

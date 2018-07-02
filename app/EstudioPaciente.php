@@ -65,6 +65,5 @@ class EstudioPaciente extends Model
         }else{
             return false;
         }
-    }
-    
+    }  
 }

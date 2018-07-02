@@ -31,6 +31,7 @@
                                                 <option value="2">LAB</option>
                                                 <option value="3">TRAT</option>
                                                 <option value="4">EPIDIOM</option>
+                                                <option value="5">PRUEBA</option>
                                         </select>
                                     <br>
                                         <input type="file" name="file">
