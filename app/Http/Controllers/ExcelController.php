@@ -485,10 +485,6 @@ class ExcelController extends Controller
                        
                         $nPaciente->save(); 
 
-                   if(isset($epim[0])){
-                                         }else{
-                     $error .= $result->histcli . ',';
-                   }
                  
                }elseif($paciente[0]->fecha_alta == null){
                     $paciente[0]->fecha_alta = $result->fechalta;
