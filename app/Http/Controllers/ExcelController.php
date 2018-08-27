@@ -369,6 +369,7 @@ class ExcelController extends Controller
                $paciente = $paciente->getPacienteByHistoryClinic($result->histcli);
                $error  = array();
                if(!isset($paciente[0])){
+                /*
                 $error[] = $result->histcli;
                        $val = true;
                        
@@ -485,7 +486,8 @@ class ExcelController extends Controller
                        
                         $nPaciente->save(); 
 
-                 
+                 */
+                $error[] = $result;      
                }elseif($paciente[0]->fecha_alta == null){
                     $paciente[0]->fecha_alta = $result->fechalta;
                }
