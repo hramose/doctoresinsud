@@ -13,6 +13,7 @@ use App\Estudio;
 use App\EstudioPaciente;
 use App\EstudioPacienteValor;
 use App\Tratamiento;
+use App\Epidemiologia;
 //HELPERS
 use Excel;
 use DB;
@@ -286,24 +287,26 @@ class ExcelController extends Controller
                     $trat = new Tratamiento();
                     $verif = $trat->getTratamientoImporter($paciente[0]->id_hc, $result->fecha, $result->fliadroga);
                     if(!isset($verif[0])){
+                        foreach ($result as $key => $value) {
+                            if($value == null){
+                                $result->$key = '.';
+                            }
+                        }
                         $trat->fecha_trat = $result->fecha;
                         $trat->droga = $result->droga;
                         $trat->dosis = $result->dosis;
                         $trat->flia_droga = $result->fliadroga;
                         $trat->obs_trat = $result->observacio;
                         $trat->id_paciente = $paciente[0]->id;
-                        foreach ($trat as $key => $value){
-                            if( $value == null){
-                                $trat->$key = '';
-                            }
-                        }
+
                         $trat->save();
                     }
                 }else{
                     $errr[] = $result->histcli;
                 }
             }
-            dump($errr);
+            $failed = array_unique($errr);
+            dump($failed);
         });
     }
     //
@@ -319,9 +322,38 @@ class ExcelController extends Controller
                $paciente = new Paciente();
                $paciente = $paciente->getPacienteByHistoryClinic($result->histcli);
                if(!isset($paciente[0])){
-                    DB::table('temp_epidio')->insert([
-                        ['id_hc' => $result->histcli, 'numero_doc' => $result->docnro, 'type_doc' => $result->doctipo, 'sexo' => $result->sexo, 'est_civil' => $result->estcivil]
-                    ]);                   
+                     $epim = DB::table('temp_epidio')->where('id_hc', $result->histcli)->get();
+                     if(count($epim) == 0){
+                        DB::table('temp_epidio')->insert([
+                            [
+                                'id_hc' => $result->histcli, 
+                                'numero_doc' => $result->docnro, 
+                                'type_doc' => $result->doctipo,
+                                'sexo' => $result->sexo, 
+                                'est_civil' => $result->estcivil
+                            ]
+                        ]);                   
+                     }
+                }else{
+                    $verifEpidio = new Epidemiologia();
+                    $verifEpidio = $verifEpidio->getPacienteById($paciente[0]->id);
+                    if(count($verifEpidio) == 0){
+                        $nEpidemio = new Epidemiologia();
+                        $data = $result->except(['histcli', 'docnro', 'doctipo', 'estcivil']);
+                        $dataProcces = array();
+                        foreach ($data as $index => $lineValue) {
+                            $dataProcces[$index] = $lineValue;
+                        }
+                        foreach ($dataProcces as $key => $val) {
+                            if($val == NULL){
+                                $dataProcces[$key] = '.';
+                            }
+                        }
+                        $dataProcces['id_paciente'] = $paciente[0]->id;
+                        
+                        DB::table('epidemiologias')->insert([$dataProcces]);
+                        
+                    } 
                 }
             }
         });
@@ -330,17 +362,38 @@ class ExcelController extends Controller
     {
         Excel::load($excelFile, function($reader){
             $results = $reader->get();
-          
+            $error = '';
+           /*
+            $data = [24208156,23328842,94150019,94885584,18702691,94175869,4247855,14951209,94433040,94433005,31241935,6153188,10156538,21974337,94711351,24195948];
+            $data = array_unique($data);
+            
+            $dat = array();
+            foreach($results as $result){
+                if(in_array($result->histcli, $data)){
+                    $dat[] = $result->histcli;
+                }
+            }
+            $noData = array();
+            foreach ($data as $err) {
+                if(!in_array($err, $dat)){
+                    $noData[] =  $err;
+                }
+            }
+            dump($noData);
+            dump($dat);
+            die;
+          */
             foreach($results as $result){
                
                $paciente = new Paciente();
                $paciente = $paciente->getPacienteByHistoryClinic($result->histcli);
                if(!isset($paciente[0])){
-       
+                //dump($result);
                 $epim = DB::table('temp_epidio')->where('id_hc', $result->histcli)->get();
 
                    if(isset($epim[0])){
-                       
+                        dump("Epidemiologia encontradas");
+                       $val = true;
                         foreach($result as $key => $value){
                             if($value == null){
                                 $result->$key = '';
@@ -348,106 +401,114 @@ class ExcelController extends Controller
                         }
                         $nPaciente = new Paciente();
                         $nPaciente->id_hc = $result->histcli;
-                        $nPaciente->tipo_doc = $epim[0]->type_doc;
-                        $nPaciente->numero_doc = $epim[0]->numero_doc;
-                        $nPaciente->apellido = $result->apellido;
-                        $nPaciente->nombre = $result->nombre;
+                        if($epim[0]->type_doc && $epim[0]->numero_doc){
+                            $nPaciente->tipo_doc = $epim[0]->type_doc;
+                            $nPaciente->numero_doc = $epim[0]->numero_doc;
+                        }else{
+                            $nPaciente->tipo_doc = '?';
+                            $nPaciente->numero_doc = '?';
+                        }
+                        if($epim[0]->sexo && $epim[0]->est_civil){
+                            $nPaciente->sexo = $epim[0]->sexo;
+                            $nPaciente->estado_civil = $epim[0]->est_civil;
+                        }else{
+                            $nPaciente->sexo = '?';
+                            $nPaciente->estado_civil = '?';
+                        }
+                        $nPaciente->apellido            = $result->apellido;
+                        $nPaciente->nombre              = $result->nombre;
                         
-                        $nPaciente->fecha_nac = $result->fechanac;
-                        
+                        $nPaciente->fecha_nac           = $result->fechanac;
+                        $nPaciente->citacion            = $result->citacion;
                        
-                        $nPaciente->sexo = $epim[0]->sexo;
-                        $nPaciente->estado_civil = $epim[0]->est_civil;
+                        $nPaciente->proxima_cita        = $result->fecha_cita;
+                        $nPaciente->fecha_alta          = $result->fechalta;
                        
-                        $nPaciente->citacion = $result->citacion;
-                       
-                        $nPaciente->proxima_cita = $result->fecha_cita;
-                       
-                        $nPaciente->serologia_ing = $result->seroing;
-                        $nPaciente->tres_negativas = $result->tresneg;
-                        $nPaciente->titulos_sero_ing = $result->titsero;
-                        $nPaciente->trat_etio = $result->te;
-                        $nPaciente->fecha_ini_trat_bnz = $result->fechatebnz;
-                        $nPaciente->trat_bnz = $result->benz;
-                        $nPaciente->efectos_adv_bnz = $result->benzefadv;
-                        $nPaciente->efec_rash_bnz = $result->benzrash;
-                        $nPaciente->efec_intgas_bnz = $result->benzintgas;
-                        $nPaciente->efec_afhep_bnz = $result->benzafhep;
-                        $nPaciente->efec_afneur_bnz = $result->benzafneur;
-                        $nPaciente->efec_afhem_bnz = $result->benzafhem;
-                        $nPaciente->susp_bnz = $result->benzsusp;
-                        $nPaciente->efec_otros_bnz = $result->benzotros;
-                        $nPaciente->trat_nifur = $result->nifur;
-                        $nPaciente->fecha_ini_trat_nifur = $result->fechatenif;
-                        $nPaciente->efectos_adv_nifur = $result->nifurefadv;
-                        $nPaciente->efec_rash_nifur = $result->nifrash;
-                        $nPaciente->efec_intgas_nifur = $result->nifintgas;
-                        $nPaciente->efec_afhep_nifur = $result->nifafhep;
-                        $nPaciente->efec_afneur_nifur = $result->nifafneur;
-                        $nPaciente->efec_afhem_nifur = $result->nifafhem;
-                        $nPaciente->efec_otros_nifur = $result->nifotros;
-                        $nPaciente->susp_nifur = $result->nifsusp;
-                        $nPaciente->otros_trat = $result->otroste;
-                        $nPaciente->trat_etio_obs = $result->observte;
-                        $nPaciente->sin_patologia = $result->sinpa;
-                        $nPaciente->tuberculosis = $result->tbc;
-                        $nPaciente->epoc = $result->epoc;
-                        $nPaciente->dbt = $result->dbt;
-                        $nPaciente->colageno = $result->colageno;
-                        $nPaciente->obesidad = $result->obesidad;
-                        $nPaciente->alcoholismo = $result->alcohol;
-                        $nPaciente->hipotiroidismo = $result->hipotir;
-                        $nPaciente->hipertiroidismo = $result->hipertir;
-                        $nPaciente->cardio_congenitas = $result->cardcong;
-                        $nPaciente->valvulopatias = $result->valvular;
-                        $nPaciente->cardio_isquemica = $result->cardisq;
-                        $nPaciente->ht_arterial_leve = $result->htal;
-                        $nPaciente->ht_arterial_mode = $result->htam;
-                        $nPaciente->ht_arterial_severa = $result->htas;
-                        $nPaciente->acv = $result->acv;
-                        $nPaciente->otras_pat_asoc = $result->otraspa;
-                        $nPaciente->tension_art_bsist = $result->tabsist;
-                        $nPaciente->tension_art_bdiast = $result->tabdiast;
-                        $nPaciente->frec_cardi_basal = $result->fcbasal;
-                        $nPaciente->asintomatico = $result->asintoma;
-                        $nPaciente->palpitaciones = $result->palpitacio;
+                        $nPaciente->serologia_ing       = $result->seroing;
+                        $nPaciente->tres_negativas      = $result->tresneg;
+                        $nPaciente->titulos_sero_ing    = $result->titsero;
+                        $nPaciente->trat_etio           = $result->te;
+                        $nPaciente->fecha_ini_trat_bnz  = $result->fechatebnz;
+                        $nPaciente->trat_bnz            = $result->benz;
+                        $nPaciente->efectos_adv_bnz     = $result->benzefadv;
+                        $nPaciente->efec_rash_bnz       = $result->benzrash;
+                        $nPaciente->efec_intgas_bnz     = $result->benzintgas;
+                        $nPaciente->efec_afhep_bnz      = $result->benzafhep;
+                        $nPaciente->efec_afneur_bnz     = $result->benzafneur;
+                        $nPaciente->efec_afhem_bnz      = $result->benzafhem;
+                        $nPaciente->susp_bnz            = $result->benzsusp;
+                        $nPaciente->efec_otros_bnz      = $result->benzotros;
+                        $nPaciente->trat_nifur          = $result->nifur;
+                        $nPaciente->fecha_ini_trat_nifur= $result->fechatenif;
+                        $nPaciente->efectos_adv_nifur   = $result->nifurefadv;
+                        $nPaciente->efec_rash_nifur     = $result->nifrash;
+                        $nPaciente->efec_intgas_nifur   = $result->nifintgas;
+                        $nPaciente->efec_afhep_nifur    = $result->nifafhep;
+                        $nPaciente->efec_afneur_nifur   = $result->nifafneur;
+                        $nPaciente->efec_afhem_nifur    = $result->nifafhem;
+                        $nPaciente->efec_otros_nifur    = $result->nifotros;
+                        $nPaciente->susp_nifur          = $result->nifsusp;
+                        $nPaciente->otros_trat          = $result->otroste;
+                        $nPaciente->trat_etio_obs       = $result->observte;
+                        $nPaciente->sin_patologia       = $result->sinpa;
+                        $nPaciente->tuberculosis        = $result->tbc;
+                        $nPaciente->epoc                = $result->epoc;
+                        $nPaciente->dbt                 = $result->dbt;
+                        $nPaciente->colageno            = $result->colageno;
+                        $nPaciente->obesidad            = $result->obesidad;
+                        $nPaciente->alcoholismo         = $result->alcohol;
+                        $nPaciente->hipotiroidismo      = $result->hipotir;
+                        $nPaciente->hipertiroidismo     = $result->hipertir;
+                        $nPaciente->cardio_congenitas   = $result->cardcong;
+                        $nPaciente->valvulopatias       = $result->valvular;
+                        $nPaciente->cardio_isquemica    = $result->cardisq;
+                        $nPaciente->ht_arterial_leve    = $result->htal;
+                        $nPaciente->ht_arterial_mode    = $result->htam;
+                        $nPaciente->ht_arterial_severa  = $result->htas;
+                        $nPaciente->acv                 = $result->acv;
+                        $nPaciente->otras_pat_asoc      = $result->otraspa;
+                        $nPaciente->tension_art_bsist   = $result->tabsist;
+                        $nPaciente->tension_art_bdiast  = $result->tabdiast;
+                        $nPaciente->frec_cardi_basal    = $result->fcbasal;
+                        $nPaciente->asintomatico        = $result->asintoma;
+                        $nPaciente->palpitaciones       = $result->palpitacio;
                         $nPaciente->precordialgia_atipica = $result->precoratip;
-                        $nPaciente->angor = $result->angor;
-                        $nPaciente->disnea = $result->disnea;
-                        $nPaciente->disnea1 = $result->disnea1;
-                        $nPaciente->disnea2 = $result->disnea2;
-                        $nPaciente->disnea3 = $result->disnea3;
-                        $nPaciente->disnea4 = $result->disnea4;
-                        $nPaciente->mareos = $result->mareos;
-                        $nPaciente->perdida_conoc = $result->pc;
-                        $nPaciente->insuf_cardiaca = $result->ic;
-                        $nPaciente->tipo_insuf_card = $result->tipoic;
+                        $nPaciente->angor               = $result->angor;
+                        $nPaciente->disnea              = $result->disnea;
+                        $nPaciente->disnea1             = $result->disnea1;
+                        $nPaciente->disnea2             = $result->disnea2;
+                        $nPaciente->disnea3             = $result->disnea3;
+                        $nPaciente->disnea4             = $result->disnea4;
+                        $nPaciente->mareos              = $result->mareos;
+                        $nPaciente->perdida_conoc       = $result->pc;
+                        $nPaciente->insuf_cardiaca      = $result->ic;
+                        $nPaciente->tipo_insuf_card     = $result->tipoic;
         
-                        $nPaciente->otros_sintomas_ing = $result->otrossin;
-                        $nPaciente->nuevos_sintomas = $result->nsi;
-                        $nPaciente->obs_sintomas = $result->observsi;
-                        $nPaciente->ecg = $result->ecg;
-                        $nPaciente->tipo_ecg = $result->tipoecg;
-                        $nPaciente->nuevos_cambios_ecg = $result->nec;
-                        $nPaciente->fecha_cambios_ecg = $result->fechanec;
-                        $nPaciente->tipo_cambio_ecg = $result->tiponec;
-                        $nPaciente->obs_ecg = $result->observecg;
-                        $nPaciente->fecha_rx_torax = $result->fechart;
-                        $nPaciente->rx_torax = $result->rt;
-                        $nPaciente->indice_cardiotorax = $result->ict;
-                        $nPaciente->obs_rxt = $result->observrt;
-                        $nPaciente->cambios_rxt = $result->crt;
-                        $nPaciente->fecha_cambios_rxt  = $result->fechacrt;
-                        $nPaciente->nueva_rxt = $result->nrt;
-                        $nPaciente->grupo_clinico_ing = $result->gcli;
-                        $nPaciente->cambio_grupo_cli = $result->cgcl;
-                        $nPaciente->fecha_cambio_gcli = $result->fechacgcl;
-                        $nPaciente->nuevo_grupo_cli = $result->ngcl;
-                        $nPaciente->fecha_ult_consulta = $result->fechultcon;
-                        $nPaciente->vivo = $result->vivo;
-                        $nPaciente->causa_muerte = $result->causamuer;
-                        $nPaciente->trat_sintomat = $result->ts;
-                        $nPaciente->evolucion = $result->evolucion;
+                        $nPaciente->otros_sintomas_ing  = $result->otrossin;
+                        $nPaciente->nuevos_sintomas     = $result->nsi;
+                        $nPaciente->obs_sintomas        = $result->observsi;
+                        $nPaciente->ecg                 = $result->ecg;
+                        $nPaciente->tipo_ecg            = $result->tipoecg;
+                        $nPaciente->nuevos_cambios_ecg  = $result->nec;
+                        $nPaciente->fecha_cambios_ecg   = $result->fechanec;
+                        $nPaciente->tipo_cambio_ecg     = $result->tiponec;
+                        $nPaciente->obs_ecg             = $result->observecg;
+                        $nPaciente->fecha_rx_torax      = $result->fechart;
+                        $nPaciente->rx_torax            = $result->rt;
+                        $nPaciente->indice_cardiotorax  = $result->ict;
+                        $nPaciente->obs_rxt             = $result->observrt;
+                        $nPaciente->cambios_rxt         = $result->crt;
+                        $nPaciente->fecha_cambios_rxt   = $result->fechacrt;
+                        $nPaciente->nueva_rxt           = $result->nrt;
+                        $nPaciente->grupo_clinico_ing   = $result->gcli;
+                        $nPaciente->cambio_grupo_cli    = $result->cgcl;
+                        $nPaciente->fecha_cambio_gcli   = $result->fechacgcl;
+                        $nPaciente->nuevo_grupo_cli     = $result->ngcl;
+                        $nPaciente->fecha_ult_consulta  = $result->fechultcon;
+                        $nPaciente->vivo                = $result->vivo;
+                        $nPaciente->causa_muerte        = $result->causamuer;
+                        $nPaciente->trat_sintomat       = $result->ts;
+                        $nPaciente->evolucion           = $result->evolucion;
                         
                         foreach($nPaciente as $key => $value){
                             if($value == null){
@@ -456,9 +517,14 @@ class ExcelController extends Controller
                         }
                        
                         $nPaciente->save(); 
+                   }else{
+                     $error .= $result->histcli . ',';
                    }
+               }elseif($paciente[0]->fecha_alta == null){
+                    $paciente[0]->fecha_alta = $result->fechalta;
                }
             }
+            dump($error);
         });
     }
 }

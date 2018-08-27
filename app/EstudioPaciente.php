@@ -37,7 +37,7 @@ class EstudioPaciente extends Model
     {
         return $this->hasOne('App\Paciente', 'id_hc');
     }
- 
+ /*
     public function setFechaAttribute($value)
     {
         
@@ -47,7 +47,7 @@ class EstudioPaciente extends Model
             $this->attributes['fecha'] = null;
         }
     }
-    
+    */
     public function getFechaAttribute($value)
     {
         return  in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);

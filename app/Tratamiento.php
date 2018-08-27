@@ -16,13 +16,13 @@ class Tratamiento extends Model
 				'obs_trat',
     			];
 
-	protected $dates = ['fecha_trat',];
+	//protected $dates = ['fecha_trat',];
 
 	public function paciente()
 	{
 		return $this->hasOne('App\Paciente', 'id');
 	}
-        
+      /*
 	public function setFechaTratAttribute($value)
 	{
 		if ($value) {
@@ -35,12 +35,12 @@ class Tratamiento extends Model
 	public function getFechaTratAttribute($value)
 	{
 		return  in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
-	}
-        public function getTratamientoImporter($id, $date, $flia){
-            return $this->where('id_hc', $id)
-                        ->where('fecha_trat', $date)
-                        ->where('droga', $flia)
-                        ->get();
-        }
+	}*/
+    public function getTratamientoImporter($id, $date, $flia){
+        return $this->where('id_hc', $id)
+                    ->where('fecha_trat', $date)
+                    ->where('droga', $flia)
+                    ->get();
+    }
         
 }
