@@ -363,37 +363,15 @@ class ExcelController extends Controller
         Excel::load($excelFile, function($reader){
             $results = $reader->get();
             $error = '';
-           /*
-            $data = [24208156,23328842,94150019,94885584,18702691,94175869,4247855,14951209,94433040,94433005,31241935,6153188,10156538,21974337,94711351,24195948];
-            $data = array_unique($data);
-            
-            $dat = array();
-            foreach($results as $result){
-                if(in_array($result->histcli, $data)){
-                    $dat[] = $result->histcli;
-                }
-            }
-            $noData = array();
-            foreach ($data as $err) {
-                if(!in_array($err, $dat)){
-                    $noData[] =  $err;
-                }
-            }
-            dump($noData);
-            dump($dat);
-            die;
-          */
             foreach($results as $result){
                
                $paciente = new Paciente();
                $paciente = $paciente->getPacienteByHistoryClinic($result->histcli);
+               $error  = array();
                if(!isset($paciente[0])){
-                //dump($result);
-                $epim = DB::table('temp_epidio')->where('id_hc', $result->histcli)->get();
-
-                   if(isset($epim[0])){
-                        dump("Epidemiologia encontradas");
+                $error[] = $result->histcli;
                        $val = true;
+                       
                         foreach($result as $key => $value){
                             if($value == null){
                                 $result->$key = '';
@@ -401,29 +379,19 @@ class ExcelController extends Controller
                         }
                         $nPaciente = new Paciente();
                         $nPaciente->id_hc = $result->histcli;
-                        if($epim[0]->type_doc && $epim[0]->numero_doc){
-                            $nPaciente->tipo_doc = $epim[0]->type_doc;
-                            $nPaciente->numero_doc = $epim[0]->numero_doc;
-                        }else{
-                            $nPaciente->tipo_doc = '?';
-                            $nPaciente->numero_doc = '?';
-                        }
-                        if($epim[0]->sexo && $epim[0]->est_civil){
-                            $nPaciente->sexo = $epim[0]->sexo;
-                            $nPaciente->estado_civil = $epim[0]->est_civil;
-                        }else{
-                            $nPaciente->sexo = '?';
-                            $nPaciente->estado_civil = '?';
-                        }
+                        
+                        $nPaciente->tipo_doc =          $result->doctypo;
+                        $nPaciente->numero_doc =        $result->dcnro;
+                        $nPaciente->sexo =              $result->sexo;
+                        $nPaciente->estado_civil =      $result->est_civil;
+                        $nPaciente->sexo =              '?';
+                        $nPaciente->estado_civil =      '?';
                         $nPaciente->apellido            = $result->apellido;
                         $nPaciente->nombre              = $result->nombre;
-                        
                         $nPaciente->fecha_nac           = $result->fechanac;
                         $nPaciente->citacion            = $result->citacion;
-                       
                         $nPaciente->proxima_cita        = $result->fecha_cita;
                         $nPaciente->fecha_alta          = $result->fechalta;
-                       
                         $nPaciente->serologia_ing       = $result->seroing;
                         $nPaciente->tres_negativas      = $result->tresneg;
                         $nPaciente->titulos_sero_ing    = $result->titsero;
@@ -483,7 +451,6 @@ class ExcelController extends Controller
                         $nPaciente->perdida_conoc       = $result->pc;
                         $nPaciente->insuf_cardiaca      = $result->ic;
                         $nPaciente->tipo_insuf_card     = $result->tipoic;
-        
                         $nPaciente->otros_sintomas_ing  = $result->otrossin;
                         $nPaciente->nuevos_sintomas     = $result->nsi;
                         $nPaciente->obs_sintomas        = $result->observsi;
@@ -517,9 +484,12 @@ class ExcelController extends Controller
                         }
                        
                         $nPaciente->save(); 
-                   }else{
+
+                   if(isset($epim[0])){
+                                         }else{
                      $error .= $result->histcli . ',';
                    }
+                 
                }elseif($paciente[0]->fecha_alta == null){
                     $paciente[0]->fecha_alta = $result->fechalta;
                }
