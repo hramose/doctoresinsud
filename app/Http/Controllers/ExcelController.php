@@ -225,7 +225,7 @@ class ExcelController extends Controller
                             }
                         }
                     }else{
-                        $this->error[] = $result->toArray();      
+                        //$this->error[] = $result->toArray();      
                     }
                 }elseif($result->codigo == 'LA'){
                     $paciente = new Paciente();
@@ -263,10 +263,10 @@ class ExcelController extends Controller
                             }    
                         }
                     }else{
-                        $this->error[] = $result->toArray();      
+                       // $this->error[] = $result->toArray();      
                     }
                 }else{
-                    //$this->error[] = $result->toArray();
+                    $this->error[] = $result->toArray();
                 }
             }
             /*
@@ -324,18 +324,8 @@ class ExcelController extends Controller
                $paciente = new Paciente();
                $paciente = $paciente->getPacienteByHistoryClinic($result->histcli);
                if(!isset($paciente[0])){
-                     $epim = DB::table('temp_epidio')->where('id_hc', $result->histcli)->get();
-                     if(count($epim) == 0){
-                        DB::table('temp_epidio')->insert([
-                            [
-                                'id_hc' => $result->histcli, 
-                                'numero_doc' => $result->docnro, 
-                                'type_doc' => $result->doctipo,
-                                'sexo' => $result->sexo, 
-                                'est_civil' => $result->estcivil
-                            ]
-                        ]);                   
-                     }
+                    $this->error[] = $result->toArray;                  
+                     
                 }else{
                     $verifEpidio = new Epidemiologia();
                     $verifEpidio = $verifEpidio->getPacienteById($paciente[0]->id);
