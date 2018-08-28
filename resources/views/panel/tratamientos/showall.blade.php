@@ -33,7 +33,7 @@
                         
                             </td>
                             <td>{!! $tratamiento->dosis !!}</td>
-                            <td>{!! $tratamiento->fecha_trat->format('d/m/Y') !!}</td>
+                            <td>{!! \Carbon\Carbon::parse($tratamiento->fecha_trat)->format('d/m/Y') !!}</td>
                             <td>
                                  <button class="btn btn-success  btn-xs"  onclick="chargeItemAjax('{!! action('Panel\PanelHistoriasController@verTratamiento', ['id_p' => $tratamiento->id, 'id_t' => $tratamiento->id]) !!}')"  >Ver</button>
                             </td>
