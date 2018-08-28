@@ -28,7 +28,7 @@
                     @foreach($tratamientos as $tratamiento)
                         <tr>
                             <td>
-                                
+                                 
                                 {!! $tratamiento->droga !!}
                         
                             </td>
