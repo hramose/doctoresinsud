@@ -398,7 +398,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
                             <div class="row static-info">
                                 <span for="fecha_nac"   class="col-lg-3  ">Fecha Nac.</span>
                                 <div class="col-lg-3 value">
-                                  @if($paciente->fecha_nac){!! $paciente->fecha_nac->format('d/m/Y') !!}@endif
+                                  @if($paciente->fecha_nac){!! \Carbon\Carbon::parse($paciente->fecha_nac)->format('d/m/Y') !!}@endif
                               </div>
                               <span for="edad_ing"  class="col-lg-3 ">Edad al
                                 ingreso</span>
@@ -409,7 +409,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
                             <div class="row static-info">
                                 <span for="fecha_alta" class="col-lg-3  ">Fecha Ing.</span>
                                     <div class="col-lg-3 value">
-                                       @if($paciente->fecha_alta){!! $paciente->fecha_alta->format('d/m/Y') !!}@endif
+                                       @if($paciente->fecha_alta){!! \Carbon\Carbon::parse($paciente->fecha_alta)->format('d/m/Y') !!}@endif
                                    </div>
                                    <span for="anios_seg" class="col-lg-3 ">Años
                                     Seguimiento.</span>
@@ -422,12 +422,12 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
                                         Ult.
                                         Consulta</span>
                                         <div class="col-lg-3 value">
-                                            @if(!$consultas->isEmpty()){!! \Carbon\Carbon::parse($consultas->max('fecha'))->format('d/m/Y') !!}@elseif($paciente->fecha_ult_consulta){!! $paciente->fecha_ult_consulta->format('d/m/Y') !!}@endif
+                                            @if(!$consultas->isEmpty()){!! \Carbon\Carbon::parse($consultas->max('fecha'))->format('d/m/Y') !!}@elseif($paciente->fecha_ult_consulta){!! \Carbon\Carbon::parse($paciente->fecha_ult_consulta)->format('d/m/Y') !!}@endif
                                         </div>
                                         <span for="proxima_cita" data-field="proxima_cita" class="col-lg-3  ">Próxima
                                             Cita</span>
                                             <div class="col-lg-3 value">
-                                                @if(!$consultas->isEmpty()){!! \Carbon\Carbon::parse($consultas->max('proxima_cita'))->format('d/m/Y') !!}@elseif($paciente->proxima_cita){!! $paciente->proxima_cita->format('d/m/Y') !!}@endif
+                                                @if(!$consultas->isEmpty()){!! \Carbon\Carbon::parse($consultas->max('proxima_cita'))->format('d/m/Y') !!}@elseif($paciente->proxima_cita){!! \Carbon\Carbon::parse($paciente->proxima_cita)->format('d/m/Y') !!}@endif
                                             </div>
                                         </div>
                                     </div>
@@ -471,7 +471,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
                     class="col-lg-8 text-left {{--control-span --}}">Fecha
                     del cambio</span>
                     <div class="col-lg-4 value">
-                        @if($paciente->fecha_cambios_ecg){!! $paciente->fecha_cambios_ecg->format('d/m/Y') !!}@endif
+                        @if($paciente->fecha_cambios_ecg){!! \Carbon\Carbon::parse($paciente->fecha_cambios_ecg)->format('d/m/Y') !!}@endif
                     </div>
                 </div>
                 <div class="row static-info">
@@ -525,7 +525,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
                             Grupo
                             Clínico</span>
                             <div class="col-lg-4 value">
-                               @if($paciente->fecha_cambio_gcli) {!! $paciente->fecha_cambio_gcli->format('d/m/Y') !!} @endif
+                               @if($paciente->fecha_cambio_gcli) {!! \Carbon\Carbon::parse($paciente->fecha_cambio_gcli)->format('d/m/Y') !!} @endif
                            </div>
                        </div>
                        <div class="row static-info">
@@ -579,7 +579,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
                         Inicio Tratamiento
                     </span>
                     <div class="col-lg-4 value">
-                          @if($paciente->fecha_ini_trat_bnz){!! $paciente->fecha_ini_trat_bnz->format('d/m/Y') !!}@endif
+                          @if($paciente->fecha_ini_trat_bnz){!! \Carbon\Carbon::parse($paciente->fecha_ini_trat_bnz)->format('d/m/Y') !!}@endif
                     </div>
                 </div>
                 <div class="row static-info">
@@ -673,7 +673,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
                                     class="col-lg-8 text-left {{--control-span --}}">Fecha
                                     Inicio Tratamiento</span>
                                     <div class="col-lg-4 value">
-                                       @if($paciente->fecha_ini_trat_nifur){!! $paciente->fecha_ini_trat_nifur->format('d/m/Y') !!}@endif
+                                       @if($paciente->fecha_ini_trat_nifur){!! \Carbon\Carbon::parse($paciente->fecha_ini_trat_nifur)->format('d/m/Y') !!}@endif
                                    </div>
                                </div>
                                <div class="row static-info">
@@ -1194,7 +1194,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
                             <span for="fecha_rx_torax" data-field="fecha_rx_torax" class="col-lg-8 text-left {{--control-span --}}">Fecha
                                 de Radiografía de Tórax</span>
                                 <div class="col-lg-4 value">
-                                   @if($paciente->fecha_rx_torax){!! $paciente->fecha_rx_torax->format('d/m/Y') !!}@endif
+                                   @if($paciente->fecha_rx_torax){!! \Carbon\Carbon::parse($paciente->fecha_rx_torax)->format('d/m/Y') !!}@endif
                                </div>
                            </div>
                            <div class="row static-info">
@@ -1233,7 +1233,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
                             class="col-lg-8 text-left {{--control-span --}}">Fecha
                             del cambio</span>
                             <div class="col-lg-4 value">
-                               @if($paciente->fecha_cambios_rxt){!! $paciente->fecha_cambios_rxt->format('d/m/Y') !!}@endif
+                               @if($paciente->fecha_cambios_rxt){!! \Carbon\Carbon::parse($paciente->fecha_cambios_rxt)->format('d/m/Y') !!}@endif
                            </div>
                        </div>
                        <div class="row static-info">
@@ -1313,7 +1313,7 @@ style="border-radius: 50%; padding: 5px 5px;    bottom: -20px;"><i class="fa fa-
                                         <button type="link" class="btn btn-link" onclick="showIframe('{!! action('Panel\PanelHistoriasController@verTratamiento', ['id_p' => $paciente->id, 'id_t' => $tratamiento->id]) !!}',1)"> {!! $tratamiento->droga !!}</button>
                                     </td>
                                     <td>{!! $tratamiento->dosis !!}</td>
-                                    <td>@if($tratamiento->fecha_trat){!! $tratamiento->fecha_trat->format('d/m/Y') !!}@endif</td>
+                                    <td>@if($tratamiento->fecha_trat){!! \Carbon\Carbon::parse($tratamiento->fecha_trat)->format('d/m/Y') !!}@endif</td>
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -1660,7 +1660,7 @@ style="border-radius: 50%; padding: 5px 5px;    bottom: -20px;"><i class="fa fa-
                  <p>El tratamiento actual es: </p>
 
                  @foreach($tratamientos as $tratamiento)
-                 <p>{!! $tratamiento->droga !!} {!! $tratamiento->dosis !!} en @if($tratamiento->fecha_trat){!! $tratamiento->fecha_trat->format('d/m/Y') !!} @endif  @if($tratamiento->obs_trat) {!! $tratamiento->obs_trat !!} @endif
+                 <p>{!! $tratamiento->droga !!} {!! $tratamiento->dosis !!} en @if($tratamiento->fecha_trat){!! \Carbon\Carbon::parse($tratamiento->fecha_trat)->format('d/m/Y') !!} @endif  @if($tratamiento->obs_trat) {!! $tratamiento->obs_trat !!} @endif
                  </p>
                  @endforeach
                  @endif

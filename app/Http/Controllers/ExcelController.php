@@ -24,6 +24,7 @@ class ExcelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    protected $error = [];
     public function index()
     {
         return view('panel.importador.index');
@@ -44,6 +45,7 @@ class ExcelController extends Controller
         }elseif($request->type == 5){
             $this->proccessPacient($request->file);
         }
+        $this->writeError();
         
     }
     //
@@ -51,7 +53,7 @@ class ExcelController extends Controller
     //
     public function proccessPeg($excelFile)
     {
-        Excel::load($excelFile, function($reader){            
+        $noProccessData = Excel::load($excelFile, function($reader){            
             $results = $reader->get();
             
             foreach ($results as $result) {
@@ -94,12 +96,13 @@ class ExcelController extends Controller
                         }
                     } 
                 }else{
-                    $error[] = $result->histcli;
+                    $this->error[] = $result->toArray();
                     
                 }
             }
-            dump($error);
         });
+        //dump($this->error);
+        
     }
     //  
     //  PROCESADOR DE EXCEL DE ECOCARDIOGRAMA
@@ -151,11 +154,10 @@ class ExcelController extends Controller
                         }
                     } 
                 }else{
-                    $error[] = $result->histcli;
+                    $this->error[] = $result->toArray();
                     
                 }
             }
-            dump($error);
         });
     }
     //
@@ -223,7 +225,7 @@ class ExcelController extends Controller
                             }
                         }
                     }else{
-                        $error[] = $result->histcli;
+                       // $this->error[] = $result->toArray();      
                     }
                 }elseif($result->codigo == 'LA'){
                     $paciente = new Paciente();
@@ -261,16 +263,18 @@ class ExcelController extends Controller
                             }    
                         }
                     }else{
-                        $error[] = $result->histcli;
+                        //$this->error[] = $result->toArray();      
                     }
                 }else{
-                    $errorNoData[] = $result->histcli;
+                    $this->error[] = $result->toArray();
                 }
             }
+            /*
             dump("HISTORIAS CLINICAS INEXISTENTES");
             dump($error);
             dump("DATOS NO COMPUTABLES");
             dump($errorNoData);
+            */
         });
     }
     //
@@ -302,11 +306,9 @@ class ExcelController extends Controller
                         $trat->save();
                     }
                 }else{
-                    $errr[] = $result->histcli;
+                    $this->error[] = $result->toArray();      
                 }
             }
-            $failed = array_unique($errr);
-            dump($failed);
         });
     }
     //
@@ -487,12 +489,20 @@ class ExcelController extends Controller
                         $nPaciente->save(); 
 
                  */
-                $error[] = $result;      
+                $this->error[] = $result->toArray();      
                }elseif($paciente[0]->fecha_alta == null){
                     $paciente[0]->fecha_alta = $result->fechalta;
                }
             }
             dump($error);
         });
+    }
+    public function writeError()
+    {
+        Excel::create('error', function($excel) {
+            $excel->sheet('PEG', function($sheet){
+                $sheet->fromArray($this->error);
+            });
+        })->export('xls');
     }
 }
