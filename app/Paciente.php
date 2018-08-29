@@ -160,15 +160,15 @@ class Paciente extends Model
     }
 
 
-    /*    public function setidHcAttribute($value)
-        {
-            if (is_numeric($value)) {
-                $this->attributes['id_hc'] = $value;
-            } else {
-                throw new Exception('El valor ' . $value . 'no es numerico. No se puede asignar a pacientes.id_hc');
-            }
-        }*/
-    /*
+    public function setidHcAttribute($value)
+    {
+        if (is_numeric($value)) {
+            $this->attributes['id_hc'] = $value;
+        } else {
+            throw new Exception('El valor ' . $value . 'no es numerico. No se puede asignar a pacientes.id_hc');
+        }
+    }
+
     public function setFechaNacAttribute($value)
     {
         if ($value) {
@@ -259,7 +259,7 @@ class Paciente extends Model
             $this->attributes['fecha_cambios_rxt'] = null;
         }
     }
-    */
+  
     public function getNombreAttribute($value)
     {
         return ucwords(mb_strtolower($value));
