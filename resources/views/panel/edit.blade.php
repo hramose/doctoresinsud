@@ -388,7 +388,10 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                               <div class="col-lg-6">
                                  <input type="text" class="form-control datepicker" id="fecha_cambio_gcli"
                                     name="fecha_cambio_gcli"
-                                    value="@if($paciente->fecha_cambio_gcli){!! $paciente->fecha_cambio_gcli->format('d/m/Y') !!}@endif">
+                                    value="
+                                    @if($paciente->fecha_cambio_gcli)
+                                       {!! \Carbon\Carbon::parse($paciente->fecha_cambio_gcli)->format('d/m/Y') !!}
+                                    @endif">
                               </div>
                            </div>
                            <div class="form-group">
