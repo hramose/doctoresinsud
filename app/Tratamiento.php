@@ -16,7 +16,7 @@ class Tratamiento extends Model
 				'obs_trat',
     			];
 
-	// protected $dates = ['fecha_trat',];
+	protected $dates = ['fecha_trat',];
 
 	public function paciente()
 	{
@@ -25,6 +25,7 @@ class Tratamiento extends Model
 
 	public function setFechaTratAttribute($value)
 	{
+		
 		if ($value) {
 			$this->attributes['fecha_trat'] = Carbon::createFromFormat('d/m/Y', trim($value))->format('Y-m-d');
 		} else {

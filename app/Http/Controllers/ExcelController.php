@@ -27,11 +27,23 @@ class ExcelController extends Controller
     protected $error = [];
     public function index()
     {
+        $Tratamientos = Tratamiento::groupBy('fecha_trat', 'droga', 'id_paciente')->get();
+        $data = [];
+        foreach ($Tratamientos as $trat) {
+            $data[] = $trat->id;
+        }
+        
+        $traProces = Tratamiento::whereNotIn('id',$data)->delete();
+        Tratamiento::whereNull('fecha_trat')->whereNull('droga')->delete();
+        //dump($dataProcces);
+        die;
         return view('panel.importador.index');
     } 
     
     public function proccess(Request $request)
     {
+        
+
         if($request->type == 0){
             $this->proccessPeg($request->file);
         }elseif($request->type == 1){

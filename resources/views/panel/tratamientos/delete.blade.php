@@ -91,7 +91,7 @@
                     <div class="form-group">
                         <label for="fecha_trat" class="col-lg-2 control-label">Fecha</label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control datepicker" id="fecha_trat" name="fecha_trat" value="@if(old('fecha_trat')){!! old('fecha_trat') !!}@else{!! $tratamiento->fecha_trat->format('d/m/Y') !!}@endif" disabled readonly>
+                            <input type="text" class="form-control datepicker" id="fecha_trat" name="fecha_trat" value="@if(old('fecha_trat')){!! old('fecha_trat') !!}@else{!! \Carbon\Carbon::parse($tratamiento->fecha_trat)->format('d/m/Y') !!}@endif" disabled readonly>
                         </div>
                     </div>
 
