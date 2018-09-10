@@ -509,7 +509,11 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
                         al
                         Ingreso</span>
                         <div class="col-lg-4 value">
-                           {!! $paciente->grupo_clinico_ing !!}
+                            @if($paciente->grupo_clinico_ing == 5)
+                                F
+                            @else
+                                {!! $paciente->grupo_clinico_ing !!}
+                            @endif
                        </div>
                    </div>
                    <div class="row static-info">
@@ -532,7 +536,11 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
                         <span for="nuevo_grupo_cli" data-field="nuevo_grupo_cli" class="col-lg-8 ">Nuevo Grupo
                             Clínico</span>
                             <div class="col-lg-4 value">
-                                {!! $paciente->nuevo_grupo_cli !!}
+                                @if($paciente->nuevo_grupo_cli == 5)
+                                F
+                                @else
+                                    {!! $paciente->nuevo_grupo_cli !!}
+                                @endif
                             </div>
                         </div>
                     </div>

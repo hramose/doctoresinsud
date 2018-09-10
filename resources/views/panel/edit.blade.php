@@ -343,8 +343,26 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                               <div class="col-lg-6">
                                  <select class="form-control" id="grupo_clinico_ing"
                                     name="grupo_clinico_ing">
-                                 <option value="1" @if($paciente->grupo_clinico_ing==1) selected @endif>0</option>
-                                 <option value="2" @if($paciente->grupo_clinico_ing==2) selected @endif>1</option><option value="3" @if($paciente->grupo_clinico_ing==3) selected @endif>2</option><option value="4" @if($paciente->grupo_clinico_ing==4) selected @endif>3</option><option value="5" @if($paciente->grupo_clinico_ing==5) selected @endif>F</option>
+                                    <option value="0" 
+                                       @if($paciente->grupo_clinico_ing==0) selected @endif>
+                                       0
+                                    </option>
+                                    <option value="1" 
+                                       @if($paciente->grupo_clinico_ing==1) selected @endif>
+                                       1
+                                    </option>
+                                    <option value="2" 
+                                       @if($paciente->grupo_clinico_ing==2) selected @endif>
+                                       2
+                                    </option>
+                                    <option value="3" 
+                                       @if($paciente->grupo_clinico_ing==4) selected @endif>
+                                       3
+                                    </option>
+                                    <option value="4" 
+                                       @if($paciente->grupo_clinico_ing==5) selected @endif>
+                                       F
+                                    </option>
                                  </select>
                               </div>
                            </div>
@@ -379,11 +397,24 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                               <div class="col-lg-6">
                                  <select class="form-control" id="nuevo_grupo_cli"
                                     name="nuevo_grupo_cli">
-                                 <option value="1" @if($paciente->nuevo_grupo_cli==1) selected @endif>0</option>
-                                 <option value="2" @if($paciente->nuevo_grupo_cli==2) selected @endif>1</option>                                                    <option value="3" @if($paciente->nuevo_grupo_cli==3) selected @endif>2</option>                                                    <option value="4" @if($paciente->nuevo_grupo_cli==4) selected @endif>3</option>                                                    <option value="5" @if($paciente->nuevo_grupo_cli==5) selected @endif>4</option>
-                                 <option value="3" @if($paciente->nuevo_grupo_cli==3) selected @endif>2</option>                                                    <option value="3" @if($paciente->nuevo_grupo_cli==3) selected @endif>2</option>                                                    <option value="4" @if($paciente->nuevo_grupo_cli==4) selected @endif>3</option>                                                    <option value="5" @if($paciente->nuevo_grupo_cli==5) selected @endif>4</option>
-                                 <option value="4" @if($paciente->nuevo_grupo_cli==4) selected @endif>3</option>                                                    <option value="3" @if($paciente->nuevo_grupo_cli==3) selected @endif>2</option>                                                    <option value="4" @if($paciente->nuevo_grupo_cli==4) selected @endif>3</option>                                                    <option value="5" @if($paciente->nuevo_grupo_cli==5) selected @endif>4</option>
-                                 <option value="5" @if($paciente->nuevo_grupo_cli==5) selected @endif>F</option>                                                    <option value="3" @if($paciente->nuevo_grupo_cli==3) selected @endif>2</option>                                                    <option value="4" @if($paciente->nuevo_grupo_cli==4) selected @endif>3</option>                                                    <option value="5" @if($paciente->nuevo_grupo_cli==5) selected @endif>4</option>
+                                    <option value="0" @if($paciente->nuevo_grupo_cli==0) selected @endif>
+                                       0
+                                    </option>
+                                    <option value="1" @if($paciente->nuevo_grupo_cli==1) selected @endif>
+                                       1
+                                    </option>                                                    
+                                    <option value="2" @if($paciente->nuevo_grupo_cli==2) selected @endif>
+                                       2
+                                    </option>
+                                    <option value="3" @if($paciente->nuevo_grupo_cli==3) selected @endif>
+                                       3
+                                    </option>
+                                    <option value="4" @if($paciente->nuevo_grupo_cli==4) selected @endif>
+                                       4
+                                    </option>
+                                    <option value="5" @if($paciente->nuevo_grupo_cli==5) selected @endif>
+                                       F
+                                    </option>
                                  </select>
                               </div>
                            </div>
