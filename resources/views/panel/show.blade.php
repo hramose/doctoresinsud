@@ -521,7 +521,15 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!}
                         Grupo
                         Clínico</span>
                         <div class="col-lg-4 value">
-                            @if($paciente->cambio_grupo_cli=="S") Si @elseif($paciente->cambio_grupo_cli=="N") No @endif
+                            @if($paciente->cambio_grupo_cli=="S") 
+                            Si 
+                            @elseif($paciente->cambio_grupo_cli=="N") 
+                            No 
+                            @elseif($paciente->cambio_grupo_cli=="?")
+                            No Sabe
+                            @elseif($paciente->cambio_grupo_cli=="NULL")
+                            
+                            @endif
                         </div>
                     </div>
                     <div class="row static-info">

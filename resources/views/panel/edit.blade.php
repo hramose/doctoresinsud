@@ -373,10 +373,6 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                                  <select class="form-control" id="cambio_grupo_cli" name="cambio_grupo_cli">
                                     <option value="S" @if($paciente->cambio_grupo_cli=="S") selected @endif>Si</option>
                                     <option value="N" @if($paciente->cambio_grupo_cli=="N") selected @endif>No</option>
-                                    @if(! in_array($paciente->cambio_grupo_cli, array("S", "N", "")))
-                                    <option value="{!! $paciente->cambio_grupo_cli !!}" selected>{!! $paciente->cambio_grupo_cli !!}</option>
-                                    @endif
-                                    <option value="" @if($paciente->cambio_grupo_cli=="") selected @endif></option>
                                      <option value="?" @if($paciente->cambio_grupo_cli=="?") selected @endif>NO SABE</option>
                                    <option value="NULL" @if($paciente->cambio_grupo_cli=="NULL") selected @endif>NULL</option>
                                  </select>
@@ -388,10 +384,10 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                               <div class="col-lg-6">
                                  <input type="text" class="form-control datepicker" id="fecha_cambio_gcli"
                                     name="fecha_cambio_gcli"
-                                    value="
                                     @if($paciente->fecha_cambio_gcli)
-                                       {!! \Carbon\Carbon::parse($paciente->fecha_cambio_gcli)->format('d/m/Y') !!}
-                                    @endif">
+                                    value="{!! \Carbon\Carbon::parse($paciente->fecha_cambio_gcli)->format('d/m/Y') !!}"
+                                    @endif
+                                    >
                               </div>
                            </div>
                            <div class="form-group">

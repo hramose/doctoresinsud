@@ -73,7 +73,7 @@ class editHistoriaRequest extends Request
             //'tipo_cambio_ecg' =>
             //obs_ecg =>
             'grupo_clinico_ing' => 'between:0,3',
-            'cambio_grupo_cli' => 'in:N,S',
+            'cambio_grupo_cli' => 'in:N,S,?,NULL',
             'fecha_cambio_gcli' => 'date_format:d/m/Y',
             //'nuevo_grupo_cli' =>
             'vivo' => 'in:N,S',
