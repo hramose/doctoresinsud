@@ -356,10 +356,14 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                                        2
                                     </option>
                                     <option value="3" 
-                                       @if($paciente->grupo_clinico_ing==4) selected @endif>
+                                       @if($paciente->grupo_clinico_ing==3) selected @endif>
                                        3
                                     </option>
                                     <option value="4" 
+                                       @if($paciente->grupo_clinico_ing==4) selected @endif>
+                                       4
+                                    </option>
+                                    <option value="5" 
                                        @if($paciente->grupo_clinico_ing==5) selected @endif>
                                        F
                                     </option>
@@ -373,7 +377,7 @@ Historia Clínica - {!! $paciente->apellido . "," . $paciente->nombre !!} - Edit
                                  <select class="form-control" id="cambio_grupo_cli" name="cambio_grupo_cli">
                                     <option value="S" @if($paciente->cambio_grupo_cli=="S") selected @endif>Si</option>
                                     <option value="N" @if($paciente->cambio_grupo_cli=="N") selected @endif>No</option>
-                                     <option value="?" @if($paciente->cambio_grupo_cli=="?") selected @endif>NO SABE</option>
+                                    <option value="?" @if($paciente->cambio_grupo_cli=="?") selected @endif>NO SABE</option>
                                    <option value="NULL" @if($paciente->cambio_grupo_cli=="NULL") selected @endif>NULL</option>
                                  </select>
                               </div>
