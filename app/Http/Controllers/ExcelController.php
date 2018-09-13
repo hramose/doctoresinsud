@@ -27,6 +27,7 @@ class ExcelController extends Controller
     protected $error = [];
     public function index()
     {
+        /*
         $Tratamientos = Tratamiento::groupBy('fecha_trat', 'droga', 'id_paciente')->get();
         $data = [];
         foreach ($Tratamientos as $trat) {
@@ -37,6 +38,7 @@ class ExcelController extends Controller
         Tratamiento::whereNull('fecha_trat')->whereNull('droga')->delete();
         //dump($dataProcces);
         die;
+        ///*/
         return view('panel.importador.index');
     } 
     
@@ -301,7 +303,7 @@ class ExcelController extends Controller
                 $paciente = $paciente->getPacienteByHistoryClinic($result->histcli);
                 if(isset($paciente[0])){
                     $trat = new Tratamiento();
-                    $verif = $trat->getTratamientoImporter($paciente[0]->id_hc, $result->fecha, $result->fliadroga);
+                    $verif = $trat->getTratamientoImporter($paciente[0]->id, $result->fecha, $result->fliadroga, $result->droga);
                     if(!isset($verif[0])){
                         foreach ($result as $key => $value) {
                             if($value == null){

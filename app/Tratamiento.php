@@ -27,7 +27,7 @@ class Tratamiento extends Model
 	{
 		
 		if ($value) {
-			$this->attributes['fecha_trat'] = Carbon::createFromFormat('d/m/Y', trim($value))->format('Y-m-d');
+			$this->attributes['fecha_trat'] = Carbon::parse(trim($value))->format('Y-m-d');
 		} else {
 			$this->attributes['fecha_trat'] = null;
 		}
@@ -37,10 +37,11 @@ class Tratamiento extends Model
 	{
 		return  in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
 	}
-    public function getTratamientoImporter($id, $date, $flia){
-        return $this->where('id_hc', $id)
+    public function getTratamientoImporter($id, $date, $flia, $droga){
+        return $this->where('id_paciente', $id)
                     ->where('fecha_trat', $date)
-                    ->where('droga', $flia)
+                    ->where('flia_droga', $flia)
+                    ->where('droga', $droga)
                     ->get();
     }
         
