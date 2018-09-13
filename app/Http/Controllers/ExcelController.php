@@ -239,7 +239,7 @@ class ExcelController extends Controller
                             }
                         }
                     }else{
-                        //$this->error[] = $result->toArray();      
+                        $this->error[] = $result->toArray();      
                     }
                 }elseif($result->codigo == 'LA'){
                     $paciente = new Paciente();
@@ -277,7 +277,7 @@ class ExcelController extends Controller
                             }    
                         }
                     }else{
-                       // $this->error[] = $result->toArray();      
+                       $this->error[] = $result->toArray();      
                     }
                 }else{
                     $this->error[] = $result->toArray();
