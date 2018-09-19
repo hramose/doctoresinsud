@@ -17,6 +17,7 @@ use App\Epidemiologia;
 //HELPERS
 use Excel;
 use DB;
+use Illuminate\Http\UploadedFile;
 class ExcelController extends Controller
 {
     /**
@@ -44,8 +45,15 @@ class ExcelController extends Controller
     
     public function proccess(Request $request)
     {
-        
-
+        $file  = $request->file('file');
+        $name = 'ecdli_' . time() . '.'. $file->getClientOriginalExtension();
+        $path = public_path(). '/images/users/';
+        $file->move($path, $name);
+        $realPath =   $path. $name;
+        dump($realPath);
+        $dead = fopen($realPath, 'r');
+        dump(fread($dead, filesize($realPath)));
+        die;
         if($request->type == 0){
             $this->proccessPeg($request->file);
         }elseif($request->type == 1){
