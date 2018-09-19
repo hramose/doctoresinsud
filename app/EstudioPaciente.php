@@ -46,7 +46,7 @@ class EstudioPaciente extends Model
         } else {
             $this->attributes['fecha'] = null;
         }
-
+    }
     public function getFechaAttribute($value)
     {
         return  in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);
