@@ -25,9 +25,9 @@ class Tratamiento extends Model
 
 	public function setFechaTratAttribute($value)
 	{
-		
+        $value = str_replace('-', '/', $value);
 		if ($value) {
-			$this->attributes['fecha_trat'] = Carbon::parse(trim($value))->format('Y-m-d');
+			$this->attributes['fecha_trat'] = Carbon::createFromFormat('d/m/Y',trim($value))->format('Y-m-d');
 		} else {
 			$this->attributes['fecha_trat'] = null;
 		}

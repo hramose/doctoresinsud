@@ -40,6 +40,7 @@ class EstudioPaciente extends Model
 
     public function setFechaAttribute($value)
     {
+        $value = str_replace('-', '/', $value);
         
         if ($value) {
             $this->attributes['fecha'] = Carbon::createFromFormat('d/m/Y', trim($value))->format('Y-m-d');
