@@ -36,8 +36,8 @@ class ReportController extends Controller
     public function reportIndividual()
     {
    
-        Excel::create('Informe', function($excel) {
-            $excel->sheet('PEG', function($sheet){
+        Excel::create('Historias', function($excel) {
+            $excel->sheet('Informe', function($sheet){
                 $pacientes = Paciente::where('trat_bnz', 2)->get();
                 $data = [];
                 foreach ($pacientes as $paciente) {
@@ -125,7 +125,7 @@ class ReportController extends Controller
                         'Cambio de grupo de clinico' => $paciente->cambio_grupo_cli,
                         'Nuevo Grupo Clinico' => $paciente->nuevo_grupo_cli,
                         'ESTATINAS' => $droga,
-                        'keyWord' => ucwords($keyWord)
+                        'keyWord' => ucwords(strtolower($keyWord))
                     ];
                     
                 }
