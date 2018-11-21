@@ -128,7 +128,18 @@ class ReportController extends Controller
                     }else{
                         $edadCC = "";
                     }
-                    
+                    $bnz = Carbon::parse($paciente->fecha_ini_trat_bnz);
+                    if($paciente->fecha_ini_trat_bnz != null){
+                        $bnz = $bnz->day  . '/' . $bnz->month .'/' . $bnz->year; 
+                    }else{
+                        $bnz = "";
+                    }
+                    $nifur = Carbon::parse($paciente->fecha_ini_trat_nifur);
+                    if($paciente->fecha_ini_trat_nifur != null){
+                        $nifur = $nifur->day  . '/' . $nifur->month .'/' . $nifur->year; 
+                    }else{
+                        $nifur = "";
+                    }
                     $data[] = [
                         'Nombre'    => $paciente->nombre . ' ' . $paciente->apellido,
                         'Historia clinica'   => $paciente->id_hc,
@@ -139,8 +150,8 @@ class ReportController extends Controller
                         'Edad de cambio de grupo clinico' => $edadCC,
                         'NEC' => $paciente->nuevos_cambios_ecg,
                         'Tratamiento etiologioco' => $paciente->trat_etio,
-                        'inicio tratamiento BNZ' => $paciente->fecha_ini_trat_bnz,
-                        'inicio tratamiento NIFUR' => $paciente->fecha_ini_trat_nifur
+                        'inicio tratamiento BNZ' => $bnz,
+                        'inicio tratamiento NIFUR' => $nifur
                         //'ESTATINAS' => $droga,
                         //'keyWord' => ucwords(strtolower($keyWord))
                     ];
