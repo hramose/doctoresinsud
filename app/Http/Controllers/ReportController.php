@@ -12,6 +12,7 @@ use App\Paciente;
 use Illuminate\Http\UploadedFile;
 use Excel;
 use App\Tratamiento;
+use Carbon\Carbon;
 class ReportController extends Controller
 {
     /**
@@ -35,12 +36,12 @@ class ReportController extends Controller
     }
     public function reportIndividual()
     {
-   
         Excel::create('Historias', function($excel) {
             $excel->sheet('Informe', function($sheet){
-                $pacientes = Paciente::where('trat_bnz', 2)->get();
+                $pacientes = Paciente::where('fecha_nac', '>', '1968-01-01')->where('fecha_nac', '<', '1998-12-31')->orderBy('fecha_nac', 'asc')->get();
                 $data = [];
                 foreach ($pacientes as $paciente) {
+                /*
                     $droga = 'No';
                     $val = true;
                     $keyWord = '';
@@ -118,14 +119,30 @@ class ReportController extends Controller
                         }
                         
                     }
+                */
+                    $edadIn = Carbon::parse($paciente->fecha_nac);
+                    $edad = 2018 - $edadIn->year;
+                    $edadCC = Carbon::parse($paciente->fecha_cambio_gcli);
+                    if($paciente->fecha_cambio_gcli != null){
+                        $edadCC = $edadCC->year - $edadIn->year;
+                    }else{
+                        $edadCC = "";
+                    }
+                    
                     $data[] = [
                         'Nombre'    => $paciente->nombre . ' ' . $paciente->apellido,
                         'Historia clinica'   => $paciente->id_hc,
+                        'Edad' => $edad,
                         'Grupo clinico al ingreso' =>$paciente->grupo_clinico_ing, 
                         'Cambio de grupo de clinico' => $paciente->cambio_grupo_cli,
                         'Nuevo Grupo Clinico' => $paciente->nuevo_grupo_cli,
-                        'ESTATINAS' => $droga,
-                        'keyWord' => ucwords(strtolower($keyWord))
+                        'Edad de cambio de grupo clinico' => $edadCC,
+                        'NEC' => $paciente->nuevos_cambios_ecg,
+                        'Tratamiento etiologioco' => $paciente->trat_etio,
+                        'inicio tratamiento BNZ' => $paciente->fecha_ini_trat_bnz,
+                        'inicio tratamiento NIFUR' => $paciente->fecha_ini_trat_nifur
+                        //'ESTATINAS' => $droga,
+                        //'keyWord' => ucwords(strtolower($keyWord))
                     ];
                     
                 }
