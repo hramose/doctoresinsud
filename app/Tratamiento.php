@@ -32,7 +32,7 @@ class Tratamiento extends Model
 			$this->attributes['fecha_trat'] = null;
 		}
 	}
-       
+    
 	public function getFechaTratAttribute($value)
 	{
 		return  in_array($value, array('0000-00-00', null)) ? null : Carbon::parse($value);

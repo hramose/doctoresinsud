@@ -45,15 +45,7 @@ class ExcelController extends Controller
     
     public function proccess(Request $request)
     {
-        $file  = $request->file('file');
-        $name = 'ecdli_' . time() . '.'. $file->getClientOriginalExtension();
-        $path = public_path(). '/images/users/';
-        $file->move($path, $name);
-        $realPath =   $path. $name;
-        dump($realPath);
-        $dead = fopen($realPath, 'r');
-        dump(fread($dead, filesize($realPath)));
-        die;
+        
         if($request->type == 0){
             $this->proccessPeg($request->file);
         }elseif($request->type == 1){
@@ -222,7 +214,6 @@ class ExcelController extends Controller
                                 }elseif($key == "elisatitu"){
                                     $valores->campos_base_id = 82;                  
                                 }elseif($key == "hai"){
-                                    dump($lineValue);
                                     $valores->campos_base_id = 83;                  
                                 }elseif($key == "haititu"){
                                     $valores->campos_base_id = 84;                  
@@ -506,7 +497,6 @@ class ExcelController extends Controller
                     $paciente[0]->fecha_alta = $result->fechalta;
                }
             }
-            dump($error);
         });
     }
     public function writeError()

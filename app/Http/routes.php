@@ -141,7 +141,7 @@ Route::group(array('prefix'=>'panel', 'namespace'=>'Panel', 'middleware'=> 'medi
 
 //-------Fin Front End Historias Clinicas--------------
 
-
+Route::post('/reportGenerate', 'ReportController@getReport');
 Route::group(array('prefix'=>'admin', 'namespace'=>'Admin', 'middleware'=> 'manager'), function () {
     //Admin dashboard
     Route::get('/', 'PagesController@home');

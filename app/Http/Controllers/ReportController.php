@@ -13,6 +13,7 @@ use Illuminate\Http\UploadedFile;
 use Excel;
 use App\Tratamiento;
 use Carbon\Carbon;
+use App\Estudio;
 class ReportController extends Controller
 {
     /**
@@ -22,16 +23,34 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $tables = DB::select('SHOW TABLES');
-
-        $hide_tables = ['categories', 'comments', 'dbf_eco', 'dbf_epidemio',
-            'dbf_ergometria', 'dbf_lab', 'dbf_pacientes', 'category_post',
-            'dbf_tratamientos', 'posts', 'role_user', 'roles', 'migrations',
-            'password_resets', 'permission_role', 'permissions', 'paciente_user',
-            'users', 'telefonos', 'tickets', 'tipo_datos'];
-
-        $hide_fields = ['created_at', 'updated_at', 'id'];
-
+        //$tables = DB::select('SHOW TABLES');
+        $tables = [];
+        $counter = 0;
+        $tables[$counter]['name'] ='pacientes';
+        $tables[$counter]['fields'] = DB::getSchemaBuilder()->getColumnListing('pacientes');
+        /*
+        $estudios = Estudio::all();
+        foreach ($estudios as $estudio) {
+            $counter++;
+            $tables[$counter]['name'] = $estudio->nombre;
+            foreach ($estudio->camposBase as $key => $field) {
+                $tables[$counter]['fields'][$field->id] = $field->descripcion;    
+ 
+            }
+        }
+        $counter++;
+        $drogas = Tratamiento::select('droga')->groupBy('droga')->get();
+        $tables[$counter]['name'] = "Tratamiento";
+        foreach ($drogas as $droga) {
+            if($droga->droga != ''){
+                $tables[$counter]['fields'][] = trim($droga->droga);
+            }
+        }
+        $counter++;
+        $tables[$counter]['name'] = "Epidemiologia";
+        $tables[$counter]['fields'] = DB::getSchemaBuilder()->getColumnListing('epidemiologias');
+        $tables = $tables;
+*/
         return view('reportes.reporte-ui', compact('tables', 'hide_tables', 'hide_fields'));
     }
     public function reportIndividual()
@@ -161,5 +180,32 @@ class ReportController extends Controller
             });
         })->export('xlsx');
        
+    }
+    public function getReport(Request $request)
+    {
+        $val = false;
+        $consult = [];
+        foreach ($request->column as $row) {
+            if($row['table'] == 'pacientes'){
+                $consult[] = $row['column'];
+            }
+        }
+        $filter = [];
+
+        foreach ($request->filter as $key => $filterV) {
+            $filt  = $filterV['column'] . ' ' . $filterV['condition'] . "'" . str_replace('31', '12', $filterV['value']) . "'";
+            $filter[] = $filt;  
+        }
+        //dump(implode(' AND ', $filter));
+
+        $pacientes =  Paciente::selectRaw(implode(',', $consult))->whereRaw(implode(' AND ', $filter))->get();
+        Excel::create('Prueba', function($excel) use ($pacientes) {
+            $excel->sheet('Informe', function($sheet) use ($pacientes){
+                    
+
+                $sheet->fromArray($pacientes);
+            });
+        })->export('xlsx');
+        
     }
 }
