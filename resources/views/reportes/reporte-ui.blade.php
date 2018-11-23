@@ -141,7 +141,7 @@
                             <table class="table">
                                 <thead>
                                     <th v-for="(column, index) in columns">
-                                        @{{ column.column }}
+                                        @{{ column.column.replace('_', ' ').toUpperCase()  }}
                                         <a href="#!" v-on:click="deleteColumn(index)"><span aria-hidden="true">&times;</span></a>
                                     </th>
                                 </thead>
@@ -150,7 +150,7 @@
                     </div>
                     <div class="row" v-if="tabActive == 1">
                         <ul>
-                            <li v-for="(filter, index) in filters">@{{ filter.column }} @{{ filter.condition }} @{{ filter.value }}
+                            <li v-for="(filter, index) in filters">@{{ filter.column.replace('_', ' ').toUpperCase() }} @{{ filter.condition }} @{{ filter.value }}
                                 <a href="#!" v-on:click="deleteFilter(index)" ><span aria-hidden="true">&times;</span></a>
                             </li>
                         </ul>

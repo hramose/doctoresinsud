@@ -49,8 +49,7 @@ class ReportController extends Controller
         $counter++;
         $tables[$counter]['name'] = "Epidemiologia";
         $tables[$counter]['fields'] = DB::getSchemaBuilder()->getColumnListing('epidemiologias');
-        $tables = $tables;
-*/
+        */
         return view('reportes.reporte-ui', compact('tables', 'hide_tables', 'hide_fields'));
     }
     public function reportIndividual()
@@ -201,8 +200,32 @@ class ReportController extends Controller
         $pacientes =  Paciente::selectRaw(implode(',', $consult))->whereRaw(implode(' AND ', $filter))->get();
         Excel::create('Prueba', function($excel) use ($pacientes) {
             $excel->sheet('Informe', function($sheet) use ($pacientes){
-                    
-
+                $data = [];
+                $pacienteModel = new Paciente();
+                $pacientes = $pacientes->toArray();
+                $dates = $pacienteModel['dates'];
+                foreach ($pacientes as $index => $paciente) {
+                    foreach ($paciente as $key => $row) {
+                        if(in_array($key, $dates)){
+                            if($row != '0000-00-00' && $row != ''){
+                                $date = Carbon::parse($row);
+                                if($date != null){
+                                    $date = $date->day  . '/' . $date->month .'/' . $date->year; 
+                                }else{
+                                    $date = "";
+                                }
+                            }else{
+                                $date = '';
+                            }
+                            if($date == '30/11/-1'){
+                                $date = '';
+                            }
+                            $pacientes[$index][$key] = $date;                            
+                        }
+                        $pacientes[$index][strtoupper(str_replace('_', ' ', $key))] =  $pacientes[$index][$key];
+                        unset($pacientes[$index][$key]);
+                    }
+                }
                 $sheet->fromArray($pacientes);
             });
         })->export('xlsx');
