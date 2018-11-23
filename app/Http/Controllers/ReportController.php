@@ -21,14 +21,14 @@ class ReportController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($errores = '')
     {
         //$tables = DB::select('SHOW TABLES');
         $tables = [];
         $counter = 0;
         $tables[$counter]['name'] ='pacientes';
         $tables[$counter]['fields'] = DB::getSchemaBuilder()->getColumnListing('pacientes');
-        /*
+        
         $estudios = Estudio::all();
         foreach ($estudios as $estudio) {
             $counter++;
@@ -49,8 +49,8 @@ class ReportController extends Controller
         $counter++;
         $tables[$counter]['name'] = "Epidemiologia";
         $tables[$counter]['fields'] = DB::getSchemaBuilder()->getColumnListing('epidemiologias');
-        */
-        return view('reportes.reporte-ui', compact('tables', 'hide_tables', 'hide_fields'));
+        
+        return view('reportes.reporte-ui', compact('tables', 'hide_tables', 'hide_fields', 'errores'));
     }
     public function reportIndividual()
     {
@@ -182,53 +182,65 @@ class ReportController extends Controller
     }
     public function getReport(Request $request)
     {
-        $val = false;
-        $consult = [];
-        foreach ($request->column as $row) {
-            if($row['table'] == 'pacientes'){
-                $consult[] = $row['column'];
-            }
-        }
-        $filter = [];
-
-        foreach ($request->filter as $key => $filterV) {
-            $filt  = $filterV['column'] . ' ' . $filterV['condition'] . "'" . str_replace('31', '12', $filterV['value']) . "'";
-            $filter[] = $filt;  
-        }
-        //dump(implode(' AND ', $filter));
-
-        $pacientes =  Paciente::selectRaw(implode(',', $consult))->whereRaw(implode(' AND ', $filter))->get();
-        Excel::create('Prueba', function($excel) use ($pacientes) {
-            $excel->sheet('Informe', function($sheet) use ($pacientes){
-                $data = [];
-                $pacienteModel = new Paciente();
-                $pacientes = $pacientes->toArray();
-                $dates = $pacienteModel['dates'];
-                foreach ($pacientes as $index => $paciente) {
-                    foreach ($paciente as $key => $row) {
-                        if(in_array($key, $dates)){
-                            if($row != '0000-00-00' && $row != ''){
-                                $date = Carbon::parse($row);
-                                if($date != null){
-                                    $date = $date->day  . '/' . $date->month .'/' . $date->year; 
-                                }else{
-                                    $date = "";
-                                }
-                            }else{
-                                $date = '';
-                            }
-                            if($date == '30/11/-1'){
-                                $date = '';
-                            }
-                            $pacientes[$index][$key] = $date;                            
-                        }
-                        $pacientes[$index][strtoupper(str_replace('_', ' ', $key))] =  $pacientes[$index][$key];
-                        unset($pacientes[$index][$key]);
-                    }
+        if($request->column && $request->filter){
+            $val = false;
+            $consult = [];
+            $validPacientes = false;
+            foreach ($request->column as $row) {
+                if($row['table'] == 'pacientes'){
+                    $consult[] = $row['column'];
+                    $validPacientes = true;
                 }
-                $sheet->fromArray($pacientes);
-            });
-        })->export('xlsx');
+            }
+            $filter = [];
+            $validFilter = false;
+            foreach ($request->filter as $key => $filterV) {
+                if($filterV['table'] == 'pacientes'){
+                    $filt  = $filterV['column'] . ' ' . $filterV['condition'] . "'" . str_replace('31', '12', $filterV['value']) . "'";
+                    $filter[] = $filt;  
+                }
+            }
+            if(count($filter) > 0) $validFilter = true;
+
+            if($validPacientes && $validFilter){
+                $pacientes =  Paciente::selectRaw(implode(',', $consult))->whereRaw(implode(' AND ', $filter))->get();
+                Excel::create('Informe', function($excel) use ($pacientes) {
+                    $excel->sheet('Informe', function($sheet) use ($pacientes){
+                        $data = [];
+                        $pacienteModel = new Paciente();
+                        $pacientes = $pacientes->toArray();
+                        $dates = $pacienteModel['dates'];
+                        foreach ($pacientes as $index => $paciente) {
+                            foreach ($paciente as $key => $row) {
+                                if(in_array($key, $dates)){
+                                    if($row != '0000-00-00' && $row != ''){
+                                        $date = Carbon::parse($row);
+                                        if($date != null){
+                                            $date = $date->day  . '/' . $date->month .'/' . $date->year; 
+                                        }else{
+                                            $date = "";
+                                        }
+                                    }else{
+                                        $date = '';
+                                    }
+                                    if($date == '30/11/-1'){
+                                        $date = '';
+                                    }
+                                    $pacientes[$index][$key] = $date;                            
+                                }
+                                $pacientes[$index][strtoupper(str_replace('_', ' ', $key))] =  $pacientes[$index][$key];
+                                unset($pacientes[$index][$key]);
+                            }
+                        }
+                        $sheet->fromArray($pacientes);
+                    });
+                })->export('xlsx');
+            }else{
+                return redirect()->route('reportes', '1');
+            }
+        }else{
+            return redirect()->route('reportes', '2');
+        }
         
     }
 }

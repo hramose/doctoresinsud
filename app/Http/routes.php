@@ -21,7 +21,7 @@ Route::get('/', 'PagesController@home');
     Route::get('tutorial', 'PagesController@tutorial');
 
 Route::get('/home', 'PagesController@home')->name('home');
-Route::get('/reportes', 'ReportController@index');
+Route::get('/reportes/{errores?}', 'ReportController@index')->name('reportes');
 Route::get('/reportesIndividual', 'ReportController@reportIndividual');
 Route::get('/about', 'PagesController@about');
 Route::get('/contact', 'TicketsController@create');

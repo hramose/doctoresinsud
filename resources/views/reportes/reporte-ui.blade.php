@@ -49,9 +49,20 @@
     <div id="app">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h2>Generar reportes</h2>
+                <h2>Generar reportes <small>v. Alfa</small></h2>
             </div>
             <div class="panel-body">
+                @if($errores)
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true" style="color:black"><i class="fa fa-times"></i></span></button>
+                        <strong>Error!</strong> 
+                        @if($errores == 2)
+                            No se ingresaron filtros o columnas
+                        @elseif($errores == 1)
+                            La tabla consultada no se encuentra disponible
+                        @endif
+                    </div>
+                @endif
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="panel panel-primary">
@@ -157,6 +168,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="panel-footer">
                 <form action="/reportGenerate" method="post">
                     {{ csrf_field() }}
